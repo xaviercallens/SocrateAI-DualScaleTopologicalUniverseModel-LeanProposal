@@ -1,0 +1,11 @@
+[submodule "external/Lean-QuantumInfo"]
+	path = external/Lean-QuantumInfo
+	url = https://github.com/Timeroot/Lean-QuantumInfo
+
+[submodule "external/Lean4PHYS"]
+	path = external/Lean4PHYS
+	url = https://github.com/ShirleyLIYuxin/Lean4PHYS
+
+[submodule "external/ml-string-landscape"]
+	path = external/ml-string-landscape
+	url = https://github.com/AndreasSchachner/ml-string-landscape
