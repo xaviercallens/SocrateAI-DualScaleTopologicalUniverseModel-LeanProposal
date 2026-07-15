@@ -1,0 +1,7 @@
+# This directory is reserved for empirical and mock data files.
+# Add your data files here:
+# - discoveries.json
+# - pipeline_runs.json
+# - sector_state.json
+# - astronomy_discoveries.json
+# - ned_crossmatch/
