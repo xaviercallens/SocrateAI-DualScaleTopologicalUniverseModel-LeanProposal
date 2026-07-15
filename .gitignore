@@ -1,0 +1,24 @@
+# Lean 4
+lake-packages/
+.build/
+.lean/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# External
+/external/
