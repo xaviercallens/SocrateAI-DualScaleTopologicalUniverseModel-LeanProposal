@@ -1,5 +1,5 @@
-# Lean 4
-lake-packages/
+# Lean 4 (build artifacts only; manifest and toolchain are pinned)
+.lake/
 .build/
 .lean/
 

@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "Bash"
+    ],
+    "ask": [
+      "Bash(git push --force*)",
+      "Bash(git push*--force*)",
+      "Bash(git reset --hard*)",
+      "Bash(git checkout -*)",
+      "Bash(git clean -f*)",
+      "Bash(git clean*-f*)",
+      "Bash(rm -rf*)",
+      "Bash(rm -fr*)",
+      "Bash(rm*-rf*)",
+      "Bash(rm*-fr*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/lean_guard.sh",
+            "timeout": 10,
+            "statusMessage": "Checking Lean axiom/sorry placement..."
+          }
+        ]
+      }
+    ]
+  }
+}
