@@ -1,74 +1,83 @@
-# 🌌 SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal
+# Stream 1 — Theory: Lean 4 Formalization
 
-**Dual-Scale Topological Universe Model in F-Theory with Lean 4 Formal Verification**
+**Dual-Scale Topological Universe Model: Arithmetic & Formal Verification**
 
-This repository unifies **algebraic geometry**, **string theory**, and **observational astrophysics** into a **machine-checkable framework** for dark matter and dark energy.
+This is **Stream 1** of the Dual-Scale Topological Universe Model project. Its role is to **machine-certify the mathematical claims** (Tier A) and formalize the conjectures (Tier B) in Lean 4.
+
+**See [VISION.md](VISION.md) for the full project scope, roadmap, and epistemic framework.**
 
 ---
 
-## 🏗️ Structure
+## What This Repository Does
+
+- **Formalizes Cooper sequences** as holonomic Picard-Fuchs ODEs.
+- **Proves arithmetic properties**: order-3 operator = symmetric square of order-2, congruence relations, integrality of mirror maps.
+- **Bridges to K3 geometry** via clearly-marked axiomatized conjectures, so proof obligations are machine-readable.
+- **Targets Mathlib contribution**: full algebraic-geometric machinery (K3 surfaces, Kodaira classification) is a 12–24 month horizon.
+
+This repository is **not** responsible for:
+- Ranking K3 candidates (→ Stream 2, `SocrateAI-Scientific-Agora-K3-DarkMatter`)
+- Testing predictions against data (→ Stream 3, `SocrateAI-Scientific-Agora-Home`)
+
+---
+
+## Key Documents
+
+1. **[VISION.md](VISION.md)** — The master vision document. Read this first.
+2. **[K3_CRITERIA.md](K3_CRITERIA.md)** — Frozen criteria for ranking K3 candidates (Tier A/B properties). Stream 2 uses this.
+3. **[PREDICTION.md](PREDICTION.md)** — Draft falsifiable predictions. Stream 3 tests these against data.
+4. **[PHASE_8_FTHEORY_PROPOSAL.md](docs/PHASE_8_FTHEORY_PROPOSAL.md)** — Previous F-theory proposal (for context).
+
+---
+
+## Repository Structure
+
 ```
 .
-├── Agora/                     # Lean 4 formalizations
-│   ├── Geometry/              # F-theory geometry (Weierstrass, K3, etc.)
-│   ├── Swampland/             # Swampland constraints (moduli stabilization)
-│   ├── Phenomenology/         # Physical predictions (chameleon mechanism)
-│   ├── Physics/               # Units and observables (PTA, JWST, etc.)
-│   └── ML/                   # Machine learning tools (AutoEvolve, moduli optimization)
-│
-├── docs/                     # Documentation
-│   ├── PHASE_8_FTHEORY_PROPOSAL.md  # Unified theory proposal
-│   └── REFERENCES.md         # Bibliography
-│
-├── data/                     # Empirical and mock data
-│   ├── discoveries.json       # K3-DISC discoveries
-│   ├── pipeline_runs.json     # Pipeline runs
-│   └── ned_crossmatch/        # NED cross-match results
-│
-├── external/                 # External resources (submodules)
-│   ├── Lean-QuantumInfo/       # Quantum info in Lean 4
-│   ├── Lean4PHYS/             # Physics in Lean 4
-│   ├── ml-string-landscape/   # ML for string landscape
-│   └── zenodo_20290893/       # Hilbert-Pólya Operator (Zenodo)
-│
-└── scripts/                  # Automation scripts
-    ├── setup_externals.sh     # Clone external repos
-    └── download_zenodo.sh      # Download Zenodo record
+├── Agora/                  # Lean 4 formalizations
+│   ├── Sequences/          # Cooper sequences and recurrences
+│   ├── Operators/          # Picard-Fuchs ODEs and symmetric squares
+│   ├── Geometry/           # K3 surface conjectures (axiomatized)
+│   ├── Swampland/          # Swampland constraints
+│   └── Physics/            # Physical observables
+├── docs/                   # Documentation and references
+├── data/                   # Test data and sequence values
+├── external/               # External Lean/math libraries
+└── scripts/                # Automation (testing, verification)
 ```
 
 ---
 
-## 🚀 Quick Start
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal.git
-   cd SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal
-   ```
-2. Set up externals:
-   ```bash
-   ./scripts/setup_externals.sh
-   ```
-3. Build the Lean 4 proofs:
-   ```bash
-   lake build
-   ```
+## Building & Testing
+
+```bash
+# Clone and set up
+git clone https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal.git
+cd SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal
+./scripts/setup_externals.sh
+
+# Build the Lean 4 proofs (no `sorry` stubs in kernel)
+lake build
+```
 
 ---
 
-## 📚 Key Documents
-- [Phase 8 Proposal](docs/PHASE_8_FTHEORY_PROPOSAL.md)
-- [References](docs/REFERENCES.md)
+## Roadmap (from VISION.md)
+
+| Phase | Dates | Deliverable |
+|-------|-------|-------------|
+| **Phase 0** | Weeks 1–2 | VISION.md, K3_CRITERIA.md, draft PREDICTION.md (all three repos) |
+| **Phase 1** | Months 1–2 | Finalize falsifiable prediction (M1) |
+| **Phase 2** | Months 2–8 | Lean arithmetic formalization + arXiv preprint (M2) |
+| **Phase 3** | Months 8–14 | Stream 3 observational report (M3) |
+| **Phase 4** | Months 14–18 | Final manuscript(s) |
+
+**This repo's focus:** Phase 2 (months 2–8).
 
 ---
 
-## 🤝 Collaboration
-- **Timeroot/Lean-QuantumInfo**: [GitHub](https://github.com/Timeroot/Lean-QuantumInfo)
-- **ShirleyLIYuxin/Lean4PHYS**: [GitHub](https://github.com/ShirleyLIYuxin/Lean4PHYS)
-- **AndreasSchachner/ml-string-landscape**: [GitHub](https://github.com/AndreasSchachner/ml-string-landscape)
-- **Hilbert-Pólya (Zenodo)**: [10.5281/zenodo.20290893](https://doi.org/10.5281/zenodo.20290893)
+## Contact & Collaboration
 
----
-
-## 📧 Contact
-- **Xavier Callens**: [callensxavier@gmail.com](mailto:callensxavier@gmail.com)
-- **GitHub**: [xaviercallens](https://github.com/xaviercallens)
+- **Author:** Xavier Callens (callensxavier@gmail.com)
+- **Feedback:** Open issues or PRs. Mathematical results should be reviewed by the modular-forms / mirror-symmetry community before claiming Tier A status.
+- **External math libraries:** See `external/` for credits (Lean-QuantumInfo, Lean4PHYS, etc.)
