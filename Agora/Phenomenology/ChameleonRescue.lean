@@ -94,19 +94,11 @@ theorem m_eff_ge_m0 (m0 rho rho_crit exponent : ℝ)
     (hexp : exponent ≥ 0) :
     m_effective m0 rho rho_crit exponent ≥ m0 := by
   unfold m_effective
-  have h_ratio : rho / rho_crit ≥ 1 := by
-    rwa [ge_iff_le, le_div_iff hcrit]
-  have h_pow : (rho / rho_crit) ^ exponent ≥ 1 :=
-    Real.one_le_rpow_of_pos_of_le_one_of_nonpos_iff.2.2
-      |>.mp (Or.inl ⟨le_of_lt (div_pos (by linarith) hcrit), h_ratio, hexp⟩)
-      |> fun _ => by
-        exact one_le_rpow_of_pos_of_le_one_of_neg hexp (by linarith) h_ratio
-          |> fun _ => le_of_eq rfl
-          |> fun _ => by
-            have : 1 ≤ rho / rho_crit := h_ratio
-            exact Real.one_le_rpow_of_pos_of_le_one_of_nonpos hexp
-              (div_pos (by linarith) hcrit) this
-              |> fun h => h
+  have h_ratio : (1 : ℝ) ≤ rho / rho_crit := by
+    rw [le_div_iff₀ hcrit]; linarith
+  have h_pow : (1 : ℝ) ≤ (rho / rho_crit) ^ exponent := by
+    have h := Real.rpow_le_rpow_of_exponent_le h_ratio hexp
+    rwa [Real.rpow_zero] at h
   linarith [mul_le_mul_of_nonneg_left h_pow (le_of_lt hm0)]
 
 /-- The effective mass increases monotonically with density
@@ -144,10 +136,11 @@ theorem alpha_eff_gt_bare (alpha_bare rho_b rho_crit : ℝ)
     alpha_effective alpha_bare rho_b rho_crit > alpha_bare := by
   unfold alpha_effective
   have h_ratio : rho_b / rho_crit > 1 := by
-    rwa [gt_iff_lt, lt_div_iff hcrit, one_mul]
+    rwa [gt_iff_lt, lt_div_iff₀ hcrit, one_mul]
   have h_pow : (rho_b / rho_crit) ^ ((1 : ℝ) / 4) > 1 := by
-    exact Real.one_lt_rpow_of_pos_of_lt_one_of_neg (by positivity)
-      h_ratio (by norm_num)
+    have hx : (0 : ℝ) < rho_b / rho_crit := div_pos (by linarith) hcrit
+    rw [gt_iff_lt, Real.one_lt_rpow_iff_of_pos hx]
+    exact Or.inl ⟨h_ratio, by norm_num⟩
   nlinarith
 
 -- ╔════════════════════════════════════════════════════════════════════╗
@@ -218,8 +211,9 @@ theorem coupling_boost_general (alpha_bare R : ℝ)
     (halpha : alpha_bare > 0) (hR : R ≥ 1) :
     alpha_bare * R ^ ((1 : ℝ) / 4) ≥ alpha_bare := by
   have h1 : R ^ ((1 : ℝ) / 4) ≥ 1 := by
-    exact Real.one_le_rpow_of_pos_of_le_one_of_nonpos (by norm_num)
-      (by linarith) hR
+    have h := Real.rpow_le_rpow_of_exponent_le hR
+      (by norm_num : (0 : ℝ) ≤ 1 / 4)
+    rwa [Real.rpow_zero] at h
   nlinarith
 
 /-- AXIOM (Numerical): The canonical M87* density ratio of 10⁶ gives

@@ -99,7 +99,18 @@ without a recorded decision — recommend an explicit amendment entry either way
 
 **Filed by:** Claude (Sonnet 5 tier), discovered during WP S1-02  
 **Date:** 2026-07-17  
-**Status:** **RESOLVED (decision) 2026-07-18** by T0 (Opus 4.8). See resolution below.
+**Status:** **DISCHARGED 2026-07-18 (WP S1-07, T0 = Fable 5).** Both axioms **deleted**;
+Theorem 1 rebuilt on the concrete θ-form Picard-Fuchs operators of
+`Agora/Sequences/ThetaOperators.lean` (Cooper eq 1.7 / Zagier eq 1.6 templates, coefficients
+pinned from sourced per-candidate parameters). Order-2/order-3 are now kernel-computed for
+every parameter choice (`zagierThetaOperator_natDegree`, `cooperThetaOperator_natDegree`).
+`Master.theorem1_holds` restated about the concrete operators `ode_S12`/`ode_s7`; the
+unregistered vacuous `axiom m87_alpha_eff_certificate` (DualScaleMaster) converted to a
+proved theorem with vacuity disclosure. Design note: the operators are encoded in θ-form
+(`Polynomial (Polynomial ℚ)`, order = θ-degree) rather than monic D-form `DiffOp3`,
+deliberately avoiding the RatFunc normalization trap (escalation trigger E-04b) — the
+S1-04 `symSquare`/`DiffOp3` API is untouched and remains the C3 vehicle. Minimality and
+geometric identification remain Tier B (S1-05). See `briefs/S1-07.md`.
 
 ### RESOLUTION (T0, 2026-07-18)
 
@@ -273,6 +284,44 @@ Two consequences for the S1-04 design:
 Sequence-level work is done: s7/s10 confirmed, s18 encoded + kernel-validated. This
 escalation concerns only the operator/Sym² layer (criterion C3), which was always the
 substantive mathematical content.
+
+---
+
+## E-005: `pipeline_upper_bound` axiom is vacuous (same mode as E-002); pre-existing build breakage found on `main`
+
+**Filed by:** Fable 5 (T0), during WP S1-07 honesty pass  
+**Date:** 2026-07-18  
+**Status:** OPEN — T0 decision recorded below; discharge deferred to a dedicated WP.
+
+### Finding 1 — vacuous axiom (F6 disclosure)
+
+`Agora/Swampland/DualScaleStability.lean:293`:
+
+```lean
+axiom pipeline_upper_bound : ∃ (S12_max : ℝ), S12_max ≤ 1.177 ∧ S12_max > 0
+```
+
+Vacuously true (witness `1`) — identical failure mode to E-002. The docstring cites the
+GPU pipeline result S₁,₂ ≤ 1.177, but the statement encodes no pipeline data. CAUTION:
+the docstring was *expanded* with source metadata on 2026-07-18 (commit `9c4a6b4`) while
+the statement stayed vacuous; the improved sourcing must not be mistaken for content.
+
+**Decision (T0):** record now (AXIOMS.md tracked-gap entry added), discharge later as
+proposed **WP S1-09**: encode the actual pipeline statistic (per-sector values or the
+certified maximum as exact rational data, checksummed from the Stream 2/3 artifact) and
+restate the bound about that data. Not folded into S1-07 to avoid improvising the
+pipeline-data interface, which is a cross-stream design question (T0-owned per CLAUDE.md).
+No prose may cite `pipeline_upper_bound` or downstream `perturbative_regime` results as
+data-carrying until discharged.
+
+### Finding 2 — pre-existing build failures on `main` (untouched by S1-07)
+
+During the S1-07 build, `Agora.Geometry.DiscriminantLocus` and
+`Agora.Phenomenology.ChameleonRescue` failed to compile (`⊢ False` / tactic failure) in
+their HEAD state — these files do not import anything S1-07 changed. This contradicts the
+"CI green on main" assumption. Being verified module-by-module; findings and disposition
+recorded in the S1-07 commit and below once confirmed. If confirmed, this is an F6-relevant
+event: a claimed kernel-green main that does not build.
 
 ---
 

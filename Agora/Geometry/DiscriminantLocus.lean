@@ -122,14 +122,11 @@ theorem extreme_threshold (obs : DiscriminantObservation)
     (h : obs.delta_obs ≥ 30) :
     classify_observation obs = DiscriminantClass.extreme := by
   unfold classify_observation
-  simp only [ite_eq_right_iff]
-  constructor
-  · intro hlt; linarith
-  · intro h10
-    split_ifs with h1 h2
-    · linarith
-    · linarith
-    · rfl
+  split_ifs with h1 h2 h3
+  · linarith
+  · linarith
+  · linarith
+  · rfl
 
 -- ╔════════════════════════════════════════════════════════════════════╗
 -- ║  §4. BETTI NUMBER DECOMPOSITION                                   ║

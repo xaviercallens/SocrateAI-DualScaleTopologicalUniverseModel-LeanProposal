@@ -22,25 +22,54 @@ This file maintains a complete, auditable inventory of all non-standard assumpti
 
 *(Empty as of Phase 0 scaffold — no axioms in the quarantined `Axioms/` directory.)*
 
-### Known tracked gap — pre-existing vacuous axioms (E-002)
+### DISCHARGED — E-002 vacuous axioms (S1-07, 2026-07-18)
 
-> **Disclosed 2026-07-18 (T0, F6 discipline).** `Agora/Geometry/FTheoryFibration.lean`
-> (pre-existing, currently on `main`) contains two axioms that are **vacuously true** and do
-> not encode the data their docstrings claim:
+> **Discharged 2026-07-18 by WP S1-07.** The two vacuous axioms
+> `empirical_S12_degree` / `empirical_s7_degree` formerly in
+> `Agora/Geometry/FTheoryFibration.lean` have been **deleted**. Theorem 1
+> (`dual_scale_classification`, `master_fibration_classification`,
+> `Master.theorem1_holds`) is now stated about the **concrete θ-form
+> Picard-Fuchs operators** of `Agora/Sequences/ThetaOperators.lean`
+> (Cooper eq 1.7 / Zagier eq 1.6 templates, coefficients pinned per candidate
+> from sourced parameters), and the order-2/order-3 facts are kernel-computed
+> (`zagierThetaOperator_natDegree`, `cooperThetaOperator_natDegree` — proved
+> for EVERY parameter choice; leading θ-coefficient has constant term 1).
+>
+> Honest boundary (unchanged): minimality of each operator for its sequence
+> and the elliptic/K3 geometric identification remain Tier B (S1-05 bridge
+> scope); Theorem 1 may now be cited as a non-vacuous statement **about the
+> encoded operators**, nothing more.
+>
+> Also in S1-07: the unregistered `axiom m87_alpha_eff_certificate`
+> (`DualScaleMaster.lean`) was converted to a proved theorem with a vacuity
+> disclosure in its docstring (statement `∃ v, v > 0.45` is content-free).
+
+### Note — pre-existing numerical-certificate axioms outside `Axioms/`
+
+> `Agora/Phenomenology/ChameleonRescue.lean` declares `m87_numerical_certificate`
+> ((10⁶)^{1/4} > 2.905) and `density_threshold_certificate` (0.155·R^{1/4} > 0.42 for
+> R ≥ 55) as `axiom`s outside the quarantine (predating the hook). Unlike E-002/E-005
+> these statements ARE contentful numeric claims and look `norm_num`/`rpow`-provable;
+> converting them to theorems is cheap follow-on T2 work (fold into WP S1-09). Recorded
+> here so the inventory is complete; not counted in the `Axioms/` budget above.
+
+### Known tracked gap — vacuous `pipeline_upper_bound` (E-005)
+
+> **Disclosed 2026-07-18 (T0, F6 discipline, found during S1-07).**
+> `Agora/Swampland/DualScaleStability.lean` (pre-existing, on `main`) contains
 >
 > ```
-> axiom empirical_S12_degree : ∃ P : Polynomial ℚ, P.natDegree = 2 ∧ P.natDegree ≥ 1
-> axiom empirical_s7_degree  : ∃ P : Polynomial ℚ, P.natDegree = 3 ∧ P.natDegree ≥ 1
+> axiom pipeline_upper_bound : ∃ (S12_max : ℝ), S12_max ≤ 1.177 ∧ S12_max > 0
 > ```
 >
-> `P = X²` and `P = X³` satisfy these trivially, referencing no actual S₁,₂ / Cooper-s7 data.
-> `theorem1_holds` / `dual_scale_classification` / `DualScaleMaster.lean` inherit this
-> vacuity. **These are NOT counted in the budget above** (they live outside `Axioms/` and
-> predate the hook) but are recorded here so no downstream claim treats them as content.
->
-> **Discharge plan:** WP **S1-07** (approved 2026-07-18, sequenced after S1-04) replaces them
-> with genuine `DiffOp3`/`symSquare` operator content from `Agora/SymSquare.lean`. Until then,
-> no prose may cite Theorem 1 as a non-vacuous result. See `briefs/ESCALATIONS.md` E-002.
+> which is **vacuously true** (witness `1`) — the same failure mode as E-002.
+> Its docstring cites the GPU pipeline, but the statement encodes none of that
+> data. NOTE: the docstring was *expanded* on 2026-07-18 (commit `9c4a6b4`)
+> while the statement remained vacuous — the enhanced sourcing must not be
+> read as added content. Not counted in the budget above (outside `Axioms/`,
+> predates the hook). Discharge path: T0 design of a genuine pipeline-data
+> encoding (proposed WP S1-09); see `briefs/ESCALATIONS.md` E-005. Until then,
+> no prose may cite `pipeline_upper_bound` or its consumers as data-carrying.
 
 ---
 

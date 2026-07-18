@@ -12,7 +12,11 @@
     • The Weierstrass model y² = x³ + f(u)x + g(u) is formalized
     • The discriminant locus Δ_F = 4f³ + 27g² governs 7-brane locations
 
-  Axioms: empirical_S12_degree, empirical_s7_degree (from AutoEvolve pipeline)
+  Axioms: NONE (S1-07, 2026-07-18: the former vacuous existence axioms
+  `empirical_S12_degree` / `empirical_s7_degree` were retired — see
+  briefs/ESCALATIONS.md E-002. The classification is now built on the concrete
+  θ-form operators of Agora/Sequences/ThetaOperators.lean, whose θ-degrees are
+  kernel-computed from pinned, sourced coefficient data.)
   0 sorry.
 
   References:
@@ -23,10 +27,10 @@
   ════════════════════════════════════════════════════════════════════════════════
 -/
 
+import Agora.Sequences.ThetaOperators
 import Mathlib.Algebra.Polynomial.Basic
 import Mathlib.Algebra.Polynomial.Degree.Definitions
 import Mathlib.Data.Real.Basic
-import Mathlib.Data.Rat.Basic
 import Mathlib.Tactic
 
 noncomputable section
@@ -41,12 +45,19 @@ open Polynomial
 
 namespace Agora.FTheory
 
-/-- A Picard-Fuchs ODE is classified by the degree of its annihilating
-    polynomial over ℚ. This degree is the ORDER of the differential
-    equation governing the periods of the algebraic variety. -/
+/-- A Picard-Fuchs ODE in θ-form (θ = z·d/dz): a polynomial in θ with
+    coefficients in ℚ[z], encoded as `Polynomial (Polynomial ℚ)` (outer
+    variable = θ, inner = z). Its θ-degree (`natDegree`) is the ORDER of the
+    differential equation.
+
+    S1-07 NOTE: the field was retyped from `Polynomial ℚ` (which could not
+    faithfully carry an operator, only an abstract polynomial — the E-002
+    vacuity mode) to the θ-form operator representation of
+    `Agora/Sequences/ThetaOperators.lean`. "Minimality" of an operator for a
+    given sequence is NOT part of this structure and is never assumed here. -/
 structure PicardFuchsODE where
-  /-- The minimal annihilating polynomial over ℚ -/
-  annihilating_poly : Polynomial ℚ
+  /-- The θ-form annihilating operator, an element of ℚ[z][θ] -/
+  annihilating_poly : Polynomial (Polynomial ℚ)
   /-- The order must be at least 1 (non-trivial ODE) -/
   order_pos : annihilating_poly.natDegree ≥ 1
 
@@ -67,30 +78,64 @@ def IsCY3ODE (ode : PicardFuchsODE) : Prop :=
   ode.annihilating_poly.natDegree = 4
 
 -- ╔════════════════════════════════════════════════════════════════════╗
--- ║  §2. EMPIRICAL AXIOMS FROM THE AUTOEVOLVE PIPELINE                ║
--- ║  These are the machine-extracted algebraic facts from the OEIS    ║
--- ║  integer sequences S_{1,2} (OEIS A006077) and Cooper s_7.        ║
+-- ║  §2. CONCRETE OPERATOR DATA (S1-07)                               ║
+-- ║  The former vacuous existence axioms are retired (E-002). Each     ║
+-- ║  ODE below carries the ACTUAL θ-form operator with pinned,        ║
+-- ║  sourced coefficients; its order is kernel-computed, not assumed.  ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- AXIOM (Empirical): The S_{1,2} sequence (Apéry-like, OEIS A006077)
-    satisfies a second-order linear recurrence with polynomial coefficients.
-    The minimal annihilating operator over ℚ has degree exactly 2.
-    Source: AutoEvolve pipeline exact-rational nullspace extraction.
+open Agora.Sequences in
+/-- The S_{1,2} Picard-Fuchs ODE: the order-2 Zagier-template θ-operator with
+    the pipeline-extracted parameters (A, λ, B) = (11, 3, −1).
+    -- Source: `Agora/Sequences/ThetaOperators.lean` (`S12_zagier_params`,
+    AutoEvolve pipeline provenance recorded there).
+    EPISTEMIC NOTE (Tier B): that this operator annihilates the actual
+    pipeline sequence, and that it is MINIMAL for it, are empirical/bridge
+    claims not certified here; the kernel certifies the operator's θ-degree. -/
+def ode_S12 : PicardFuchsODE :=
+  ⟨zagierThetaOperator S12_zagier_params, by
+    rw [zagierThetaOperator_natDegree]; norm_num⟩
 
-    The recurrence is: (n+1)²u_{n+1} = (11n²+11n+3)u_n + n²u_{n-1}
-    which yields a Picard-Fuchs ODE of order 2. -/
-axiom empirical_S12_degree : ∃ (P : Polynomial ℚ),
-  P.natDegree = 2 ∧ P.natDegree ≥ 1
+open Agora.Sequences in
+/-- The Cooper s7 Picard-Fuchs ODE: the order-3 Cooper-template θ-operator
+    with (a, b, c, d) = (13, 4, −27, 3).
+    -- Source: `s7_params` in `Agora/Sequences/CooperRecurrences.lean`
+    (Cooper 2012 Table 1 / Gorodetsky arXiv:2102.11839); operator template
+    per `Agora/Sequences/ThetaOperators.lean`. -/
+def ode_s7 : PicardFuchsODE :=
+  ⟨cooperThetaOperator s7_params, by
+    rw [cooperThetaOperator_natDegree]; norm_num⟩
 
-/-- AXIOM (Empirical): The Cooper s_7 sequence satisfies a third-order
-    linear recurrence with polynomial coefficients. The minimal
-    annihilating operator over ℚ has degree exactly 3.
-    Source: AutoEvolve pipeline exact-rational nullspace extraction.
+open Agora.Sequences in
+/-- The Cooper s10 Picard-Fuchs ODE, (a, b, c, d) = (6, 2, −64, 4).
+    -- Source: `s10_params` (Cooper 2012 Table 1 / Gorodetsky 2023). -/
+def ode_s10 : PicardFuchsODE :=
+  ⟨cooperThetaOperator s10_params, by
+    rw [cooperThetaOperator_natDegree]; norm_num⟩
 
-    Cooper's s_7 is one of Zagier's sporadic sequences with a
-    3rd-order Picard-Fuchs ODE governing K3 periods. -/
-axiom empirical_s7_degree : ∃ (P : Polynomial ℚ),
-  P.natDegree = 3 ∧ P.natDegree ≥ 1
+open Agora.Sequences in
+/-- The Cooper s18 Picard-Fuchs ODE, (a, b, c, d) = (14, 6, 192, −12).
+    -- Source: `s18_params` (Gorodetsky arXiv:2102.11839 v2 p.3, SHA-pinned;
+    see the s18 encoding caveat in CooperRecurrences.lean). -/
+def ode_s18 : PicardFuchsODE :=
+  ⟨cooperThetaOperator s18_params, by
+    rw [cooperThetaOperator_natDegree]; norm_num⟩
+
+/-- KERNEL FACT: the encoded S_{1,2} operator is order-2 (elliptic-curve type
+    in the §1 classification). -/
+theorem ode_S12_is_elliptic : IsEllipticCurveODE ode_S12 :=
+  Sequences.zagierThetaOperator_natDegree _
+
+/-- KERNEL FACT: the encoded Cooper s7 operator is order-3 (K3 type in the §1
+    classification). Likewise s10 and s18 below. -/
+theorem ode_s7_is_K3 : IsK3SurfaceODE ode_s7 :=
+  Sequences.cooperThetaOperator_natDegree _
+
+theorem ode_s10_is_K3 : IsK3SurfaceODE ode_s10 :=
+  Sequences.cooperThetaOperator_natDegree _
+
+theorem ode_s18_is_K3 : IsK3SurfaceODE ode_s18 :=
+  Sequences.cooperThetaOperator_natDegree _
 
 -- ╔════════════════════════════════════════════════════════════════════╗
 -- ║  §3. THEOREM 1: DUAL-SCALE CLASSIFICATION                        ║
@@ -113,28 +158,24 @@ theorem order3_not_order2 (ode : PicardFuchsODE)
   unfold IsEllipticCurveODE
   omega
 
-/-- THEOREM 1 (Dual-Scale Classification):
-    The S_{1,2} sequence defines an Elliptic Curve (Order-2),
-    the Cooper s_7 defines a K3 Surface (Order-3), and these
-    classifications are mutually exclusive.
+/-- THEOREM 1 (Dual-Scale Classification), S1-07 non-vacuous rebuild:
+    the ENCODED S_{1,2} θ-operator (pinned coefficients, §2) is order-2 and
+    not order-3; the ENCODED Cooper-s7 θ-operator is order-3 and not order-2.
+    The witnesses are the concrete operators `ode_S12` / `ode_s7` — no axiom
+    is consumed.
 
-    Physical interpretation:
-    • S_{1,2} → Elliptic fiber T² → Local Dark Matter EFT
-    • Cooper s_7 → K3 base surface → Global Dark Energy vacuum -/
+    Tier note (VISION §1.3/§2): "elliptic-curve type" / "K3 type" here are the
+    §1 order-classification labels for the encoded operators. The geometric
+    period identification and any physical interpretation (dark-sector EFT
+    roles) are Tier B/C claims NOT established by this theorem. -/
 theorem dual_scale_classification :
-    (∃ ode_S12 : PicardFuchsODE,
-      IsEllipticCurveODE ode_S12 ∧ ¬ IsK3SurfaceODE ode_S12) ∧
-    (∃ ode_s7 : PicardFuchsODE,
-      IsK3SurfaceODE ode_s7 ∧ ¬ IsEllipticCurveODE ode_s7) := by
-  constructor
-  · -- S_{1,2} is an Elliptic Curve
-    obtain ⟨P, hd, hp⟩ := empirical_S12_degree
-    refine ⟨⟨P, hp⟩, hd, ?_⟩
-    unfold IsK3SurfaceODE; simp; omega
-  · -- Cooper s_7 is a K3 Surface
-    obtain ⟨P, hd, hp⟩ := empirical_s7_degree
-    refine ⟨⟨P, hp⟩, hd, ?_⟩
-    unfold IsEllipticCurveODE; simp; omega
+    (∃ ode : PicardFuchsODE,
+      IsEllipticCurveODE ode ∧ ¬ IsK3SurfaceODE ode) ∧
+    (∃ ode : PicardFuchsODE,
+      IsK3SurfaceODE ode ∧ ¬ IsEllipticCurveODE ode) := by
+  refine ⟨⟨ode_S12, ode_S12_is_elliptic, ?_⟩, ⟨ode_s7, ode_s7_is_K3, ?_⟩⟩
+  · exact order2_not_order3 ode_S12 ode_S12_is_elliptic
+  · exact order3_not_order2 ode_s7 ode_s7_is_K3
 
 -- ╔════════════════════════════════════════════════════════════════════╗
 -- ║  §4. THE WEIERSTRASS MODEL                                        ║
@@ -368,16 +409,16 @@ def euler_from_hodge (t : CY4Topology) : ℤ :=
 -- ║  The complete deductive chain for Theorem 1.                      ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- MASTER THEOREM (F-Theory Dual-Scale Classification):
-    The complete machine-checkable proof that:
-    1. S_{1,2} defines an Elliptic Curve (Order-2 Picard-Fuchs ODE)
-    2. Cooper s_7 defines a K3 Surface (Order-3 Picard-Fuchs ODE)
-    3. These classifications are algebraically incompatible
-    4. An Order-2 ODE cannot be Order-3 and vice versa
+/-- MASTER THEOREM (Fibration Order Classification), S1-07 rebuild.
+    Machine-checked content (Tier A, about the ENCODED operators of §2):
+    1. The encoded S_{1,2} θ-operator has order 2 (elliptic-curve-type label)
+    2. The encoded Cooper-s7 θ-operator has order 3 (K3-type label)
+    3./4. The order-2 and order-3 classifications are mutually exclusive
 
-    This breaks the phenomenological degeneracy and establishes
-    the Dual-Scale architecture of the F-theory vacuum:
-      T² (S_{1,2}) → CY4 → K3 (s_7) × T² -/
+    NOT established here (Tier B/C — bridge statements are S1-05 scope,
+    physical architecture is conjecture per VISION §1.2): that these operators
+    are minimal for their sequences, the elliptic/K3 period identifications,
+    and any F-theory vacuum architecture T² → CY4 → K3 × T². -/
 theorem master_fibration_classification :
     -- (i) Existence of the Order-2 (Elliptic) ODE for S_{1,2}
     (∃ ode : PicardFuchsODE, IsEllipticCurveODE ode ∧ ¬ IsK3SurfaceODE ode) ∧
@@ -387,11 +428,11 @@ theorem master_fibration_classification :
     (∀ ode : PicardFuchsODE, IsEllipticCurveODE ode → ¬ IsK3SurfaceODE ode) ∧
     (∀ ode : PicardFuchsODE, IsK3SurfaceODE ode → ¬ IsEllipticCurveODE ode) := by
   refine ⟨?_, ?_, order2_not_order3, order3_not_order2⟩
-  · -- S_{1,2} Elliptic Curve
-    obtain ⟨P, hd, hp⟩ := empirical_S12_degree
-    exact ⟨⟨P, hp⟩, hd, by unfold IsK3SurfaceODE; simp; omega⟩
-  · -- Cooper s_7 K3 Surface
-    obtain ⟨P, hd, hp⟩ := empirical_s7_degree
-    exact ⟨⟨P, hp⟩, hd, by unfold IsEllipticCurveODE; simp; omega⟩
+  · -- S_{1,2}: concrete order-2 witness (encoded operator, §2)
+    exact ⟨ode_S12, ode_S12_is_elliptic,
+      order2_not_order3 ode_S12 ode_S12_is_elliptic⟩
+  · -- Cooper s7: concrete order-3 witness (encoded operator, §2)
+    exact ⟨ode_s7, ode_s7_is_K3,
+      order3_not_order2 ode_s7 ode_s7_is_K3⟩
 
 end Agora.FTheory

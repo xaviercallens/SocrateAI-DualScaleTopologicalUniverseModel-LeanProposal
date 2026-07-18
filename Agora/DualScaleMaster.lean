@@ -13,18 +13,23 @@
   into a single master proof demonstrating the internal mathematical
   consistency of the Dual-Scale Topological Universe Model.
 
-  Axioms (inherited):
-    - empirical_S12_degree: S_{1,2} has Order-2 Picard-Fuchs ODE
-    - empirical_s7_degree: Cooper s_7 has Order-3 Picard-Fuchs ODE
-    - pipeline_upper_bound: S_{1,2} ≤ 1.177 (GPU pipeline result)
+  Axioms (inherited) — post-S1-07 state (2026-07-18):
+    - empirical_S12_degree / empirical_s7_degree: RETIRED (E-002 discharge).
+      Theorem 1 is now built on the concrete θ-form operators of
+      Agora/Sequences/ThetaOperators.lean via Agora.Geometry.FTheoryFibration.
+    - pipeline_upper_bound: S_{1,2} ≤ 1.177 (GPU pipeline result) — NOTE: the
+      statement is a vacuous existential; recorded as tracked gap E-005.
     - m87_numerical_certificate: (10⁶)^{1/4} > 2.905
     - density_threshold_certificate: 0.155 · R^{1/4} > 0.42 for R ≥ 55
+    - m87_alpha_eff_certificate: converted from axiom to (trivially provable)
+      theorem in this file; vacuity disclosed at its declaration.
 
   0 sorry.
 
   ════════════════════════════════════════════════════════════════════════════════
 -/
 
+import Agora.Geometry.FTheoryFibration
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
 
@@ -43,12 +48,21 @@ namespace Agora.Master
 -- ║  Each theorem's conclusion is packaged as a Prop.                 ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- The conclusion of Theorem 1: Dual-Scale Classification.
-    The S_{1,2} and Cooper s_7 sequences are algebraically incompatible,
-    living on different geometric varieties (Order-2 vs Order-3). -/
+/-- The conclusion of Theorem 1 (S1-07 non-vacuous rebuild): the ENCODED
+    S_{1,2} θ-operator (pinned pipeline parameters) is order-2 and not
+    order-3, and the ENCODED Cooper-s7 θ-operator (Cooper 2012 Table 1
+    parameters) is order-3 and not order-2 — stated about the concrete
+    operators `Agora.FTheory.ode_S12` / `ode_s7`, not about abstract degrees.
+    (The pre-S1-07 version was `∃ d_fiber d_base, d_fiber = 2 ∧ d_base = 3 ∧
+    d_fiber ≠ d_base` — vacuously true without reference to any object; see
+    briefs/ESCALATIONS.md E-002.)
+    Tier note: order labels only; geometric/physical identification is NOT
+    part of this Prop (VISION §1.3). -/
 def theorem1_holds : Prop :=
-  ∃ (d_fiber d_base : ℕ),
-    d_fiber = 2 ∧ d_base = 3 ∧ d_fiber ≠ d_base
+  (FTheory.IsEllipticCurveODE FTheory.ode_S12 ∧
+    ¬ FTheory.IsK3SurfaceODE FTheory.ode_S12) ∧
+  (FTheory.IsK3SurfaceODE FTheory.ode_s7 ∧
+    ¬ FTheory.IsEllipticCurveODE FTheory.ode_s7)
 
 /-- The conclusion of Theorem 2: Moduli Stabilization.
     For any positive LVS parameters (A, B, a, b > 0), the Hessian
@@ -69,9 +83,13 @@ def theorem3_holds : Prop :=
 -- ║  §2. THEOREM PROOFS                                               ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- Theorem 1 proof: The degrees 2 and 3 are obviously distinct. -/
-theorem theorem1 : theorem1_holds := by
-  exact ⟨2, 3, rfl, rfl, by norm_num⟩
+/-- Theorem 1 proof: from the kernel-computed θ-degrees of the concrete
+    encoded operators (FTheoryFibration §2). -/
+theorem theorem1 : theorem1_holds :=
+  ⟨⟨FTheory.ode_S12_is_elliptic,
+      FTheory.order2_not_order3 _ FTheory.ode_S12_is_elliptic⟩,
+    ⟨FTheory.ode_s7_is_K3,
+      FTheory.order3_not_order2 _ FTheory.ode_s7_is_K3⟩⟩
 
 /-- Theorem 2 proof: Product of positive numbers is positive. -/
 theorem theorem2 : theorem2_holds := by
@@ -86,9 +104,16 @@ theorem theorem2 : theorem2_holds := by
     · exact Real.exp_pos _
   exact mul_pos h1 h2
 
-/-- Axiom for Theorem 3: M87* numerical result.
-    α_eff = 0.155 × (10⁶)^{1/4} ≈ 4.90 -/
-axiom m87_alpha_eff_certificate : ∃ (v : ℝ), v > 0.45
+/-- Formerly `axiom m87_alpha_eff_certificate` (unregistered, outside
+    `Axioms/`). DISCLOSURE (S1-07 honesty pass, 2026-07-18): the statement
+    `∃ v, v > 0.45` is trivially true (witness 1) and carries NO M87* content —
+    the same vacuity mode as E-002. It is proved here to retire an unregistered
+    axiom, NOT to certify any physics; `theorem3_holds` therefore remains a
+    content-free placeholder. The contentful numeric claim lives in
+    `ChameleonRescue.lean`; a genuine Theorem-3 rebuild is tracked in
+    `AXIOMS.md` (see the E-005 note in briefs/ESCALATIONS.md). -/
+theorem m87_alpha_eff_certificate : ∃ (v : ℝ), v > 0.45 :=
+  ⟨1, by norm_num⟩
 
 /-- Theorem 3 proof: From the numerical certificate. -/
 theorem theorem3 : theorem3_holds := m87_alpha_eff_certificate
@@ -133,31 +158,32 @@ theorem dual_scale_universe_model_consistent :
 -- ║  For transparency, we list all axioms used across the framework.  ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/--
-  AXIOM INVENTORY (complete list for audit):
+/-
+  AXIOM INVENTORY (complete list for audit) — post-S1-07 (2026-07-18):
   ═══════════════════════════════════════════════════════════════════════
 
   From FTheoryFibration.lean:
-    1. empirical_S12_degree: The S_{1,2} Picard-Fuchs ODE has degree 2
-       Source: AutoEvolve pipeline, OEIS A006077 recurrence analysis
-    2. empirical_s7_degree: Cooper s_7 Picard-Fuchs ODE has degree 3
-       Source: AutoEvolve pipeline, Cooper sequence classification
+    (none) — empirical_S12_degree and empirical_s7_degree RETIRED by S1-07
+    (E-002 discharge): Theorem 1 now consumes the concrete θ-form operators
+    of Agora/Sequences/ThetaOperators.lean; their orders are kernel-computed.
 
   From DualScaleStability.lean:
-    3. pipeline_upper_bound: S_{1,2} ≤ 1.177
+    1. pipeline_upper_bound: ∃ S12_max, S12_max ≤ 1.177 ∧ S12_max > 0
        Source: GPU pipeline observational analysis (SDSS/Euclid data)
+       WARNING: vacuous existential (witness 1) — tracked gap E-005 in
+       briefs/ESCALATIONS.md; do not cite as a data-carrying result.
 
   From ChameleonRescue.lean:
-    4. m87_numerical_certificate: (10⁶)^{1/4} > 2.905
+    2. m87_numerical_certificate: (10⁶)^{1/4} > 2.905
        Source: Numerical computation (verifiable with any calculator)
-    5. density_threshold_certificate: 0.155·R^{1/4} > 0.42 for R ≥ 55
+    3. density_threshold_certificate: 0.155·R^{1/4} > 0.42 for R ≥ 55
        Source: Numerical computation (verifiable)
 
   From DualScaleMaster.lean:
-    6. m87_alpha_eff_certificate: ∃ v, v > 0.45
-       Source: Consequence of axiom 4
+    (none) — m87_alpha_eff_certificate converted to a proved theorem;
+    its statement remains content-free (disclosure at declaration).
 
-  TOTAL: 6 axioms (3 empirical, 3 numerical certificates)
+  TOTAL: 3 axioms (1 empirical — flagged vacuous, 2 numerical certificates)
   TOTAL sorry: 0
 -/
 
