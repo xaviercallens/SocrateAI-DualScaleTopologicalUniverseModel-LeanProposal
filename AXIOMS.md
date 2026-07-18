@@ -44,14 +44,17 @@ This file maintains a complete, auditable inventory of all non-standard assumpti
 > (`DualScaleMaster.lean`) was converted to a proved theorem with a vacuity
 > disclosure in its docstring (statement `∃ v, v > 0.45` is content-free).
 
-### Note — pre-existing numerical-certificate axioms outside `Axioms/`
+### DISCHARGED — ChameleonRescue numerical-certificate axioms (2026-07-18, T1)
 
-> `Agora/Phenomenology/ChameleonRescue.lean` declares `m87_numerical_certificate`
+> `Agora/Phenomenology/ChameleonRescue.lean`'s `m87_numerical_certificate`
 > ((10⁶)^{1/4} > 2.905) and `density_threshold_certificate` (0.155·R^{1/4} > 0.42 for
-> R ≥ 55) as `axiom`s outside the quarantine (predating the hook). Unlike E-002/E-005
-> these statements ARE contentful numeric claims and look `norm_num`/`rpow`-provable;
-> converting them to theorems is cheap follow-on T2 work (fold into WP S1-09). Recorded
-> here so the inventory is complete; not counted in the `Axioms/` budget above.
+> R ≥ 55) — flagged above as likely-provable follow-on — are now **proved theorems**,
+> not axioms. Both reduce to a 4th-power numeric bound via `Real.rpow_lt_rpow` /
+> `Real.rpow_le_rpow` + `pow_rpow_inv_natCast` (rewrite `x^(1/4)` as `x^((4:ℕ):ℝ)⁻¹`,
+> compare 4th powers with `norm_num`, un-power). Contentful statements unchanged;
+> no design decision involved (both are fixed-exponent rational rpow, not the
+> irrational-exponent case the original docstring anticipated). Both proofs succeeded
+> on first attempt, no grind loop needed. `lake build Agora` verified green.
 
 ### Known tracked gap — vacuous `pipeline_upper_bound` (E-005)
 

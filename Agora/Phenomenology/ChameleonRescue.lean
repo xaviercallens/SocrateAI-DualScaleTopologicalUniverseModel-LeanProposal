@@ -220,11 +220,19 @@ theorem coupling_boost_general (alpha_bare R : ℝ)
     (10⁶)^{1/4} = 10^{3/2} = √1000 ≈ 31.62.
     Therefore α_eff = 0.155 × 31.62 ≈ 4.90 ≫ 0.42.
 
-    This is a computational certificate verified at high precision.
-    In Lean 4, rpow for irrational exponents is not decidable,
-    so we state this as a verified axiom. -/
-axiom m87_numerical_certificate :
-  (1000000 : ℝ) ^ ((1 : ℝ) / 4) > 2.905
+    S1-07 follow-up (2026-07-18, T1): converted from axiom to proved theorem —
+    the exponent 1/4 is rational, so this is not the irrational-exponent case
+    the original docstring worried about; it reduces to a 4th-power
+    comparison via `Real.rpow_lt_rpow`. -/
+theorem m87_numerical_certificate :
+    (1000000 : ℝ) ^ ((1 : ℝ) / 4) > 2.905 := by
+  have hexp : (1 : ℝ) / 4 = ((4 : ℕ) : ℝ)⁻¹ := by norm_num
+  rw [hexp]
+  have h4 : (2.905 : ℝ) ^ (4 : ℕ) < 1000000 := by norm_num
+  calc (2.905 : ℝ) = ((2.905 : ℝ) ^ (4 : ℕ)) ^ (((4 : ℕ) : ℝ)⁻¹) :=
+        (pow_rpow_inv_natCast (by norm_num) (by norm_num)).symm
+    _ < (1000000 : ℝ) ^ (((4 : ℕ) : ℝ)⁻¹) :=
+        Real.rpow_lt_rpow (by positivity) h4 (by norm_num)
 
 /-- THEOREM 3 (Chameleon Rescue — M87* Evasion):
     The effective gravitational coupling of the S_{1,2} elliptic fiber
@@ -261,13 +269,28 @@ theorem m87_in_absorption_regime :
 -- ║  local baryonic density.                                          ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- AXIOM: For any density ratio R > R_min, the fourth root exceeds
-    the threshold needed to push α_eff above α_crit.
+/-- For any density ratio R ≥ 55, the fourth root exceeds the threshold
+    needed to push α_eff above α_crit.
 
     R_min = (α_crit / α_bare)⁴ ≈ (0.42/0.155)⁴ ≈ 54.2
-    Any ρ_b/ρ_crit > 55 suffices for superradiance evasion. -/
-axiom density_threshold_certificate (R : ℝ) (hR : R ≥ 55) :
-  (0.155 : ℝ) * R ^ ((1 : ℝ) / 4) > 0.42
+    Any ρ_b/ρ_crit ≥ 55 suffices for superradiance evasion.
+
+    S1-07 follow-up (2026-07-18, T1): converted from axiom to proved theorem,
+    same rational-exponent argument as `m87_numerical_certificate`. -/
+theorem density_threshold_certificate (R : ℝ) (hR : R ≥ 55) :
+    (0.155 : ℝ) * R ^ ((1 : ℝ) / 4) > 0.42 := by
+  have hexp : (1 : ℝ) / 4 = ((4 : ℕ) : ℝ)⁻¹ := by norm_num
+  rw [hexp]
+  have hmono : (55 : ℝ) ^ (((4 : ℕ) : ℝ)⁻¹) ≤ R ^ (((4 : ℕ) : ℝ)⁻¹) :=
+    Real.rpow_le_rpow (by norm_num) hR (by norm_num)
+  have h4 : (0.42 / 0.155 : ℝ) ^ (4 : ℕ) < 55 := by norm_num
+  have hbase : (0.42 / 0.155 : ℝ) < (55 : ℝ) ^ (((4 : ℕ) : ℝ)⁻¹) := by
+    calc (0.42 / 0.155 : ℝ) = ((0.42 / 0.155 : ℝ) ^ (4 : ℕ)) ^ (((4 : ℕ) : ℝ)⁻¹) :=
+          (pow_rpow_inv_natCast (by norm_num) (by norm_num)).symm
+      _ < (55 : ℝ) ^ (((4 : ℕ) : ℝ)⁻¹) := Real.rpow_lt_rpow (by positivity) h4 (by norm_num)
+  have hfinal : (0.42 / 0.155 : ℝ) < R ^ (((4 : ℕ) : ℝ)⁻¹) := lt_of_lt_of_le hbase hmono
+  rw [div_lt_iff₀ (by norm_num : (0 : ℝ) < 0.155)] at hfinal
+  linarith [hfinal]
 
 /-- For any SMBH with ρ_b/ρ_crit ≥ 55 (which includes essentially
     all astrophysical SMBHs with active accretion), the S_{1,2}
