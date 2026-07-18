@@ -5,4 +5,5 @@
 
 import Agora.Sequences.CooperRecurrences
 import Agora.Sequences.Integrality
+import Agora.Sequences.GrowthBounds
 import Agora.SymSquare

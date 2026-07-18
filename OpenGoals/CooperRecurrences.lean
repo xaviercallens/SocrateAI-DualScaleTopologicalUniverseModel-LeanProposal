@@ -65,49 +65,23 @@ theorem open_goal_recurrence_s10 :
   sorry
 
 -- ╔════════════════════════════════════════════════════════════════════╗
--- ║  open_goal_s7_growth                                                ║
+-- ║  open_goal_s7_growth / open_goal_s10_growth — CLOSED, T1, 2026-07-18 ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- Cooper's s7 satisfies polynomial growth: ∃ c k, ∀ n, s7(n) ≤ c · n^k.
-
-    STATUS: expected from literature asymptotic analysis (Cooper 2012, §4)
-    but not kernel-verified. The sporadic sequences are known to grow
-    polynomially, not exponentially, but the exact degree and leading
-    coefficient require detailed asymptotic expansion.
-
-    Grind-loop attempts:
-    1. `omega` on polynomial inequalities — fails at the general level
-       (requires concrete bounds, not arbitrary ∃).
-    2. Analytic approach via generating functions — Mathlib lacks the
-       infrastructure (asymptotic-series tactics).
-    3. Direct literature citation + trusted_constant — would require
-       an axiom of the form `axiom s7_growth : ∃ c k, ...` (T0 decision).
-
-    Conclusion: either find a source with explicit bounds (Cooper paper
-    full version) or escalate as an open research question. -/
-lemma open_goal_s7_growth :
-    ∃ c k : ℕ, ∀ n : ℕ, s7 n ≤ c * (n + 1) ^ k := by
-  sorry
-
--- ╔════════════════════════════════════════════════════════════════════╗
--- ║  open_goal_s10_growth                                               ║
--- ╚════════════════════════════════════════════════════════════════════╝
-
-/-- Cooper's s10 (Yang–Zudilin numbers) satisfies polynomial growth.
-
-    STATUS: s10(n) = Σ C(n,k)^4 is a classical sequence with known
-    asymptotic behavior (related to Domb numbers), but explicit bounds
-    require literature reference.
-
-    Grind-loop attempts:
-    1. Direct sum bound: Σ C(n,k)^4 ≤ (n+1) · max C(n,k)^4 — gives
-       exponential bound, not polynomial. Tighter analysis needed.
-    2. Classical reference (Domb literature) — check existence of explicit
-       polynomial-growth result before kernel work.
-
-    Conclusion: search Yang–Zudilin/Domb literature for tight bounds. -/
-lemma open_goal_s10_growth :
-    ∃ c k : ℕ, ∀ n : ℕ, s10 n ≤ c * (n + 1) ^ k := by
-  sorry
+-- These two open goals claimed POLYNOMIAL growth for s7/s10. That claim is
+-- FALSE: numerical check (25 exact terms) shows ratio s7(n+1)/s7(n) climbing
+-- monotonically past 25, s10(n+1)/s10(n) past 15 — the signature of
+-- exponential, not polynomial, growth (standard for D-finite/holonomic
+-- sequences: growth rate ρ^n set by the nearest recurrence singularity). The
+-- original docstrings' "expected... polynomial" premise was wrong.
+--
+-- Per CLAUDE.md rule 6 ("never silently weaken a statement to make it
+-- provable") this is not a weakening — it's a correction of a false
+-- statement. Kernel-proved replacements (0 sorry, no longer open) now live in
+-- `Agora/Sequences/GrowthBounds.lean`:
+--   `s7_not_polynomially_bounded  : ¬ ∃ c k, ∀ n, s7 n ≤ c * (n+1)^k`
+--   `s10_not_polynomially_bounded : ¬ ∃ c k, ∀ n, s10 n ≤ c * (n+1)^k`
+-- via a single-term exponential lower bound (`Nat.centralBinom`) + Mathlib's
+-- little-o comparison of polynomials against exponentials.
 
 end Agora.Sequences.OpenGoals
