@@ -167,9 +167,39 @@ than implicitly).
 
 **Filed by:** Opus 4.8 (T0), during primary-source fetch for S1-04
 **Date:** 2026-07-18
-**Status:** **CANDIDATE RESOLUTION 2026-07-18** (deeper fetch found the criterion). Awaiting
-two-model confirmation: symbolic `W=0` per candidate + Deep Think (T0s) re-derivation (running
-in parallel). Sequence data unaffected (done).
+**Status:** **RESOLVED (symbolic) 2026-07-18.** `W=0` computed and CONFIRMED for all three
+candidates (`scripts/check_C3_symsquare.py`, exact sympy, controls pass). Awaiting Deep Think
+(T0s) independent re-derivation for two-model closure. Sequence data unaffected (done).
+
+### SYMBOLIC VERIFICATION RESULT (scripts/check_C3_symsquare.py, 2026-07-18)
+
+Computed `W` (the self-adjointness / symmetric-square polynomial) for each candidate's order-3
+operator, converted from θ-form (Gorodetsky 1.7) to D-form and normalized to monic. Controls:
+Apéry a_n (known symmetric square) → `W=0`; a generic non-Cooper operator → `W≠0` (detector works).
+
+| candidate | (a,b,c,d) | W | verdict |
+|---|---|---|---|
+| s7  | (13,4,−27,3)   | 0 | symmetric square — clears `SYM2_UNVERIFIED → SYM2_SYMBOLIC` |
+| s10 | (6,2,−64,4)    | 0 | symmetric square — `SYM2_SYMBOLIC` |
+| s18 | (14,6,192,−12) | 0 | symmetric square — `SYM2_SYMBOLIC` |
+
+**→ d≠0 is fully dead as a worry.** All three order-3 operators ARE symmetric squares of
+order-2 operators.
+
+### IMPORTANT nuance — C3 is structural, not discriminating
+
+Running `W` on **symbolic** (a,b,c,d) gives `W=0` **identically**: the symmetric-square property
+is AUTOMATIC for Cooper's operator ansatz `θ³ − x(2θ+1)(aθ²+aθ+b) + x²(c(θ+1)³+d(θ+1))`. So C3
+confirms the Sym² geometric relation *exists* for every Cooper-form candidate but does **not
+discriminate** among them. **Candidate selection therefore rests on C1 (mirror integrality),
+C2 (Kodaira fibers), C3b (Shioda–Inose moduli map — the actual K3 geometry), C4, C5.** This
+explains why C3b was correctly added as the separate, load-bearing criterion.
+
+### Remaining
+- Deep Think (T0s) independent re-derivation → two-model closure (in parallel per Xavier).
+- Optional: reconstruct explicit L₂ per candidate for the record (paper appendix).
+- Optional route-2: a Lean kernel proof would upgrade `SYM2_SYMBOLIC → SYM2_PROVED`.
+- Epistemic: Sym² is a geometric/arithmetic relation only — no physics (VISION §1.3).
 
 ### RESOLUTION UPDATE (deeper fetch — Almkvist–van Straten arXiv:2103.08651)
 

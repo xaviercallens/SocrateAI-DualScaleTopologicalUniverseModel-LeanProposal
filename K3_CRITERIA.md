@@ -60,6 +60,15 @@ Template per criterion: **Definition** (mathematically exact) · **Checking proc
 - **Threshold:** route 1 pass clears `SYM2_UNVERIFIED` → `SYM2_SYMBOLIC`; route 2 kernel proof upgrades to `SYM2_PROVED`.
 - **Failure:** symbolic route fails ⇒ F1 removal *for the dual-scale role* (the candidate may remain of independent mathematical interest, outside this program's physics).
 - **Tier:** B → A on kernel proof.
+- **2026-07-18 status + structural note (symbolic route done, T0).** `scripts/check_C3_symsquare.py`
+  computes the self-adjointness polynomial `W = ⅓a₂″ + ⅔a₂a₂′ + 4⁄27 a₂³ + 2a₀ − ⅔a₁a₂ − a₁′`
+  (Almkvist–van Straten arXiv:2103.08651; a 3rd-order operator is a symmetric square of a 2nd-order
+  operator ⇔ `W=0`). Result: **s7, s10, s18 all give `W=0` → `SYM2_SYMBOLIC`** (controls pass;
+  awaiting Deep Think two-model concurrence). **However `W=0` holds *identically* for the whole
+  Cooper ansatz `θ³ − x(2θ+1)(aθ²+aθ+b) + x²(c(θ+1)³+d(θ+1))` — the Sym² property is AUTOMATIC for
+  this operator form, so C3 is STRUCTURAL, not a discriminating filter.** Real candidate selection
+  rests on C1, C2, **C3b (Shioda–Inose moduli map)**, C4, C5. C3 remains a required *consistency*
+  gate (a candidate must be writable in this self-adjoint form), not a differentiator.
 
 ### C3b — Shioda-Inose Moduli Map (new, per T0 Architecture Review; see `DUAL_SCALE_THREE_STREAM_PLAN.md` §5, `ASSUMPTIONS.md` A-SEQ/A-VOL)
 - **Definition:** for a candidate that has cleared C3 (order-3 operator L₃ = Sym²(L₂) for exhibited L₂), there exists an explicit Shioda-Inose correspondence map F relating the candidate's K3 family to the order-2 elliptic family, constructed as an algebraic relation or q-series expansion (normalization fixed at freeze — state it).

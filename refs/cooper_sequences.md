@@ -94,10 +94,26 @@ z²(c_C(θ+1)³ + d_C(θ+1))` gives the dictionary
 condition to lie on the symmetric-square main component — i.e. d≠0 does NOT obstruct the
 Sym² structure.** This favourably addresses the E-004 worry.
 
-> **Epistemic status [Tier B, UNVERIFIED].** The above is a *derivation in this repo* from the
-> two sources' formulas, checking a *necessary* condition (−d_C/c_C a perfect square), NOT the
-> full `W=0` verification and NOT kernel-checked. Per the two-model rule it must be confirmed
-> by (a) a symbolic `W=0` computation per candidate, and (b) an independent Deep Think (T0s)
-> re-derivation (running in parallel as of 2026-07-18). The Sym² relation, if confirmed, is a
-> **geometric/arithmetic** relation only — it implies no physical coupling (VISION §1.3).
-> See `briefs/ESCALATIONS.md` E-004.
+**Symbolic `W=0` verification (2026-07-18, `scripts/check_C3_symsquare.py`, exact sympy):**
+`W` computed for each candidate's order-3 operator (θ-form → D-form → monic). Controls pass
+(Apéry a_n → `W=0`; generic non-Cooper operator → `W≠0`).
+
+| candidate | (a,b,c,d) | W | verdict |
+|---|---|---|---|
+| s7  | (13,4,−27,3)   | **0** | symmetric square → `SYM2_SYMBOLIC` |
+| s10 | (6,2,−64,4)    | **0** | symmetric square → `SYM2_SYMBOLIC` |
+| s18 | (14,6,192,−12) | **0** | symmetric square → `SYM2_SYMBOLIC` |
+
+**All three order-3 operators ARE symmetric squares. The d≠0 worry (E-004) is fully dead.**
+
+> **Correction to the perfect-square note above.** That `(α−1)²=−d/c` check matched only the
+> x²-term and is NOT the real criterion. The direct `W=0` computation shows `W=0` holds
+> **identically for the entire Cooper ansatz** (symbolic a,b,c,d): the symmetric-square property
+> is **automatic** for this operator form. So C3 confirms the Sym² geometric relation *exists*
+> but does **not discriminate** among Cooper-form candidates — selection rests on
+> C1/C2/**C3b**/C4/C5.
+>
+> **Epistemic status [Tier B, symbolic].** Verified by sympy (not a Lean kernel proof;
+> route-2 kernel proof would upgrade → `SYM2_PROVED`). Two-model closure pending Deep Think
+> (T0s) independent re-derivation (running in parallel). Sym² is a geometric/arithmetic
+> relation only — it implies no physical coupling (VISION §1.3). See `briefs/ESCALATIONS.md` E-004.
