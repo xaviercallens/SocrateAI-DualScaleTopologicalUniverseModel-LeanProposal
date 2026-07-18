@@ -111,4 +111,22 @@ def s10_params : CooperRecurrenceParams := ⟨6, 2, -64, 4⟩
 def s10 (n : ℕ) : ℕ :=
   ∑ k ∈ Finset.range (n + 1), (n.choose k) ^ 4
 
+-- ╔════════════════════════════════════════════════════════════════════╗
+-- ║  §4. COOPER'S s18                                                   ║
+-- ║  Third Cooper sequence. Added 2026-07-18 after primary-source fetch ║
+-- ║  (resolves E-001 PENDING_ENCODING). Encoded via its recurrence      ║
+-- ║  parameters + golden values, NOT the closed form (see caveat).      ║
+-- ╚════════════════════════════════════════════════════════════════════╝
+
+/-- Recurrence parameters for Cooper's s18: (a, b, c, d) = (14, 6, 192, −12).
+    -- Source: O. Gorodetsky, arXiv:2102.11839 v2 (5 Jan 2025), p.3 Cooper table
+    (SHA256 pinned in refs/cooper_sequences.md). Cross-ref: Cooper (2012),
+    Ramanujan J. 29, Table 1; Malik–Straub arXiv:1508.00297.
+    NOTE: unlike s7/s10, no verified closed-form `s18 : ℕ → ℕ` is provided here —
+    a direct transcription of the p.3 closed form disagreed with the recurrence
+    at n=3 (ℕ-truncated vs signed binomial edge-cases). s18 is therefore
+    represented by its (sourced) parameters plus recurrence-validated golden
+    values in Tests/; a verified closed form is deferred follow-on work. -/
+def s18_params : CooperRecurrenceParams := ⟨14, 6, 192, -12⟩
+
 end Agora.Sequences

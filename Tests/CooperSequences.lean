@@ -51,4 +51,37 @@ theorem s7_golden_test :
 theorem s10_golden_test :
     (List.range 20).map s10 = s10_golden := by native_decide
 
+-- ╔════════════════════════════════════════════════════════════════════╗
+-- ║  s18 — golden values + recurrence-satisfaction check                ║
+-- ║  s18 has no verified closed form here; instead we pin its values    ║
+-- ║  (computed from the SOURCED params by exact integer arithmetic) and ║
+-- ║  kernel-check that they satisfy Cooper's s18 recurrence. This ties  ║
+-- ║  the sourced (14,6,192,−12) params to concrete integers directly.   ║
+-- ╚════════════════════════════════════════════════════════════════════╝
+
+/-- s18(n) for n = 0..9, from the sourced recurrence (Gorodetsky p.3,
+    params (14,6,192,−12)); every recurrence step divided exactly.
+    -- Source: refs/cooper_sequences.md (arXiv:2102.11839 v2, SHA-pinned). -/
+def s18_golden : List ℤ :=
+  [1, 6, 54, 564, 6390, 76356, 948276, 12132504, 158984694, 2124923460]
+
+/-- Recurrence-residual check at index `n` given three consecutive values
+    `um1 = u(n−1)`, `u = u(n)`, `up1 = u(n+1)`, for Cooper's s18 params
+    (14, 6, 192, −12): returns `true` iff the recurrence holds exactly. -/
+def s18RecOK (n : ℕ) (um1 u up1 : ℤ) : Bool :=
+  ((n : ℤ) + 1) ^ 3 * up1 ==
+    (2 * (n : ℤ) + 1) * (14 * (n : ℤ) ^ 2 + 14 * n + 6) * u
+      - (n : ℤ) * (192 * (n : ℤ) ^ 2 - 12) * um1
+
+/-- The s18 golden values satisfy Cooper's recurrence at every index n = 1..8
+    (each index whose neighbours are both in the pinned list). A kernel proof
+    here validates that the pinned values are consistent with the SOURCED
+    parameters `s18_params = (14,6,192,−12)` — no closed form needed. -/
+theorem s18_golden_satisfies_recurrence :
+    (List.range 8).all
+      (fun i => s18RecOK (i + 1)
+        (s18_golden.getD i 0) (s18_golden.getD (i + 1) 0) (s18_golden.getD (i + 2) 0))
+      = true := by
+  decide
+
 end Agora.Sequences.Tests

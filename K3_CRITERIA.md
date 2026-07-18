@@ -16,7 +16,7 @@
 |---|---|---|---|---|
 | K-s7 | Cooper s7 | Cooper (2012) Ramanujan J. 29 Table 1, params (13,4,−27,3); encoded `Agora/Sequences/CooperRecurrences.lean` | TBD (S1-04, exhibit L₂ or open goal) | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
 | K-s10 | Cooper s10 | Cooper (2012) Table 1, params (6,2,−64,4); encoded same file | TBD (S1-04) | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
-| K-s18 | Cooper s18 | **PENDING_ENCODING** — fetch (a,b,c,d) from Cooper (2012) Table 1 (not recalled) | TBD (S1-04) | `PENDING_ENCODING`, `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
+| K-s18 | Cooper s18 | Gorodetsky arXiv:2102.11839 v2 p.3, params (14,6,192,−12); encoded `Agora/Sequences/CooperRecurrences.lean` (`s18_params`), values kernel-validated in `Tests/` | TBD (S1-04) | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
 | ~~K-S22~~ | ~~Cooper S22~~ | **DROPPED 2026-07-18** — uncitable (E-001) | — | `DROPPED` |
 | ~~K-t103~~ | ~~t103~~ | **DROPPED 2026-07-18** — uncitable; "AESZ 103" is order-4 CY3, category error (E-001) | — | `DROPPED` |
 

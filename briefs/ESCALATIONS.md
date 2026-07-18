@@ -163,6 +163,56 @@ than implicitly).
 
 ---
 
+## E-004: C3 (Sym²) structure for Cooper's d≠0 operators — needs T0s derivation
+
+**Filed by:** Opus 4.8 (T0), during primary-source fetch for S1-04
+**Date:** 2026-07-18
+**Status:** OPEN — blocks the *operator-level* C3 encoding in S1-04 (not the sequence
+data, which is done). Recommend routing to T0s (Deep Think) or fetching Cooper (2012) §5–7.
+
+### What the primary source establishes (Gorodetsky arXiv:2102.11839, p.1–3)
+
+The symmetric-square structure for these sequences lives in the **θ-operator (Picard-Fuchs)
+form**, θ = z d/dz:
+- Order-3 (Cooper, eq. 1.7): `θ³ − z(2θ+1)(aθ²+aθ+b) + z²(c(θ+1)³ + d(θ+1))`.
+- Order-2 (Zagier, eq. 1.6): `θ² − z(Aθ²+Aθ+λ) + Bz²(θ+1)²`.
+- For the **d = 0** (Almkvist–Zudilin) case, the order-3 g.f. is *essentially the square* of
+  the order-2 Zagier g.f., via the parameter map `(a,b,c) = (A, A−2λ, A²−4B)`.
+  (Verified from the paper: Zagier F (17,72,6)→(17,5,1)=a_n; Zagier D (11,−1,3)→(11,5,125)=(η).)
+
+### The problem
+
+All three Cooper candidates have **d ≠ 0** (s7: d=3, s10: d=4, s18: d=−12). The clean
+symmetric-square map above is the d=0 case. **Whether Cooper's d≠0 order-3 operators are
+symmetric squares of order-2 operators — and how the `d` term is absorbed — is exactly what
+criterion C3 asks, and this source does not resolve it.**
+
+Two consequences for the S1-04 design:
+1. `Agora/SymSquare.lean`'s `symSquare` is written in the **D = d/dt** form. It is a valid
+   *general* definition (kernel-validated by golden tests), but the candidate operators
+   naturally arrive in **θ-operator** form. Bridging the two needs either a variable-change
+   derivation or a θ-form redesign of `symSquare` — a T0 design choice informed by (2).
+2. The honest C3 check for a Cooper candidate is most likely a **parameter-map** statement
+   (does (a,b,c,d) arise as the Sym² of some order-2 (A,B,λ)?), not naive operator equality.
+   The d≠0 generalization of `(a,b,c)=(A,A−2λ,A²−4B)` must come from Cooper's own construction.
+
+### Requested resolution (do NOT improvise the mathematics — CLAUDE.md)
+
+- **T0s (Deep Think)** or a fetch of **Cooper (2012), Ramanujan J. 29, §5–7** (the geometry
+  sections, refs [45][55] in Gorodetsky) to obtain: (a) the explicit order-2 L₂ for each
+  Cooper candidate, or (b) the d≠0 symmetric-square correspondence, or (c) a proof that a
+  given candidate is NOT a symmetric square (→ F1 for that candidate's dual-scale role).
+- Until resolved, S1-04's per-candidate `sym2_<candidate>` stays a **named open goal**; do not
+  assert operator equality against an unverified L₂.
+
+### Not blocking
+
+Sequence-level work is done: s7/s10 confirmed, s18 encoded + kernel-validated. This
+escalation concerns only the operator/Sym² layer (criterion C3), which was always the
+substantive mathematical content.
+
+---
+
 ## E-003: Local-disk data-loss incident during cross-session disk migration
 
 **Filed by:** Claude (Sonnet 5 tier)  
