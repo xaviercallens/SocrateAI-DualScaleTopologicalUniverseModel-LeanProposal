@@ -325,6 +325,94 @@ event: a claimed kernel-green main that does not build.
 
 ---
 
+## E-006: WP S1-08 (generic W≡0 kernel proof) hits E-04b — RatFunc has no derivative at the pinned Mathlib commit
+
+**Filed by:** Claude (Sonnet 5 tier, T1), WP S1-08 first attempt  
+**Date:** 2026-07-18  
+**Status:** OPEN — escalated per E-04b (`briefs/S1-04.md` §4), not improvised.
+
+### What was attempted (bounded, per lean-proof-workflow three-strikes discipline)
+
+WP S1-08 (Deep Think directive, adopted in E-004's resolution): formalize `W ≡ 0` for the
+generic Cooper ansatz in Lean, one kernel proof upgrading s7/s10/s18 to `SYM2_PROVED`. The
+formula (Almkvist–van Straten, arXiv:2103.08651): for a monic 3rd-order operator
+`D³ + a2·D² + a1·D + a0`,
+
+```
+W = (1/3)a2'' + (2/3)a2·a2' + (4/27)a2³ + 2a0 − (2/3)a1·a2 − a1'
+```
+
+`scripts/check_C3_symsquare.py` (S1-04, sympy) establishes `W=0` by taking the Cooper
+θ-operator, converting to D-form, and setting `a2 = p2/p3`, `a1 = p1/p3`, `a0 = p0/p3`
+(monic normalization — genuine division).
+
+**Before writing any Lean**, I derived the D-form coefficients from the already-landed
+`cooperThetaOperator_eq` (`Agora/Sequences/ThetaOperators.lean`) using the substitution
+`θ³=z³D³+3z²D²+zD`, `θ²=z²D²+zD`, `θ=zD` (the same non-commutative expansion Deep Think's
+review confirmed), and computed `a2` symbolically (sympy, exact):
+
+```
+a2 = 3·(1 − 3az + 2cz²) / [z·(1 − 2az + cz²)]
+```
+
+**This confirms E-04b's anticipated trap concretely, not hypothetically**: `a2` has a
+genuine pole at `z = 0` (from the θ→D conversion itself, independent of the
+`1−2az+cz²` factor already known from `cooperThetaOperator_eq`). `RatFunc (Polynomial ℚ)`
+is unavoidable for this statement — no algebraic rearrangement of the *existing* encoding
+removes the division.
+
+**Second check before escalating:** does Mathlib (pinned commit) give `RatFunc` a
+derivative for free? `grep -rl "derivative" Mathlib/FieldTheory/RatFunc/` — **no hits**.
+`RatFunc` has field structure but no differential-calculus API at this pin. Building one
+(quotient rule + well-definedness independent of numerator/denominator representative)
+is itself nontrivial Lean infrastructure work, not a one-line `import`.
+
+### Why this stops here (not a T1 workaround)
+
+Per `briefs/S1-04.md` E-04b: *"monic-normalization of L3_X introduces genuine
+rational-function coefficients (needs RatFunc ℚ, not Polynomial ℚ). This changes the API
+type — a T0 ruling, not a T2 workaround."* Two live options, both requiring a T0 call
+(CLAUDE.md rule 6 — don't silently weaken the statement; E-04c — don't reformulate C3-type
+identities to dodge the difficulty):
+
+**Option A — build `RatFunc (Polynomial ℚ)` derivative infrastructure.**
+Faithful to the literature statement (matches `check_C3_symsquare.py` exactly: divide,
+then differentiate). Cost: define `deriv : RatFunc (Polynomial ℚ) → RatFunc (Polynomial ℚ)`
+via the quotient rule on a representative, prove independence of representative (the
+standard `RatFunc.liftOn`/`RatFunc.induction_on` machinery should carry this, but it's a
+self-contained sub-development, not a lemma). Scope: probably 100–300 lines. Reusable if
+Stream 1 ever needs rational-function calculus again.
+
+**Option B — reformulate as a cleared-denominator polynomial identity.**
+Multiply the W-expression through by a fixed power of the leading coefficient
+`p3 = z³(1−2az+cz²)` (nonzero by `cooper_leadCoeff_ne_zero`, already proved) to get a
+`Polynomial ℚ`-valued identity whose vanishing is equivalent to `W=0` (since `Polynomial ℚ`
+is an integral domain and `p3 ≠ 0`). Cheaper to formalize (`ring`/`compute_degree!` after
+clearing), stays inside the existing `Polynomial ℚ` toolkit. **Risk, why I am not doing
+this myself:** getting the cleared power wrong, or mis-deriving the clearing identity,
+silently produces a DIFFERENT statement that happens to kernel-check — the exact E-04c
+failure mode ("tempted to state C3 as anything weaker... to make it provable"). This
+needs either T0 derivation of the exact cleared identity, or Deep Think (T0s) sign-off
+that a specific cleared form is mathematically equivalent to the literature `W=0`
+criterion, the same two-model discipline used for E-004.
+
+### My recommendation (T1, non-binding)
+
+**Option A**, despite the higher line count: it reuses Mathlib's own quotient-rule
+patterns (likely close to what `deriv` does for `Polynomial.derivative`-based rational
+functions elsewhere in Mathlib — worth a targeted search before starting), stays
+literally faithful to the cited paper's statement (no re-derivation risk), and is
+general-purpose infrastructure rather than a one-off proof trick. But this is a genuine
+cost/risk tradeoff a T1 session should not decide unilaterally per E-04b.
+
+### Not blocking
+
+S1-07 (E-002 discharge) and the two-model `SYM2_SYMBOLIC` status (E-004) are unaffected —
+this escalation only concerns the ROUTE-2 upgrade to `SYM2_PROVED`. Candidates remain at
+`SYM2_SYMBOLIC`, which is the current two-model-signed status per Deep Think's review.
+
+---
+
 ## E-003: Local-disk data-loss incident during cross-session disk migration
 
 **Filed by:** Claude (Sonnet 5 tier)  
