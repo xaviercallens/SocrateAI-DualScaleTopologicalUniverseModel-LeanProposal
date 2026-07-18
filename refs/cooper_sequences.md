@@ -52,8 +52,52 @@ validation, since integrality is the defining property of a sporadic sequence.
 - p.3: the Almkvist–Zudilin (d=0) order-3 g.f.s are **essentially squares** of the
   corresponding Zagier order-2 g.f.s, via the parameter map `(a,b,c) = (A, A−2λ, A²−4B)`.
   Verified here: Zagier F `(17,72,6) → (17,5,1)` = a_n; Zagier D `(11,−1,3) → (11,5,125)` = (η). ✓
-- **Open structural question (feeds C3, flagged to T0s):** Cooper's three candidates all have
-  **d ≠ 0** (s7:3, s10:4, s18:−12). The clean AZ↔Zagier symmetric-square map is the d=0 case.
-  Whether Cooper's d≠0 order-3 operators are symmetric squares of order-2 operators — and in
-  what generalized sense the `d` term is absorbed — is exactly criterion C3's content and is
-  **not resolved by this source**. See `briefs/ESCALATIONS.md` E-004.
+### C3 criterion + d≠0 resolution — Almkvist–van Straten (arXiv:2103.08651)
+
+**Second primary source (fetched 2026-07-18):** G. Almkvist, D. van Straten, *Calabi-Yau
+operators of degree two*, arXiv:**2103.08651** v1 (15 Mar 2021). PDF SHA256
+`549c176daa7eb5605b09a6894a8e5a9cbe94c015ef6e7dcb87650ceef4e7cfec`. "Degree two" = 3-term
+recurrence = exactly Cooper's setting. Read from pages 1–8.
+
+**The symmetric-square criterion (p.4–5), the honest computable C3 check.** A third-order
+operator `y‴ + a₂y″ + a₁y′ + a₀y` is (essentially self-adjoint ⇔) a **symmetric square of a
+second-order operator** iff the differential polynomial vanishes:
+
+```
+W := (1/3)a₂″ + (2/3)a₂ a₂′ + (4/27)a₂³ + 2a₀ − (2/3)a₁a₂ − a₁′  =  0
+```
+
+This replaces "guess L₂ and check equality" with a **direct, non-vacuous, per-candidate
+symbolic check** on the order-3 operator's own coefficients. Recommended as the S1-04 / C3
+checker basis.
+
+**Main component (p.7) — self-adjoint order-3 degree-2 operators — INCLUDES d≠0.** The locus
+of symmetric-square operators is parametrised (their notation a,b,c,d,e,f,α; note b=2(c−d)) as
+
+```
+(m):  θ³ + x(2θ+1)((c−2d)θ² + (c−2d)θ + d) + f x²(θ+α)(θ+1)(θ+2−α)
+```
+
+Matching this to Cooper's operator (Gorodetsky 1.7) `θ³ − z(2θ+1)(a_C θ²+a_C θ+b_C) +
+z²(c_C(θ+1)³ + d_C(θ+1))` gives the dictionary
+`a_C = c−2d`, `b_C = d`, `c_C = f`, `d_C = −f(α−1)²`, hence **(α−1)² = −d_C/c_C**.
+
+**Necessary-condition check for our candidates (this repo, exact arithmetic):**
+
+| cand | (a_C,b_C,c_C,d_C) | (α−1)² = −d_C/c_C | perfect square? | α |
+|---|---|---|---|---|
+| s7  | (13,4,−27,3)   | 1/9  | ✓ | 2/3 or 4/3 |
+| s10 | (6,2,−64,4)    | 1/16 | ✓ | 3/4 or 5/4 |
+| s18 | (14,6,192,−12) | 1/16 | ✓ | 3/4 or 5/4 |
+
+α matches the known characteristic exponents at ∞. **All three satisfy the necessary
+condition to lie on the symmetric-square main component — i.e. d≠0 does NOT obstruct the
+Sym² structure.** This favourably addresses the E-004 worry.
+
+> **Epistemic status [Tier B, UNVERIFIED].** The above is a *derivation in this repo* from the
+> two sources' formulas, checking a *necessary* condition (−d_C/c_C a perfect square), NOT the
+> full `W=0` verification and NOT kernel-checked. Per the two-model rule it must be confirmed
+> by (a) a symbolic `W=0` computation per candidate, and (b) an independent Deep Think (T0s)
+> re-derivation (running in parallel as of 2026-07-18). The Sym² relation, if confirmed, is a
+> **geometric/arithmetic** relation only — it implies no physical coupling (VISION §1.3).
+> See `briefs/ESCALATIONS.md` E-004.

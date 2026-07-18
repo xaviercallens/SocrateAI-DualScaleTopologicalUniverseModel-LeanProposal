@@ -167,8 +167,33 @@ than implicitly).
 
 **Filed by:** Opus 4.8 (T0), during primary-source fetch for S1-04
 **Date:** 2026-07-18
-**Status:** OPEN — blocks the *operator-level* C3 encoding in S1-04 (not the sequence
-data, which is done). Recommend routing to T0s (Deep Think) or fetching Cooper (2012) §5–7.
+**Status:** **CANDIDATE RESOLUTION 2026-07-18** (deeper fetch found the criterion). Awaiting
+two-model confirmation: symbolic `W=0` per candidate + Deep Think (T0s) re-derivation (running
+in parallel). Sequence data unaffected (done).
+
+### RESOLUTION UPDATE (deeper fetch — Almkvist–van Straten arXiv:2103.08651)
+
+The fetch found the exact theory. Two results (see `refs/cooper_sequences.md` for detail):
+
+1. **Computable C3 criterion (self-adjointness).** A third-order operator is a symmetric
+   square of a second-order operator **iff** `W = (1/3)a₂″ + (2/3)a₂a₂′ + (4/27)a₂³ + 2a₀ −
+   (2/3)a₁a₂ − a₁′ = 0`. This is the honest per-candidate check — no need to guess L₂ (which
+   was the whole difficulty). **Recommend rebasing the S1-04 C3 check on `W=0`.**
+
+2. **d≠0 does NOT obstruct.** The paper's symmetric-square "main component" (p.7) explicitly
+   includes d≠0 operators and has exactly Cooper's shape. Matching gives `(α−1)² = −d_C/c_C`;
+   for all three candidates this is a perfect square (s7:1/9, s10,s18:1/16 → α = 2/3, 3/4, 3/4),
+   the necessary condition to lie on the main component. So the E-004 core worry ("d≠0 breaks
+   Sym²") is **likely a non-issue**.
+
+**Still required before clearing SYM2_UNVERIFIED (two-model rule, do NOT skip):**
+- (a) Compute `W` symbolically for each candidate's order-3 operator and confirm `W=0` exactly
+  (this is the sufficient check, not just the perfect-square necessary condition).
+- (b) Independent Deep Think (T0s) re-derivation — running in parallel per Xavier.
+- (c) Then reconstruct the explicit L₂ for the record (paper's appendix; `symSquare` may be
+  redesigned to θ-form, or the C3 check may bypass L₂ entirely via `W=0`).
+
+Until (a)+(b) agree, per-candidate `sym2_<candidate>` stays a named open goal.
 
 ### What the primary source establishes (Gorodetsky arXiv:2102.11839, p.1–3)
 
