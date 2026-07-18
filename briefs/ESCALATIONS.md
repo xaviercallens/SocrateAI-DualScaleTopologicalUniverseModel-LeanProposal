@@ -167,9 +167,12 @@ than implicitly).
 
 **Filed by:** Opus 4.8 (T0), during primary-source fetch for S1-04
 **Date:** 2026-07-18
-**Status:** **RESOLVED (symbolic) 2026-07-18.** `W=0` computed and CONFIRMED for all three
-candidates (`scripts/check_C3_symsquare.py`, exact sympy, controls pass). Awaiting Deep Think
-(T0s) independent re-derivation for two-model closure. Sequence data unaffected (done).
+**Status:** **CLOSED 2026-07-18 (two-model).** `W=0` computed and CONFIRMED for all three
+candidates (`scripts/check_C3_symsquare.py`, exact sympy, controls pass). Deep Think (T0s)
+independent re-derivation CONCURS — see `adversarial/S1-04_C3_deepthink_review.md` and the
+T0 adjudication recorded there. `SYM2_SYMBOLIC` is two-model signed for s7/s10/s18;
+`SYM2_PROVED` still requires the route-2 Lean kernel proof (WP S1-08). Sequence data
+unaffected (done).
 
 ### SYMBOLIC VERIFICATION RESULT (scripts/check_C3_symsquare.py, 2026-07-18)
 
@@ -196,9 +199,14 @@ C2 (Kodaira fibers), C3b (Shioda–Inose moduli map — the actual K3 geometry),
 explains why C3b was correctly added as the separate, load-bearing criterion.
 
 ### Remaining
-- Deep Think (T0s) independent re-derivation → two-model closure (in parallel per Xavier).
-- Optional: reconstruct explicit L₂ per candidate for the record (paper appendix).
-- Optional route-2: a Lean kernel proof would upgrade `SYM2_SYMBOLIC → SYM2_PROVED`.
+- ~~Deep Think (T0s) independent re-derivation → two-model closure~~ **DONE 2026-07-18**
+  (`adversarial/S1-04_C3_deepthink_review.md` — concurrence on all §6 checklist items).
+- Reconstruct explicit L₂ per candidate: **now the C3b work** (S2-01b). NOTE — no explicit
+  L₂ has been *exhibited* for any candidate; only existence via `W=0` is established.
+  Nothing downstream may cite an explicit L₂ until C3b constructs it (T0 correction to the
+  reviewer memo's "verified order-2 partners" phrasing).
+- Route-2 Lean kernel proof of the generic `W ≡ 0` identity → `SYM2_PROVED` for the whole
+  family: adopted as **WP S1-08**.
 - Epistemic: Sym² is a geometric/arithmetic relation only — no physics (VISION §1.3).
 
 ### RESOLUTION UPDATE (deeper fetch — Almkvist–van Straten arXiv:2103.08651)
