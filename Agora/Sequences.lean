@@ -5,3 +5,4 @@
 
 import Agora.Sequences.CooperRecurrences
 import Agora.Sequences.Integrality
+import Agora.SymSquare

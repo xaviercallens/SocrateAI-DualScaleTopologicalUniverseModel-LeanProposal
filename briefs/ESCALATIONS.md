@@ -9,8 +9,27 @@ T0-owned: write an escalation note here instead of improvising the mathematics."
 
 **Filed by:** Claude (Sonnet 5 tier), WP S1-02  
 **Date:** 2026-07-17  
-**Status:** OPEN — blocks K3_CRITERIA.md candidate register rows K-S22, K-t103; blocks
-their inclusion in Agora/Sequences/CooperRecurrences.lean.
+**Status:** **RESOLVED 2026-07-18** by T0 (Opus 4.8) under delegated authority from Xavier
+("review the best options and take decision on my behalf"). See resolution below.
+
+### RESOLUTION (T0, 2026-07-18)
+
+**Decision: DROP K-S22 and K-t103.** They are not citable in the sporadic-sequence
+literature after a documented multi-source search, and K3_CRITERIA.md's own pre-committed
+rule is binding: *"a candidate without a citable defining recurrence at freeze time is
+dropped, not guessed."* The "t103 = AESZ 103" hypothesis is explicitly **not** acted on —
+AESZ 103 is a fourth-order CY3 operator, not an order-3 K3 operator; encoding it would be a
+category error and a violation of the anti-hallucination protocol.
+
+**Companion decision: ADD K-s18** (Cooper's genuine third sequence) as an approved
+candidate, flagged `PENDING_ENCODING` until its (a,b,c,d) parameters are fetched from
+Cooper (2012) Table 1 (fetched, not recalled). Rationale: restores a meaningful ≥3-candidate
+ranking pool using a legitimate, citable substitute rather than a guess. s18 does NOT block
+S1-04, which proceeds on {s7, s10} now.
+
+**Active candidate register → {s7, s10, s18-pending}.** Recorded as an explicit amendment in
+`K3_CRITERIA.md` §1 (still SKELETON v0.1 — this resolves TBD rows, it is not itself a freeze).
+Xavier retains phase-gate override per EXECUTION_PLAN §6.5.
 
 ### What was attempted
 
@@ -80,8 +99,21 @@ without a recorded decision — recommend an explicit amendment entry either way
 
 **Filed by:** Claude (Sonnet 5 tier), discovered during WP S1-02  
 **Date:** 2026-07-17  
-**Status:** OPEN — informational, not blocking S1-02, but blocks honest S1-04/S1-05
-work if left uncorrected.
+**Status:** **RESOLVED (decision) 2026-07-18** by T0 (Opus 4.8). See resolution below.
+
+### RESOLUTION (T0, 2026-07-18)
+
+**Decision: approve WP S1-07 (retire vacuous Theorem-1 axioms), sequenced AFTER S1-04.**
+The correct replacement for `empirical_s7_degree`/`empirical_S12_degree` is genuine operator
+content, which S1-04's `symSquare` machinery (`Agora/SymSquare.lean`, now landed and
+kernel-validated) produces. `IsSymSquareOf` was deliberately designed as a *concrete
+coefficient identity* precisely to avoid this vacuity mode — so S1-07 rebuilds Theorem 1 on
+`DiffOp3`/`symSquare` data rather than on `∃ P, P.natDegree = 3`.
+
+**Interim honesty (done now):** the vacuity is recorded explicitly in `AXIOMS.md` as a known,
+tracked gap (F6 discipline — a known weakness is disclosed, not left implicit), rather than
+waiting for S1-07 to land. No new claim may cite `theorem1_holds`/`dual_scale_classification`
+as non-vacuous until S1-07 discharges it.
 
 ### Finding
 

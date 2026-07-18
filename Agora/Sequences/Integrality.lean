@@ -72,43 +72,33 @@ def s7_int : ℕ → ℤ := fun n => (s7 n : ℤ)
 /-- Coercion of s10 from ℕ → ℕ to ℕ → ℤ for recurrence verification. -/
 def s10_int : ℕ → ℤ := fun n => (s10 n : ℤ)
 
-/-- s7 (as integers) satisfies the Cooper recurrence for n = 1.
-    Verification: direct computation via native_decide.
-    (n+1)³ u(n+1) = (2n+1)(an² + an + b)u(n) − n(cn² + d)u(n−1)
-    with (a, b, c, d) = (13, 4, −27, 3).
+/-- s7 (as integers) satisfies the Cooper recurrence at n = 1 — the base
+    verification, kernel-checked. The full ∀ n ≥ 1 statement is NOT claimed here
+    (it is the named open goal `open_goal_recurrence_s7` in OpenGoals/, pending a
+    formalized WZ certificate); stating it with a `sorry` on `main` is forbidden,
+    so only the discharged n = 1 instance lives in this file.
     -- Source: Cooper (2012), Table 1; Gorodetsky (2023), arXiv:2102.11839. -/
-theorem s7_recurrence_n1 : SatisfiesCooperRecurrence s7_int s7_params := by
-  intro n hn
-  -- For n=1, verify the recurrence exactly
-  match n with
-  | 1 => decide
-  | n + 2 => sorry -- Open goal: s7_recurrence_induction (see OpenGoals/)
+theorem s7_recurrence_at_one :
+    ((1 : ℤ) + 1) ^ 3 * s7_int (1 + 1) =
+      (2 * (1 : ℤ) + 1) * (s7_params.a * 1 ^ 2 + s7_params.a * 1 + s7_params.b) * s7_int 1
+        - (1 : ℤ) * (s7_params.c * 1 ^ 2 + s7_params.d) * s7_int (1 - 1) := by
+  decide
 
-/-- s10 (as integers) satisfies the Cooper recurrence for n = 1.
-    Verification: direct computation via native_decide.
+/-- s10 (as integers) satisfies the Cooper recurrence at n = 1 — base
+    verification, kernel-checked. Full ∀ n statement is the open goal
+    `open_goal_recurrence_s10` in OpenGoals/.
     -- Source: Cooper (2012), Table 1; Gorodetsky (2023), arXiv:2102.11839. -/
-theorem s10_recurrence_n1 : SatisfiesCooperRecurrence s10_int s10_params := by
-  intro n hn
-  match n with
-  | 1 => decide
-  | n + 2 => sorry -- Open goal: s10_recurrence_induction (see OpenGoals/)
+theorem s10_recurrence_at_one :
+    ((1 : ℤ) + 1) ^ 3 * s10_int (1 + 1) =
+      (2 * (1 : ℤ) + 1) * (s10_params.a * 1 ^ 2 + s10_params.a * 1 + s10_params.b) * s10_int 1
+        - (1 : ℤ) * (s10_params.c * 1 ^ 2 + s10_params.d) * s10_int (1 - 1) := by
+  decide
 
 -- ╔════════════════════════════════════════════════════════════════════╗
--- ║  §4. GROWTH BOUNDS (OPTIONAL, FOR COMPLEXITY ANALYSIS)             ║
+-- ║  §4. GROWTH BOUNDS                                                 ║
+-- ║  The polynomial-growth statements are open goals, not partial      ║
+-- ║  results — see `open_goal_s7_growth`/`open_goal_s10_growth` in      ║
+-- ║  OpenGoals/. Nothing provable in closed form is asserted here.     ║
 -- ╚════════════════════════════════════════════════════════════════════╝
-
-/-- s7 grows polynomially: ∃ c, ∀ n, s7(n) ≤ c · n^k for some fixed k.
-    (Precise bound depends on analytic properties; stated here for reference.)
-    -- Source: Cooper (2012), asymptotic analysis of sporadic sequences. -/
-theorem s7_polynomial_growth : ∃ c k : ℕ, ∀ n : ℕ,
-    s7 n ≤ c * (n + 1) ^ k := by
-  sorry -- Open goal: s7_growth_constant (see OpenGoals/)
-
-/-- s10 grows polynomially: ∃ c, ∀ n, s10(n) ≤ c · n^k.
-    Note: s10 is more tightly bounded than s7 (Yang–Zudilin numbers).
-    -- Source: Cooper (2012), asymptotic analysis. -/
-theorem s10_polynomial_growth : ∃ c k : ℕ, ∀ n : ℕ,
-    s10 n ≤ c * (n + 1) ^ k := by
-  sorry -- Open goal: s10_growth_constant (see OpenGoals/)
 
 end Agora.Sequences

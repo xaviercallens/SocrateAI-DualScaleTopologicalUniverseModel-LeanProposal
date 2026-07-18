@@ -18,9 +18,29 @@ This file maintains a complete, auditable inventory of all non-standard assumpti
 
 ## Current Inventory
 
-### Axioms — Total Count: **0**
+### Axioms — Total Count: **0** (in `Axioms/`)
 
-*(Empty as of Phase 0 scaffold.)*
+*(Empty as of Phase 0 scaffold — no axioms in the quarantined `Axioms/` directory.)*
+
+### Known tracked gap — pre-existing vacuous axioms (E-002)
+
+> **Disclosed 2026-07-18 (T0, F6 discipline).** `Agora/Geometry/FTheoryFibration.lean`
+> (pre-existing, currently on `main`) contains two axioms that are **vacuously true** and do
+> not encode the data their docstrings claim:
+>
+> ```
+> axiom empirical_S12_degree : ∃ P : Polynomial ℚ, P.natDegree = 2 ∧ P.natDegree ≥ 1
+> axiom empirical_s7_degree  : ∃ P : Polynomial ℚ, P.natDegree = 3 ∧ P.natDegree ≥ 1
+> ```
+>
+> `P = X²` and `P = X³` satisfy these trivially, referencing no actual S₁,₂ / Cooper-s7 data.
+> `theorem1_holds` / `dual_scale_classification` / `DualScaleMaster.lean` inherit this
+> vacuity. **These are NOT counted in the budget above** (they live outside `Axioms/` and
+> predate the hook) but are recorded here so no downstream claim treats them as content.
+>
+> **Discharge plan:** WP **S1-07** (approved 2026-07-18, sequenced after S1-04) replaces them
+> with genuine `DiffOp3`/`symSquare` operator content from `Agora/SymSquare.lean`. Until then,
+> no prose may cite Theorem 1 as a non-vacuous result. See `briefs/ESCALATIONS.md` E-002.
 
 ---
 

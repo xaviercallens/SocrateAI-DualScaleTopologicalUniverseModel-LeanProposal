@@ -14,12 +14,21 @@
 
 | ID | Sequence / family | Defining recurrence (source) | Order-2 partner claimed | Initial flags |
 |---|---|---|---|---|
-| K-s7 | Cooper s7 | TBD-AT-FREEZE: cite exact recurrence + paper/eqn | TBD-AT-FREEZE | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
-| K-s10 | Cooper s10 | TBD-AT-FREEZE | TBD-AT-FREEZE | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
-| K-S22 | Cooper S22 | TBD-AT-FREEZE | TBD-AT-FREEZE | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
-| K-t103 | t103 | TBD-AT-FREEZE | TBD-AT-FREEZE | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
+| K-s7 | Cooper s7 | Cooper (2012) Ramanujan J. 29 Table 1, params (13,4,−27,3); encoded `Agora/Sequences/CooperRecurrences.lean` | TBD (S1-04, exhibit L₂ or open goal) | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
+| K-s10 | Cooper s10 | Cooper (2012) Table 1, params (6,2,−64,4); encoded same file | TBD (S1-04) | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
+| K-s18 | Cooper s18 | **PENDING_ENCODING** — fetch (a,b,c,d) from Cooper (2012) Table 1 (not recalled) | TBD (S1-04) | `PENDING_ENCODING`, `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
+| ~~K-S22~~ | ~~Cooper S22~~ | **DROPPED 2026-07-18** — uncitable (E-001) | — | `DROPPED` |
+| ~~K-t103~~ | ~~t103~~ | **DROPPED 2026-07-18** — uncitable; "AESZ 103" is order-4 CY3, category error (E-001) | — | `DROPPED` |
 
 *Rule: a candidate without a citable defining recurrence at freeze time is dropped, not guessed.*
+
+> **2026-07-18 candidate-register amendment (T0, Opus 4.8, delegated authority).** Resolving
+> escalation E-001: S22 and t103 could not be identified in the sporadic-sequence literature
+> and are DROPPED per the rule above. Cooper's genuine third sequence **s18** is added as a
+> replacement candidate, flagged `PENDING_ENCODING` until its parameters are fetched from the
+> primary source. s7 and s10 TBD-recurrence rows are now resolved with citations. This
+> resolves candidate-register TBDs; it is **not** a freeze (file remains SKELETON v0.1). See
+> `briefs/ESCALATIONS.md` E-001 and `briefs/S1-04.md`.
 
 ---
 
