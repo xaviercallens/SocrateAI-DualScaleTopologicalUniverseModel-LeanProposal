@@ -1,0 +1,22 @@
+[
+  {
+    "name": "open_goal_recurrence_s7",
+    "description": "Cooper's s7 closed-form binomial sum satisfies the s7_params",
+    "full_docstring": "Cooper's s7 closed-form binomial sum satisfies the s7_params\n    three-term recurrence.\n\n    STATUS: mathematically established in the literature (Gorodetsky 2023,\n    arXiv:2102.11839, via a WZ-pair / creative-telescoping certificate) but\n    NOT kernel-verified here.\n\n    Grind-loop attempts (lean-proof-workflow, three-strikes rule):\n    1. `induction n` on the recurrence index, `simp [s7]` on the step \u2014\n       fails: the step case requires re-indexing a Finset.sum over a\n       shifting range (Icc ((n+1)/2) n vs Icc ((n+2)/2) (n+1)), which does\n       not reduce by `simp`/`ring`/`omega` alone; the identity is a genuine\n       hypergeometric-sum identity, not a syntactic rewrite.\n    2. `decide` at the general (\u2200 n) level \u2014 inapplicable; the statement\n       quantifies over all `n : \u2115`, not decidable by kernel computation.\n    3. `exact?`/`apply?` \u2014 no matching Mathlib lemma; Mathlib does not\n       currently contain a creative-telescoping / Zeilberger tactic.\n\n    Conclusion: this needs a formalized WZ certificate (the explicit\n    rational-function multiplier from Gorodetsky's proof) as an auxiliary\n    lemma before an inductive proof becomes mechanical. That certificate\n    is not yet transcribed into this repo \u2014 T1/T0 follow-up work, not a\n    Mathlib gap (hence NOT filed as blocked-on-mathlib).",
+    "statement": "SatisfiesCooperRecurrence (fun n => (s7 n : \u2124)) s7_params",
+    "status": "open",
+    "file": "CooperRecurrences.lean",
+    "blocking": "mathematically established in the literature (Gorodetsky 2023,",
+    "context": "WP S1-02/S1-03 (sequence recurrence proofs)"
+  },
+  {
+    "name": "open_goal_recurrence_s10",
+    "description": "Cooper's s10 closed-form binomial sum satisfies the s10_params",
+    "full_docstring": "Cooper's s10 closed-form binomial sum satisfies the s10_params\n    three-term recurrence.\n\n    STATUS: mathematically established in the literature (Gorodetsky 2023,\n    arXiv:2102.11839, via a WZ-pair certificate) but NOT kernel-verified\n    here. Same grind-loop analysis as `open_goal_recurrence_s7` applies \u2014\n    the s10 sum \u03a3 C(n,k)\u2074 is a classical but nontrivial hypergeometric\n    identity (related to Domb-type numbers); no direct Mathlib lemma.",
+    "statement": "SatisfiesCooperRecurrence (fun n => (s10 n : \u2124)) s10_params",
+    "status": "open",
+    "file": "CooperRecurrences.lean",
+    "blocking": "mathematically established in the literature (Gorodetsky 2023,",
+    "context": "WP S1-02/S1-03 (sequence recurrence proofs)"
+  }
+]

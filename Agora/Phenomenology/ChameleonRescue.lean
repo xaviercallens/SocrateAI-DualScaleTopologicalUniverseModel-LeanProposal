@@ -46,8 +46,8 @@
 
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Analysis.Real.Sqrt
 import Mathlib.Data.Real.Basic
-import Mathlib.Data.Real.Sqrt
 import Mathlib.Tactic
 
 noncomputable section

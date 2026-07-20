@@ -29,7 +29,7 @@
 
 import Agora.Sequences.ThetaOperators
 import Mathlib.Algebra.Polynomial.Basic
-import Mathlib.Algebra.Polynomial.Degree.Definitions
+import Mathlib.Algebra.Polynomial.Degree.Defs
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
 

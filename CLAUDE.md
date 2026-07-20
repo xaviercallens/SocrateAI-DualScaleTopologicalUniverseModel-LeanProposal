@@ -7,7 +7,7 @@ the **epistemic-guardrails** skill before writing any prose.
 ## Commands
 - Build: `lake build` (full), `lake build <Module>` (targeted)
 - Tests: `lake build Tests` (golden numeric checks vs literature values)
-- Open goals: `lake exe export_open_goals` → `open_goals.json` (machine-consumed by Stream 2; never hand-edit)
+- Open goals: `python3 scripts/export_open_goals.py` → `open_goals.json` (machine-consumed by Stream 2; never hand-edit)
 
 ## Non-negotiable rules
 1. Never `lake update`; toolchain and Mathlib pin are frozen (missing API → OPEN_GOALS.md "blocked-on-mathlib").
