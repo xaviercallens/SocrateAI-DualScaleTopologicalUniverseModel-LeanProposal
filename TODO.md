@@ -1,6 +1,21 @@
-# TODO — Stream 1 & Stream 2 (2026-07-24 Post-Review)
+# TODO — Stream 1, 2 & 3 (2026-07-24 Post-Review + Next Actions)
 
-**Priority order:** Critical path first, then parallel tracks.
+**Priority order:** Critical path first, then parallel tracks. Stream 3 non-blocking prep starts now.
+
+---
+
+## 📋 REFERENCE: Next Actions Summary
+
+**See:** `briefs/INDEX_STREAM2_STREAM3_NEXT_ACTIONS.md` (consolidated routing for all actions)
+
+Key actions by stream:
+- **Stream 1:** ✅ COMPLETE (S1-02 through S1-08 closed, merged, released v0.4-S1-complete)
+- **Stream 2 Phase 1 (Provenance):** 🟢 START NOW (1–2h: fetch PDFs, verify params, run A5/A6)
+- **Stream 2 C1/C2:** ⏳ AFTER PHASE 1 (2–4h + 2–3h, sequential, exact singular points given)
+- **Stream 2 Physics:** ⏳ AFTER C2 (4–6h, Tier C claims must be marked [C])
+- **Stream 3 WP S3-01:** 🟢 START NOW (2–4h: data acquisition, MANIFEST.md, checksummed)
+- **Stream 3 WP S3-02:** 🟢 START NOW (4–8h: generic pipeline + golden tests)
+- **Stream 3 S3-00–05:** ⏳ BLOCKED on geometry lock + ASSUMPTIONS + PREDICTION
 
 ---
 

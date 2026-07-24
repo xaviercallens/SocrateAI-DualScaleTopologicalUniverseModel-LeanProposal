@@ -12,7 +12,11 @@
 | **S1-07** | Fable (Theory) | ✅ CLOSED | Vacuous Theorem-1 axioms retired, concrete θ-operators in place |
 | **S1-08** | Opus (Theory) | ✅ CLOSED | Generic W≡0 (`P_cleared ≡ 0`) proved in Lean via `ring`; specializes to s7/s10/s18 |
 | **Stream 2 C3b** | Xavier (Physics) | 🟢 UNBLOCKED | L₂ operators certified [A]; adversarial validation gates ready; proceed to C1/C2 |
-| **S2-01b** | Xavier (Physics) | 🟢 ACTIONABLE | C1 (Kodaira) + C2 (Picard lattice) → D-brane gauge-group selection |
+| **S2-01b Phase 1** | Xavier (Physics) | 🟢 **START NOW** | Provenance gate: fetch 4 PDFs, verify params, run A5/A6 (1–2h) |
+| **S2-01b Phase 2–4** | Xavier (Physics) | ⏳ AFTER PHASE 1 | C1 Kodaira (2–4h) → C2 Picard (2–3h) → physics interpretation (4–6h) |
+| **Stream 3 Data** | T1/T2 | 🟢 **START NOW** | WP S3-01: data acquisition (NANOGrav, EPTA, lensing, Lyman-α) + MANIFEST.md (2–4h) |
+| **Stream 3 Pipeline** | T1/T2 | 🟢 **START NOW** | WP S3-02: generic scaffold + golden tests (closure, null) before real data (4–8h) |
+| **Stream 3 S3-00** | Xavier (T0) | ⏳ BLOCKED | MVM matching awaits: Stream 2 geometry lock + ASSUMPTIONS sign-off + PREDICTION freeze |
 
 ---
 
