@@ -1,0 +1,696 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\lstdefinelanguage{Lean4}{
+  morekeywords={theorem,lemma,def,noncomputable,structure,namespace,end,import,open,
+    section,variable,instance,class,inductive,where,deriving,Repr,DecidableEq,
+    by,do,let,have,show,from,fun,match,with,if,then,else,calc,exact,intro,
+    rfl,sorry,axiom,private},
+  sensitive=true,
+  morecomment=[l]{--},
+  morecomment=[s]{/-}{-/},
+  morestring=[b]",
+}
+\lstset{
+  basicstyle=\linespread{0.9}\ttfamily\scriptsize,
+  language=Lean4,
+  breaklines=true,
+  breakatwhitespace=true,
+  columns=fullflexible,
+  showstringspaces=false,
+  keywordstyle=\color{blue!60!black}\bfseries,
+  commentstyle=\color{green!40!black},
+  stringstyle=\color{orange!70!black},
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  tabsize=2,
+  extendedchars=true,
+  literate=
+    {§}{{\S}}1
+    {¬}{{$\lnot$}}1
+    {²}{{$^{2}$}}1
+    {³}{{$^{3}$}}1
+    {·}{{$\cdot$}}1
+    {¹}{{$^{1}$}}1
+    {é}{{\'e}}1
+    {–}{{--}}1
+    {—}{{---}}1
+    {′}{{$'$}}1
+    {″}{{$''$}}1
+    {⁰}{{$^{0}$}}1
+    {⁴}{{$^{4}$}}1
+    {₀}{{$_{0}$}}1
+    {₁}{{$_{1}$}}1
+    {₂}{{$_{2}$}}1
+    {₃}{{$_{3}$}}1
+    {₇}{{$_{7}$}}1
+    {₈}{{$_{8}$}}1
+    {ℕ}{{$\mathbb{N}$}}1
+    {ℚ}{{$\mathbb{Q}$}}1
+    {ℝ}{{$\mathbb{R}$}}1
+    {ℤ}{{$\mathbb{Z}$}}1
+    {←}{{$\leftarrow$}}1
+    {→}{{$\rightarrow$}}1
+    {∀}{{$\forall$}}1
+    {∃}{{$\exists$}}1
+    {∈}{{$\in$}}1
+    {∑}{{$\sum$}}1
+    {−}{{$-$}}1
+    {∘}{{$\circ$}}1
+    {≠}{{$\neq$}}1
+    {≡}{{$\equiv$}}1
+    {≤}{{$\leq$}}1
+    {≥}{{$\geq$}}1
+    {⌈}{{$\lceil$}}1
+    {⌉}{{$\rceil$}}1
+    {═}{{=}}1
+    {║}{{|}}1
+    {╔}{{+}}1
+    {╗}{{+}}1
+    {╚}{{+}}1
+    {╝}{{+}}1
+    {⟨}{{$\langle$}}1
+    {⟩}{{$\rangle$}}1
+    {Σ}{{$\Sigma$}}1
+    {α}{{$\alpha$}}1
+    {θ}{{$\theta$}}1
+    {λ}{{$\lambda$}}1
+    {π}{{$\pi$}}1
+    {ρ}{{$\rho$}}1
+    {ᵢ}{{$_{i}$}}1,
+}
+
+\title{Formal Verification of Structural Properties\\
+of Cooper's Sporadic Ap\'ery-Like Sequences:\\
+A Lean 4 Development}
+
+\author{Xavier Callens \\ \small{Dual-Scale Topological Universe Model Project}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We report a Lean~4 / mathlib formalization of structural properties of three
+sporadic Ap\'ery-like integer sequences due to Cooper (2012)~\cite{Cooper2012},
+denoted $s_7$, $s_{10}$, $s_{18}$ in the literature's standard labeling
+(Gorodetsky 2023~\cite{Gorodetsky2023}). The development covers: (i) sourced,
+citation-carrying encodings of the sequences and their defining three-term
+recurrences; (ii) their associated order-3 Picard--Fuchs differential operators
+in $\theta$-form ($\theta = z\,d/dz$), with machine-checked operator order;
+(iii) a symmetric-square API validated against two first-principles examples;
+and (iv), the paper's principal new result, a single fully generic Lean proof
+that the Cooper operator family satisfies the Almkvist--van Straten
+self-adjointness criterion $W \equiv 0$~\cite{AlmkvistvanStraten2021} for
+\emph{every} choice of the four defining parameters $(a,b,c,d) \in \mathbb{Q}^4$,
+established as a cleared-denominator polynomial identity discharged by the
+\texttt{ring} decision procedure and requiring no axioms. We also record a
+correction: two previously conjectured polynomial growth bounds for $s_7$ and
+$s_{10}$ are false, and we give machine-checked exponential lower bounds
+disproving them. All results are stated with an explicit account of what
+remains open (in particular, the $\forall n$ recurrence-satisfaction claims for
+$s_7$ and $s_{10}$, which are mathematically established in the literature via
+Wilf--Zeilberger certificates but not yet formalized). The development builds
+with zero \texttt{sorry} and zero non-quarantined axioms against a pinned
+mathlib commit; source and build instructions are given in
+Section~\ref{sec:repro}, and the complete Lean source discussed here is
+reproduced verbatim in Appendix~\ref{app:source}.
+\end{abstract}
+
+\tableofcontents
+
+% ════════════════════════════════════════════════════════════════════
+\section{Introduction}
+
+Sporadic Ap\'ery-like sequences are integer sequences $u(n)$ satisfying a
+three-term holonomic recurrence with polynomial coefficients in $n$, whose
+generating functions are periods of families of algebraic varieties and which
+exhibit unexpectedly strong integrality and congruence properties, in the
+spirit of Ap\'ery's celebrated proof of the irrationality of $\zeta(3)$. The
+complete known list comprises 15 such sequences: six due to
+Zagier~\cite{Zagier2009}, six due to Almkvist and
+Zudilin~\cite{AlmkvistvanStraten2021}, and three due to
+Cooper~\cite{Cooper2012}. This paper is concerned with formally verifying
+structural properties of Cooper's three sequences, which we denote $s_7$,
+$s_{10}$, $s_{18}$ following the labeling of Gorodetsky's unifying
+survey~\cite{Gorodetsky2023}.
+
+\paragraph{Motivation.} Beyond their intrinsic number-theoretic interest, these
+sequences' associated Picard--Fuchs operators are conjecturally related, via a
+classical \emph{symmetric-square} construction, to periods of K3 surfaces. This
+relation is of interest to a broader research program (outside the scope of
+this paper) investigating physical interpretations of such geometric
+structures; the present formalization exists to place the purely mathematical
+substrate of that program on a machine-checked footing, independent of and
+prior to any physical interpretation. We follow the discipline, standard in
+formal mathematics, of stating exactly what is proved and flagging everything
+else as open or conjectural.
+
+\paragraph{Contributions.} Concretely, this paper documents a Lean~4 development
+that:
+\begin{enumerate}[label=(\roman*)]
+  \item encodes $s_7$, $s_{10}$, $s_{18}$ and their defining recurrence
+    parameters with citations to primary literature (Section~\ref{sec:sequences});
+  \item encodes the associated order-3 $\theta$-form Picard--Fuchs operators and
+    proves their order is exactly 3 for every parameter choice
+    (Section~\ref{sec:theta});
+  \item provides a symmetric-square operator API, validated against two
+    examples worked from first principles (Section~\ref{sec:symsquare});
+  \item proves, as a single fully generic theorem, that the Almkvist--van
+    Straten self-adjointness criterion holds identically across the entire
+    Cooper operator family --- the paper's main new result
+    (Section~\ref{sec:w0});
+  \item corrects a previously asserted (and false) polynomial growth bound for
+    $s_7$ and $s_{10}$, replacing it with a machine-checked disproof
+    (Section~\ref{sec:growth});
+  \item documents integrality and the precise, honest boundary of what is
+    verified about recurrence satisfaction (Section~\ref{sec:integrality}).
+\end{enumerate}
+
+\paragraph{Scope.} This paper reports \emph{only} the arithmetic/algebraic
+formalization described above. The host repository additionally contains
+exploratory Lean code relating these operators to speculative physical
+models (moduli stabilization, chameleon screening); that material rests on
+stipulated, non-derived numerical parameters and in one case an axiom that is
+self-documented as vacuous, and is explicitly excluded from this report. See
+Section~\ref{sec:scope} for a precise statement of this boundary.
+
+% ════════════════════════════════════════════════════════════════════
+\section{Background}
+
+\subsection{The Cooper recurrence template}
+\label{sec:background-template}
+
+Cooper's three sporadic sequences, together with Zagier's and
+Almkvist--Zudilin's, are special cases of a single recurrence template
+parameterized by four integers $(a,b,c,d)$:
+\begin{equation}
+  \label{eq:cooper-recurrence}
+  (n+1)^3\, u(n+1) \;=\; (2n+1)\bigl(a n^2 + a n + b\bigr)\, u(n)
+    \;-\; n\bigl(c n^2 + d\bigr)\, u(n-1), \qquad u(-1)=0,\ u(0)=1.
+\end{equation}
+Cooper's three instances are (Table~\ref{tab:params}, sourced from
+Gorodetsky~\cite{Gorodetsky2023}, cross-checked against Cooper's original
+table~\cite{Cooper2012}):
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccc l}
+\toprule
+Sequence & $a$ & $b$ & $c$ & $d$ & Closed form \\
+\midrule
+$s_7$ & 13 & 4 & $-27$ & 3 & $\sum_{k=\lceil n/2\rceil}^{n} \binom{n}{k}^2\binom{n+k}{k}\binom{2k}{n}$ \\
+$s_{10}$ & 6 & 2 & $-64$ & 4 & $\sum_{k=0}^{n} \binom{n}{k}^4$ \\
+$s_{18}$ & 14 & 6 & 192 & $-12$ & (no verified closed form in this repository; see \S\ref{sec:integrality}) \\
+\bottomrule
+\end{tabular}
+\caption{Cooper's three sporadic sequences and their recurrence parameters.}
+\label{tab:params}
+\end{table}
+
+\subsection{$\theta$-form Picard--Fuchs operators}
+\label{sec:background-theta}
+
+Writing $\theta = z\,\tfrac{d}{dz}$ for the Euler (logarithmic) derivative,
+the generic Cooper family corresponds to the order-3 differential operator
+\begin{equation}
+  \label{eq:cooper-theta}
+  L \;=\; \theta^3 \;-\; z(2\theta+1)\bigl(a\theta^2 + a\theta + b\bigr)
+    \;+\; z^2\bigl(c(\theta+1)^3 + d(\theta+1)\bigr),
+\end{equation}
+whose formal power series solution has Taylor coefficients satisfying
+\eqref{eq:cooper-recurrence} (Gorodetsky~\cite{Gorodetsky2023}
+eq.~(1.7)). The $\theta$-representation is convenient because the operator's
+\emph{order} --- the datum this paper certifies --- is simply its
+$\theta$-degree, with no need to normalize the leading coefficient to~1.
+
+\subsection{The symmetric-square criterion}
+\label{sec:background-c3}
+
+A classical construction associates to a monic order-2 linear differential
+operator $L_2 = D^2 + p D + q$ (with $D = d/dz$) an order-3 operator
+$\mathrm{Sym}^2(L_2)$ annihilating pairwise products of solutions of $L_2$:
+\begin{equation}
+  \label{eq:symsquare-formula}
+  \mathrm{Sym}^2(L_2) \;=\; D^3 + 3p\,D^2 + \bigl(2p^2+p'+4q\bigr) D + \bigl(4pq+2q'\bigr).
+\end{equation}
+An order-3 operator $L_3$ that arises this way is called a symmetric square. A
+classical necessary and sufficient condition (Almkvist--van
+Straten~\cite{AlmkvistvanStraten2021}) for a monic order-3 operator
+$D^3 + a_2 D^2 + a_1 D + a_0$ to be \emph{some} symmetric square is the
+vanishing of
+\begin{equation}
+  \label{eq:W-criterion}
+  W \;=\; \tfrac13 a_2'' \;+\; \tfrac23 a_2 a_2' \;+\; \tfrac{4}{27} a_2^3
+    \;+\; 2a_0 \;-\; \tfrac23 a_1 a_2 \;-\; a_1'.
+\end{equation}
+Section~\ref{sec:w0} formalizes and proves this criterion for the entire
+Cooper family.
+
+% ════════════════════════════════════════════════════════════════════
+\section{Formalization methodology}
+\label{sec:methodology}
+
+The development is written in Lean~4~\cite{lean4} against a pinned mathlib
+commit (Section~\ref{sec:repro}). Three engineering disciplines, enforced by
+repository tooling, are relevant to how this paper's claims should be read:
+
+\begin{description}
+  \item[No silent \texttt{sorry}.] Incomplete proofs (\texttt{sorry}) are
+    permitted only on development branches, never in the material reported
+    here; any genuinely open statement is instead recorded as a named,
+    explicitly-labeled open goal (Section~\ref{sec:integrality}) rather than
+    left as an unproven claim in running code.
+  \item[Axiom quarantine.] New \texttt{axiom} declarations are permitted only
+    in a dedicated \texttt{Axioms/} directory, each with a docstring
+    justification and an entry in a repository-level axiom registry. None of
+    the results reported in this paper depend on any axiom; the one axiom
+    presently in the registry (Section~\ref{sec:scope}) is unrelated to the
+    sequence/operator formalization and is excluded from this report's scope.
+  \item[Citation discipline.] Every definition encoding a literature object
+    (a recurrence, a coefficient set, an operator template) carries a source
+    docstring; numeric parameters are not accepted from model memory but must
+    trace to a specific table in a specific cited source.
+\end{description}
+
+We also adopt, as a matter of intellectual honesty, an explicit three-tier
+epistemic labeling for any claim outside pure Lean-checked mathematics:
+\emph{proved} (machine-checked, stated as fact), \emph{checked-but-unproved}
+(verified computationally to a stated finite order, not a universally
+quantified proof), and \emph{conjectural} (asserted in the literature or by
+analogy, not independently verified here). Every result below is labeled.
+
+% ════════════════════════════════════════════════════════════════════
+\section{The sequences: encoding and citations}
+\label{sec:sequences}
+
+\emph{Status: proved (definitional).}
+
+Table~\ref{tab:params}'s parameters are encoded as a structure
+\lstinline{CooperRecurrenceParams} with fields $a,b,c,d : \mathbb{Z}$, and
+$s_7$, $s_{10}$ are given \emph{closed-form} definitions as
+\texttt{Finset.sum}s of products of binomial coefficients (Listing in
+Appendix~\ref{app:cooper-recurrences}), matching the closed forms of
+Table~\ref{tab:params}. Both closed forms are independently, exactly
+integer-arithmetic verified against 20 golden reference values
+(\lstinline{s7_golden_test}, \lstinline{s10_golden_test} in
+\texttt{Tests/CooperSequences.lean}, discharged by \texttt{native\_decide} ---
+see the disclosure convention below) and against \eqref{eq:cooper-recurrence}
+at the first several indices by direct kernel computation. $s_{18}$ has no
+verified closed form in this repository (a direct transcription of the
+literature's stated closed form disagreed with the recurrence at $n=3$, an
+integer-truncation/signed-binomial edge case); it is instead represented by
+its sourced recurrence parameters and golden values computed directly from
+\eqref{eq:cooper-recurrence}.
+
+\begin{remark}[\texttt{native\_decide} disclosure]
+Some numeric checks above involve binomial coefficients too large for the
+kernel's default reduction (\texttt{decide}) to evaluate in reasonable time
+(e.g.\ $\binom{38}{19}$) and instead use \texttt{native\_decide}, which
+delegates evaluation to compiled code. This extends the trusted computing
+base to include the Lean compiler, in addition to the kernel; every theorem
+using it is tagged accordingly in the source, and we repeat that disclosure
+here rather than silently citing such results as pure kernel checks.
+\end{remark}
+
+% ════════════════════════════════════════════════════════════════════
+\section{$\theta$-form operators and order classification}
+\label{sec:theta}
+
+\emph{Status: proved.}
+
+The generic Cooper $\theta$-operator~\eqref{eq:cooper-theta} is encoded as an
+element of \lstinline{Polynomial (Polynomial ℚ)} (outer variable $\theta$,
+inner variable $z$), parameterized by \lstinline{CooperRecurrenceParams}. This
+representation is chosen specifically to avoid monic normalization: dividing
+the operator by its leading $\theta$-coefficient would in general introduce
+genuine rational-function (as opposed to polynomial) coefficients, since
+\texttt{mathlib}'s \lstinline{RatFunc} type does not, at the pinned commit,
+carry a differentiation API --- a concrete obstruction encountered and
+documented during this development (Section~\ref{sec:w0} explains how the
+paper's main result sidesteps it entirely).
+
+We prove:
+\begin{theorem}[Operator degree, kernel fact]
+\label{thm:degree}
+For every \lstinline{p : CooperRecurrenceParams}, the $\theta$-degree of the
+encoded operator \lstinline{cooperThetaOperator p} equals exactly 3.
+\end{theorem}
+This is Lean's \lstinline{cooperThetaOperator_natDegree}; the proof expands
+the operator into explicit collected $\theta$-coefficients
+(\lstinline{cooperThetaOperator_eq}, a \texttt{ring} identity) and applies
+\lstinline{compute_degree!}, discharging the side condition that the leading
+coefficient $1-2az+cz^2$ is nonzero (its constant term is~1, for every
+parameter choice). The analogous order-2 statement for the Zagier template is
+proved by the same method. Theorem~\ref{thm:degree} replaces two axioms that
+were present in an earlier version of this repository
+(\lstinline{empirical_s7_degree}, \lstinline{empirical_S12_degree}), which
+asserted only the vacuous statement ``there exists a cubic polynomial of
+degree 3'' --- true of \emph{any} cubic and hence carrying no information
+about the specific encoded operator. Theorem~\ref{thm:degree} is the
+non-vacuous replacement: it is a fact about the concrete, sourced coefficient
+data.
+
+We stress what Theorem~\ref{thm:degree} does \emph{not} claim: minimality of
+this operator for its sequence (i.e.\ that no lower-order operator annihilates
+the same generating function) and any identification of the operator's
+periods with an actual geometric object are separate, unformalized claims not
+addressed by this paper.
+
+% ════════════════════════════════════════════════════════════════════
+\section{The symmetric-square API}
+\label{sec:symsquare}
+
+\emph{Status: proved (definition + validation), not yet instantiated per
+candidate at the level of an explicit exhibited $L_2$.}
+
+We formalize monic order-2 and order-3 operators as structures
+\lstinline{DiffOp2}, \lstinline{DiffOp3} carrying \lstinline{Polynomial ℚ}
+coefficients, and the symmetric-square map
+\lstinline{symSquare : DiffOp2 → DiffOp3} implementing
+\eqref{eq:symsquare-formula} verbatim. The relation
+\lstinline{IsSymSquareOf L3 L2 := (L3 = symSquare L2)} is a \emph{concrete}
+operator equality --- every coefficient of $L_3$ is pinned as an explicit
+polynomial function of $L_2$'s coefficients --- and is therefore falsifiable
+per candidate, in contrast to an existence statement.
+
+Formula~\eqref{eq:symsquare-formula} is validated, independently of the
+literature, against two examples worked from first principles and proved as
+golden tests:
+\begin{itemize}
+  \item $L_2 = D^2+1$ (harmonic oscillator; solutions $\sin t,\cos t$) must
+    give $\mathrm{Sym}^2(L_2) = D^3+4D$, since $\{\sin^2,\sin\cos,\cos^2\}$
+    span the same space as $\{1,\cos 2t,\sin 2t\}$, annihilated by
+    $D(D^2+4)$;
+  \item $L_2 = D^2+D$ (solutions $1,e^{-t}$) must give
+    $\mathrm{Sym}^2(L_2)=D^3+3D^2+2D$, since $\{1,e^{-t},e^{-2t}\}$ are
+    annihilated by $D(D+1)(D+2)$.
+\end{itemize}
+Both reduce, after unfolding the definition, to a single \texttt{simp} call.
+
+% ════════════════════════════════════════════════════════════════════
+\section{Main result: the generic self-adjointness theorem}
+\label{sec:w0}
+
+\emph{Status: proved. This is the paper's principal new contribution.}
+
+\subsection{Statement}
+
+Converting~\eqref{eq:cooper-theta} to standard ($D=d/dz$) form via the
+substitutions $\theta = zD$, $\theta^2 = z^2D^2+zD$,
+$\theta^3=z^3D^3+3z^2D^2+zD$ and collecting powers of $D$ gives
+$L = p_3 D^3 + p_2 D^2 + p_1 D + p_0$ with
+\begin{align}
+  p_3 &= z^3\bigl(1-2az+cz^2\bigr), &
+  p_2 &= 3z^2\bigl(1-3az+2cz^2\bigr), \\
+  p_1 &= z\bigl(1-(6a+2b)z+(7c+d)z^2\bigr), &
+  p_0 &= z\bigl(-b+(c+d)z\bigr).
+\end{align}
+These coefficients were cross-checked three independent ways before being
+trusted: (a) by hand, substituting the $\theta\to D$ identities above into
+the \emph{already machine-proved} collected $\theta$-form
+(\lstinline{cooperThetaOperator_eq}, Section~\ref{sec:theta}); (b) against an
+independent symbolic re-derivation (computer algebra); (c) against a second,
+fully independent symbolic re-derivation performed by a second reviewer
+without access to the first derivation (the ``two-model'' verification
+protocol used throughout this project for any claim not directly
+kernel-checked). All three agree exactly.
+
+The monic coefficients $a_i = p_i/p_3$ would be needed to state the
+Almkvist--van Straten criterion~\eqref{eq:W-criterion} directly, but $p_3$ is
+a non-unit polynomial, so this route re-introduces the rational-function
+obstruction of Section~\ref{sec:theta}. Instead, since $p_3\neq 0$ for every
+parameter choice (its constant term is~1), the criterion $W\equiv 0$ is
+equivalent, in the fraction field $\mathbb{Q}(a,b,c,d,z)$, to the vanishing of
+its numerator after clearing denominators by $27p_3^3$:
+\begin{align}
+  \label{eq:Pcleared}
+  P_{\mathrm{cleared}} \;:=\;\;
+    & 9\bigl(p_2'' p_3^2 - p_2 p_3 p_3'' - 2p_2' p_3 p_3' + 2p_2 (p_3')^2\bigr) \nonumber\\
+  {}+{} & 18\, p_2\bigl(p_2' p_3 - p_2 p_3'\bigr) \;+\; 4p_2^3 \;+\; 54\, p_0 p_3^2 \nonumber\\
+  {}-{} & 18\, p_1 p_2 p_3 \;-\; 27\, p_3\bigl(p_1' p_3 - p_1 p_3'\bigr),
+\end{align}
+a genuine element of $\mathbb{Q}[a,b,c,d][z]$ --- no division required. We
+prove:
+
+\begin{theorem}[Generic self-adjointness, \lstinline{P_cleared_eq_zero}]
+\label{thm:w0}
+For \emph{every} $a,b,c,d\in\mathbb{Q}$, $P_{\mathrm{cleared}}(a,b,c,d,z) = 0$
+as an element of $\mathbb{Q}[z]$.
+\end{theorem}
+
+By the equivalence above, Theorem~\ref{thm:w0} states that the Cooper
+$\theta$-operator family satisfies the Almkvist--van Straten $W\equiv 0$
+criterion \emph{identically}, for every choice of the four parameters, and in
+particular for $s_7$, $s_{10}$, and $s_{18}$ simultaneously ---
+Corollaries~\ref{cor:s7}--\ref{cor:s18} below are immediate substitutions,
+requiring no further proof.
+
+\begin{corollary}\label{cor:s7} $P_{\mathrm{cleared}}(13,4,-27,3,z)=0$.\end{corollary}
+\begin{corollary}\label{cor:s10} $P_{\mathrm{cleared}}(6,2,-64,4,z)=0$.\end{corollary}
+\begin{corollary}\label{cor:s18} $P_{\mathrm{cleared}}(14,6,192,-12,z)=0$.\end{corollary}
+
+\begin{remark}
+Theorem~\ref{thm:w0} establishes that $L_3$ \emph{admits a} symmetric-square
+factorization (existence, via the classical equivalence
+$W\equiv0 \Leftrightarrow L_3=\mathrm{Sym}^2(L_2)$ for some $L_2$); it is a
+structural statement about the entire Cooper ansatz, and, following an
+observation made during this project's review process, does \emph{not by
+itself} distinguish among the three candidates $s_7,s_{10},s_{18}$, since it
+holds for all of them (and indeed for every choice of $a,b,c,d$) uniformly.
+Exhibiting the specific order-2 operator $L_2$ for a given candidate, and
+verifying \lstinline{IsSymSquareOf} (Section~\ref{sec:symsquare}) against it
+directly, remains separate, not-yet-formalized work.
+\end{remark}
+
+\subsection{Proof discipline}
+
+In keeping with the ``kernel is the judge'' principle underlying this
+development, the derivatives in~\eqref{eq:Pcleared} are \emph{not}
+hand-computed closed forms substituted into the Lean statement; they are
+literal applications of mathlib's \lstinline{Polynomial.derivative} to the
+polynomials $p_0,\dots,p_3$ as defined in Lean, so that the kernel itself
+performs and checks every differentiation step. An opaque, hand-transcribed
+``derivative'' definition would let an arithmetic slip in the transcription
+pass \texttt{ring} undetected; using the genuine formal derivative closes
+that gap. The proof of Theorem~\ref{thm:w0} is a single \texttt{simp}
+normalization (unfolding \lstinline{Polynomial.derivative} across sums,
+products, and powers, and normalizing scalar multiples of \(X^n\) introduced
+by the power rule) followed by \texttt{ring}, which decides the resulting
+polynomial identity. The complete proof is reproduced in
+Appendix~\ref{app:symsquarec3b}.
+
+% ════════════════════════════════════════════════════════════════════
+\section{Growth-rate correction}
+\label{sec:growth}
+
+\emph{Status: proved (correction of a previously false claim).}
+
+An earlier version of this repository recorded, as open conjectures, the
+statements that $s_7$ and $s_{10}$ are bounded by a polynomial in $n$. Direct
+numerical inspection of the exact-arithmetic ratio $u(n{+}1)/u(n)$ shows it
+increasing without bound over the first 25 terms (past 25 for $s_7$, past 15
+for $s_{10}$), the signature of exponential rather than polynomial growth ---
+consistent with the standard asymptotic theory of D-finite (holonomic)
+sequences, whose growth rate is set by the recurrence's nearest finite
+singularity, generically giving $\rho^n n^\alpha$ growth rather than a
+polynomial bound. We record the corrected, proved statements:
+
+\begin{theorem}[\lstinline{s7_not_polynomially_bounded}, \lstinline{s10_not_polynomially_bounded}]
+Neither $s_7$ nor $s_{10}$ is bounded by any polynomial: there is no pair
+$(c,k)\in\mathbb{N}^2$ with $s_7(n)\le c(n+1)^k$ (resp.\ $s_{10}$) for all $n$.
+\end{theorem}
+
+The proof exhibits, for each sequence, a clean single-term lower bound via the
+central binomial coefficient ($s_{10}(2n)\ge \binom{2n}{n}^4$, taking the
+$j=n$ term of the defining sum; $s_7(n) \ge \binom{2n}{n}^2$, taking the $k=n$
+term) and combines mathlib's exponential lower bound on the central binomial
+coefficient with the standard fact that any fixed-degree polynomial is
+eventually dominated by any exponential of base $>1$. As documented in the
+source, this is a \emph{correction}, not a weakening: the original claim was
+false as stated, and the false open goals were removed from the repository in
+the same change that introduced this disproof.
+
+% ════════════════════════════════════════════════════════════════════
+\section{Integrality and the scope of recurrence verification}
+\label{sec:integrality}
+
+\emph{Status: mixed --- see below for exactly which claims are proved versus
+open.}
+
+Both $s_7(n)$ and $s_{10}(n)$ are integers for every $n$ \emph{by
+construction} (they are defined as \lstinline{Finset.sum}s of natural-number
+values), so integrality is definitional rather than a separate theorem.
+
+The substantive open question is whether the closed-form binomial sums of
+Table~\ref{tab:params} satisfy the three-term recurrence
+\eqref{eq:cooper-recurrence} for \emph{every} $n$. This is mathematically
+established in the literature (via a Wilf--Zeilberger / creative-telescoping
+certificate, per Gorodetsky~\cite{Gorodetsky2023}) but is \textbf{not proved
+in this repository}. We record the precise status:
+
+\begin{itemize}
+  \item \emph{Proved:} the recurrence holds at $n=1$, by direct kernel
+    computation (\lstinline{s7_recurrence_at_one}, \lstinline{s10_recurrence_at_one}).
+  \item \emph{Checked-but-unproved:} the recurrence holds for
+    $n=1,\dots,18$, verified by \texttt{native\_decide}
+    (Section~\ref{sec:sequences}'s disclosure applies). This is evidence for,
+    not a proof of, the universal statement.
+  \item \emph{Open:} the $\forall n$ statement itself
+    (\lstinline{open_goal_recurrence_s7}, \lstinline{open_goal_recurrence_s10}
+    in the repository's machine-readable open-goal register). Three genuinely
+    different proof strategies were attempted and are documented as failed in
+    the source (induction on $n$ with the defining sum's shifting index range;
+    kernel \texttt{decide} at the $\forall n$ level; a search for a matching
+    mathlib lemma) before the statement was correctly classified as open
+    rather than continuing unbounded proof search, per this project's
+    ``three-strikes'' engineering discipline. Closing it requires formalizing
+    the underlying Wilf--Zeilberger certificate as an auxiliary lemma, which
+    has not yet been transcribed into this repository.
+\end{itemize}
+
+We flag this explicitly because it would be easy, and dishonest, to elide the
+distinction between ``verified for $n\le 18$'' and ``proved for all $n$.''
+
+% ════════════════════════════════════════════════════════════════════
+\section{Scope boundary: what this report does not claim}
+\label{sec:scope}
+
+\emph{This section exists to make an explicit negative statement, as a matter
+of intellectual honesty.}
+
+The host repository contains, in addition to the material above, exploratory
+Lean code exploring a purely speculative physical framework (an F-theory-style
+moduli-stabilization argument and a chameleon-screening argument concerning a
+hypothetical ultralight axion near the supermassive black hole M87*). None of
+that material is used by, or required for, any result in this paper, and none
+of it is reported here, for two concrete reasons documented in the
+repository's own source:
+\begin{enumerate}
+  \item one axiom underlying part of that material is explicitly
+    self-documented in its own docstring as \emph{vacuous} (it asserts the
+    existence of a real number satisfying a bound, witnessed trivially by
+    $1$, and is stated to encode no actual pipeline data pending a
+    certified data artifact that does not yet exist);
+  \item the numerical parameters entering the remaining arguments (e.g.\ an
+    assumed density ratio and bare coupling for the black hole M87*) are
+    stipulated constants chosen to produce a target inequality, not values
+    derived from, or fit to, any observational data or first-principles
+    physical model.
+\end{enumerate}
+A separate internal memorandum, not styled or intended as a scientific report,
+catalogs these gaps for the repository maintainer's review. We mention their
+existence here solely so that a reader of this paper's source repository is
+not misled by documentation elsewhere in that repository into believing this
+paper's mathematical results establish, or depend on, any physical claim.
+
+% ════════════════════════════════════════════════════════════════════
+\section{Reproducibility}
+\label{sec:repro}
+
+\begin{itemize}
+  \item \textbf{Language/tooling:} Lean~4 (toolchain \texttt{leanprover/lean4:v4.32.0}),
+    mathlib4 pinned at commit \texttt{3dffaf2f18b47d11948f6390838ea6f2ae662aaf}~\cite{mathlib}.
+  \item \textbf{Build:} \texttt{lake build Agora} builds the full development
+    (3106 jobs at the time of writing); \texttt{lake build Tests} runs the
+    golden numeric tests. Both complete with zero errors and zero warnings on
+    the files discussed in this paper.
+  \item \textbf{Sorry/axiom audit:} zero \lstinline{sorry} and zero axioms
+    outside the quarantined \texttt{Axioms/} directory in any file cited in
+    this paper; the one repository-wide axiom (Section~\ref{sec:scope}) does
+    not occur in, and is not reachable from, any result reported here.
+  \item \textbf{Open-goal export:} \texttt{python3 scripts/export\_open\_goals.py}
+    regenerates a machine-readable list of open goals; at the time of writing
+    it lists exactly the two items of Section~\ref{sec:integrality} and no
+    others.
+  \item \textbf{Source:} the files discussed in this paper are reproduced
+    verbatim in Appendix~\ref{app:source}; the canonical, buildable source
+    lives in the project git repository at commit
+    \texttt{60c1374} on branch \texttt{main}.
+\end{itemize}
+
+% ════════════════════════════════════════════════════════════════════
+\section{Discussion and outlook}
+
+The results above formalize a modest but precisely delimited slice of the
+theory of sporadic Ap\'ery-like sequences: sourced encodings, operator-order
+facts, a validated symmetric-square API, and --- the paper's central
+contribution --- a single generic proof that the entire Cooper family
+satisfies the Almkvist--van Straten self-adjointness criterion, sidestepping
+a genuine formalization obstruction (the absence of a \lstinline{RatFunc}
+differentiation API at the pinned mathlib commit) by working with a
+cleared-denominator polynomial identity instead of the naive monic
+formulation. We regard the explicit, disclosed boundary of what remains open
+(Section~\ref{sec:integrality}) as no less a contribution than the proved
+results themselves: it converts an implicit assumption into an auditable,
+named proof obligation for future work, specifically the formalization of a
+Wilf--Zeilberger certificate for the two remaining $\forall n$ recurrence
+statements.
+
+We deliberately do not speculate here about the physical relevance of these
+structures (Section~\ref{sec:scope}); any such discussion belongs in a
+separate report once the corresponding claims meet the same standard of
+verification applied throughout this paper.
+
+% ════════════════════════════════════════════════════════════════════
+\bibliographystyle{plain}
+\bibliography{references}
+
+% ════════════════════════════════════════════════════════════════════
+\appendix
+\section{Complete Lean 4 source}
+\label{app:source}
+
+The following listings reproduce, verbatim and in full, every Lean file whose
+results are reported in this paper. They are included by direct file
+inclusion (\texttt{lstinputlisting}) from the accompanying repository, so
+there is no risk of transcription drift between this document and the
+buildable source; the line numbers shown are the files' own.
+
+\subsection{\texttt{Agora/Sequences/CooperRecurrences.lean}}
+\label{app:cooper-recurrences}
+\lstinputlisting[language=Lean4]{../Agora/Sequences/CooperRecurrences.lean}
+
+\subsection{\texttt{Agora/Sequences/ThetaOperators.lean}}
+\label{app:theta-operators}
+\lstinputlisting[language=Lean4]{../Agora/Sequences/ThetaOperators.lean}
+
+\subsection{\texttt{Agora/SymSquare.lean}}
+\label{app:symsquare}
+\lstinputlisting[language=Lean4]{../Agora/SymSquare.lean}
+
+\subsection{\texttt{Agora/Swampland/SymSquareC3b.lean}}
+\label{app:symsquarec3b}
+\lstinputlisting[language=Lean4]{../Agora/Swampland/SymSquareC3b.lean}
+
+\subsection{\texttt{Agora/Sequences/GrowthBounds.lean}}
+\label{app:growth-bounds}
+\lstinputlisting[language=Lean4]{../Agora/Sequences/GrowthBounds.lean}
+
+\subsection{\texttt{Agora/Sequences/Integrality.lean}}
+\label{app:integrality}
+\lstinputlisting[language=Lean4]{../Agora/Sequences/Integrality.lean}
+
+\subsection{\texttt{Tests/CooperSequences.lean} (golden numeric tests)}
+\label{app:tests}
+\lstinputlisting[language=Lean4]{../Tests/CooperSequences.lean}
+
+\end{document}
