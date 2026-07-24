@@ -45,6 +45,7 @@ import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.Analysis.Real.Sqrt
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
+import Agora.Axioms.PipelineBound
 
 noncomputable section
 open Real
@@ -283,14 +284,12 @@ theorem T2_mass_positive (p : LVSParams) (tau_T2 : ℝ) :
 -- ║  manifold stays in the perturbative regime at late times.         ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- AXIOM (Empirical): The GPU pipeline computes S_{1,2} ≤ 1.177
-    for all late-time observational data, establishing that the
-    base manifold does not undergo a phase transition to strong coupling.
-    -- Source: GPU pipeline observational analysis of SDSS photometry and Euclid survey data (2026-07-18).
-    -- Justification: The maximum observed S_{1,2} statistic across 29 sectors under conservative
-    -- systematic scaling is 1.177. This sets the boundary of the physical Kähler moduli space,
-    -- preventing transitions into the strong-coupling regime. -/
-axiom pipeline_upper_bound : ∃ (S12_max : ℝ), S12_max ≤ 1.177 ∧ S12_max > 0
+-- `pipeline_upper_bound` (the disclosed-vacuous E-005 axiom) was RELOCATED 2026-07-24
+-- to `Agora/Axioms/PipelineBound.lean` (decision D3, Xavier T0) to satisfy CLAUDE.md rule 2 /
+-- the lean_guard hook. It is imported above (`import Agora.Axioms.PipelineBound`) in namespace
+-- `Agora.Swampland`, so the references below resolve unchanged. The statement is verbatim; it
+-- carries the `[DISCLOSED-VACUOUS: ...]` tag there and is registered in AXIOMS.md. Still NOT
+-- discharged — see briefs/ESCALATIONS.md E-005.
 
 /-- The perturbative regime requires the overall modulus to stay
     bounded away from the strong-coupling singularity. -/

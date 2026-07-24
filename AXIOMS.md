@@ -18,9 +18,11 @@ This file maintains a complete, auditable inventory of all non-standard assumpti
 
 ## Current Inventory
 
-### Axioms — Total Count: **0** (in `Axioms/`)
+### Axioms — Total Count: **1** (in `Axioms/`)
 
-*(Empty as of Phase 0 scaffold — no axioms in the quarantined `Axioms/` directory.)*
+| Axiom | Location | Status |
+|---|---|---|
+| `pipeline_upper_bound` | `Agora/Axioms/PipelineBound.lean` | **DISCLOSED-VACUOUS** (E-005 / D3) — vacuously true (witness 1), encodes no pipeline data. Relocated here 2026-07-24 (Xavier T0) from `Agora/Swampland/DualScaleStability.lean`; statement verbatim. **NOT discharged.** Discharge path: Lean import of the certified Stream 2/3 artifact (`data/pipeline_artifact.json`, currently PLACEHOLDER-VACUOUS) + restate the bound about that data. See `briefs/ESCALATIONS.md` E-005. |
 
 ### DISCHARGED — E-002 vacuous axioms (S1-07, 2026-07-18)
 
