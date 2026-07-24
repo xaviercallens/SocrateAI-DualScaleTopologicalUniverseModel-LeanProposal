@@ -1,0 +1,39 @@
+# LITERATURE PROVENANCE REGISTRY
+# Anti-hallucination protocol: all sporadic sequence parameters traced to fetched sources
+# Each entry: filename | MD5 | SHA256 | source citation | verified date
+
+# Zagier sporadic sequences (6 sequences)
+# Source: D. Zagier, "Integral solutions of Apéry-like recurrence equations" (2009, updated)
+# Location: docs/literature/Zagier_2009_sporadic.pdf
+Zagier_2009_sporadic.pdf | MD5:PENDING | SHA256:PENDING | Zagier 2009 survey | PENDING
+
+# Almkvist-Zudilin sequences (AESZ database, 6 sequences)
+# Source: G. Almkvist, D. van Straten, "Calabi-Yau operators and Apéry-like recurrences"
+# arXiv:2103.08651 (contains unified table + AESZ classification)
+Almkvist_vanStraten_arXiv2103.08651.pdf | MD5:PENDING | SHA256:PENDING | arXiv:2103.08651 | PENDING
+
+# Cooper sporadic sequences (3 sequences: s7, s10, s18)
+# Source: S. Cooper, "Sporadic sequences, modular forms and new series for 1/π"
+# Ramanujan Journal 29 (2012), 163–183
+# Also: O. Gorodetsky, "New representations for all sporadic Apéry-like sequences"
+# arXiv:2102.11839 v2 (unified table, p.3)
+Gorodetsky_arXiv2102.11839_v2.pdf | MD5:PENDING | SHA256:PENDING | arXiv:2102.11839 v2 | PENDING
+Cooper_2012_Ramanujan.pdf | MD5:PENDING | SHA256:PENDING | Ramanujan J. 29:163-183 | PENDING
+
+# VERIFICATION CHECKLIST
+# [ ] Zagier_2009_sporadic.pdf fetched, hash computed, A, B, C, D, E, F verified against paper
+# [ ] Almkvist_vanStraten_arXiv2103.08651.pdf fetched, AESZ α, β, γ, δ, ε, ζ verified
+# [ ] Gorodetsky_arXiv2102.11839_v2.pdf fetched, s7 (13,4,-27,3) verified on p.3
+# [ ] Gorodetsky_arXiv2102.11839_v2.pdf fetched, s10 (6,2,-64,4) verified on p.3
+# [ ] Gorodetsky_arXiv2102.11839_v2.pdf fetched, s18 (14,6,192,-12) verified on p.3
+# [ ] Cooper_2012_Ramanujan.pdf fetched, all three Cooper sequences verified
+# [ ] Hashes pinned in this file
+# [ ] checkers/adversarial_A5_A6_provenance_hygiene.py passes with all sources
+
+# ANTI-HALLUCINATION RULE
+# Every sporadic sequence parameter (a,b,c,d) used in the codebase must be:
+#   1. Traced to a fetched PDF (not recalled from model memory)
+#   2. Verified character-by-character against the source
+#   3. Cross-checked with OEIS entries
+#   4. Hash pinned in this file
+# Violation → do not proceed to C1/C2 computation
