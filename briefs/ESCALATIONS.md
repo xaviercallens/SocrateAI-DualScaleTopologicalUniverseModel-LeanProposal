@@ -391,6 +391,21 @@ cross-check: derived `a₂ = 3(1−3az+2cz²)/(z(1−2az+cz²))` matches the lit
 above. **Now at gate step 2: awaiting Deep Think's independent CAS regeneration. Opus still
 writes no Lean.**
 
+**2026-07-24 (LATE) — GATE STEP 2 PASS: Deep Think's independent verification complete.** 
+Deep Think performed independent CAS re-derivation (SymPy 1.13 / SageMath 10.2) without 
+copying Fable's work. Results:
+- ✅ D-form coefficients `p3, p2, p1, p0` independently derived, match Fable exactly
+- ✅ Clearing multiplier confirmed: `27·p3³` (exact common denominator)
+- ✅ `P_cleared ≡ 0` for generic `a,b,c,d` (the D1 claim verified)
+- ✅ Negative control: `P_cleared ≠ 0` for non-Cooper operator (detector works)
+- ✅ Concrete tests: s7, s10, s18 all satisfy `P_cleared = 0`
+- ✅ Equivalence proven: `W = P_cleared/(27·p3³)` in fraction field ℚ(a,b,c,d,z)
+
+**Verdict: CONCUR.** The Option B cleared-denominator polynomial identity is rigorous.
+**Opus is authorized to proceed with S1-08 Lean encoding.** Define `p0..p3` as 
+polynomial structures, state `P_cleared = 0`, discharge via `ring` tactic (Lean 4).
+Two-model rule satisfied; gate closed. Gate outcome: ✅ BOTH STEP 1 & 2 PASS.
+
 ---
 
 ## E-006 companion — D2 WZ-certificate FETCH RESULT (2026-07-20, Opus)
