@@ -10,7 +10,7 @@
 |---|---|---|---|
 | **S1-04** | Opus (Theory) | ✅ CLOSED | symSquare API validated, candidate set frozen {s7, s10, s18} |
 | **S1-07** | Fable (Theory) | ✅ CLOSED | Vacuous Theorem-1 axioms retired, concrete θ-operators in place |
-| **S1-08** | Opus (Theory) | 🟡 IN PROGRESS | Encode L₃ = Sym²(L₂) in Lean; Stream 1 template live (SymSquareC3b.lean) |
+| **S1-08** | Opus (Theory) | ✅ CLOSED | Generic W≡0 (`P_cleared ≡ 0`) proved in Lean via `ring`; specializes to s7/s10/s18 |
 | **Stream 2 C3b** | Xavier (Physics) | 🟢 UNBLOCKED | L₂ operators certified [A]; adversarial validation gates ready; proceed to C1/C2 |
 | **S2-01b** | Xavier (Physics) | 🟢 ACTIONABLE | C1 (Kodaira) + C2 (Picard lattice) → D-brane gauge-group selection |
 
@@ -113,7 +113,7 @@ Intersection form & discriminant (definite K3 signature)
 
 ### 🟡 In Progress
 
-- [ ] S1-08 Lean encoding (L₃ = Sym²(L₂) proof via `ring`)
+- [x] S1-08 Lean encoding: generic `P_cleared_eq_zero` proved via `ring` (commit 206db17), specialized to s7/s10/s18
 - [ ] Adversarial validation A1–A6 (run suite, validate gates)
 - [ ] docs/literature/ folder creation + PDF fetch (provenance)
 

@@ -148,40 +148,45 @@
 
 ---
 
-## 🟢 PARALLEL TRACK (S1-08 Lean Formalization)
+## ✅ CLOSED: S1-08 Lean Formalization
 
-### S1-08: Encode L₃ = Sym²(L₂) in Lean (Opus / Theory)
+### S1-08: Generic W≡0 (`P_cleared ≡ 0`) proved in Lean (Opus / Theory)
 
-**Status:** Template live (SymSquareC3b.lean), awaiting D1 gate step 2 (Deep Think concurrence on P_cleared)
+**Status:** ✅ COMPLETE (commit 206db17). D1 gate all 3 steps passed (Fable derivation
+→ Deep Think CAS concurrence → Lean kernel proof).
 
-**Dependency:** D1 (P_cleared polynomial) — Deep Think must verify Fable's output before Opus encodes
+**What landed (`Agora/Swampland/SymSquareC3b.lean`):**
+- [x] `p3, p2, p1, p0 : Polynomial ℚ` — D-form coefficients, generic in `a b c d : ℚ`,
+      cross-checked against `cooperThetaOperator_eq` (θ=zD substitution, hand-verified
+      term-for-term) and against `scripts/derive_D1_P_cleared.py` (ground truth)
+- [x] `P_cleared (a b c d : ℚ) : Polynomial ℚ` built from REAL `Polynomial.derivative`
+      calls (not hand-transcribed derivatives — kernel checks every differentiation step)
+- [x] `theorem P_cleared_eq_zero (a b c d : ℚ) : P_cleared a b c d = 0` — proved by
+      `ring` after simp normalization. ONE fully generic theorem, not per-candidate.
+- [x] Specialized to `P_cleared_s7`, `P_cleared_s10`, `P_cleared_s18` by trivial
+      substitution (no extra proof work — this is the payoff of proving it generically)
+- [x] Compiled: `lake build Agora` green (3106 jobs), `lake build Tests` green (3000 jobs)
+- [x] Verified 0 `sorry` via `export_open_goals.py` (only pre-existing, unrelated goals remain)
+- [x] Committed "S1-08: Lean kernel proof..." + pushed to origin/main
 
-**Tasks (when D1 gates):**
-- [ ] Fill in `Agora/Swampland/SymSquareC3b.lean` with concrete L₂ coefficients
-  - [ ] Define `cooper_s7_bulk` and `cooper_s7_partner` structures
-  - [ ] Define `cooper_s10_bulk` and `cooper_s10_partner` structures
-  - [ ] State theorem `sym2_c3b_s7 : Sym²(L₂) = L₃`
-  - [ ] State theorem `sym2_c3b_s10 : Sym²(L₂) = L₃`
-- [ ] Prove both by `ring` tactic (polynomial identity over ℚ[z])
-- [ ] Compile: `lake build Agora.Swampland.SymSquareC3b`
-- [ ] Verify no `sorry` remains
-- [ ] Commit: "S1-08: Encode L₃ = Sym²(L₂) for s7/s10 (Discharges: SYM2_PROVED_C3B)"
+**Effort actually spent:** ~1 session (iterating the `ring`-closing simp set — two
+debugging rounds: `Polynomial.C 3` needed to be a bare numeral, and `derivative_pow`'s
+`Nat.cast` output needed `map_natCast`, not just `map_ofNat`, to unify with numerals).
 
-**Effort:** 2–3 hours (once D1 gates)  
-**Owner:** Opus  
-**Blocker:** D1 Deep Think concurrence (not on Stream 2 critical path)
+**Owner:** Opus/Sonnet (Stream 1)  
+**Blocker:** None — CLOSED
 
 ---
 
-## ✅ COMPLETED (This Session)
+## ✅ COMPLETED (Prior + This Session)
 
 - [x] Stream 1 L₃ = Sym²(L₂) verified [A, two-model CAS]
 - [x] L₂ operators extracted for s7/s10
-- [x] SymSquareC3b.lean template deployed
 - [x] Handoff brief created (`briefs/STREAM1_TO_STREAM2_HANDOFF_C3B.md`)
 - [x] Adversarial checker infrastructure built (7 files)
 - [x] C1/C2 checker templates ready
-- [x] Memory tracking updated (2 new files + MEMORY.md index)
+- [x] Memory tracking updated (index maintained)
+- [x] **S1-08 Lean kernel proof landed** (generic `P_cleared_eq_zero`, specialized to s7/s10/s18)
 - [x] Commits pushed to origin/main
 
 ---
@@ -194,7 +199,7 @@
 | C1 Kodaira computation | 2–4h | After A5/A6 | — | Xavier |
 | C2 Picard lattice | 2–3h | After C1 | — | Xavier |
 | Physics interpretation | 4–6h | After C2 | — | Xavier |
-| S1-08 Lean encoding (parallel) | 2–3h | When D1 gates | — | Opus |
+| ~~S1-08 Lean encoding~~ | ~~2–3h~~ | ✅ DONE | ✅ DONE | Opus |
 | **Total Stream 2 critical path** | **9–15h** | Today | End of phase | Xavier |
 
 ---
