@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "metric": "S12_max_upper_bound",
+  "num": 1177,
+  "den": 1000,
+  "string_val": "1177/1000",
+  "decimal_approx": 1.177,
+  "epistemic_status": "PLACEHOLDER-VACUOUS",
+  "provenance": {
+    "source": "PLACEHOLDER (E-005 float 1.177, no certified run)",
+    "run_id": "NONE",
+    "generated_utc": "2026-07-24T09:56:30+00:00"
+  },
+  "checksum_algorithm": "sha256",
+  "checksum": "2e2ce05d421fa0343f4edd1f090c39997b80a92ea3909bdef920928fa0b836c0"
+}

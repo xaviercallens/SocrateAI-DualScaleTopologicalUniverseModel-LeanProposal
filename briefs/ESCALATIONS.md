@@ -182,7 +182,13 @@ than implicitly).
 candidates (`scripts/check_C3_symsquare.py`, exact sympy, controls pass). Deep Think (T0s)
 independent re-derivation CONCURS — see `adversarial/S1-04_C3_deepthink_review.md` and the
 T0 adjudication recorded there. `SYM2_SYMBOLIC` is two-model signed for s7/s10/s18;
-`SYM2_PROVED` still requires the route-2 Lean kernel proof (WP S1-08). Sequence data
+`SYM2_PROVED` still requires the route-2 Lean kernel proof (WP S1-08).
+**2026-07-20 (D4, two-model):** Deep Think concurs — **Stream 1's C3 obligation is COMPLETE.**
+`W≡0` is structural for the whole Cooper ansatz: it proves K3-Sym² geometry (the entry ticket)
+but does NOT discriminate s7/s10/s18. Selection lives entirely in **C3b (Shioda–Inose moduli
+map)** + Kodaira fibers (C1/C2) — Stream 2 work (S2-01b). Directive: shift computational
+resources to Stream 2; Stream 1 has supplied the exact-rational K3 proof. No Stream 1 action
+remaining on candidate discrimination. Sequence data
 unaffected (done).
 
 ### SYMBOLIC VERIFICATION RESULT (scripts/check_C3_symsquare.py, 2026-07-18)
@@ -292,6 +298,32 @@ substantive mathematical content.
 **Filed by:** Fable 5 (T0), during WP S1-07 honesty pass  
 **Date:** 2026-07-18  
 **Status:** OPEN — T0 decision recorded below; discharge deferred to a dedicated WP.
+**2026-07-20 (D3, two-model):** Deep Think concurs — **MAINTAIN QUARANTINE.** A Lean kernel
+cannot prove a theorem about a pipeline float (1.177) without a deterministic data bridge;
+forging one to shed the axiom tag is an epistemic vulnerability. Keep as an explicit
+`[DISCLOSED-VACUOUS]`-tagged axiom until Stream 2/3 emits a static, cryptographically hashed
+artifact (e.g. exact-rational `.csv`) that Lean ingests via `import`. No further action until
+that artifact exists.
+
+**2026-07-20 (D3 execution BLOCKED — axiomatization-boundary decision needed).** Attempted to
+apply the directive (append `[DISCLOSED-VACUOUS: …]` to `pipeline_upper_bound`'s docstring in
+`Agora/Swampland/DualScaleStability.lean`). **The `.claude/hooks/lean_guard.sh` post-edit hook
+BLOCKED the edit** (exit 2): it whole-file-greps `^\s*axiom\s` and rejects any `.lean` file with
+an `axiom` outside `Axioms/`. `pipeline_upper_bound` (line 293) is that axiom — **a pre-existing,
+standing violation of CLAUDE.md rule 2** (it is the ONLY such axiom in `Agora/`; `grep` confirms).
+Consequence: the file is **un-editable via Edit/Write** while the axiom lives there, so D3's
+"annotate in place" is not applyable as written. Blocked edit was reverted (`git checkout`); I did
+NOT bypass the guard (lean-proof-workflow: "do not try to work around it").
+
+**Recommended resolution (T0 call — axiomatization boundary is T0-owned per CLAUDE.md):** the hook's
+own message prescribes the fix — **relocate `pipeline_upper_bound` into `Axioms/`** (e.g.
+`Axioms/PipelineBound.lean`) carrying the D3 disclosure docstring, `import` it back into
+`DualScaleStability.lean`, and register it in `AXIOMS.md`. This simultaneously satisfies D3 (axiom
+tag maintained, vacuity disclosed, not discharged), CLAUDE.md rule 2, and the hook — and fixes the
+standing violation. It is a file relocation preserving the statement verbatim (no change to what is
+assumed), but it touches imports/namespace, so per the T0-ownership rule I am **holding for Xavier's
+explicit go** rather than improvising. Alternative (worse): add a hook carve-out for this tracked
+axiom — leaves rule 2 violated. Disclosure text is drafted and ready to apply on authorization.
 
 ### Finding 1 — vacuous axiom (F6 disclosure)
 
@@ -329,7 +361,62 @@ event: a claimed kernel-green main that does not build.
 
 **Filed by:** Claude (Sonnet 5 tier, T1), WP S1-08 first attempt  
 **Date:** 2026-07-18  
-**Status:** OPEN — escalated per E-04b (`briefs/S1-04.md` §4), not improvised.
+**Status:** **DECIDED 2026-07-20 (two-model: Deep Think + brief) — Option B, gated.**
+Execution blocked pending Fable's `P_cleared(z)` output + Deep Think concurrence (see
+resolution below). Was: OPEN — escalated per E-04b (`briefs/S1-04.md` §4), not improvised.
+
+### RESOLUTION (T0s consensus, 2026-07-20)
+
+**Decision: OPTION B (cleared-denominator polynomial identity).** Deep Think (T0s) verdict:
+Option A (bespoke `RatFunc` derivative API in Lean) is a scope-creep trap into quotient-ring
+representative-equivalence; avoid it. In `ℚ(z)`, `W(z) ≡ 0 ⇔ Numerator(W(z)) ≡ 0`, so the
+honest statement clears denominators and checks a `Polynomial ℚ` identity by `ring`. This
+overrides the T1 recommendation of Option A — the deciding consideration is scope discipline,
+and the E-04c re-derivation risk is contained by the concurrence gate below.
+
+**CONCURRENCE GATE (binding, do NOT skip — this is the E-04c guard):**
+1. Fable 5 outputs the exact expanded `P_cleared(z)` (numerator of `W` after clearing the
+   generic Cooper-family denominators).
+2. Deep Think independently regenerates `P_cleared(z)` via a separate CAS.
+3. **Iff the two polynomials match exactly**, Opus is cleared to encode it in Lean via `ring`.
+
+Opus is **standing by** — no Lean written until the matched `P_cleared(z)` arrives.
+
+**2026-07-24 — GATE STEP 1 COMPLETE: Fable's `P_cleared(z)` posted.** Full derivation, explicit
+D-form coefficients `p0..p3`, the six-term cleared identity, the equivalence argument
+(`W = P_cleared/(27·p3³)`, `p3 ≠ 0`), and four sympy exact-arithmetic checks (generic ≡ 0;
+s7/s10/s18 ≡ 0; negative control ≠ 0; clearing identity exact on control) are frozen in
+`briefs/D1_P_CLEARED_FABLE_2026-07-24.md` + `scripts/derive_D1_P_cleared.py`. Consistency
+cross-check: derived `a₂ = 3(1−3az+2cz²)/(z(1−2az+cz²))` matches the literature form cited
+above. **Now at gate step 2: awaiting Deep Think's independent CAS regeneration. Opus still
+writes no Lean.**
+
+---
+
+## E-006 companion — D2 WZ-certificate FETCH RESULT (2026-07-20, Opus)
+
+**Directive (Deep Think D2):** mine Gorodetsky arXiv:2102.11839 + Almkvist/Zudilin supplements
+for the explicit telescoping certificate `G(n,k)` of the s7/s10 recurrences; report degree +
+term-count; if fetch fails within the time box, halt and hand off to Deep Think's CAS.
+
+**Result: FETCH FAILED (no author-supplied `G(n,k)` exists in the primary source).**
+- Gorodetsky arXiv:2102.11839 (fetched, arxiv.org/html/2102.11839): states the recurrences only
+  in **parametric form** — s7 `(13,4,−27,3)`, s10 `(6,2,−64,4)` (already encoded here) — and
+  proves its results by **constant-term / Laurent-polynomial representations, NOT creative
+  telescoping**. No explicit `G(n,k)`. Attributes the recurrence formulas to Cooper/Zudilin.
+  No ancillary Mathematica/Maple files referenced.
+- No explicit certificate located in the reachable secondary literature either (search round
+  2026-07-20). s10 (= Σ C(n,k)⁴, OEIS A005260) is a **single** hypergeometric sum → directly in
+  scope for Zeilberger; expected order-2 (3-term) recurrence matching `(6,2,−64,4)`, certificate
+  `G = R(n,k)·F(n,k)` with `R` a modest-degree rational function — standard but **must be
+  CAS-generated, not fetched**. s7 (= Σ C(n,k)² C(n+k,k) C(2k,n)) is harder: 4-factor summand
+  with a **shifting lower limit ⌈n/2⌉** (the `C(2k,n)` factor forces k ≥ ⌈n/2⌉), so the
+  boundary/telescoping analysis is genuinely more involved → larger certificate.
+
+**→ Per D2 protocol, control passes to Deep Think for isolated-CAS re-derivation of the
+Zeilberger certificates (raw polynomials handed back to Opus).** Exact degree/term-count will
+come from that CAS run — they are not determinable from any fetched source. Recommend s10 first
+(cheaper, single-sum) unless Xavier's physics evaluation prioritizes s7.
 
 ### What was attempted (bounded, per lean-proof-workflow three-strikes discipline)
 

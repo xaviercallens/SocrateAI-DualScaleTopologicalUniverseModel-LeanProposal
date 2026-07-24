@@ -1,7 +1,7 @@
 # K3_CRITERIA — Frozen Selection Criteria for K3 Vacuum Candidates
 
-**Status:** SKELETON v0.1 — **NOT YET FROZEN**  
-**Freeze target:** end of Phase 0 (week 2), as v1.0, jointly signed per the two-model rule (`EXECUTION_PLAN.md` §1.2.3) and by Xavier.  
+**Status:** BIFURCATED — **CANDIDATE REGISTER (§1) FROZEN 2026-07-20** (register-level, two-model + Xavier, decision D5); **CRITERIA THRESHOLDS still SKELETON, NOT FROZEN** (§7 pre-freeze checklist open: C1 N₁, C3b N, C4 requirements, C5 bounds, scoring weights are all `TBD-AT-FREEZE`).  
+**Freeze target (full criteria v1.0):** end of Phase 0 (week 2), jointly signed per the two-model rule (`EXECUTION_PLAN.md` §1.2.3) and by Xavier. The register freeze below does NOT constitute the full v1.0 freeze.  
 **Repo of record:** `SocrateAI-Scientific-Agora-K3-DarkMatter`; hash-pinned copies in the other two repos at freeze.
 
 > **Freeze semantics.** After v1.0 is frozen: (1) AutoEvolve may score candidates *only* through the checker scripts listed here; (2) no criterion, threshold, or weight may change except by a versioned amendment (§6) recorded *before* re-running any ranking; (3) every `TBD-AT-FREEZE` field below must be resolved with a literature citation or a first-principles computation — an unfilled TBD blocks the freeze.
@@ -14,9 +14,9 @@
 
 | ID | Sequence / family | Defining recurrence (source) | Order-2 partner claimed | Initial flags |
 |---|---|---|---|---|
-| K-s7 | Cooper s7 | Cooper (2012) Ramanujan J. 29 Table 1, params (13,4,−27,3); encoded `Agora/Sequences/CooperRecurrences.lean` | TBD (S1-04, exhibit L₂ or open goal) | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
-| K-s10 | Cooper s10 | Cooper (2012) Table 1, params (6,2,−64,4); encoded same file | TBD (S1-04) | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
-| K-s18 | Cooper s18 | Gorodetsky arXiv:2102.11839 v2 p.3, params (14,6,192,−12); encoded `Agora/Sequences/CooperRecurrences.lean` (`s18_params`), values kernel-validated in `Tests/` | TBD (S1-04) | `SYM2_UNVERIFIED`, `C3B_UNVERIFIED` |
+| K-s7 | Cooper s7 | Cooper (2012) Ramanujan J. 29 Table 1, params (13,4,−27,3); encoded `Agora/Sequences/CooperRecurrences.lean` | TBD (C3b/Stream 2, exhibit L₂) | `SYM2_SYMBOLIC`, `C3B_UNVERIFIED`, **`TIER_A_POOL`** |
+| K-s10 | Cooper s10 | Cooper (2012) Table 1, params (6,2,−64,4); encoded same file | TBD (C3b/Stream 2) | `SYM2_SYMBOLIC`, `C3B_UNVERIFIED`, **`TIER_A_POOL`** |
+| K-s18 | Cooper s18 | Gorodetsky arXiv:2102.11839 v2 p.3, params (14,6,192,−12); encoded `Agora/Sequences/CooperRecurrences.lean` (`s18_params`), values kernel-validated in `Tests/` | TBD (C3b/Stream 2) | `SYM2_SYMBOLIC`, `C3B_UNVERIFIED`, **`TIER_B_QUARANTINE`** (n=3 closed-form edge) |
 | ~~K-S22~~ | ~~Cooper S22~~ | **DROPPED 2026-07-18** — uncitable (E-001) | — | `DROPPED` |
 | ~~K-t103~~ | ~~t103~~ | **DROPPED 2026-07-18** — uncitable; "AESZ 103" is order-4 CY3, category error (E-001) | — | `DROPPED` |
 
@@ -29,6 +29,32 @@
 > primary source. s7 and s10 TBD-recurrence rows are now resolved with citations. This
 > resolves candidate-register TBDs; it is **not** a freeze (file remains SKELETON v0.1). See
 > `briefs/ESCALATIONS.md` E-001 and `briefs/S1-04.md`.
+
+> **2026-07-20 CANDIDATE-REGISTER FREEZE (decision D5 — authorized: Deep Think T0s + Xavier T0).**
+> The candidate register (this §1 — the candidate *set* and its tier assignment) is now **FROZEN**.
+> The full-criteria v1.0 freeze is separate and still pending (§7 TBDs unresolved). Bifurcation:
+> - **`TIER_A_POOL` = {K-s7, K-s10}** — both closed forms are kernel-validated (golden values
+>   n=0–19 *and* closed-form-vs-recurrence n=1–18, `native_decide`; see
+>   `Tests/CooperSequences.lean`) and both are two-model `SYM2_SYMBOLIC`. Cleared to advance
+>   into Stream 2's C3b (Shioda–Inose) ranking. **Final selection *between* s7 and s10 is D4
+>   (Stream 2 / C3b + C1/C2), pending Xavier's physics evaluation — NOT decided here.**
+> - **`TIER_B_QUARANTINE` = {K-s18}** — represented by sourced params + recurrence-validated
+>   goldens only; its p.3 closed-form transcription disagreed with the recurrence at n=3
+>   (ℕ-truncation / signed-binomial edge). Held out of the Tier-A pool until Fable + Deep Think
+>   resolve the n=3 combinatorial edge case. Do NOT delay downstream work for it.
+>
+> **Honest scope of "Tier A" here:** it means the candidate's *closed-form encoding* is kernel-
+> validated over a bounded range (golden values n=0–19 AND closed-form-vs-recurrence n=1–18, both
+> `native_decide` → modulo compiler trust) and its Sym² is two-model `SYM2_SYMBOLIC`. It does **NOT**
+> mean the ∀ n recurrence is proved — that remains `open_goal_recurrence_s7/_s10` (Deep Think CAS
+> certificate pending, D2). "Cleared for Stream 2" = eligible to enter the C3b ranking, nothing more.
+>
+> **Register frozen ≠ full criteria v1.0 frozen.** Only the candidate *set* + tier assignment is
+> frozen (two-model + Xavier sign-off, 2026-07-20). The §7 checklist is still open (C1 N₁, C3b N,
+> C4 requirements, C5 bounds, scoring weights `TBD-AT-FREEZE`; checker golden tests, EFT-derived C4,
+> hash-pinning unmet) — the full criteria v1.0 freeze remains a later Xavier phase-gate. Amendments
+> to the *frozen register* now require the §6 protocol (PR + impact statement). See
+> `briefs/ESCALATIONS.md` (D1–D5 consensus).
 
 ---
 
@@ -139,7 +165,9 @@ Template per criterion: **Definition** (mathematically exact) · **Checking proc
 | Version | Date | Change | Rankings invalidated |
 |---|---|---|---|
 | v0.1 | 2026-07-17 | Skeleton | n/a (no runs permitted pre-freeze) |
-| v1.0 | (freeze) | All TBD-AT-FREEZE resolved with citations; signed | — |
+| v0.1a | 2026-07-18 | Candidate-register amendment E-001 (drop S22/t103; add s18) | n/a (pre-freeze) |
+| v0.1b | 2026-07-20 | **Candidate-register FREEZE** D5 (register-level, two-model + Xavier): Tier-A {s7,s10} cleared for Stream 2; s18 → Tier-B quarantine. Criteria thresholds NOT frozen. Deep Think S2-05 memo cited | n/a (no ranking run yet) |
+| v1.0 | (freeze) | Full criteria: all TBD-AT-FREEZE resolved with citations; §7 checklist signed | — |
 
 ---
 

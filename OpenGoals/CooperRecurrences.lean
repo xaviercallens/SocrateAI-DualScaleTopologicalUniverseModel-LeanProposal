@@ -43,7 +43,13 @@ open Agora.Sequences
     rational-function multiplier from Gorodetsky's proof) as an auxiliary
     lemma before an inductive proof becomes mechanical. That certificate
     is not yet transcribed into this repo — T1/T0 follow-up work, not a
-    Mathlib gap (hence NOT filed as blocked-on-mathlib). -/
+    Mathlib gap (hence NOT filed as blocked-on-mathlib).
+
+    Bounded evidence (NOT a proof of this ∀ n statement): the closed-form
+    `s7` satisfies `s7_params` at every index n = 1..18, kernel-verified in
+    `Tests/CooperSequences.lean` (`s7_closed_form_satisfies_recurrence_upto`,
+    native_decide). This validates the closed-form encoding before the WZ
+    certificate is formalized; it does not discharge the general case. -/
 theorem open_goal_recurrence_s7 :
     SatisfiesCooperRecurrence (fun n => (s7 n : ℤ)) s7_params := by
   sorry
@@ -59,7 +65,13 @@ theorem open_goal_recurrence_s7 :
     arXiv:2102.11839, via a WZ-pair certificate) but NOT kernel-verified
     here. Same grind-loop analysis as `open_goal_recurrence_s7` applies —
     the s10 sum Σ C(n,k)⁴ is a classical but nontrivial hypergeometric
-    identity (related to Domb-type numbers); no direct Mathlib lemma. -/
+    identity (related to Domb-type numbers); no direct Mathlib lemma.
+
+    Bounded evidence (NOT a proof of this ∀ n statement): the closed-form
+    `s10` satisfies `s10_params` at every index n = 1..18, kernel-verified in
+    `Tests/CooperSequences.lean` (`s10_closed_form_satisfies_recurrence_upto`,
+    native_decide). Validates the encoding; does not discharge the general
+    case. -/
 theorem open_goal_recurrence_s10 :
     SatisfiesCooperRecurrence (fun n => (s10 n : ℤ)) s10_params := by
   sorry

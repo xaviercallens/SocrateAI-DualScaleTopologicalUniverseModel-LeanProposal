@@ -134,3 +134,66 @@ Assuming G is available as an explicit formula:
 ---
 
 *Prepared by Claude (T1), 2026-07-20 for T0 scope decision on WP S1-02/S1-03 continuation.*
+
+---
+
+## ADDENDUM — D2 fetch result (2026-07-20, Opus, per Deep Think directive)
+
+**Directive:** mine Gorodetsky arXiv:2102.11839 + Almkvist/Zudilin supplements for an explicit
+`G(n,k)`; report degree/term-count; time-boxed, CAS fallback on failure.
+
+**Result: FETCH FAILED — no author-supplied `G(n,k)` in the primary source.**
+
+- **Gorodetsky arXiv:2102.11839** (fetched `arxiv.org/html/2102.11839`, 2026-07-20): the paper's
+  method is **constant-term / Laurent-polynomial representations, not creative telescoping**. It
+  states the s7/s10 recurrences only in the parametric `(a,b,c,d)` form already encoded here
+  (s7 `(13,4,−27,3)`, s10 `(6,2,−64,4)`), attributes the recurrence formulas to Cooper/Zudilin,
+  and references **no ancillary Mathematica/Maple files**. There is no `G(n,k)` to transcribe.
+- **Secondary search** (2026-07-20) located no published explicit certificate for either sum.
+  Structural expectation for the CAS run:
+  - **s10 = Σ C(n,k)⁴** (OEIS A005260): a *single* hypergeometric sum, directly in scope for
+    Zeilberger; expect an order-2 (3-term) recurrence matching `(6,2,−64,4)` with a certificate
+    `G = R(n,k)·F(n,k)`, `R` a modest-degree rational function. **Recommended first target
+    (cheapest).**
+  - **s7 = Σ C(n,k)² C(n+k,k) C(2k,n)**: 4-factor summand with a **shifting lower limit ⌈n/2⌉**
+    (the `C(2k,n)` factor forces `k ≥ ⌈n/2⌉`); boundary/telescoping analysis is materially harder
+    → larger certificate, watch Lean heartbeat bounds (Deep Think flagged "Polynomial Chunking"
+    as the mitigation).
+
+**Disposition:** per the D2 protocol, control passes to **Deep Think's isolated CAS**
+(Mathematica `HolonomicFunctions` / SageMath) to re-derive the Zeilberger certificates and hand
+back raw polynomials. Exact degree/term-count are **not determinable from any fetched source** —
+they come from that CAS run. Opus writes no Lean until the raw certificate arrives.
+
+**Encoding is validated**: s7/s10 closed forms satisfy their recurrences n=1–18
+(`Tests/CooperSequences.lean`, `native_decide`), so the CAS certificate targets a sound object.
+
+*Sources:* [arXiv:2102.11839](https://arxiv.org/abs/2102.11839) ·
+[full text (HTML)](https://arxiv.org/html/2102.11839) ·
+[OEIS A005260 (s10 = Σ C(n,k)⁴)](https://oeis.org/A005260)
+
+---
+
+## ADDENDUM 2 — D2 fetch RE-RUN (2026-07-24, Opus, per directive "mine Almkvist/Zudilin supplements")
+
+**Directive:** re-mine Gorodetsky arXiv + the **Almkvist/Zudilin supplementary files** the arXiv-only
+pass did not cover; report degree/term-count or confirm failure.
+
+**Result: STILL NO RETRIEVABLE `G(n,k)` — but one source is newly identified and NOT yet ruled out.**
+
+| Source | Checked | Finding |
+|---|---|---|
+| arXiv:2102.11839 (+ HTML) | prior + now | Constant-term / Laurent-polynomial method; **no ancillary files**. Unchanged. |
+| ORA (Oxford green-OA record) | now | **Only the article PDF** attached — no Mathematica/Maple/Sage/text supplement. |
+| **Experimental Mathematics (Ingenta), "Supplementary Data"** | now | A **supplementary-data entry EXISTS** for the journal version (absent from arXiv) but is **paywalled — HTTP 403**, contents unverifiable via automated fetch. **This is the one place an explicit certificate could still live.** |
+
+**Disposition (unchanged conclusion, one new action):** the automated fetch cannot retrieve a certificate;
+control still passes to Deep Think's CAS re-derivation (Zeilberger via `HolonomicFunctions`/SageMath) per
+the D2 handoff brief. **New cheap de-risk before that CAS spend:** Xavier (institutional access) opens the
+EM Ingenta *Supplementary Data* and reports whether it contains an explicit `G(n,k)`/recurrence certificate
+for s7/s10. If yes → transcribe (skip CAS). If no/none → CAS is confirmed as the only path. Degree/term-count
+remain **not determinable from any accessible source**.
+
+*Sources:* [EM Supplementary Data (Ingenta, paywalled 403)](https://www.ingentaconnect.com/content/tandf/exm/2023/00000032/00000004/art00006/supp-data) ·
+[ORA record (PDF only)](https://ora.ox.ac.uk/objects/uuid:5b27159f-dafc-4aee-8f63-8f05c65e5604) ·
+[EM full article](https://www.tandfonline.com/doi/full/10.1080/10586458.2021.1982080)
