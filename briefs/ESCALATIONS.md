@@ -406,6 +406,40 @@ copying Fable's work. Results:
 polynomial structures, state `P_cleared = 0`, discharge via `ring` tactic (Lean 4).
 Two-model rule satisfied; gate closed. Gate outcome: ✅ BOTH STEP 1 & 2 PASS.
 
+**2026-07-24 (FINAL) — GATE STEP 3 COMPLETE: Lean kernel proof landed.**
+`Agora/Swampland/SymSquareC3b.lean` encodes `p0..p3` as genuine `Polynomial ℚ`
+(θ→D conversion cross-checked by hand against the already-proven
+`cooperThetaOperator_eq` in `ThetaOperators.lean` — term-for-term match), builds
+`P_cleared` using REAL `Polynomial.derivative` (not hand-transcribed closed-form
+derivatives — the kernel itself verifies every differentiation step, per the
+project's "kernel is the judge" discipline), and proves
+`theorem P_cleared_eq_zero (a b c d : ℚ) : P_cleared a b c d = 0` by `ring` after
+a `simp` normalization pass. **One theorem, fully generic in a,b,c,d — discharges
+W≡0 for the ENTIRE Cooper family at once**, not just s7/s10 individually.
+
+Specialized (by trivial substitution, no new proof work) to:
+- `P_cleared_s7` — using `s7_params` (13,4,−27,3)
+- `P_cleared_s10` — using `s10_params` (6,2,−64,4)
+- `P_cleared_s18` — using `s18_params` (14,6,192,−12); NOTE this discharges only
+  the structural C3 obligation, NOT s18's recurrence-transcription correctness
+  (still flagged corrupt pending re-transcription, per
+  `briefs/STREAM1_TO_STREAM2_HANDOFF_C3B.md` §4 — unaffected by this proof).
+
+**Build:** `lake build Agora` green, 3106 jobs, zero warnings on the new file.
+**Sorry audit:** 0 sorry in `SymSquareC3b.lean` (confirmed via `export_open_goals.py`
+— the only 2 open goals in the repo, `open_goal_recurrence_s7/s10`, are pre-existing
+and unrelated). **Debugging note for future Lean work on this file:** `ring` failed
+on the first two attempts because (1) `Polynomial.C 3` (a literal routed through
+`C`) was NOT unified with bare numerals appearing elsewhere — fixed by writing
+plain `3` instead of `C 3` for pure-number coefficients; (2) `derivative_pow`
+produces `C (↑n : ℚ)` (a `Nat.cast`, not `OfNat`) — `map_ofNat` alone does not
+simplify this; `map_natCast` was needed in the simp set to unify it with bare
+polynomial numerals before `ring` could close the goal.
+
+**Gate outcome: ✅ ALL THREE STEPS PASS. E-006 / WP S1-08 CLOSED.**
+`SYM2_SYMBOLIC → SYM2_PROVED` for s7, s10, s18 (C3 structural obligation).
+Discharges: `C3b_L3_sym2_L2_s7`, `C3b_L3_sym2_L2_s10` (Lean-kernel tier, [A]).
+
 ---
 
 ## E-006 companion — D2 WZ-certificate FETCH RESULT (2026-07-20, Opus)
