@@ -467,6 +467,24 @@ Zeilberger certificates (raw polynomials handed back to Opus).** Exact degree/te
 come from that CAS run — they are not determinable from any fetched source. Recommend s10 first
 (cheaper, single-sum) unless Xavier's physics evaluation prioritizes s7.
 
+**UPDATE 2026-07-25 — D2 computationally resolved (Opus, this session, no Deep Think handoff
+needed in the end).** Xavier authorized installing SageMath + `ore_algebra` in this environment.
+Both s7 and s10 WZ certificates derived and doubly-verified (algebraic match to sourced params +
+independent numeric spot-check of the raw telescoping identity). Full writeup:
+`docs/WZ_CERTIFICATE_ANALYSIS.md` ADDENDUM 4. Reproducible artifact:
+`scripts/derive_wz_certificates_s7_s10.sage`.
+
+**UPDATE 2026-07-25, later same session — D2 CLOSED.** The Lean encoding was completed (delegated
+to an Opus sub-agent). `open_goal_recurrence_s7` and `open_goal_recurrence_s10` are both
+kernel-proved, 0 `sorry`, standard axioms only (`propext`/`Classical.choice`/`Quot.sound`) —
+independently re-verified this session, not just taken on the agent's word. New file
+`Agora/Sequences/WZCertificates.lean` (587 lines). Full writeup, including a real error in the
+handoff brief's proposed boundary-collapse shortcut that was caught before it caused a false
+lemma: `docs/WZ_CERTIFICATE_ANALYSIS.md` ADDENDUM 5. Recommend Deep Think or Xavier spot-check
+the new file before treating this as fully final (two-model discipline, E-004/E-006 pattern) —
+build-green + axiom-check is real verification but not a substitute for a second reviewer on a
+novel 587-line proof.
+
 ### What was attempted (bounded, per lean-proof-workflow three-strikes discipline)
 
 WP S1-08 (Deep Think directive, adopted in E-004's resolution): formalize `W ≡ 0` for the

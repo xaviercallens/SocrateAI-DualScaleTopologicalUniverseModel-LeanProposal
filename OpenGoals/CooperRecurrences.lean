@@ -12,6 +12,7 @@
 -/
 
 import Agora.Sequences.CooperRecurrences
+import Agora.Sequences.WZCertificates
 
 namespace Agora.Sequences.OpenGoals
 
@@ -21,60 +22,57 @@ open Agora.Sequences
 -- ║  open_goal_recurrence_s7                                           ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- Cooper's s7 closed-form binomial sum satisfies the s7_params
-    three-term recurrence.
+/-- CLOSED (2026-07-25, WP S1-09). Cooper's s7 closed-form binomial sum
+    satisfies the s7_params three-term recurrence.
 
-    STATUS: mathematically established in the literature (Gorodetsky 2023,
-    arXiv:2102.11839, via a WZ-pair / creative-telescoping certificate) but
-    NOT kernel-verified here.
+    STATUS: kernel-proved for all `n ≥ 1`. Tier A, unqualified — the proof
+    uses no axiom beyond Lean's own `propext`/`Classical.choice`/`Quot.sound`,
+    no `native_decide`, and no `sorry`. Proof: `Agora.Sequences.WZ.s7_satisfies`
+    in `Agora/Sequences/WZCertificates.lean`.
 
-    Grind-loop attempts (lean-proof-workflow, three-strikes rule):
-    1. `induction n` on the recurrence index, `simp [s7]` on the step —
-       fails: the step case requires re-indexing a Finset.sum over a
-       shifting range (Icc ((n+1)/2) n vs Icc ((n+2)/2) (n+1)), which does
-       not reduce by `simp`/`ring`/`omega` alone; the identity is a genuine
+    How it was closed. The three strategies recorded below were all sound in
+    their diagnosis: the missing piece was an explicit Wilf–Zeilberger
+    creative-telescoping certificate, which Gorodetsky (arXiv:2102.11839) does
+    not supply (that paper argues by the constant-term / Laurent-polynomial
+    method instead). The certificate was therefore derived independently by
+    computer algebra — SageMath + `ore_algebra`, see
+    `scripts/derive_wz_certificates_s7_s10.sage` and
+    `docs/WZ_CERTIFICATE_ANALYSIS.md` ADDENDUM 4 — and then re-proved from
+    Mathlib's `Nat.choose` API inside Lean. The CAS output serves only as a
+    witness: it is not trusted by the final proof, and a wrong certificate
+    would simply have failed to compile.
+
+    Superseded grind-loop record (kept for the audit trail):
+    1. `induction n` + `simp [s7]` on the step — fails; genuine
        hypergeometric-sum identity, not a syntactic rewrite.
-    2. `decide` at the general (∀ n) level — inapplicable; the statement
-       quantifies over all `n : ℕ`, not decidable by kernel computation.
-    3. `exact?`/`apply?` — no matching Mathlib lemma; Mathlib does not
-       currently contain a creative-telescoping / Zeilberger tactic.
-
-    Conclusion: this needs a formalized WZ certificate (the explicit
-    rational-function multiplier from Gorodetsky's proof) as an auxiliary
-    lemma before an inductive proof becomes mechanical. That certificate
-    is not yet transcribed into this repo — T1/T0 follow-up work, not a
-    Mathlib gap (hence NOT filed as blocked-on-mathlib).
-
-    Bounded evidence (NOT a proof of this ∀ n statement): the closed-form
-    `s7` satisfies `s7_params` at every index n = 1..18, kernel-verified in
-    `Tests/CooperSequences.lean` (`s7_closed_form_satisfies_recurrence_upto`,
-    native_decide). This validates the closed-form encoding before the WZ
-    certificate is formalized; it does not discharge the general case. -/
+    2. `decide` at the ∀ n level — inapplicable.
+    3. `exact?`/`apply?` — no matching Mathlib lemma; Mathlib has no
+       creative-telescoping / Zeilberger tactic. (Still true; the proof
+       supplies the certificate by hand rather than deriving it in Lean.) -/
 theorem open_goal_recurrence_s7 :
     SatisfiesCooperRecurrence (fun n => (s7 n : ℤ)) s7_params := by
-  sorry
+  exact Agora.Sequences.WZ.s7_satisfies
 
 -- ╔════════════════════════════════════════════════════════════════════╗
 -- ║  open_goal_recurrence_s10                                          ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- Cooper's s10 closed-form binomial sum satisfies the s10_params
-    three-term recurrence.
+/-- CLOSED (2026-07-25, WP S1-09). Cooper's s10 closed-form binomial sum
+    satisfies the s10_params three-term recurrence.
 
-    STATUS: mathematically established in the literature (Gorodetsky 2023,
-    arXiv:2102.11839, via a WZ-pair certificate) but NOT kernel-verified
-    here. Same grind-loop analysis as `open_goal_recurrence_s7` applies —
-    the s10 sum Σ C(n,k)⁴ is a classical but nontrivial hypergeometric
-    identity (related to Domb-type numbers); no direct Mathlib lemma.
+    STATUS: kernel-proved for all `n ≥ 1`. Tier A, unqualified — no axioms
+    beyond Lean's own, no `native_decide`, no `sorry`. Proof:
+    `Agora.Sequences.WZ.s10_satisfies` in `Agora/Sequences/WZCertificates.lean`.
 
-    Bounded evidence (NOT a proof of this ∀ n statement): the closed-form
-    `s10` satisfies `s10_params` at every index n = 1..18, kernel-verified in
-    `Tests/CooperSequences.lean` (`s10_closed_form_satisfies_recurrence_upto`,
-    native_decide). Validates the encoding; does not discharge the general
-    case. -/
+    Closed by the same route as `open_goal_recurrence_s7` (see that docstring
+    for the provenance of the certificate). The s10 summand `C(n,k)⁴` has a
+    single binomial factor, so the Lean encoding needs only one Pascal-ratio
+    "atom" family and is markedly shorter than s7's, even though s10's
+    certificate is the larger of the two (degree 11 / 33 terms vs degree 7 /
+    19 terms). -/
 theorem open_goal_recurrence_s10 :
     SatisfiesCooperRecurrence (fun n => (s10 n : ℤ)) s10_params := by
-  sorry
+  exact Agora.Sequences.WZ.s10_satisfies
 
 -- ╔════════════════════════════════════════════════════════════════════╗
 -- ║  open_goal_s7_growth / open_goal_s10_growth — CLOSED, T1, 2026-07-18 ║
