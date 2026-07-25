@@ -1,4 +1,6 @@
 {
+  "RETRACTED": true,
+  "retraction_note": "RETRACTED 2026-07-25 \u2014 see briefs/ESCALATIONS.md E-007. Produced by a checker that computes nothing (hardcoded placeholders, golden tests return True unconditionally). Not a certificate. s7 singular locus sign is wrong (true roots -1 and 1/27). [I1,I1] cannot be a complete K3 fiber configuration (chi_top must be 24).",
   "candidate": "s10",
   "picard_number": 2,
   "transcendental_rank": 20,
@@ -14,7 +16,7 @@
   ],
   "discriminant": -3,
   "signature": "negative definite (definite K3)",
-  "status": "CERTIFIED",
+  "status": "RETRACTED (was: CERTIFIED)",
   "caveat": "[B] Provisional pending A4 orbifold/orientifold interpretation",
   "golden_test_fermat_k3": true,
   "golden_test_non_k3": true,

@@ -1,3 +1,21 @@
+> # ⛔ RETRACTED — 2026-07-25
+>
+> **This document is unsound and must not be cited or built upon.** An Opus-tier
+> verification pass found that the C1/C2 "certificates" underpinning it were produced by
+> checkers that compute nothing (every value is a hardcoded `# Placeholder` literal; all
+> golden tests `return True` unconditionally), that the s7 singular locus is recorded with
+> the wrong sign, that `[I₁, I₁]` cannot be a complete fiber configuration for any K3
+> (χ_top must be 24), that the `[[2,1],[1,2]]` / disc-3 lattice is A₂ ↔ SU(3) and **not**
+> the SU(5) root lattice claimed, and that the "s7 = η(τ)⁶, weight 3" premise is
+> contradicted by the cited source (Gorodetsky states the modular *function* composed with
+> the generating function is a modular form — not that the sequence is one).
+>
+> Full analysis, blast radius, and the T0 ruling requested: **`briefs/ESCALATIONS.md` § E-007**.
+>
+> Retained unmodified for the audit trail. Stream 1 (the Lean proofs) is **not** affected.
+
+---
+
 # Stream 2 EFT Matching: Status & Escalation Points
 
 **Date:** 2026-07-25  

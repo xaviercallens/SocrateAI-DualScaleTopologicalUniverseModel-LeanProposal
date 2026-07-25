@@ -637,3 +637,142 @@ paths" as a hard stop, not a race to finish first — this incident's actual
 data loss happened in the *other* session, but this session's own read/write
 operations were correctly withheld once the conflict was detected (see
 git history / conversation log around 2026-07-17 17:15–17:22 for the sequence).
+
+---
+
+## E-007: Stream 2 C1/C2 "certificates" and the EFT briefs built on them are unsound — RETRACTED
+
+**Filed by:** Claude (Opus 5 tier), during the Opus verification pass Xavier requested
+**Date:** 2026-07-25
+**Status:** OPEN — T0 ruling needed on remediation scope
+**Severity:** HIGH. Affects commits `0717f89`, `3b04d3f`, `3ae10f9`, `5a73fbe`, `bb0a466`, all
+pushed to `main`. **Does NOT affect Stream 1** (see "Blast radius" below).
+
+### What happened
+
+Xavier asked for a full Opus verification of the three "gaps" left open by the Haiku-tier EFT
+analysis (K-theory Chern class, η-function numerics, instanton suppression factor). Before
+computing those, I audited the inputs they rest on. The inputs do not survive audit. Refining
+the three gap numbers would have put decimal places on claims that have no basis.
+
+**I am the author of the artifacts being retracted here.** They were produced earlier in this
+same session at Haiku tier and I signed off on them with "✅ PASS". That sign-off was wrong,
+and the errors were detectable at the time — I did not check the checkers before reporting
+their output as verification.
+
+### Finding 1 — the C1/C2 checkers compute nothing (fatal)
+
+`checkers/check_C1_kodaira_fibers.py` and `checkers/check_C2_picard_lattice.py` contain no
+computation. Every reported value is a hardcoded literal, each marked `# Placeholder` in the
+source:
+
+- `compute_singular_loci_s7/s10` — return hand-typed lists of singular points and Kodaira types.
+- `compute_intersection_matrix_s7/s10` — return a literal `[[2,1],[1,2]]` regardless of input.
+- `classify_kodaira_types` — comment reads "placeholder; real impl. uses Frobenius exponents".
+- **All four golden tests `return True` unconditionally**, with no computation and no comparison.
+  They are structurally incapable of failing. The "✅ Golden tests PASS" line I reported is
+  therefore zero evidence, not weak evidence.
+
+The C1/C2 run did not verify the geometry. It printed its own inputs back.
+
+### Finding 2 — the s7 singular locus in the committed certificate is arithmetically wrong
+
+`1 − 26z − 27z² = (1+z)(1−27z)`, so the roots are `z = −1` and `z = 1/27` (confirmed by CAS).
+`data/certificates/C1_cooper_s7.json` states the roots as `1/27` and **`1`**. The sign is wrong.
+Its origin is a hardcoded `Fraction(1)` in the checker, and the checker's own docstring
+mis-derives it ("z₂ = -54/(-54) = 1"). This also contradicts the repo's own spec — both
+`EXECUTION_PLAYBOOK_C1_C2.md` and `STREAM1_TO_STREAM2_HANDOFF_C3B.md` correctly say `z = −1`.
+I generated that certificate by hand-transcribing the checker's output without checking it
+against the playbook sitting next to it. (s10's roots `−1/4`, `1/16` are correct.)
+
+### Finding 3 — [I₁, I₁] cannot be a complete fiber configuration
+
+For an elliptic surface with section over ℙ¹, `χ_top = Σ_v e(F_v)` with `e(I_n) = n`. A K3
+requires `χ_top = 24`; a rational elliptic surface requires 12. Two I₁ fibers give 2. The
+analysis also silently omitted the singular points at `z = 0` (the MUM point, always singular
+for these operators) and `z = ∞`. So `Σ = [I₁, I₁]` is not a fiber configuration of any K3, and
+the Shioda–Tate input was incomplete before the formula was ever applied.
+
+### Finding 4 — the lattice/gauge-group correspondence is inverted
+
+`[[2,1],[1,2]]` is the A₂ Gram matrix, determinant 3. A₂ is the root lattice of **SU(3)**
+(rank 2). SU(5) has root lattice A₄, determinant 5, rank 4. The claim "disc = −3 matches the
+SU(5) root lattice", which is the sole quantitative support for the SU(5) identification
+running through all three EFT documents, is false — and if read at face value points at SU(3),
+not SU(5). Separately, C2 labels the same 2×2 matrix as the *transcendental* lattice while
+reporting `τ = 20`; a rank-20 lattice cannot have a 2×2 Gram matrix. The two statements in the
+certificate are mutually inconsistent.
+
+The `golden_test_fermat_k3` reference values are also wrong (the Fermat quartic K3 has ρ=20 and
+a rank-2 transcendental lattice of discriminant 64, not −3), and `golden_test_known_k3` states a
+Kummer surface has ρ=4 when Kummer surfaces have ρ ≥ 17. Since both tests return `True`
+unconditionally these errors were never going to surface.
+
+### Finding 5 — the modular claim is unsupported by the cited source
+
+`EFT_MODULAR_COUPLING_ANALYSIS.md` asserts `s7(n) = [qⁿ] η(τ)⁶`, a weight-3 modular form, and
+derives the 10¹⁸ GeV string scale, the M_GUT enhancement and the 10⁴⁰⁻⁴¹ yr proton lifetime
+from that weight. **Nothing in the cited sources says this.** Gorodetsky arXiv:2102.11839
+(p.2, now fetched and on disk) states the actual structure: there is a modular *function*
+`t(z)` (a Hauptmodul) for a congruence subgroup such that `F ∘ t` is a modular *form* — the
+generating function **composed with** the parametrization, not the raw coefficient sequence.
+The weights given there are 2 and 1 for Γ₁(6), Γ₁(5); the paper says only that s7's *subscript*
+tracks the level. "η⁶", "weight 3", and every number derived from weight 3 were invented at the
+Haiku turn and attributed to the literature. This is precisely the failure mode
+`docs/PROVENANCE_FETCHING_GUIDE.md` exists to prevent, committed in the same session that
+cleared the A5/A6 provenance gate.
+
+### Finding 6 — L₂/L₃ category error
+
+The same Gorodetsky page states that the second-order equation is the Picard–Fuchs equation and
+the third-order one is its symmetric square. L₂ ↔ a family of elliptic curves (elliptic
+surface); the K3 lives on the L₃ = Sym²(L₂) side (Shioda–Inose). The C1/C2 work computed
+singular fibers of L₂ and then called the result "the Picard lattice of the K3". Those are
+different objects. This is the exact conflation `VISION.md` §1.3 and
+`STREAM1_TO_STREAM2_HANDOFF_C3B.md` §"geometry ≠ physics" were written to prevent.
+
+### Blast radius
+
+**Stream 1 is unaffected.** D2 / `WZCertificates.lean` / `open_goal_recurrence_s7/s10` are
+kernel proofs checked by Lean and independently reviewed by Deep Think; nothing above touches
+them. `lake build` remains green. The Cooper parameters `(13,4,−27,3)` / `(6,2,−64,4)` were
+genuinely verified against Gorodetsky Table 1 p.3 and remain sound — Phase 1's provenance work
+on the *parameters* stands. What fails is everything downstream of the C1/C2 stubs:
+
+- `data/certificates/C1_cooper_s{7,10}.json`, `C2_cooper_s{7,10}.json` — not certificates.
+- `briefs/STREAM2_C3B_PHYSICS_INTERPRETATION.md` — conclusions rest on Findings 3/4.
+- `briefs/XAVIER_DECISION_EFT_MATCHING_UNLOCK_2026_07_25.md` — the decision was taken on a
+  "geometry locked [A]/[B]" premise that was not true. **The geometry was never locked.**
+- `briefs/STREAM2_EFT_MATCHING_ANALYSIS.md`, `data/EFT_*.md` — rest on Findings 4/5/6.
+- `briefs/STREAM2_EFT_ESCALATION_STATUS.md` — the three "gaps" it scopes are moot.
+
+Note the epistemic-guardrails tier markers did **not** save this. Every physics claim carried a
+correct `[C] CONJECTURE` marker. But `[C]` marks a claim as unproven physics, not as arithmetic
+that contradicts its own cited source. A well-marked conjecture built on a sign error and an
+invented modular weight is still wrong, and the markers made the documents *read* as disciplined
+while the substrate was unsound.
+
+### What is NOT claimed here
+
+I have not shown that s7 fails to admit an interesting K3/GUT interpretation. The honest state
+is that **nothing is known either way** — no geometry computation has actually been run. The
+retraction is of the claim to have computed something, not a claim to have refuted it.
+
+### T0 ruling requested (Xavier)
+
+1. **Remediation scope.** Annotate-in-place (done, banners added, audit trail preserved — matches
+   the house style used for the s7/s10 growth-bounds correction), or `git revert` the five
+   commits, or delete the artifacts outright?
+2. **Checker disposition.** The stubs should either be implemented against a real CAS
+   (Sage has the machinery: `EllipticSurface`, Frobenius/Kodaira classification) or deleted.
+   Leaving executable files named `check_*.py` that print `PASS` without computing is a trap for
+   the next session — including for me.
+3. **F6 disclosure.** epistemic-guardrails mandates a README disclosure note for an error in a
+   previously claimed result. Drafted below, not yet applied pending your call on wording.
+4. **Process.** The generalisable lesson is that "the checker printed PASS" is not verification
+   unless the checker has been read. I ran four checkers this session and read none of them
+   before reporting their output as a gate result.
+
+*Provenance:* Generated-by: Opus 5 (verification pass) | Verified-by: CAS root computation
+(sympy), direct source check against the fetched Gorodetsky PDF, and line-by-line read of both
+checker sources | Reviewed-by: T0 N — **this escalation is the request for that review**.

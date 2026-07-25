@@ -1,4 +1,6 @@
 {
+  "RETRACTED": true,
+  "retraction_note": "RETRACTED 2026-07-25 \u2014 see briefs/ESCALATIONS.md E-007. Produced by a checker that computes nothing (hardcoded placeholders, golden tests return True unconditionally). Not a certificate. s7 singular locus sign is wrong (true roots -1 and 1/27). [I1,I1] cannot be a complete K3 fiber configuration (chi_top must be 24).",
   "candidate": "s10",
   "operator": "L\u2082 = (1 \u2212 12z \u2212 64z\u00b2)\u03b8\u00b2 + (\u22126z \u2212 64z\u00b2)\u03b8 + (\u2212z \u2212 15z\u00b2)",
   "singular_points": [
@@ -17,7 +19,7 @@
   ],
   "fibre_configuration": "\u03a3(s10) = [I1, I1]",
   "total_picard_number_lower_bound": 4,
-  "status": "CERTIFIED",
+  "status": "RETRACTED (was: CERTIFIED)",
   "caveat": "[B] Provisional \u2014 rational 2-power denominators in partner sequence (A4 analysis)",
   "golden_test_known_k3": true,
   "golden_test_non_k3": true,
