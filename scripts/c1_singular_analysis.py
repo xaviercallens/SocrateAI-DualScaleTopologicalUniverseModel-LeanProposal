@@ -161,6 +161,25 @@ def analyse(name, N=12):
         print(f"\n  z = {z0}:  p_(-1) = {p_m1}")
         print(f"          exponents {[str(r) for r, _ in ex]}")
 
+    # --- Wronskian ----------------------------------------------------------
+    # In d/dz form (Q2 y'' + Q1 y' + Q0 y with Q2 = z^2 P2, Q1 = z(P2+P1)) the
+    # Wronskian of any two solutions obeys W'/W = -Q1/Q2. Using theta(P2) = 2 P1
+    # this integrates to W = C / (z * sqrt(P2)).
+    from sympy import cancel as _cancel
+    Q2, Q1 = z**2 * P2, z * (P2 + P1)
+    lhs = _cancel(-Q1 / Q2)
+    rhs = _cancel(-1 / z - P2.diff(z) / (2 * P2))
+    print(f"\n  --- Wronskian ---")
+    print(f"    W'/W = -Q1/Q2                = {lhs}")
+    print(f"    -1/z - P2'/(2 P2)            = {rhs}")
+    print(f"    difference                   = {simplify(lhs - rhs)}"
+          f"  -> {'MATCH' if simplify(lhs - rhs) == 0 else 'DIFFERS'}")
+    print(f"    => W = C / (z * sqrt(P2)),  P2 = {factor(P2)}")
+    print(f"    NOTE: the sqrt means the determinant of the rank-2 local system is")
+    print(f"    NOT trivial around the roots of P2 -- consistent with the exponent")
+    print(f"    difference 1/2 found above. This is an OBSERVATION, not a geometric")
+    print(f"    conclusion; see the OPEN QUESTION in briefs/ESCALATIONS.md E-007.")
+
     print(f"\n  --- Sym^2 series test (a_0 = 1, {N + 1} coefficients) ---")
     a = holomorphic_solution(P2, P1, P0, N)
     u = cooper_sequence(d['cooper'], N)

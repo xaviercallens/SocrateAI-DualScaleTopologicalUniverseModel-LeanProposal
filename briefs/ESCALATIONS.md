@@ -960,3 +960,54 @@ re-run.
 *Provenance:* Generated-by: Opus 5 | Verified-by: line-by-line read of all six checkers, each
 executed and exit-code checked; A1's fix validated by both arms of its own control; A1's output
 cross-checked against an independently derived partner sequence | Reviewed-by: T0 N — pending.
+
+### OBSERVATION + OPEN QUESTION — the L₂ Wronskian carries a square root (2026-07-25)
+
+A bounded, verifiable piece of Stream 2 substance, recorded because it bears directly on why the
+retracted Kodaira reading failed. **This is an observation, not a geometric conclusion.**
+
+**Computed fact** (`scripts/c1_singular_analysis.py`, exact, both candidates): in `d/dz` form
+`Q₂y″ + Q₁y′ + Q₀y` with `Q₂ = z²P₂`, `Q₁ = z(P₂+P₁)`, the Wronskian obeys `W′/W = −Q₁/Q₂`, and
+
+```
+W = C / (z · √P₂)
+```
+
+verified by exact match against `−1/z − P₂′/(2P₂)` for both s7 and s10. This is a direct
+consequence of the magic collapse: `θ(P₂) = 2P₁` is exactly what makes `Q₁/Q₂ = 1/z + P₂′/(2P₂)`.
+
+**Why it matters.** The `√P₂` means the determinant character of the rank-2 local system is
+**non-trivial around the roots of `P₂`** — it picks up a sign. That is consistent with, and
+explains, the exponent difference `1/2` computed at each finite singular point.
+
+**The consequence for the retraction.** For an elliptic fibration the local monodromy lies in
+`SL(2,ℤ)` (determinant `+1`), and an `Iₙ` fiber has *unipotent* monodromy, i.e. exponent
+difference `0`. Our finite singular points have exponent difference `1/2`. So the retracted
+`Σ = [I₁, I₁]` reading was not a near miss — it is structurally incompatible with the operator
+as recorded.
+
+**Open question (T0 / literature, NOT to be guessed).** What is the geometric object here?
+Note the difficulty is not removable by the obvious move: rescaling `y → P₂^s·y` shifts *both*
+exponents equally, so the exponent **difference** `1/2` is invariant under any scalar twist. The
+mismatch therefore cannot be gauged away by normalisation alone. Candidate resolutions — none
+verified, listed only to scope the question:
+
+1. `L₂` as recorded is a twist of the geometric Picard–Fuchs operator by something with
+   square-root branching, and the correct geometric operator must be reconstructed rather than
+   read off. (But see the invariance remark above — a *scalar* twist is insufficient.)
+2. The relevant local system is a rank-2 system with non-trivial determinant character, i.e. the
+   family is of elliptic curves *with level/quadratic-twist structure*, and the fiber dictionary
+   to use is not the naive Kodaira one.
+3. The `[A] Certified` L₂ is correct for its actual purpose — it verifiably satisfies
+   `L₃ = P₂·Sym²(L₂)` and `f² = Σ s(n)zⁿ` — and simply is not, and was never claimed to be, the
+   `H¹` local system of an elliptic surface. The error was entirely in the C1/C2 layer that
+   assumed it was.
+
+Resolution 3 is the cheapest and fits every verified fact, but I am **not** asserting it. It
+needs either a literature source for the geometric realisation of these Apéry-like partners, or
+an explicit Weierstrass-model construction. Whoever picks this up should settle this question
+*before* running Tate's algorithm on anything — running it on the wrong operator is how the
+first attempt produced a confident wrong answer.
+
+*Provenance:* Generated-by: Opus 5 | Verified-by: exact sympy computation, both candidates,
+Wronskian identity matched to 0 | Reviewed-by: T0 N — this is a question, not a claim.
