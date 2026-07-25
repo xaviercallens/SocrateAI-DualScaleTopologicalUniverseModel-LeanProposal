@@ -776,3 +776,101 @@ retraction is of the claim to have computed something, not a claim to have refut
 *Provenance:* Generated-by: Opus 5 (verification pass) | Verified-by: CAS root computation
 (sympy), direct source check against the fetched Gorodetsky PDF, and line-by-line read of both
 checker sources | Reviewed-by: T0 N — **this escalation is the request for that review**.
+
+### REMEDIATION APPLIED — 2026-07-25 (Opus, same session)
+
+Xavier directed "continue and remediate". Decisions taken on the three open items, and two
+further findings that surfaced during remediation.
+
+**Ruling 1 — remediation scope: annotate in place.** All retracted artifacts keep their
+`⛔ RETRACTED` banner and remain in the tree; nothing reverted or deleted. Matches the house
+precedent (the s7/s10 growth-bounds correction) and keeps the error auditable, which matters
+more here than a clean history.
+
+**Ruling 2 — checkers: disabled or rewritten, never left able to emit a false PASS.**
+- `check_C1_kodaira_fibers.py`, `check_C2_picard_lattice.py` — now exit 2 with an explanation
+  of what an honest implementation would require (Weierstrass model + Tate's algorithm; and for
+  C2, first fixing *which surface* is meant — see finding 6). Verified: both exit 2.
+- `adversarial_A5_A6_provenance_hygiene.py` — **rewritten to do real work** (see finding 7).
+
+**Ruling 3 — F6 disclosure applied** to `README.md`, above "Key Documents".
+
+#### Finding 7 (NEW) — A5/A6 was also a stub, so the Phase 1 gate result was false too
+
+The provenance checker — the anti-hallucination gate itself — marked every sequence
+`'verified': True  # Placeholder: would fetch OEIS`, and its hash function returned literal
+`'SHA256:PLACEHOLDER'` strings. It never hashed a file or consulted OEIS. Its
+"PASS — all 15 sporadic sequences verified" was fabricated.
+
+It has been rewritten and now genuinely: computes SHA256 and compares against the pinned
+registry; extracts each PDF's front page and requires identity keywords; and locates the Cooper
+`(a,b,c,d)` tuples in the fetched Gorodetsky text. **Negative-controlled** — substituting a
+wrong document produces FAIL with the offending title printed, and an undeclared PDF in
+`docs/literature/` produces FAIL. It now passes on a correctly-scoped claim and states in its
+own output what it does *not* check (OEIS; Zagier/AZ parameters).
+
+#### Finding 8 (NEW) — the PDF pinned as "Zagier 2009" is an unrelated paper
+
+`docs/literature/Zagier_2009_sporadic.pdf`, SHA256-pinned in `refs/literature_provenance.txt`
+and reported as clearing the provenance gate, was **"Covering the Plane by Rotations of a
+Lattice Arrangement of Disks"** (Iosevich–Kolountzakis–Matolcsi, arXiv:math/0611800) — nothing
+to do with Apéry-like sequences. I took that arXiv ID from
+`docs/PROVENANCE_FETCHING_GUIDE.md`, downloaded it, hashed it, and pinned it without ever
+opening it. The anti-hallucination gate was cleared by hashing the wrong paper.
+
+File deleted (recoverable at `2fcedae`); registry entry replaced with an explicit **NOT
+FETCHED** record. Zagier's article appears to have no arXiv preprint and likely needs
+library/AMS access.
+
+Relatedly, the 6 Zagier and 6 Almkvist–Zudilin parameter tables in the old checker were
+recorded as 4-tuples in Cooper's *order-3* format, but Zagier's sporadic sequences satisfy an
+**order-2, three-parameter** recurrence — `ZagierRecurrenceParams` in
+`Agora/Sequences/ThetaOperators.lean` has three fields. They also cited arXiv:1804.00007, never
+fetched. Those tables were removed rather than carried forward. **Nothing in the Lean sources
+consumes them**, so this is not blocking; the only Zagier value Lean uses is
+`S12_zagier_params = ⟨11,3,−1⟩`, which is already honestly marked Tier B and sourced to a
+Stream 2 pipeline artifact, not to Zagier's paper.
+
+#### Real computation now available (replacing the stub output)
+
+`scripts/c1_singular_analysis.py` computes, for real, and is the only thing that should be
+cited for C1-adjacent facts:
+
+| | s7 | s10 |
+|---|---|---|
+| `P₂` factors | `−(z+1)(27z−1)` | `−(4z+1)(16z−1)` |
+| finite singular pts | `z = −1`, `z = 1/27` | `z = −1/4`, `z = 1/16` |
+| exponents at `z=0` | `{0,0}` → MUM | `{0,0}` → MUM |
+| exponents at each finite pt | `{0, 1/2}` | `{0, 1/2}` |
+| `f(z)² = Σ sₙzⁿ` | **VERIFIED** to z¹² | **VERIFIED** to z¹² |
+
+Three things follow, and they matter:
+
+1. **The L₂ operators in the handoff brief are correct.** The Sym² series identity is a sharp
+   test — a wrong L₂ fails it immediately — and both pass. The handoff's `[A] Certified` label
+   survives this audit. The retraction never implicated Stream 1's L₂ extraction.
+2. **The retracted `[I₁, I₁]` claim is not merely unproven, it is inconsistent with the
+   operator.** Exponent difference `1/2` means local monodromy eigenvalues `{1,−1}` — not
+   unipotent, hence not an `Iₙ` fiber. *Caveat, stated because I will not repeat the mistake of
+   over-reading a computation:* if the recorded L₂ is a twist of the geometric Picard–Fuchs
+   operator by a factor with square-root branching at the roots of `P₂`, the underlying elliptic
+   surface could still have `Iₙ` fibers. Settling that needs the Weierstrass model. What is
+   established is that the exponents do not support the claim that was made.
+3. **s10's holomorphic solution is not integral** — `1, 1, 17/2, 147/2, 6363/8, …` — while s7's
+   is (`1, 2, 22, 336, 6006, …`). This independently confirms the long-flagged A4 "rational
+   2-power partner" caveat as a real phenomenon rather than a suspicion, and is the first
+   concrete evidence distinguishing s7 from s10.
+
+#### Still open
+
+Kodaira types, any K3 surface, Picard number/lattice, and every gauge-theoretic statement remain
+**uncomputed**. Not refuted — uncomputed. The path is: Weierstrass model of the L₃ = Sym²(L₂)
+family → discriminant → Tate's algorithm → Shioda–Tate with a *complete* fiber list checked
+against `Σ e(F_v) = 24`. That is real work and should not be started under a deadline.
+
+Xavier's EFT-unlock decision should be treated as **void** — it was taken on a "geometry locked"
+premise that was false — and re-taken, or not, once there is a geometry.
+
+*Provenance:* Generated-by: Opus 5 | Verified-by: sympy (exact rational arithmetic, run in-repo
+via `scripts/c1_singular_analysis.py`), negative-controlled checker runs, direct front-page
+inspection of the fetched PDFs | Reviewed-by: T0 N — pending.

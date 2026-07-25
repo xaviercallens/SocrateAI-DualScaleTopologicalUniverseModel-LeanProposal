@@ -2,15 +2,27 @@
 # Anti-hallucination protocol: all sporadic sequence parameters traced to fetched sources
 # Each entry: filename | MD5 | SHA256 | source citation | verified date
 
-# Zagier sporadic sequences (6 sequences: A, B, C, D, E, F)
-# Source: D. Zagier, "Integral solutions of Apéry-like recurrence equations" (2009)
-# arXiv:math/0611800
-# Location: docs/literature/Zagier_2009_sporadic.pdf
-Zagier_2009_sporadic.pdf | SHA256:d571b69441ded019244f1fd2f410009dd97feaa6be964d870fb4d5292f1fa7e6 | arXiv:math/0611800 | 2026-07-25 (fetched & verified)
+# Zagier sporadic sequences (6 sequences: A, B, C, D, E, F) -- NOT FETCHED
+# Source: D. Zagier, "Integral solutions of Apery-like recurrence equations" (2009),
+#   in: Groups and Symmetries, CRM Proc. Lecture Notes 47, AMS.
+# STATUS 2026-07-25: NOT FETCHED. A file was downloaded from arXiv:math/0611800 on
+#   2026-07-25 and pinned here as this source. That arXiv ID is NOT Zagier's paper --
+#   it is "Covering the Plane by Rotations of a Lattice Arrangement of Disks"
+#   (Iosevich, Kolountzakis, Matolcsi), an unrelated article. The ID was taken from
+#   docs/PROVENANCE_FETCHING_GUIDE.md and used without checking the title. The file
+#   has been deleted and its bogus hash pin removed. See briefs/ESCALATIONS.md E-007.
+#   Zagier's article does not appear to have an arXiv preprint; fetching it likely
+#   needs library/AMS access. NOTHING in the Lean sources currently depends on the
+#   Zagier A-F parameters, so this is not blocking -- but do not claim they are
+#   verified until this is genuinely fetched.
+
 
 # Almkvist-Zudilin sequences (AESZ database, 6 sequences: α, β, γ, δ, ε, ζ)
-# Source: G. Almkvist, D. van Straten, "Calabi-Yau operators and Apéry-like recurrences"
-# arXiv:2103.08651 (contains unified table + AESZ classification)
+# Source: G. Almkvist, D. van Straten, "Calabi-Yau operators of degree two",
+# arXiv:2103.08651 (title verified from the fetched PDF front page, 2026-07-25).
+# NOTE: the AESZ alpha..zeta parameter sets were NEVER verified against this or any
+# other fetched document; the old checker cited arXiv:1804.00007, which was never
+# fetched. Those tables have been removed from the A5/A6 checker. See E-007.
 # Location: docs/literature/Almkvist_vanStraten_arXiv2103.08651.pdf
 Almkvist_vanStraten_arXiv2103.08651.pdf | SHA256:549c176daa7eb5605b09a6894a8e5a9cbe94c015ef6e7dcb87650ceef4e7cfec | arXiv:2103.08651 | 2026-07-25 (fetched & verified)
 
@@ -24,15 +36,16 @@ Almkvist_vanStraten_arXiv2103.08651.pdf | SHA256:549c176daa7eb5605b09a6894a8e5a9
 Gorodetsky_arXiv2102.11839_v2.pdf | SHA256:520da4b0171128d22971d7398f79a1aa6cd760c2412b34a78ba5120adc371ee1 | arXiv:2102.11839 v2 | 2026-07-25 (fetched & verified)
 Cooper_2012_Ramanujan.pdf | SHA256:PENDING | Ramanujan Journal 29:163-183 | PENDING (journal/ResearchGate)
 
-# VERIFICATION CHECKLIST
-# [ ] Zagier_2009_sporadic.pdf fetched, hash computed, A, B, C, D, E, F verified against paper
-# [ ] Almkvist_vanStraten_arXiv2103.08651.pdf fetched, AESZ α, β, γ, δ, ε, ζ verified
-# [ ] Gorodetsky_arXiv2102.11839_v2.pdf fetched, s7 (13,4,-27,3) verified on p.3
-# [ ] Gorodetsky_arXiv2102.11839_v2.pdf fetched, s10 (6,2,-64,4) verified on p.3
-# [ ] Gorodetsky_arXiv2102.11839_v2.pdf fetched, s18 (14,6,192,-12) verified on p.3
-# [ ] Cooper_2012_Ramanujan.pdf fetched, all three Cooper sequences verified
-# [ ] Hashes pinned in this file
-# [ ] checkers/adversarial_A5_A6_provenance_hygiene.py passes with all sources
+# VERIFICATION CHECKLIST  (revised 2026-07-25 after E-007)
+# [x] Gorodetsky_arXiv2102.11839_v2.pdf fetched, sha256 pinned, identity confirmed
+# [x] Gorodetsky p.3 table: s7 (13,4,-27,3), s10 (6,2,-64,4), s18 (14,6,192,-12)
+#     read off the fetched PDF by eye AND matched by checkers/adversarial_A5_A6...py
+# [x] Almkvist_vanStraten_arXiv2103.08651.pdf fetched, sha256 pinned, identity confirmed
+# [ ] Almkvist-van Straten: NO parameter set has been verified against it
+# [ ] Zagier 2009: NOT FETCHED (see note above); A-F parameters UNVERIFIED
+# [ ] Cooper_2012_Ramanujan.pdf: NOT FETCHED (journal access needed). Not blocking --
+#     Gorodetsky is the authoritative secondary source for the same table.
+# [ ] OEIS cross-check: NOT PERFORMED for any sequence (no network, no cached data)
 
 # ANTI-HALLUCINATION RULE
 # Every sporadic sequence parameter (a,b,c,d) used in the codebase must be:

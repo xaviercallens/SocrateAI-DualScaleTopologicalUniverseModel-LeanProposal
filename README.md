@@ -21,6 +21,36 @@ This repository is **not** responsible for:
 
 ---
 
+## ⚠️ Correction notice — 2026-07-25 (F6 disclosure)
+
+Work published to `main` on 2026-07-25 under the heading "Stream 2 geometry locked" has been
+**retracted the same day**. The C1/C2 "certificates", the C3b physics-interpretation brief, the
+EFT-matching analyses, and the decision to unlock the EFT phase were all built on checker
+scripts that performed **no computation** — every value they reported was a hardcoded
+placeholder, and their self-tests returned `True` unconditionally and could not fail.
+
+Specifically retracted: the claim that the s7/s10 fiber configuration is `[I₁, I₁]`; that the
+Picard lattice is `[[2,1],[1,2]]` with ρ=2, τ=20; that discriminant −3 indicates an SU(5) GUT
+(that lattice is A₂, i.e. SU(3)); that `s7` is the weight-3 modular form η(τ)⁶ (unsupported by
+the cited source, which states only that the generating function *composed with* a modular
+function is a modular form); and every downstream number, including the 10¹⁸ GeV string scale
+and the 10⁴⁰⁻⁴¹ yr proton lifetime. A separate provenance failure: the PDF pinned as Zagier's
+paper was in fact an unrelated article on lattice disk coverings, so the "15 sporadic sequences
+verified" claim was also false.
+
+**Not affected:** all Lean results, including the D2 closure
+(`Agora/Sequences/WZCertificates.lean`, `open_goal_recurrence_s7`/`_s10`). Those are kernel
+proofs, independently re-verified and two-model reviewed; `lake build` is green and both
+theorems depend only on `propext`/`Classical.choice`/`Quot.sound`. The Cooper parameters
+`(13,4,−27,3)` / `(6,2,−64,4)` / `(14,6,192,−12)` were genuinely checked against the fetched
+Gorodetsky PDF and stand.
+
+Full analysis, evidence, and remediation: **[`briefs/ESCALATIONS.md` § E-007](briefs/ESCALATIONS.md)**.
+Retracted artifacts are retained in place with `⛔ RETRACTED` banners rather than deleted, so the
+record stays auditable.
+
+---
+
 ## Key Documents
 
 1. **[VISION.md](VISION.md)** — The master vision document. Read this first.
