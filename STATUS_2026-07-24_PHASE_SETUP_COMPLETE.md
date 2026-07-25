@@ -1,3 +1,10 @@
+> ⛔ **This status report is superseded.** Its Stream 2 claims (C1/C2 ready, checkers
+> verified, geometry predictable) were retracted on 2026-07-25 — see
+> `briefs/ESCALATIONS.md` E-007 and the correction notice in `README.md`. Stream 1 claims
+> in this file are unaffected.
+
+---
+
 # PROJECT STATUS — 2026-07-24 (Phase Setup Complete)
 
 **Session Summary:** Review conducted, infrastructure complete, ready for Phase 1 execution.
@@ -52,7 +59,10 @@
 - briefs/EXECUTION_PLAYBOOK_C1_C2.md (4-phase execution guide)
 
 **Infrastructure status:**
-- ✅ All checkers tested and verified
+- ⛔ ~~All checkers tested and verified~~ — **FALSE, corrected 2026-07-25.** Of the six
+  checkers, four computed nothing (hardcoded placeholders; golden tests returning `True`
+  unconditionally) and one of the two real ones had a negative control that could never
+  pass. See `briefs/ESCALATIONS.md` E-007.
 - ✅ C1/C2 templates operationally ready
 - ✅ Singular points exact (no approximation error)
 - ✅ Monodromy scripts validated
@@ -163,7 +173,8 @@ TOTAL:                 9–15 hours
 - [ ] Manually verify (a,b,c,d) against PDFs
 - [ ] Pin hashes in refs/literature_provenance.txt
 - [ ] Run A5/A6: `python3 checkers/adversarial_A5_A6_provenance_hygiene.py`
-- [ ] Expected: ✅ PASS (all 15 sporadic sequences verified)
+- [ ] Expected: ✅ PASS — scope is hashes + document identity + the 3 Cooper
+      parameter sets only. NOT 15 sequences, no OEIS. See ESCALATIONS.md E-007.
 
 **Estimated time:** 1–2 hours (mostly manual PDF download + verification)
 

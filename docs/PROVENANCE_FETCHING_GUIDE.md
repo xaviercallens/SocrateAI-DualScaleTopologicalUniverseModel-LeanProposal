@@ -13,8 +13,16 @@
 **Source:** D. Zagier, "Integral solutions of Apéry-like recurrence equations" (survey, 2009 or latest)
 
 **Where to fetch:**
-- arXiv: https://arxiv.org/abs/math/0611800 (or search "Zagier sporadic")
-- Direct: Search JSTOR / Math reviews for the survey
+- ⛔ **arXiv:math/0611800 is NOT this paper.** It is "Covering the Plane by Rotations of a
+  Lattice Arrangement of Disks" (Iosevich–Kolountzakis–Matolcsi), entirely unrelated. This
+  guide previously listed that ID; on 2026-07-25 it was downloaded, hashed and pinned into
+  `refs/literature_provenance.txt` as a Zagier source **without anyone opening it**, and the
+  A5/A6 provenance gate was cleared against the wrong document. See `briefs/ESCALATIONS.md`
+  E-007 finding 8.
+- Zagier's article appears to have **no arXiv preprint**. It is a chapter in *Groups and
+  Symmetries*, CRM Proc. Lecture Notes 47, AMS (2009). Fetching it likely needs library/AMS
+  access. Until then it is **NOT FETCHED** and the Zagier A–F parameters are **UNVERIFIED**.
+- Do not substitute a different paper because it is easier to obtain.
 
 **Parameters to verify (from paper / table):**
 - A: (1, 0, 0, 0)
@@ -112,6 +120,23 @@ cd docs/literature/
 # Option C: Author contact (if needed)
 #   - Email author for reprint
 ```
+
+### Step 1b: VERIFY THE DOCUMENT IS WHAT YOU THINK IT IS  ⟵ do this before hashing
+
+A hash pins *a* file; it does not tell you *which* file. Hashing before checking the title is
+how E-007 finding 8 happened.
+
+```bash
+for pdf in docs/literature/*.pdf; do
+  echo "=== $pdf"
+  pdftotext -f 1 -l 1 "$pdf" - | head -8
+done
+```
+
+Read the titles. Confirm each is the paper the filename claims. Only then hash.
+`checkers/adversarial_A5_A6_provenance_hygiene.py` now enforces this automatically: it requires
+expected keywords on each PDF's front page and FAILs, printing the document's real title, if a
+file is not what it claims to be.
 
 ### Step 2: Compute Hashes
 
@@ -216,5 +241,6 @@ A5/A6 Verdict: ✅ PASS
 
 **Generated-by:** A5/A6 protocol (anti-hallucination gate)  
 **Owner:** Xavier (provenance authority)  
-**Status:** Ready for manual PDF fetching (automated fetch not possible; arXiv PDFs must be downloaded manually)  
+**Status:** arXiv PDFs fetch fine with `curl -L` (the -L matters; arXiv redirects). Gorodetsky
+and Almkvist–van Straten are fetched and verified. Zagier is NOT fetched — see above.  
 **Next:** Fetch all PDFs, compute hashes, run A5/A6 validation

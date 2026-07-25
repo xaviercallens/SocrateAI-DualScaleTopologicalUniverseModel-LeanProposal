@@ -43,6 +43,22 @@ Key actions by stream:
 - [ ] Golden test: run C1 on Fermat K3 (ρ = 20), verify expected output
 - [ ] Golden test: run C1 on non-K3 (reject)
 
+
+> ⛔ **CORRECTION 2026-07-25 — do not treat the numbers below as expected answers.**
+> The values `Σ = [I₁, I₁]`, `ρ = 4`, `τ = 18`, `disc = −3` in this section came from checkers
+> that performed no computation; they were retracted under `briefs/ESCALATIONS.md` E-007.
+> Two of them are now known to be *wrong*, not merely unverified:
+> * `[I₁, I₁]` cannot be a complete fiber configuration — `χ_top` must be 24 for a K3 (12 for a
+>   rational elliptic surface); two I₁ fibers give 2. The fibers at `z = 0` and `z = ∞` were
+>   omitted. And the computed local exponents at the finite singular points are `{0, ½}`
+>   (`scripts/c1_singular_analysis.py`), i.e. non-unipotent monodromy — inconsistent with `Iₙ`.
+> * `disc = −3` is the A₂ lattice, i.e. **SU(3)**, not the SU(5) root lattice (A₄, det 5) it was
+>   claimed to indicate.
+>
+> Whoever does this properly should derive the fiber data from a Weierstrass model via Tate's
+> algorithm and check completeness against `Σ e(F_v) = 24` — **not** aim at these numbers.
+> Telling the next person which answer to expect is how this went wrong the first time.
+
 **Expected output format:**
 ```json
 {
@@ -66,6 +82,22 @@ Key actions by stream:
 ### C2: Picard Lattice & Transcendental Rank (Xavier / Theory)
 
 **Status:** Dependent on C1 completion
+
+
+> ⛔ **CORRECTION 2026-07-25 — do not treat the numbers below as expected answers.**
+> The values `Σ = [I₁, I₁]`, `ρ = 4`, `τ = 18`, `disc = −3` in this section came from checkers
+> that performed no computation; they were retracted under `briefs/ESCALATIONS.md` E-007.
+> Two of them are now known to be *wrong*, not merely unverified:
+> * `[I₁, I₁]` cannot be a complete fiber configuration — `χ_top` must be 24 for a K3 (12 for a
+>   rational elliptic surface); two I₁ fibers give 2. The fibers at `z = 0` and `z = ∞` were
+>   omitted. And the computed local exponents at the finite singular points are `{0, ½}`
+>   (`scripts/c1_singular_analysis.py`), i.e. non-unipotent monodromy — inconsistent with `Iₙ`.
+> * `disc = −3` is the A₂ lattice, i.e. **SU(3)**, not the SU(5) root lattice (A₄, det 5) it was
+>   claimed to indicate.
+>
+> Whoever does this properly should derive the fiber data from a Weierstrass model via Tate's
+> algorithm and check completeness against `Σ e(F_v) = 24` — **not** aim at these numbers.
+> Telling the next person which answer to expect is how this went wrong the first time.
 
 **Input:** C1 fiber configurations Σ(s7), Σ(s10)
 
@@ -153,7 +185,9 @@ Key actions by stream:
   ```
 - [ ] Update `checkers/adversarial_A5_A6_provenance_hygiene.py` to verify hashes
 - [ ] Run A5/A6 test: `python3 checkers/adversarial_A5_A6_provenance_hygiene.py`
-  - [ ] All 15 sporadic sequences verified against fetched sources
+  - [ ] ⛔ NOT achievable as stated: Zagier's paper is NOT FETCHED and the Zagier/AZ
+        parameter tables were removed (wrong arity — Zagier's sequences are order-2,
+        three-parameter). Only the 3 Cooper sets are verified. ESCALATIONS.md E-007.
   - [ ] No AI memory hallucination detected
   - [ ] Test PASS
 

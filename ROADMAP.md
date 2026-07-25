@@ -1,6 +1,11 @@
 # ROADMAP — 2026-07-24 (Post-Review, Stream 1→2 Handoff Approved)
 
-**Status:** Stream 1 C3b geometry locked. Stream 2 physics selection unblocked.
+**Status (corrected 2026-07-25):** Stream 1's C3b duty (generic `W ≡ 0`, WP S1-08) is genuinely
+complete and kernel-proved. **Stream 2's geometry is NOT locked** — the C1/C2 results that this
+line originally rested on were produced by checkers that computed nothing and were retracted on
+2026-07-25. See `briefs/ESCALATIONS.md` E-007 and the correction notice in `README.md`.
+Stream 2 physics selection is **not** unblocked; the EFT-unlock decision taken on the "geometry
+locked" premise should be treated as void.
 
 ---
 

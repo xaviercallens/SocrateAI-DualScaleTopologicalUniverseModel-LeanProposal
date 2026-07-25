@@ -52,7 +52,10 @@
 4. Manually verify (a,b,c,d) parameters against PDFs (cross-check OEIS)
 5. Pin hashes in `refs/literature_provenance.txt`
 6. Run: `python3 checkers/adversarial_A5_A6_provenance_hygiene.py`
-   - Expected: ✅ PASS (all 15 sporadic sequences verified)
+   - Expected: ✅ PASS — but note the scope: it verifies SHA256 hashes, document
+     IDENTITY (front-page keywords), and the **3 Cooper parameter sets**. It does
+     NOT verify 15 sequences, and does NOT consult OEIS. The Zagier/AZ parameter
+     sets are UNVERIFIED and Zagier's paper is NOT FETCHED (ESCALATIONS.md E-007).
 
 **If PASS:** Proceed to Action 4. **If FAIL:** Stop and escalate to Xavier.
 

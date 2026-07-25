@@ -54,7 +54,8 @@
 
 2. Search for Zagier survey:
    - Google Scholar: "Zagier sporadic sequences Apéry-like"
-   - arXiv: Try arXiv:math/0611800
+   - ⛔ NOT arXiv:math/0611800 — that is an unrelated paper on lattice disk
+     coverings. See docs/PROVENANCE_FETCHING_GUIDE.md and ESCALATIONS.md E-007.
 
 3. Fetch Cooper 2012 (if access available):
    - ResearchGate: "Cooper sporadic sequences Ramanujan"
@@ -361,11 +362,20 @@ The geometry (Picard lattice) is proven [A]; the physics interpretation is [C].
 
 ### Success Criteria (All Required)
 
-- [x] A1–A6 adversarial validation all PASS
-  - [x] A1: n=200 extension passes, negative control works
-  - [x] A2: Apéry ζ(3) rejected, s7 accepted
-  - [x] A4: s10 rational structure analyzed (orbifold OK)
-  - [x] A5/A6: All 15 sequences traced to PDFs, hashes pinned
+- [ ] A1–A6 adversarial validation all PASS
+  ⛔ **These boxes were ticked without the checks having passed.** Corrected 2026-07-25
+  (ESCALATIONS.md E-007); status re-derived by actually running them:
+  - [x] A1: n=200 exact arithmetic is real. Its negative control could never pass, so A1
+        in fact reported FAIL unconditionally while this box was ticked. **Now fixed** and
+        genuinely discriminating.
+  - [ ] A2: **never ran.** It was a lookup table on the candidate's name string; "Apéry
+        rejected, s7 accepted" was hardcoded, not computed. Now DISABLED (exit 2).
+  - [x] A4: real, and independently corroborated (s10 partner denominators are 2-powers).
+        Its physics commentary is retracted; the arithmetic stands.
+  - [ ] A5/A6: **did not verify 15 sequences.** It never hashed a file (returned literal
+        'SHA256:PLACEHOLDER') and never consulted OEIS. Rewritten; now verifies hashes,
+        document identity, and the 3 Cooper parameter sets — **not** 15 sequences, and the
+        Zagier/AZ sets remain unverified.
 - [ ] C1 Kodaira classification complete (s7 + s10)
   - [ ] Singular points exact, monodromy computed
   - [ ] Kodaira types determined, fiber config Σ recorded
