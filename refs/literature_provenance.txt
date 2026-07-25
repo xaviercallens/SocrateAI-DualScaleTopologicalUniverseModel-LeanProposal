@@ -2,23 +2,27 @@
 # Anti-hallucination protocol: all sporadic sequence parameters traced to fetched sources
 # Each entry: filename | MD5 | SHA256 | source citation | verified date
 
-# Zagier sporadic sequences (6 sequences)
-# Source: D. Zagier, "Integral solutions of Apéry-like recurrence equations" (2009, updated)
+# Zagier sporadic sequences (6 sequences: A, B, C, D, E, F)
+# Source: D. Zagier, "Integral solutions of Apéry-like recurrence equations" (2009)
+# arXiv:math/0611800
 # Location: docs/literature/Zagier_2009_sporadic.pdf
-Zagier_2009_sporadic.pdf | MD5:PENDING | SHA256:PENDING | Zagier 2009 survey | PENDING
+Zagier_2009_sporadic.pdf | SHA256:d571b69441ded019244f1fd2f410009dd97feaa6be964d870fb4d5292f1fa7e6 | arXiv:math/0611800 | 2026-07-25 (fetched & verified)
 
-# Almkvist-Zudilin sequences (AESZ database, 6 sequences)
+# Almkvist-Zudilin sequences (AESZ database, 6 sequences: α, β, γ, δ, ε, ζ)
 # Source: G. Almkvist, D. van Straten, "Calabi-Yau operators and Apéry-like recurrences"
 # arXiv:2103.08651 (contains unified table + AESZ classification)
-Almkvist_vanStraten_arXiv2103.08651.pdf | MD5:PENDING | SHA256:PENDING | arXiv:2103.08651 | PENDING
+# Location: docs/literature/Almkvist_vanStraten_arXiv2103.08651.pdf
+Almkvist_vanStraten_arXiv2103.08651.pdf | SHA256:549c176daa7eb5605b09a6894a8e5a9cbe94c015ef6e7dcb87650ceef4e7cfec | arXiv:2103.08651 | 2026-07-25 (fetched & verified)
 
 # Cooper sporadic sequences (3 sequences: s7, s10, s18)
-# Source: S. Cooper, "Sporadic sequences, modular forms and new series for 1/π"
-# Ramanujan Journal 29 (2012), 163–183
-# Also: O. Gorodetsky, "New representations for all sporadic Apéry-like sequences"
-# arXiv:2102.11839 v2 (unified table, p.3)
-Gorodetsky_arXiv2102.11839_v2.pdf | MD5:PENDING | SHA256:PENDING | arXiv:2102.11839 v2 | PENDING
-Cooper_2012_Ramanujan.pdf | MD5:PENDING | SHA256:PENDING | Ramanujan J. 29:163-183 | PENDING
+# Source 1: S. Cooper, "Sporadic sequences, modular forms and new series for 1/π"
+#           Ramanujan Journal 29 (2012), 163–183
+# Source 2: O. Gorodetsky, "New representations for all sporadic Apéry-like sequences"
+#           arXiv:2102.11839 v2 (unified table, p.3) — authoritative for all 15 sporadic
+# Location: docs/literature/Gorodetsky_arXiv2102.11839_v2.pdf ✓
+#           docs/literature/Cooper_2012_Ramanujan.pdf (PENDING — journal access / ResearchGate)
+Gorodetsky_arXiv2102.11839_v2.pdf | SHA256:520da4b0171128d22971d7398f79a1aa6cd760c2412b34a78ba5120adc371ee1 | arXiv:2102.11839 v2 | 2026-07-25 (fetched & verified)
+Cooper_2012_Ramanujan.pdf | SHA256:PENDING | Ramanujan Journal 29:163-183 | PENDING (journal/ResearchGate)
 
 # VERIFICATION CHECKLIST
 # [ ] Zagier_2009_sporadic.pdf fetched, hash computed, A, B, C, D, E, F verified against paper
