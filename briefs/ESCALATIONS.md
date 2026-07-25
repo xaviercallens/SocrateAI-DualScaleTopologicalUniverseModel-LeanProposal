@@ -1066,6 +1066,13 @@ T0 since it touches a sourcing attribution.
 
 #### The geometry question, now much better scoped
 
+> ⚠️ **PARTIALLY WITHDRAWN — see the SELF-CORRECTION entry that follows this one.**
+> The `χ_top = 12` / rational-elliptic-surface conclusion drawn below applies to
+> *Zagier's* seven sporadic solutions, and our L₂ is **not** one of them. The
+> operator-normalisation findings in this section (self-adjointness, `Q₁ = Q₂′/2`,
+> exponents `{0,½}`, not-a-twist) are verified and stand.
+
+
 Zagier's abstract, verbatim: *"These solutions are related to elliptic curves over P¹ with **four
 singular fibres**."* Our L₂ has exactly four singular points — `z = 0`, the two roots of `P₂`, and
 `z = ∞`.
@@ -1097,3 +1104,53 @@ between the two is the remaining T0/literature question. I am not guessing it.
 sporadic triples regenerated against his printed values, self-adjointness and `Q₂′ = 2Q₁`
 confirmed symbolically, A5/A6 negative-controlled against the very document that caused finding 8
 | Reviewed-by: T0 N — pending.
+
+### SELF-CORRECTION to the entry immediately above (2026-07-25, same session)
+
+**I over-extended, in exactly the way this escalation exists to catch, and I am withdrawing the
+claim before it propagates.**
+
+The entry above quotes Zagier's abstract — *"These solutions are related to elliptic curves over
+P¹ with four singular fibres"* — then observes that our L₂ also has four singular points, and
+concludes that our operator therefore belongs to Beauville's rational elliptic surfaces with
+`χ_top = 12`, and hence that the retracted C1/C2 layer was working on "the wrong class of
+surface."
+
+**"These solutions" means Zagier's seven. Our L₂ is not one of them.** Verified two ways:
+
+1. **Shape.** Our s7-partner recurrence is
+   `(n+1)²a_{n+1} = (26n² + 13n + 2)a_n + (27n² − 27n + 6)a_{n−1}`.
+   Zagier's family requires the `u_n` coefficient to be `An² + An + λ` — equal `n²` and `n`
+   coefficients — but ours has `26 ≠ 13`. It requires the `u_{n−1}` coefficient to be a pure
+   `−Bn²`, but ours carries `n` and constant terms. Our operator is not in his family at all.
+2. **Values.** Our partner is `1, 2, 22, 336, 6006, 117348, 2428272`. None of Zagier's A–G
+   matches (the closest, A, is `1, 2, 10, 56, 346, …` — it agrees only at `u₀, u₁`).
+
+**Therefore the `χ_top = 12` / rational-elliptic-surface conclusion for OUR operator is
+UNSUPPORTED and is withdrawn.** The shared "four singular points" is a suggestive parallel, not a
+derivation. Transferring a sourced statement about one family onto a different object is the same
+move that produced findings 3–6 in the first place; I made it again, one entry later, having
+just written the warning.
+
+**What survives, and why:**
+
+* The retraction's core is untouched. `Σ = [I₁, I₁]` gives `Σ e(F_v) = 2`, which is neither 12
+  nor 24, and the fibres at `z = 0` and `z = ∞` were omitted entirely. That argument never
+  depended on Zagier.
+* `Q₁ = Q₂′/2` for our L₂ vs `Q₁ = Q₂′` for Beukers' self-adjoint form — symbolically verified,
+  stands.
+* Exponents `{0, ½}` vs `{0, 0}` — computed, stands.
+* Our L₂ is not a twist of a Beukers-form operator (twists preserve exponent difference) —
+  stands.
+* Zagier's paper, the seven sporadic triples, and the `S12_zagier_params = ` Zagier D
+  identification — all independently verified, unaffected.
+
+**Honest status of the geometry question: still open, and now open in a cleaner way.** We know
+what our L₂ is *not* (a Zagier sporadic solution; a Beukers-form operator; a twist of one). We do
+not know what surface, if any, it corresponds to. Nothing in the fetched literature so far
+addresses the order-2 partners of *Cooper's order-3* sporadic sequences, which is the actual
+question. Whoever resumes should search on that specifically rather than on Zagier's family.
+
+*Provenance:* Generated-by: Opus 5 (correcting Opus 5, same session) | Verified-by: recurrence
+shape checked against Zagier's normalisation; partner sequence compared against all seven of his
+sporadic solutions | Reviewed-by: T0 N — pending.
