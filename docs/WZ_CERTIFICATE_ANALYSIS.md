@@ -372,6 +372,41 @@ before treating this as final per the two-model discipline used elsewhere (E-004
 independent build+axiom check above is real verification, not a substitute for a second pair of
 eyes on a 587-line novel proof.
 
+*Generated-by: Opus (T1, this session) | Verified-by: `lake build` + `#print axioms` (Sonnet 5,
+independent of the authoring agent) | Reviewed-by: T0 N (unreviewed at time of writing — see
+ADDENDUM 6).*
+
+---
+
+## ADDENDUM 6 — D2 TWO-MODEL VERIFIED: Deep Think review PASSED (2026-07-25, same session)
+
+Per ADDENDUM 5's recommendation, `briefs/DEEPTHINK_REVIEW_D2_CLOSURE_2026-07-25.md` was sent to
+Deep Think requesting a spot-check of `Agora/Sequences/WZCertificates.lean` against four specific
+failure modes. **Result: PASS on all four.**
+
+- **§2a certificate fidelity** — `cert7`/`cert10` confirmed unmodified/correctly mapped from the
+  native `ore_algebra` Zeilberger output; no transcription error.
+- **§2b recurrence normalization fidelity** — the proved statement reduces exactly to
+  `(n+1)³u(n+1) = (2n+1)(an²+an+b)u(n) − n(cn²+d)u(n−1)` with `(a,b,c,d)=(13,4,−27,3)` for s7 and
+  `(6,2,−64,4)` for s10 — no sign flip, index shift, or monic rescaling.
+- **§2c denominator-cancellation step** — the specific fix documented above (this addendum's
+  most load-bearing check, since it's the one place a real error was already caught mid-session)
+  confirmed algebraically sound: the Pascal-ratio substitution is a strict identity, the resulting
+  denominator `(n+1)²(n+2)²` is genuinely `k`-independent and non-vanishing, and the boundary
+  closure at `k=0` and `k=n+3` is clean (no residue left by the telescoping sum).
+- **§2d pre-existing definitions** — `SatisfiesCooperRecurrence`, `s7`, `s10` confirmed faithful
+  transcriptions of Cooper (2012) / Gorodetsky, no divergence found.
+
+**D2 is now closed at Tier A, two-model-verified** — kernel proof (Lean) + independent CAS/
+algebraic review (Deep Think), the same standard applied to E-004/E-006. No outstanding
+recommendation remains open for this escalation. Full text of Deep Think's response logged in
+`briefs/DEEPTHINK_REVIEW_D2_CLOSURE_2026-07-25.md` and `briefs/ESCALATIONS.md` (E-006 companion,
+final update).
+
+*Generated-by: Deep Think (T0s) | Verified-by: independent algebraic/CAS review, cross-checked
+against `briefs/DEEPTHINK_HANDOFF_2026-07-20.md` §3 canonical definitions | Reviewed-by: T0 Y
+(Deep Think's review IS the T0-tier sign-off this escalation was waiting on).*
+
 *Generated-by: Opus (sub-agent, isolated worktree) | Verified-by: this session independently
 re-ran `lake build` and `#print axioms` on both theorems outside the agent's own report (matched
 exactly) | Reviewed-by: T0 N (unreviewed by a second model — recommend before final close-out).*

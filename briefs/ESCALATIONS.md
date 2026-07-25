@@ -485,6 +485,23 @@ the new file before treating this as fully final (two-model discipline, E-004/E-
 build-green + axiom-check is real verification but not a substitute for a second reviewer on a
 novel 587-line proof.
 
+**UPDATE 2026-07-25, final — D2 TWO-MODEL VERIFIED.** Deep Think reviewed
+`Agora/Sequences/WZCertificates.lean` against the four checks in
+`briefs/DEEPTHINK_REVIEW_D2_CLOSURE_2026-07-25.md`: certificate fidelity (§2a, PASS),
+recurrence normalization fidelity (§2b, PASS — params confirmed `(13,4,−27,3)` s7 /
+`(6,2,−64,4)` s10, no silent renormalization), the denominator-cancellation rewrite (§2c,
+PASS — confirmed the `C(n,k)(n+1)(n+2) = C(n+2,k)(n−k+1)(n−k+2)` substitution is a strict
+combinatorial identity and the resulting boundary closure at `k=0` and `k=n+3` is clean),
+and pre-existing `SatisfiesCooperRecurrence`/`s7`/`s10` definition fidelity to Cooper (2012)
+/ Gorodetsky (§2d, PASS). No divergence, transcription error, or hidden re-normalization
+found in any of the four checks.
+
+**D2 is now closed at Tier A, two-model-verified** (kernel proof independently re-checked
+by Sonnet 5 this session + independent CAS/algebraic review by Deep Think) — the same
+two-model discipline applied to E-004/E-006. No `TIER_LEDGER.md` entry is needed: this was
+never an ambiguous-tier ruling request (the result was Tier A by construction, being a
+kernel proof), so there is nothing pending a T0 tier decision.
+
 ### What was attempted (bounded, per lean-proof-workflow three-strikes discipline)
 
 WP S1-08 (Deep Think directive, adopted in E-004's resolution): formalize `W ≡ 0` for the
