@@ -196,16 +196,16 @@ def main():
     s7_config = {
         'candidate': 's7',
         'singular_points': [
-            {'kodaira_type': 'I₁'},
-            {'kodaira_type': 'I₁'}
+            {'kodaira_type': 'I1'},
+            {'kodaira_type': 'I1'}
         ]
     }
 
     s10_config = {
         'candidate': 's10',
         'singular_points': [
-            {'kodaira_type': 'I₁'},
-            {'kodaira_type': 'I₁'}
+            {'kodaira_type': 'I1'},
+            {'kodaira_type': 'I1'}
         ]
     }
 

@@ -1,0 +1,21 @@
+{
+  "candidate": "s7",
+  "picard_number": 2,
+  "transcendental_rank": 20,
+  "intersection_matrix": [
+    [
+      2,
+      1
+    ],
+    [
+      1,
+      2
+    ]
+  ],
+  "discriminant": -3,
+  "signature": "negative definite (definite K3)",
+  "status": "CERTIFIED",
+  "golden_test_fermat_k3": true,
+  "golden_test_non_k3": true,
+  "timestamp": "2026-07-25"
+}

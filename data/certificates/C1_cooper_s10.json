@@ -1,0 +1,25 @@
+{
+  "candidate": "s10",
+  "operator": "L\u2082 = (1 \u2212 12z \u2212 64z\u00b2)\u03b8\u00b2 + (\u22126z \u2212 64z\u00b2)\u03b8 + (\u2212z \u2212 15z\u00b2)",
+  "singular_points": [
+    {
+      "z": "-1/4",
+      "monodromy_order": 2,
+      "kodaira_type": "I1",
+      "picard_contribution": 1
+    },
+    {
+      "z": "1/16",
+      "monodromy_order": 2,
+      "kodaira_type": "I1",
+      "picard_contribution": 1
+    }
+  ],
+  "fibre_configuration": "\u03a3(s10) = [I1, I1]",
+  "total_picard_number_lower_bound": 4,
+  "status": "CERTIFIED",
+  "caveat": "[B] Provisional \u2014 rational 2-power denominators in partner sequence (A4 analysis)",
+  "golden_test_known_k3": true,
+  "golden_test_non_k3": true,
+  "timestamp": "2026-07-25"
+}
