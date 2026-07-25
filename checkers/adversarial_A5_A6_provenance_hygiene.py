@@ -38,6 +38,7 @@ WHAT IT DOES NOT DO -- deliberately, rather than pretending:
 
 import hashlib
 import re
+import unicodedata
 import subprocess
 import sys
 from pathlib import Path
@@ -56,6 +57,29 @@ EXPECTED = {
         "keywords": ["Calabi-Yau", "operators"],
         "role": "Calabi-Yau operators of degree two",
     },
+    "Zagier_AperylikeRecEqs.pdf": {
+        "keywords": ["apery-like", "Zagier"],
+        "role": "source for the 7 sporadic (A,B,lambda) triples, labels A-G",
+    },
+}
+
+# Zagier's SEVEN sporadic solutions, (A, B, lambda), with the u0..u6 he prints.
+# -- Source: Zagier, "Integral solutions of Apery-like recurrence equations",
+#    the table headed "new label / index / A / B / lambda / u0 ... u6".
+#    Recurrence normalisation (his eq. 2/3, and the one ZagierRecurrenceParams uses):
+#        (n+1)^2 u_{n+1} = (A n^2 + A n + lambda) u_n - B n^2 u_{n-1}
+# RESTORED 2026-07-25. The previous Zagier/AZ tables were removed under E-007 because
+# they were 4-tuples in Cooper's order-3 format (wrong arity) citing a paper never
+# fetched. These are 3-tuples in Zagier's own normalisation, read off the now-fetched
+# PDF, and each is CHECKED below by regenerating the paper's own printed values.
+ZAGIER_SPORADIC = {
+    "A": ((7, -8, 2), [1, 2, 10, 56, 346, 2252, 15184]),
+    "B": ((9, 27, 3), [1, 3, 9, 21, 9, -297, -2421]),
+    "C": ((10, 9, 3), [1, 3, 15, 93, 639, 4653, 35169]),
+    "D": ((11, -1, 3), [1, 3, 19, 147, 1251, 11253, 104959]),
+    "E": ((12, 32, 4), [1, 4, 20, 112, 676, 4304, 28496]),
+    "F": ((17, 72, 6), [1, 6, 42, 312, 2394, 18756, 149136]),
+    "G": ((0, -16, 0), [1, 0, 4, 0, 36, 0, 400]),
 }
 
 # The only sporadic-sequence parameters this project actually consumes.
@@ -73,6 +97,14 @@ def sha256(path):
         for chunk in iter(lambda: f.read(1 << 16), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def _fold(t):
+    """Casefold and strip accents, so a keyword match is not defeated by whether the
+    PDF encodes 'E' + combining acute or the precomposed 'É'. (This bit us on Zagier's
+    title, which is genuinely correct but failed a naive comparison.)"""
+    return "".join(c for c in unicodedata.normalize("NFKD", t)
+                   if not unicodedata.combining(c)).casefold()
 
 
 def pdftext(path, front_page=False):
@@ -133,7 +165,8 @@ def check_a6():
             print(f"  WARN {name}: no text extracted (pdftotext unavailable?);"
                   " identity NOT checked")
         else:
-            missing = [k for k in spec["keywords"] if k.lower() not in head.lower()]
+            folded = _fold(head)
+            missing = [k for k in spec["keywords"] if _fold(k) not in folded]
             if missing:
                 title = " / ".join(l for l in head.strip().splitlines()[:4] if l.strip())
                 print(f"  FAIL {name}: identity check failed, missing {missing}")
@@ -148,6 +181,33 @@ def check_a6():
                   " Declare it in EXPECTED or remove it.")
             failures.append(p.name)
 
+    return failures
+
+
+def check_a5_zagier():
+    """Regenerate each Zagier sporadic sequence from its (A,B,lambda) and require it to
+    reproduce the u0..u6 printed in the fetched paper. This is a real consistency test:
+    a mistyped parameter changes the sequence immediately."""
+    from fractions import Fraction
+    print("\n[A5-Zagier] sporadic (A,B,lambda) triples vs the values Zagier prints")
+
+    def gen(A, B, lam, n_terms):
+        u = [Fraction(1), Fraction(lam)]
+        for n in range(1, n_terms - 1):
+            u.append((Fraction(A*n*n + A*n + lam) * u[n]
+                      - Fraction(B*n*n) * u[n-1]) / Fraction((n+1)**2))
+        return [int(x) if x.denominator == 1 else x for x in u]
+
+    failures = []
+    for label, ((A, B, lam), printed) in sorted(ZAGIER_SPORADIC.items()):
+        got = gen(A, B, lam, len(printed))
+        if got == printed:
+            print(f"  ok   {label}: (A,B,lam)=({A},{B},{lam}) reproduces {printed[:5]}...")
+        else:
+            print(f"  FAIL {label}: (A,B,lam)=({A},{B},{lam})")
+            print(f"       generated {got}")
+            print(f"       paper     {printed}")
+            failures.append(f"zagier-{label}")
     return failures
 
 
@@ -178,7 +238,7 @@ def main():
     print("  A5/A6 Provenance Hygiene (real checks; see docstring for exact scope)")
     print("=" * 78 + "\n")
 
-    failures = check_a6() + check_a5()
+    failures = check_a6() + check_a5() + check_a5_zagier()
 
     print("\n" + "=" * 78)
     if failures:
@@ -186,9 +246,10 @@ def main():
         print("=" * 78)
         return 1
     print("  A5/A6 Verdict: PASS")
-    print("  Scope: hashes + document identity + the 3 Cooper parameter sets.")
-    print("  NOT checked: OEIS cross-reference; Zagier/AZ parameter sets (removed).")
-    print("  Do NOT cite this as '15 sporadic sequences verified'.")
+    print("  Scope: hashes + document identity + the 3 Cooper parameter sets")
+    print("         + Zagier's 7 sporadic triples (regenerated against his printed values).")
+    print("  NOT checked: OEIS cross-reference; the 6 Almkvist-Zudilin parameter sets,")
+    print("  which remain UNVERIFIED (their cited source arXiv:1804.00007 is not fetched).")
     print("=" * 78)
     return 0
 

@@ -2,20 +2,19 @@
 # Anti-hallucination protocol: all sporadic sequence parameters traced to fetched sources
 # Each entry: filename | MD5 | SHA256 | source citation | verified date
 
-# Zagier sporadic sequences (6 sequences: A, B, C, D, E, F) -- NOT FETCHED
-# Source: D. Zagier, "Integral solutions of Apery-like recurrence equations" (2009),
-#   in: Groups and Symmetries, CRM Proc. Lecture Notes 47, AMS.
-# STATUS 2026-07-25: NOT FETCHED. A file was downloaded from arXiv:math/0611800 on
-#   2026-07-25 and pinned here as this source. That arXiv ID is NOT Zagier's paper --
-#   it is "Covering the Plane by Rotations of a Lattice Arrangement of Disks"
-#   (Iosevich, Kolountzakis, Matolcsi), an unrelated article. The ID was taken from
-#   docs/PROVENANCE_FETCHING_GUIDE.md and used without checking the title. The file
-#   has been deleted and its bogus hash pin removed. See briefs/ESCALATIONS.md E-007.
-#   Zagier's article does not appear to have an arXiv preprint; fetching it likely
-#   needs library/AMS access. NOTHING in the Lean sources currently depends on the
-#   Zagier A-F parameters, so this is not blocking -- but do not claim they are
-#   verified until this is genuinely fetched.
-
+# Zagier sporadic sequences (7 sporadic solutions, labels A-G)
+# Source: D. Zagier, "Integral solutions of Apery-like recurrence equations",
+#   in: Groups and Symmetries, CRM Proc. Lecture Notes 47, AMS (2009).
+#   Author's copy: https://people.mpim-bonn.mpg.de/zagier/files/tex/AperylikeRecEqs/fulltext.pdf
+# Location: docs/literature/Zagier_AperylikeRecEqs.pdf
+# FETCHED 2026-07-25. Front-page title verified before hashing ("INTEGRAL SOLUTIONS OF
+#   APERY-LIKE RECURRENCE EQUATIONS / Don Zagier"). This SUPERSEDES the earlier bogus pin
+#   of arXiv:math/0611800, which is an unrelated paper on lattice disk coverings -- see
+#   briefs/ESCALATIONS.md E-007 finding 8. NOTE Zagier lists SEVEN sporadic solutions
+#   (A-G), not six; G (#2) is hypergeometric but outside the 1-parameter family.
+# All seven (A,B,lambda) triples were re-derived from this PDF and each reproduces the
+#   paper's own printed u0..u6 exactly (checkers/adversarial_A5_A6_provenance_hygiene.py).
+Zagier_AperylikeRecEqs.pdf | SHA256:9fe93aadda4a5dc0297c7b5d835d8c3026ebf026f5dc139eefc0ff7856f4fc97 | Zagier, Groups and Symmetries, CRM Proc. 47 (2009) | 2026-07-25 (fetched, title-verified)
 
 # Almkvist-Zudilin sequences (AESZ database, 6 sequences: α, β, γ, δ, ε, ζ)
 # Source: G. Almkvist, D. van Straten, "Calabi-Yau operators of degree two",

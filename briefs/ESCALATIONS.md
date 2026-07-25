@@ -1011,3 +1011,89 @@ first attempt produced a confident wrong answer.
 
 *Provenance:* Generated-by: Opus 5 | Verified-by: exact sympy computation, both candidates,
 Wronskian identity matched to 0 | Reviewed-by: T0 N — this is a question, not a claim.
+
+### E-007 finding 8 RESOLVED, and the open geometry question substantially narrowed (2026-07-25)
+
+Resolved by fetching the literature rather than reasoning further, which is what the previous
+entry said was required.
+
+#### Zagier's paper is now genuinely fetched — finding 8 closed
+
+D. Zagier, *Integral solutions of Apéry-like recurrence equations* (Groups and Symmetries, CRM
+Proc. Lecture Notes 47, AMS) is available as an author's copy at
+`people.mpim-bonn.mpg.de/zagier/files/tex/AperylikeRecEqs/fulltext.pdf`. It has **no arXiv
+preprint**, which is why the earlier attempt substituted a wrong arXiv ID. Now at
+`docs/literature/Zagier_AperylikeRecEqs.pdf`, SHA256-pinned, **front-page title verified before
+hashing** — the discipline the previous failure lacked.
+
+#### Correction to a repo-wide assumption: there are SEVEN sporadic solutions, not six
+
+Zagier's own text: *"the table contains six solutions which do not fall into any of the four
+infinite families … we also add #2 to this list, with label G"* — giving **A–G, seven**. Every
+document in this repo says six. The "15 sporadic sequences" framing (6 Zagier + 6 AZ + 3 Cooper)
+inherits that error.
+
+#### The Zagier tables are restored, and now actually checked
+
+`ZAGIER_SPORADIC` in `adversarial_A5_A6_provenance_hygiene.py`, in Zagier's own normalisation
+`(n+1)²u_{n+1} = (An² + An + λ)u_n − Bn²u_{n−1}` — which is exactly the form
+`ZagierRecurrenceParams` already uses:
+
+| | A | B | λ | u₀…u₆ |
+|---|---|---|---|---|
+| A | 7 | −8 | 2 | 1, 2, 10, 56, 346, 2252, 15184 |
+| B | 9 | 27 | 3 | 1, 3, 9, 21, 9, −297, −2421 |
+| C | 10 | 9 | 3 | 1, 3, 15, 93, 639, 4653, 35169 |
+| D | 11 | −1 | 3 | 1, 3, 19, 147, 1251, 11253, 104959 |
+| E | 12 | 32 | 4 | 1, 4, 20, 112, 676, 4304, 28496 |
+| F | 17 | 72 | 6 | 1, 6, 42, 312, 2394, 18756, 149136 |
+| G | 0 | −16 | 0 | 1, 0, 4, 0, 36, 0, 400 |
+
+The checker regenerates each sequence from its triple and requires it to reproduce Zagier's own
+printed values. **All seven pass.** (Contrast the removed tables, which were 4-tuples in the
+wrong arity citing a paper nobody had.) The AZ sets remain **unverified** — their cited source
+arXiv:1804.00007 is still not fetched.
+
+#### `S12_zagier_params` is Zagier's sporadic D — its citation can be upgraded
+
+`Agora/Sequences/ThetaOperators.lean` carries `S12_zagier_params = ⟨11, 3, −1⟩`, sourced to "the
+AutoEvolve pipeline exact-rational nullspace extraction" and marked Tier B empirical. In Zagier's
+`(A,B,λ)` that is `(11, −1, 3)` — **exactly his sporadic solution D**, whose sequence
+`1, 3, 19, 147, 1251, …` the repo's recurrence reproduces. So the *parameters* are a citable
+literature object, not a pipeline artifact. (The Tier B marker on whether the pipeline's own data
+satisfies this recurrence is a separate claim and stays.) A one-line docstring upgrade, left for
+T0 since it touches a sourcing attribution.
+
+#### The geometry question, now much better scoped
+
+Zagier's abstract, verbatim: *"These solutions are related to elliptic curves over P¹ with **four
+singular fibres**."* Our L₂ has exactly four singular points — `z = 0`, the two roots of `P₂`, and
+`z = ∞`.
+
+**This independently confirms the retraction, and shows it was worse than recorded.** Four
+singular fibres puts these in Beauville's classification of **rational elliptic surfaces**, where
+`χ_top = 12` — not 24. So the retracted C1/C2 layer was not merely computing an incomplete fibre
+list for a K3; it was computing on the wrong *class of surface*. "The Picard lattice of the K3"
+was wrong twice over.
+
+**And we can now say precisely how our L₂ differs from the geometric operator.** Beukers'/Zagier's
+equation is *self-adjoint*: `(tP(t)F′)′ + (t−λ)F = 0`, i.e. `Q₁ = Q₂′` (verified symbolically).
+That gives Wronskian `W = C/Q₂` — **rational** — and indicial exponents `{0,0}` at each finite
+singular point: unipotent monodromy, an `Iₙ` fibre, genuinely elliptic.
+
+Our handoff L₂ satisfies `Q₁ = Q₂′/2` instead (verified: `Q₂′ − 2Q₁ = 0` for both candidates),
+giving `W = C/(z√P₂)` and exponents `{0, ½}`. It is the "half" of the self-adjoint form — which
+is exactly the `θ(P₂) = 2P₁` magic collapse seen from the other side.
+
+**What remains open, and what is now closed off.** Our L₂ is *not* a twist of the Beukers-form
+operator: any twist `y → g·y` shifts both exponents equally, so exponent difference is a twist
+invariant, and `½ ≠ 0`. That escape route is eliminated. The honest remaining statement is that
+the handoff L₂ is a genuinely different operator from the Beukers/Zagier geometric one sharing the
+same `P₂` — correct and verified for its actual purpose (`L₃ = P₂·Sym²(L₂)`, `f² = Σs(n)zⁿ`), but
+**not** the `H¹` local system of the elliptic surface. Identifying the precise relationship
+between the two is the remaining T0/literature question. I am not guessing it.
+
+*Provenance:* Generated-by: Opus 5 | Verified-by: Zagier PDF fetched and title-verified, all seven
+sporadic triples regenerated against his printed values, self-adjointness and `Q₂′ = 2Q₁`
+confirmed symbolically, A5/A6 negative-controlled against the very document that caused finding 8
+| Reviewed-by: T0 N — pending.
