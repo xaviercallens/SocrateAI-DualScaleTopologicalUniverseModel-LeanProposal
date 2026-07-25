@@ -1154,3 +1154,34 @@ question. Whoever resumes should search on that specifically rather than on Zagi
 *Provenance:* Generated-by: Opus 5 (correcting Opus 5, same session) | Verified-by: recurrence
 shape checked against Zagier's normalisation; partner sequence compared against all seven of his
 sporadic solutions | Reviewed-by: T0 N — pending.
+
+### A279619 CONFIRMED as the s7 partner; literature-review brief filed (2026-07-25)
+
+The `STREAM1_TO_STREAM2_HANDOFF_C3B.md` table has long claimed the s7 partner is **OEIS
+A279619**. That claim had never been checked. It is now **confirmed**: A279619 begins
+`1, 2, 22, 336, 6006, 117348, 2428272, 52303680`, matching our independently derived partner
+sequence exactly (holomorphic solution of `L₂`, `scripts/c1_singular_analysis.py`).
+
+Additionally — and this is **second-hand**, from a search-result summary rather than a direct
+fetch, since oeis.org returned 403 to our fetcher, so it must be confirmed at the primary source
+before being relied on — OEIS reportedly records:
+
+* the g.f. of A279619 is **the square root of the g.f. of A183204** (Cooper's s7). This is exactly
+  our verified `f² = Σ s7(n)zⁿ`, arrived at independently;
+* A279619 is "the expansion of the g.f. of **A002652** in powers of the g.f. of **A279618**" — a
+  *compositional* relation, which if real looks like a Hauptmodul/mirror-map structure and may be
+  the most direct route to the geometry;
+* it is `c_n` in **Theorem 6.1 of O'Brien's thesis** and appears in **Conjecture 5.4 of Chan,
+  Cooper & Sica, "Congruences satisfied by Apéry-like numbers", Int. J. Number Theory (2010)**.
+
+Those are the first concrete literature leads on the Cooper *partners* specifically, as opposed to
+Zagier's order-2 family. Filed as
+`briefs/DEEPTHINK_LITERATURE_REVIEW_L2_PARTNERS_2026-07-25.md` — a review request, not a
+derivation request. The brief hands over every verified fact so nothing is re-derived, lists what
+is already ruled out, and includes an explicit §5 recording the `χ_top = 12` error we made and
+withdrew, so the reviewer does not inherit it. It states plainly that **"no source found" is an
+acceptable answer** and more useful than a plausible reconstruction.
+
+*Provenance:* Generated-by: Opus 5 | Verified-by: A279619 values matched against our own
+independent derivation; all other OEIS metadata explicitly marked second-hand and unconfirmed |
+Reviewed-by: T0 N — pending.
