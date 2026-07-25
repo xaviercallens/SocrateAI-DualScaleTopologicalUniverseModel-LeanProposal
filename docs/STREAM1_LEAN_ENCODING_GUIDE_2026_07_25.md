@@ -245,13 +245,21 @@ theorem s10_D0 : cooper_c0 2 (-64) 4 = 2 * thetaC s10_P0 := by
 end Agora.Sequences.Partner
 ```
 
-### Suggested sequencing
+### Sequencing
 
-1. Land the definitions and the eight residual lemmas above as
-   `Agora/Sequences/PartnerOperators.lean`. This is the low-risk core and it already compiles.
-2. Wire the Cooper coefficients to the existing `CooperRecurrenceParams` (`s7_params`,
-   `s10_params`) instead of bare numerals, so the parameters have one source of truth.
-3. *Optional, harder:* state `IsSymSquareOf` (`Agora/SymSquare.lean`) for these operators. Note
+1. ✅ **DONE — landed as `Agora/Sequences/PartnerOperators.lean`**, imported from
+   `Agora/Sequences.lean`. Full build green (3114 jobs), 0 `sorry`, all theorems on
+   `[propext, Classical.choice, Quot.sound]`. The snippet above is the standalone version; the
+   landed file is the one CI checks.
+2. ✅ **DONE — wired to `CooperRecurrenceParams`.** The landed file takes `s7_params` /
+   `s10_params` rather than bare numerals, so the parameters have one source of truth. It also
+   proves two things the snippet above does not:
+   * `cooperC2_eq_thetaC_cooperC3` — for **every** parameter choice, `2·c₂ = 3·θ(c₃)`. So once
+     `P₂` is matched to `c₃`, requiring `D₂ = 0` *forces* `θ(P₂) = 2P₁`. The magic collapse is a
+     property of the Cooper template, not a coincidence of these two candidates.
+   * `s7_P1_ne_thetaC_P2` / `s10_P1_ne_thetaC_P2` — the partners are provably not Zagier-template
+     instances, recorded so nobody re-derives them from the wrong template.
+3. *Remaining, harder:* state `IsSymSquareOf` (`Agora/SymSquare.lean`) for these operators. Note
    that API is `DiffOp3`/`DiffOp2` in **D-form**, whereas everything here is **θ-form**. Do not
    convert to D-form casually — monic D-form normalisation is what forced `RatFunc` and blocked
    S1-08 (E-04b / E-006). The θ-form residuals above are the safe formulation. Treat the bridge
