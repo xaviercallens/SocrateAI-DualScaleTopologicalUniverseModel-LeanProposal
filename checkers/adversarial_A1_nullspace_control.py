@@ -131,38 +131,72 @@ def verify_no_overfitting(n_max=200):
 # PHASE 2: Negative Control — Perturbed s7 (Should FAIL to find order-2)
 # ════════════════════════════════════════════════════════════════════════════════
 
+# Independently established reference prefix of the s7 order-2 PARTNER sequence
+# (not s7 itself). Derived from the partner operator
+#   L2 = (1 - 26z - 27z^2) th^2 + (-13z - 27z^2) th + (-2z - 6z^2)
+# and cross-validated two ways: it is the holomorphic solution computed by
+# scripts/c1_singular_analysis.py, and its square is the generating function of
+# s7 (f(z)^2 = sum s7(n) z^n, verified to z^12 by
+# scripts/verify_sym2_partner_identities.py CLAIM 3). The operator itself is
+# encoded and kernel-checked in Agora/Sequences/PartnerOperators.lean.
+S7_PARTNER_REFERENCE = [1, 2, 22, 336, 6006, 117348, 2428272, 52303680]
+
+
 def negative_control_perturbed_s7():
     """
-    Intentionally break s7 recurrence and verify that the checker rejects it.
+    Discriminating negative control: the checker must ACCEPT the true s7 partner
+    recurrence and REJECT a perturbed one.
 
-    Break: change p1 coefficient from (26n² + 13n + 2) to (26n² + 13n + 3)
-    (i.e., change the constant term +2 to +3).
+    FIXED 2026-07-25. The previous version expected generation with perturbed
+    coefficients to "fail or diverge" and reported failure otherwise. That premise
+    is wrong: a perturbed linear recurrence still generates a perfectly
+    well-defined rational sequence -- just the wrong one. So the control could
+    never pass, and A1 reported FAIL unconditionally. (The repo's success-criteria
+    checklist nevertheless recorded "A1: negative control works"; it did not.)
+    See briefs/ESCALATIONS.md E-007.
 
-    Expected: the recurrence will not hold exactly, generation will fail or diverge.
+    The test now compares generated values against S7_PARTNER_REFERENCE, which is
+    what actually discriminates.
     """
-    # Broken: +3 instead of +2
-    p1_broken = [Fraction(26), Fraction(13), Fraction(3)]
     p0_s7 = [Fraction(27), Fraction(-27), Fraction(6)]
-
     f0_s7, f1_s7 = Fraction(1), Fraction(2)
+    n_check = len(S7_PARTNER_REFERENCE) - 1
 
-    seq_broken, err_broken = generate_sequence_exact(50, p1_broken, p0_s7, f0_s7, f1_s7)
+    def prefix(p1):
+        seq, err = generate_sequence_exact(n_check, p1, p0_s7, f0_s7, f1_s7)
+        if err:
+            return None, err
+        return [v for _, v in seq[:len(S7_PARTNER_REFERENCE)]], None
 
-    if err_broken:
-        # Expected: generation failed (denominator overflow or non-terminating)
-        return {
-            'pass': True,  # Negative control: PASS means it correctly rejected
-            'reason': 'broken recurrence failed as expected',
-            'error': err_broken
-        }
-    else:
-        # If it succeeded, check if values diverge or don't match known s7 sequence
-        # For now, we just report that it generated a sequence (which is already suspicious)
-        return {
-            'pass': False,  # Negative control: FAIL means it incorrectly accepted broken recurrence
-            'reason': 'broken recurrence was accepted (should have failed)',
-            'n_generated': len(seq_broken)
-        }
+    # (a) positive arm: the true coefficients must reproduce the reference
+    true_vals, err_true = prefix([Fraction(26), Fraction(13), Fraction(2)])
+    if err_true:
+        return {'pass': False, 'reason': f'true recurrence failed to generate: {err_true}'}
+    matches_true = (true_vals == [Fraction(v) for v in S7_PARTNER_REFERENCE])
+
+    # (b) negative arm: constant term +2 -> +3 must NOT reproduce it
+    broken_vals, err_broken = prefix([Fraction(26), Fraction(13), Fraction(3)])
+    rejects_broken = (err_broken is not None
+                      or broken_vals != [Fraction(v) for v in S7_PARTNER_REFERENCE])
+
+    first_div = None
+    if broken_vals is not None:
+        for i, (a, b) in enumerate(zip(broken_vals, S7_PARTNER_REFERENCE)):
+            if a != b:
+                first_div = (i, str(a), str(b))
+                break
+
+    return {
+        'pass': bool(matches_true and rejects_broken),
+        'accepts_true': matches_true,
+        'rejects_perturbed': rejects_broken,
+        'first_divergence_index': first_div,
+        'reason': ('true recurrence reproduces the reference and the perturbed one '
+                   'does not -- the check discriminates')
+                  if (matches_true and rejects_broken) else
+                  (f'accepts_true={matches_true}, rejects_perturbed={rejects_broken} '
+                   f'-- check does NOT discriminate'),
+    }
 
 
 # ════════════════════════════════════════════════════════════════════════════════

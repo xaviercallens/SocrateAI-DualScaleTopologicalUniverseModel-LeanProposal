@@ -874,3 +874,89 @@ premise that was false — and re-taken, or not, once there is a geometry.
 *Provenance:* Generated-by: Opus 5 | Verified-by: sympy (exact rational arithmetic, run in-repo
 via `scripts/c1_singular_analysis.py`), negative-controlled checker runs, direct front-page
 inspection of the fetched PDFs | Reviewed-by: T0 N — pending.
+
+### CHECKER AUDIT COMPLETED — 2026-07-25 (Opus)
+
+E-007 left the checker audit unfinished and flagged `adversarial_A2_mirror_map_control.py` as
+"7 placeholder markers, UNAUDITED, assume fake". That audit is now complete. Two further
+findings; final state of every checker below.
+
+#### Finding 9 — A2 was a lookup table on the candidate's NAME (worst of the set)
+
+`check_mirror_map_match(sequence, name, ...)` ignored `sequence` entirely and dispatched on the
+string:
+
+```python
+if name == "Apéry_zeta3":  return False, 0.0, "Non-MUM operator (no mirror pair exists)"
+elif name == "s7":         return True, 0.95, "Matches z(L2) = z(L3) to q^50 (s7 partner confirmed)"
+```
+
+The confidence `0.95` and "Matches z(L2) = z(L3) to q^50" were invented — no mirror map was
+computed to q^50 or to any order. Its reference loader was fake as well:
+`cooper_s7_sequence_reference()` returned `list(range(1, n_max+1))` = 1, 2, 3, 4, …, not s7.
+
+This is worse than the other stubs because **A2 was the non-tautology control** — the check whose
+sole purpose was to demonstrate that the mirror-map detector could reject a false positive. It
+"rejected" Apéry because it was hardcoded to, not because anything discriminated. A
+tautology-detector that is itself a tautology manufactures exactly the confidence it exists to
+test for.
+
+**Now disabled (exit 2).** The replacement docstring also flags that the old premise may be
+wrong: for `L3 = Sym²(L2)` the symmetric square doubles the logarithmic growth of the solution
+ratio, so the correct invariant is plausibly `q₃ = q₂²` rather than `z(L₂) = z(L₃)`. That must be
+settled and sourced *before* anyone implements it.
+
+#### Finding 10 — A1 is real, but its negative control could never pass
+
+`adversarial_A1_nullspace_control.py` does genuine exact-`Fraction` arithmetic to n=200. But
+`negative_control_perturbed_s7()` perturbed the recurrence and expected generation to "fail or
+diverge". A perturbed linear recurrence does neither — it generates a perfectly well-defined
+*wrong* sequence. So the control always reported failure and **A1's verdict was ❌ FAIL,
+unconditionally**, while `briefs/EXECUTION_PLAYBOOK_C1_C2.md`'s success criteria recorded
+"A1: n=200 extension passes, negative control works ✓". It never did.
+
+**Fixed.** The control now compares against `S7_PARTNER_REFERENCE` and requires the true
+coefficients to reproduce it *and* the perturbed ones not to. A1 now genuinely passes and
+genuinely discriminates.
+
+Note the reference values are not asserted from memory: they are the holomorphic solution of the
+partner operator (`scripts/c1_singular_analysis.py`), whose square is s7's generating function
+(verified to z¹²), with the operator itself kernel-checked in
+`Agora/Sequences/PartnerOperators.lean`.
+
+**A1 independently corroborates that work**: its s7 coefficients `p1 = [26,13,2]`,
+`p0 = [27,−27,6]`, `f0,f1 = 1,2` generate `1, 2, 22, 336, 6006, 117348, 2428272, 52303680` —
+identical to the L₂ holomorphic solution derived by a completely different route. Two
+independent derivations of the partner sequence agree.
+
+#### A4 — arithmetic sound, physics commentary retracted
+
+`adversarial_A4_rational_partner_analysis.py` really computes, and its result (s10 partner has
+2-power denominators, max 2²⁶) matches the exact solution independently. **Keep that.** But its
+`physics_interpretation()` restated the withdrawn orbifold/D7-brane/gauge-group narrative, and
+it printed "Viable for downstream C1/C2" — a meaningless verdict now that C1/C2 are disabled and
+their certificates retracted. Both are annotated in place; the printed output now carries
+`*** RETRACTED (E-007) -- DO NOT CITE ***`.
+
+#### Final state — every checker in `checkers/`
+
+| checker | exit | state |
+|---|---|---|
+| `adversarial_A1_nullspace_control.py` | 0 | **real**, passes, control now discriminates (fixed) |
+| `adversarial_A2_mirror_map_control.py` | 2 | **DISABLED** — was a name lookup table |
+| `adversarial_A4_rational_partner_analysis.py` | 0 | **real** arithmetic; physics output marked retracted |
+| `adversarial_A5_A6_provenance_hygiene.py` | 0 | **rewritten**, real hashes + document identity, negative-controlled |
+| `check_C1_kodaira_fibers.py` | 2 | **DISABLED** — needs Weierstrass model + Tate's algorithm |
+| `check_C2_picard_lattice.py` | 2 | **DISABLED** — and must first fix which surface it means |
+
+`adversarial_tests.py` (master runner) contains no placeholders; it shells out to the above, so
+it now propagates their real verdicts rather than aggregating fabrications.
+
+**Score for the day: of six checkers, four were fake and one of the two real ones had a control
+that could not fail.** The one genuinely sound checker was A4. Anything in this repo's history
+that cites an A1–A6 or C1/C2 result predating 2026-07-25 should be treated as unsupported until
+re-run.
+
+*Provenance:* Generated-by: Opus 5 | Verified-by: line-by-line read of all six checkers, each
+executed and exit-code checked; A1's fix validated by both arms of its own control; A1's output
+cross-checked against an independently derived partner sequence | Reviewed-by: T0 N — pending.

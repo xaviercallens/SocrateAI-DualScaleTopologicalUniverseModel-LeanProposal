@@ -11,6 +11,28 @@ This determines whether s10's geometry is viable for downstream physics selectio
 
 import json
 import sys
+"""
+SCOPE NOTE added 2026-07-25 (briefs/ESCALATIONS.md E-007).
+
+The ARITHMETIC in this file is real and was independently corroborated: the s10
+partner sequence it generates has 2-power denominators, matching the exact
+holomorphic solution of the s10 partner operator computed by
+scripts/c1_singular_analysis.py (1, 1, 17/2, 147/2, 6363/8, ...). Keep and trust
+that part -- it is the concrete evidence for the long-flagged "rational 2-power
+partner" caveat, and the first real mathematical difference between s7 and s10.
+
+The PHYSICS COMMENTARY emitted by physics_interpretation() below is RETRACTED.
+It restates the orbifold / D7-brane / gauge-group narrative that was withdrawn
+under E-007: the SU(5) identification rested on reading the lattice [[2,1],[1,2]]
+(discriminant 3, i.e. A2 -> SU(3)) as the SU(5) root lattice, and on a modular
+weight that is not supported by the cited source. Those [C] markers are correctly
+placed but they mark unproven PHYSICS -- they do not rescue arithmetic that
+contradicts its own source.
+
+Likewise "Viable for downstream C1/C2" is meaningless as printed: the C1/C2
+checkers were stubs and are now disabled, and their certificates are retracted.
+"""
+
 from fractions import Fraction
 from math import gcd
 from functools import reduce
@@ -137,6 +159,9 @@ def check_shioda_inose_validity(denom_analysis):
 # ════════════════════════════════════════════════════════════════════════════════
 
 def physics_interpretation():
+    # RETRACTED CONTENT -- see the SCOPE NOTE at the head of this file (E-007).
+    # Retained only so the retraction is visible where the claims are made.
+    # Do not cite anything this function prints.
     """
     Provide [C]-tier physics interpretation of the rational-partner caveat.
 
@@ -183,10 +208,13 @@ def main():
     for flag in flags:
         print(f"  {flag}")
 
-    print(f"\n  Viable for downstream C1/C2: {'✅ YES' if viable else '❌ NO'}")
+    print(f"\n  Denominator structure computed: {'2-powers confirmed' if viable else 'NOT 2-powers'}")
+    print("  (NB: 'viable for downstream C1/C2' is not a meaningful verdict --")
+    print("   the C1/C2 checkers were stubs and are disabled. See E-007.)")
 
     # Physics interpretation
-    print("\n[Physics Interpretation] [C] Conjecture — requires EFT matching")
+    print("\n[Physics Interpretation] *** RETRACTED (E-007) -- DO NOT CITE ***")
+    print("  The arithmetic above is sound; the interpretation below is withdrawn.")
     physics = physics_interpretation()
     print(f"\n  Caveat: {physics['caveat']}")
     print(f"\n  Implications:")
