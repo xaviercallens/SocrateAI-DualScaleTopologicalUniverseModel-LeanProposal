@@ -29,6 +29,7 @@
 -/
 
 import Agora.Sequences.CooperRecurrences
+import Agora.Sequences.FormalSqrt
 import Mathlib.Data.Rat.Defs
 import Mathlib.Tactic
 
@@ -174,6 +175,67 @@ theorem s7_partner_integral_pass7 (n : ℕ) (hn : n ≤ 7) :
           ⟨117348, by norm_num [partnerSeq, partnerPair, s7_params]⟩,
           ⟨2428272, by norm_num [partnerSeq, partnerPair, s7_params]⟩,
           ⟨52303680, by norm_num [partnerSeq, partnerPair, s7_params]⟩]
+
+-- ╔════════════════════════════════════════════════════════════════════╗
+-- ║  §4½. GOLDEN MATCHES: partnerSeq vs the FORMAL SQUARE ROOT         ║
+-- ║  (WP S1-12, after Deep Think's Q6 answer)                          ║
+-- ║                                                                    ║
+-- ║  `FormalSqrt.sqrtSeq` of the Cooper sequence and the recurrence-    ║
+-- ║  defined `partnerSeq` agree — CAS-verified to n = 59 for all three  ║
+-- ║  candidates, kernel-checked below for the first values on both the  ║
+-- ║  integral (s7) and non-integral (s10) sides. Their equality for ALL ║
+-- ║  n is the named open goal `open_goal_partner_eq_sqrt_s7`: it is the  ║
+-- ║  solution-level transport of the operator identity L₃ = P₂·Sym²(L₂),║
+-- ║  which the kernel has only at operator level. If it closes, the      ║
+-- ║  dyadic baseline `sqrtSeq_dyadic` transports to `partnerSeq` and     ║
+-- ║  s7's integrality question becomes purely 2-adic. s18 has no ℤ-      ║
+-- ║  sequence definition in this repo (recurrence params only), so no    ║
+-- ║  golden match is statable for it here.                              ║
+-- ╚════════════════════════════════════════════════════════════════════╝
+
+open FormalSqrt in
+/-- The formal square root of `Σ s7(n)zⁿ` opens `2, 22, 336` — exactly
+    `partnerSeq s7_params` (`s7_partner_values`). Kernel-checked instance of the
+    bridge, on the integral side. -/
+theorem sqrt_matches_partner_s7 :
+    sqrtSeq (fun k => (s7 k : ℤ)) 1 = partnerSeq s7_params 1 ∧
+    sqrtSeq (fun k => (s7 k : ℤ)) 2 = partnerSeq s7_params 2 ∧
+    sqrtSeq (fun k => (s7 k : ℤ)) 3 = partnerSeq s7_params 3 := by
+  have h1 : s7 1 = 4 := by decide
+  have h2 : s7 2 = 48 := by decide
+  have h3 : s7 3 = 760 := by decide
+  have b1 : sqrtSeq (fun k => (s7 k : ℤ)) 1 = 2 := by
+    rw [show (1 : ℕ) = 0 + 1 from rfl, sqrtSeq_succ]
+    norm_num [h1]
+  have b2 : sqrtSeq (fun k => (s7 k : ℤ)) 2 = 22 := by
+    rw [show (2 : ℕ) = 1 + 1 from rfl, sqrtSeq_succ]
+    norm_num [Finset.sum_range_one, b1, h2]
+  have b3 : sqrtSeq (fun k => (s7 k : ℤ)) 3 = 336 := by
+    rw [show (3 : ℕ) = 2 + 1 from rfl, sqrtSeq_succ]
+    norm_num [Finset.sum_range_succ, Finset.sum_range_one, b1, b2, h3]
+  exact ⟨by rw [b1, s7_partner_values.2.1],
+         by rw [b2, s7_partner_values.2.2.1],
+         by rw [b3, s7_partner_values.2.2.2.1]⟩
+
+open FormalSqrt in
+/-- The same match on the NON-integral side: the formal square root of
+    `Σ s10(n)zⁿ` opens `1, 17/2` — exactly `partnerSeq s10_params`. So the `17/2`
+    witnessing `s10_partner_not_integral` is not an artifact of the recurrence
+    encoding; the square root itself produces it, as the dyadic baseline
+    (`sqrtSeq_dyadic`) says it may. -/
+theorem sqrt_matches_partner_s10 :
+    sqrtSeq (fun k => (s10 k : ℤ)) 1 = partnerSeq s10_params 1 ∧
+    sqrtSeq (fun k => (s10 k : ℤ)) 2 = partnerSeq s10_params 2 := by
+  have h1 : s10 1 = 2 := by decide
+  have h2 : s10 2 = 18 := by decide
+  have b1 : sqrtSeq (fun k => (s10 k : ℤ)) 1 = 1 := by
+    rw [show (1 : ℕ) = 0 + 1 from rfl, sqrtSeq_succ]
+    norm_num [h1]
+  have b2 : sqrtSeq (fun k => (s10 k : ℤ)) 2 = 17 / 2 := by
+    rw [show (2 : ℕ) = 1 + 1 from rfl, sqrtSeq_succ]
+    norm_num [Finset.sum_range_one, b1, h2]
+  exact ⟨by rw [b1, s10_partner_values.2.1],
+         by rw [b2, s10_partner_values.2.2.1]⟩
 
 /-- The candidate separation, as far as it is currently proved.
 
