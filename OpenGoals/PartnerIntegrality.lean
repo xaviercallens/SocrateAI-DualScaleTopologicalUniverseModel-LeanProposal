@@ -2,7 +2,8 @@
   OpenGoals/PartnerIntegrality.lean
   ════════════════════════════════════════════════════════════════════════════════
 
-  Named open goal for WP S1-11 (Agora/Sequences/PartnerIntegrality.lean).
+  Named open goals for WP S1-11/S1-12 (Agora/Sequences/PartnerIntegrality.lean,
+  Agora/Sequences/FormalSqrt.lean).
 
   This directory is the ONLY sorry-carrying location permitted on `main`
   (lean-proof-workflow skill, "sorry policy").
@@ -65,9 +66,63 @@ open Agora.Sequences Agora.Sequences.Partner
        there (denominators exactly powers of 2) indicates the prime `2` is the
        only obstruction, which is a genuine lead but not a proof sketch.
     3. `exact?`/`apply?` against Mathlib — nothing applicable; Mathlib has no
-       Apéry-integrality or Hauptmodul-expansion API at the pinned commit. -/
+       Apéry-integrality or Hauptmodul-expansion API at the pinned commit.
+
+    UPDATE 2026-07-26 (WP S1-12, after Deep Think's Q6 answer). The goal has
+    been REDUCED, conditionally: `FormalSqrt.sqrtSeq_dyadic` (Tier A, generic)
+    proves the formal square root of ANY integer series is dyadic — only the
+    prime 2 can appear in denominators. So modulo the bridge
+    `open_goal_partner_eq_sqrt_s7` below, the odd-prime half of this goal is
+    already done, and what remains is exactly the 2-adic cancellation — the
+    arithmetic anomaly Deep Think attributes ([B], unformalised) to the level-7
+    parametrisation. Strategy 2's suspicion that "2 is the only obstruction" is
+    thereby confirmed on the sqrt side of the bridge. -/
 theorem open_goal_partner_integral_s7 :
     ∀ n, IsIntegral (partnerSeq s7_params n) := by
+  sorry
+
+-- ╔════════════════════════════════════════════════════════════════════╗
+-- ║  open_goal_partner_eq_sqrt_s7                                      ║
+-- ╚════════════════════════════════════════════════════════════════════╝
+
+/-- OPEN. The recurrence-defined partner IS the formal square root of the s7
+    series: `partnerSeq s7_params = FormalSqrt.sqrtSeq (s7 ·)` at every index.
+
+    STATUS: open. Kernel-checked at `n = 1, 2, 3` (`sqrt_matches_partner_s7`,
+    with the s10 analogue at `n = 1, 2`); CAS-verified to `n = 59` for all three
+    candidates in exact arithmetic (S1-12 session, scratchpad `q6_check.py`
+    rederivable from `scripts/verify_sym2_partner_identities.py` data).
+
+    WHY IT IS TRUE (informally — this is the part the kernel does not yet have).
+    `L₃ = P₂·Sym²(L₂)` is kernel-proved AT OPERATOR LEVEL (PartnerOperators.lean).
+    Sym² of an operator annihilates squares of its solutions, so the holomorphic
+    solution `f` of `L₂` has `f² = Σ s(n)zⁿ`; both `partnerSeq` (coefficients
+    of `f`) and `sqrtSeq` (formal square root, `sqrtSeq_sq`) then square to the
+    same series with the same constant term `1`, and `ℚ⟦z⟧` is an integral
+    domain, forcing equality. Every step is standard; none is currently
+    formalisable here, because the pinned Mathlib has no machinery connecting a
+    θ-form operator identity to statements about its solution sequences (no
+    D-finite/holonomic API, no `PowerSeries` square root).
+
+    CONSEQUENCE IF THE BRIDGE IS PROVED: `sqrtSeq_dyadic` transports to `partnerSeq`, making
+    `open_goal_partner_integral_s7` purely 2-adic, and upgrading the s10/s18
+    observation "denominators are exactly powers of 2" from PASS(59) to theorem.
+
+    Grind-loop record (three strategies, per the three-strikes rule):
+    1. Direct strong induction on `n` — fails: the step needs the convolution
+       identity `Σ partnerSeq i · partnerSeq (n−i) = s7 n` as input, which is
+       equivalent to the goal itself (simultaneous induction just relocates the
+       same missing algebraic identity into the other branch).
+    2. Simultaneous induction on (equality + convolution) — the convolution step
+       then requires showing the `(k+2)²`-recurrence implies the convolution
+       recurrence, i.e. the solution-level Sym² transport; that is a WZ-style
+       certificate identity in its own right, not currently derivable without
+       the missing operator-action-on-sequences framework.
+    3. `exact?`/`apply?` / Mathlib search — no `PowerSeries.sqrt`, no holonomic
+       sequence API at the pinned commit. Candidate "blocked-on-mathlib"; that
+       classification is T0's call. -/
+theorem open_goal_partner_eq_sqrt_s7 :
+    ∀ n, partnerSeq s7_params n = FormalSqrt.sqrtSeq (fun k => (s7 k : ℤ)) n := by
   sorry
 
 end Agora.Sequences.OpenGoals
