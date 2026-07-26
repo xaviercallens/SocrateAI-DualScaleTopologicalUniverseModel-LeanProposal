@@ -166,3 +166,86 @@ proofs using modular forms" (Astérisque 147–148) — but see §5 before assum
 arithmetic + Lean kernel); §4 verified symbolically; A279619 values matched against our own
 independent derivation; §6 metadata explicitly marked unverified | Reviewed-by: T0 N — this brief
 is the request.
+
+---
+
+# ADDENDUM 2026-07-26 — several questions have since been answered; please read before starting
+
+Between filing and now, Stream 2 fetched two primary sources (E-007/E-009) and Stream 1 proved a
+generic result. **The request is narrower than §1 states.** Retired questions below; do not spend
+effort re-answering them.
+
+## Retired — Q4 and the §6 metadata, now confirmed from primary sources
+
+All four §6 leads were flagged "search-result summary, not a direct fetch". Three are now
+**fetched and hash-pinned** (`refs/literature_provenance.txt` in the Stream 2 repo):
+
+- **O'Brien, *"Modular forms and two new integer sequences at level 7"*, MSc thesis, Massey
+  University, 2016 (supervisor S. Cooper), Theorem 6.1** — fetched (freely hosted). Its
+  recurrence and all 10 printed terms match our s7 partner exactly. **The A279619 identity, the
+  A002652/A279618 compositional relation, and the level-7 modular parametrisation are confirmed
+  from the primary source.** Q4 is substantially answered for s7.
+- **Almkvist–van Straten, arXiv:2103.08651v1**, § "three sporadic third order operators" — states
+  in its own words that these are Cooper's *"s10, s7 and s18"*, and gives **explicit K3
+  constructions** (s7 → six hyperplane sections of `G(2,6)`; s10 → four `(1,1)` sections in
+  `P³×P³`). So the objects exist and are constructed; Q3's "is it a Picard–Fuchs operator"
+  is no longer open-ended in the way §1 assumed.
+- **Chan–Cooper–Sica (2010)** — still **unfetched**, not found freely hosted. Cooper 2012 and
+  Stienstra–Beukers 1985 are confirmed **paywalled with no OA mirror**. If you have access,
+  these three are the remaining gap.
+
+⚠️ **Citation-precision warning — please do not inherit this.** Our own `ESCALATIONS.md` attached
+*"X₀(7), CM by ℚ(√−7)"* to O'Brien Theorem 6.1. On fetching the thesis: it establishes the
+generating-function identity and a level-7 parametrisation (`z₇`, `X₇` as η-quotients in `q, q⁷`),
+but **never states "X₀(7)" or "CM by ℚ(√−7)"** — zero hits in the text. That framing is a standard
+fact about the disc-`−7` form `x²+xy+2y²` underlying A002652, *not* something Theorem 6.1 asserts.
+The citation has been rescoped to the g.f. identity only. Treat any X₀(7)/CM claim as needing its
+own source.
+
+## Retired — Q2's premise about our normalisation
+
+Q2 asked whether the `{0, ½}` exponents are an artefact of how we recorded `L₂`. **They are not.**
+`det(monodromy) = −1 ∉ SL₂(ℤ)`, so no Kodaira fibre type is derivable from `L₂`'s exponents by any
+labelling — `L₂` is a *twisted* Picard–Fuchs operator (E-007, verified independently in
+`checkers/check_C1_kodaira_consistency.py`). The sub-question that survives is only the
+literature one: **does any source normalise these partners differently, and if so how?**
+
+## Changed — Q1/Q3/Q5 are re-framed by a new Tier A result
+
+Stream 1 has since proved (Lean kernel, 0 `sorry`, commit `5fad591`) that the four θ-form
+identities **determine** the partner from the Cooper parameters, and that the leftover constraint
+holds **identically in `(a,b,c,d)`**. Consequences for this brief:
+
+- **Q3 is answered on the algebraic side.** *Every* operator of the Cooper template is
+  `P₂·Sym²` of an explicit order-2 operator — s7 and s10 are not special in this respect. What
+  remains open is entirely the geometric/modular side: is the partner a *Picard–Fuchs* operator
+  of something, and of what.
+- **Q1/Q5 gain a third data point.** The s18 partner is now explicit —
+  `P₂ = 1−28z+192z² = (1−12z)(1−16z)`, `P₁ = −14z+192z²`, `P₀ = −3z+45z²`, singular at
+  `z = 1/12, 1/16` — and its holomorphic solution is **not integral** (`1, 3, 45/2, 429/2, …`).
+  **s7 is the only Cooper sporadic whose order-2 partner is integral.**
+
+**A new question this raises (please treat as a question, not a claim).** E-007 finding 5 explains
+s10's non-integrality as level-specific: *"level 10 (Γ₀(10)) lacks the cusp structure that yields
+integral coefficients at level 7, forcing denominators scaling as powers of 2 (2-isogeny)"*. But
+s18's partner shows the **same** 2-power denominator behaviour (every denominator a power of 2,
+checked to `n = 60`; max `2⁵⁶`), and s18 is not level 10. So either that explanation generalises
+beyond Γ₀(10) or it is not the operative mechanism. **Q6: what actually controls integrality of
+the order-2 partner across Cooper's three sequences?** A sourced answer here would be more
+valuable to us than anything else in this brief.
+
+## Unchanged
+
+§5 (the withdrawn Beauville/`χ_top = 12` inference) and §8 (what not to do) stand as written, and
+§8's third bullet — *do not report an OEIS or paper claim without having opened it* — is if
+anything reinforced: the X₀(7) rescoping above is a fourth instance of exactly that failure.
+
+**Still genuinely open, in priority order:** Q6 (integrality mechanism) · Q1/Q4 for **s10 and s18**
+partners (nothing found for either) · Q2's normalisation sub-question · Chan–Cooper–Sica 2010,
+Cooper 2012, Stienstra–Beukers 1985 if you have access. **"No source found" remains a fully
+acceptable answer.**
+
+*Addendum provenance:* Generated-by: Opus 5 (Stream 1) | Verified-by: Lean kernel (`lake build
+Agora`, 3108 jobs) for the generic result; Stream 2 `refs/literature_provenance.txt` +
+`ESCALATIONS.md` E-007/E-009 for the fetches; `scripts/verify_sym2_partner_identities.py`
+CLAIM 5/6 for the s18 partner and parameters | Reviewed-by: T0 N — pending.

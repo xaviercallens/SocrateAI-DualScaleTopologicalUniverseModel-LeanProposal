@@ -30,6 +30,12 @@ DATA = {
                 cooper=(13, 4, -27, 3)),
     's10': dict(P2=1 - 12*z - 64*z**2, P1=-6*z - 64*z**2,  P0=-z - 15*z**2,
                 cooper=(6, 2, -64, 4)),
+    # s18's partner is DERIVED (see generic_partner / claim 5), not transcribed:
+    # no literature order-2 companion for s18 is known. Parameters (14,6,192,-12)
+    # from Gorodetsky arXiv:2102.11839 v2 p.3, independently corroborated by
+    # Almkvist-van Straten arXiv:2103.08651 -- see check_s18_params_vs_avs().
+    's18': dict(P2=1 - 28*z + 192*z**2, P1=-14*z + 192*z**2, P0=-3*z + 45*z**2,
+                cooper=(14, 6, 192, -12)),
 }
 
 
@@ -206,8 +212,99 @@ def run(name):
     return ok
 
 
+def generic_partner(params):
+    """Solve the partner OUT of the identities, in order:
+         c3 = P2  ->  P2      c2 = 3 P1  ->  P1      c1 = th(P1) + 4 P0  ->  P0
+    leaving `c0 = 2 th(P0)` and `th(P2) = 2 P1` as constraints, not choices.
+    Mirrors Agora/Sequences/PartnerOperators.lean partnerP2/partnerP1/partnerP0.
+    """
+    c3, c2, c1, _ = cooper_L3(params)
+    P2 = c3
+    P1 = cancel(c2 / 3)
+    P0 = cancel((c1 - theta(P1)) / 4)
+    return expand(P2), expand(P1), expand(P0)
+
+
+def check_generic():
+    """CLAIM 5 — the two leftover identities vanish IDENTICALLY in (a,b,c,d), so
+    every Cooper-template operator is P2*Sym^2 of an explicit order-2 operator.
+    This is the CAS witness for the generic Lean theorems partner_magic /
+    partner_res0..3."""
+    A, B, C_, D = symbols('A B C D')
+    P2, P1, P0 = generic_partner((A, B, C_, D))
+    _, _, _, c0 = cooper_L3((A, B, C_, D))
+    t_magic = simplify(expand(theta(P2) - 2*P1))
+    t_last = simplify(expand(c0 - 2*theta(P0)))
+    print("=" * 76)
+    print("  [CLAIM 5] the partner is DETERMINED, and the leftover identities are")
+    print("            identities in (a,b,c,d) -- not per-candidate coincidences")
+    print("=" * 76)
+    print(f"    P2 = {P2}\n    P1 = {P1}\n    P0 = {P0}")
+    print(f"    theta(P2) - 2 P1  = {t_magic}")
+    print(f"    c0 - 2 theta(P0)  = {t_last}")
+    ok = (t_magic == 0 and t_last == 0)
+    print(f"    -> {'BOTH VANISH IDENTICALLY' if ok else 'FAILURE'}")
+    # negative control: the c0 test must be capable of failing
+    ctrl = simplify(expand((c0 + z**3) - 2*theta(P0)))
+    print(f"    control (perturb c0 -> c0 + z^3): {ctrl}"
+          f"   ({'non-zero, so the test is live' if ctrl != 0 else 'STILL ZERO -- suspicious'})")
+    ok &= (ctrl != 0)
+    # and it must reproduce the two independently-transcribed partners
+    print("    cross-validation against the transcribed handoff partners:")
+    for name in ('s7', 's10'):
+        d = DATA[name]
+        got = generic_partner(d['cooper'])
+        same = all(simplify(g - r) == 0 for g, r in zip(got, (d['P2'], d['P1'], d['P0'])))
+        ok &= same
+        print(f"      {name}: derived == transcribed -> {same}")
+    return ok
+
+
+def check_s18_params_vs_avs():
+    """CLAIM 6 — s18_params (14,6,192,-12) reproduces the Almkvist-van Straten
+    "Sporadic 3" operator coefficient-for-coefficient.
+
+    -- Source (A-vS operator, theta-form): arXiv:2103.08651v1, section "three
+       sporadic third order operators"; transcribed into a shift recurrence in the
+       Stream 2 register refs/recurrences_v1.json key `avs_sporadic3_s18`, as
+       P2(k)a(k+2) + P1(k)a(k+1) + P0(k)a(k) = 0 with
+       P2 = (k+2)^3, P1 = -(28k^3+126k^2+194k+102), P0 = 192k^3+576k^2+564k+180.
+    -- Source (printed phi(x) series): same section, 1,6,54,564,6390,76356,948276.
+    """
+    n = symbols('n')
+    a, b, c, d = 14, 6, 192, -12
+    k = n - 1                                   # align shift index to the template
+    avs_lead = expand(8 + 12*k + 6*k**2 + k**3)
+    avs_un = expand(102 + 194*k + 126*k**2 + 28*k**3)
+    avs_unm1 = expand(180 + 564*k + 576*k**2 + 192*k**3)
+    tpl_lead = expand((n + 1)**3)
+    tpl_un = expand((2*n + 1)*(a*n**2 + a*n + b))
+    tpl_unm1 = expand(n*(c*n**2 + d))
+    print("\n" + "=" * 76)
+    print("  [CLAIM 6] s18_params == the Almkvist-van Straten Sporadic-3 operator")
+    print("=" * 76)
+    ok = True
+    for lbl, t, v in (("(n+1)^3", tpl_lead, avs_lead),
+                      ("u(n)   ", tpl_un, avs_un),
+                      ("u(n-1) ", tpl_unm1, avs_unm1)):
+        same = simplify(t - v) == 0
+        ok &= same
+        print(f"    {lbl}: template {t}   |  A-vS {v}   -> {'MATCH' if same else 'DIFFER'}")
+    u = cooper_sequence((a, b, c, d), 9)
+    printed = [1, 6, 54, 564, 6390, 76356, 948276]
+    hit = [int(x) for x in u[:7]] == printed
+    ok &= hit
+    print(f"    generated: {[str(x) for x in u[:7]]}")
+    print(f"    A-vS printed phi(x): {printed}   -> {'MATCH' if hit else 'DIFFER'}")
+    print(f"    -> {'s18_params VINDICATED by the primary source' if ok else 'FAILURE'}")
+    return ok
+
+
 def main():
-    results = {n: run(n) for n in ('s7', 's10')}
+    results = {n: run(n) for n in ('s7', 's10', 's18')}
+    print()
+    results['generic'] = check_generic()
+    results['s18_params_provenance'] = check_s18_params_vs_avs()
     print("\n" + "=" * 76)
     for n, v in results.items():
         print(f"  {n}: {'ALL CLAIMS VERIFIED' if v else 'SOME CLAIM FAILED'}")
