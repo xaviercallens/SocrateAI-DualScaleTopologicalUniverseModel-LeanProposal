@@ -14,6 +14,8 @@
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 REPO_ROOT="$(pwd)"
+# Streams 2/3 live in a sibling checkout, not this repo — hint only, may drift.
+AGORA_REPO_HINT="/mnt/disks/disk-socrateai-local-1/callensxavier_home_data/SocrateAI-Scientific-Agora-K3-DarkMatter"
 
 BOLD='\033[1m'; DIM='\033[2m'; GREEN='\033[32m'; YELLOW='\033[33m'; RED='\033[31m'; RESET='\033[0m'
 ok()    { echo -e "  ${GREEN}✅${RESET} $1"; }
@@ -34,71 +36,87 @@ echo "  Last commit: $COMMIT"
 if [ -z "$DIRTY" ]; then ok "Working tree clean"; else warn "Uncommitted changes present"; fi
 
 hdr "Stream 1 — Theory (Lean 4 formalization)"
-ok "COMPLETE — S1-02, S1-03, S1-04, S1-07, S1-08 all closed"
-echo "     Main result: generic Cooper W≡0 (P_cleared_eq_zero), proved via ring,"
-echo "     specializes to s7/s10/s18 as free corollaries. 0 sorry outside OpenGoals/."
+ok "COMPLETE — S1-02 through S1-14 all closed except one named open goal (below)"
+echo "     Base result: generic Cooper W≡0 (P_cleared_eq_zero), proved via ring,"
+echo "     specializes to s7/s10/s18 as free corollaries. WP-B1 (chameleon mechanism)"
+echo "     T0-signed-off 2026-07-26 — Stream 1's last operational gate is closed."
+echo "     S1-10..S1-14 (2026-07-26): the Cooper Sym² partner is GENERIC over"
+echo "     (a,b,c,d) — s7/s10/s18 partners are free corollaries; s18_params vindicated"
+echo "     vs Almkvist–van Straten; dyadic baseline (sqrtSeq_dyadic) kernel-proved;"
+echo "     s7 partner integrality CLOSED via a cited O'Brien 2016 Thm 6.2 axiom (not"
+echo "     blocked-on-mathlib as first ruled — recompute before accepting that label)."
+echo "     0 sorry outside OpenGoals/. 2 axioms total (Agora/Axioms/), both registered"
+echo "     in AXIOMS.md: pipeline_upper_bound (DISCLOSED-VACUOUS, undischarged, waits"
+echo "     on real Stream 2/3 pipeline data) and obrien2016_theorem6_2 (literature cite)."
 echo "     Manuscript: manuscript/main.pdf (rebuild: cd manuscript && pdflatex main.tex"
 echo "     && bibtex main && pdflatex main.tex && pdflatex main.tex — use pdflatex,"
 echo "     NOT lualatex/xelatex, luaotfload is broken in this environment)."
 if [ -f open_goals.json ]; then
   N_OPEN=$(python3 -c "import json;print(len(json.load(open('open_goals.json'))))" 2>/dev/null || echo "?")
-  echo "     Open goals remaining: $N_OPEN (expected: 2 — open_goal_recurrence_s7/s10)"
+  N_STILL_OPEN=$(python3 -c "import json;print(sum(1 for g in json.load(open('open_goals.json')) if g['status']=='open'))" 2>/dev/null || echo "?")
+  echo "     Named goals tracked: $N_OPEN, of which OPEN: $N_STILL_OPEN"
+  echo "     (open_goal_partner_eq_sqrt_s7 — genuinely blocked-on-mathlib, no"
+  echo "     PowerSeries/holonomic-sequence transport API at the pin; S1-14 sketches a"
+  echo "     plausible elementary Finset.sum route, not yet attempted in full)"
 fi
 
-hdr "Stream 2 — Physics Selection & Geometry (C3b)"
-if [ -d docs/literature ] && [ -n "$(ls -A docs/literature 2>/dev/null)" ]; then
-  ok "Phase 1 (provenance): PDFs fetched — check refs/literature_provenance.txt for hash status"
-else
-  block "Phase 1 (provenance gate) NOT STARTED — docs/literature/ empty. START HERE (1-2h)."
-fi
-if [ -f data/certificates/C1_cooper_s7.json ]; then
-  ok "C1 (Kodaira fibers): certificates present"
-else
-  block "C1 (Kodaira fibers) not computed — depends on Phase 1"
-fi
-if [ -f data/certificates/C2_cooper_s7.json ]; then
-  ok "C2 (Picard lattice): certificates present"
-else
-  block "C2 (Picard lattice) not computed — depends on C1"
-fi
-echo "     Next action: briefs/INDEX_STREAM2_STREAM3_NEXT_ACTIONS.md § Stream 2"
-echo "     Exact singular points already given (no solve needed):"
-echo "       s7:  z = 1/27, z = -1   |   s10: z = 1/16, z = -1/4"
+hdr "Stream 2 — Physics Selection & Geometry (Agora repo, separate checkout)"
+echo "     ⚠️  The C1/C2 (Kodaira/Picard) layer this section used to track is"
+echo "     PERMANENTLY RETRACTED (E-007, 2026-07-25) — ρ=4/T=18 traced to a hardcoded"
+echo "     lookup, not geometry. Do not resurrect checks against those old certificate"
+echo "     paths; they are gone by design."
+ok "E-011 (2026-07-26): ρ=19, T=3 — DERIVED for real this time, Tier B."
+echo "     Chain: L3 irreducible (computed, Frobenius-exponent argument) ⇒ rank V=3 ⇒"
+echo "     [B, 2 independent citations: Zarhin 1983 Thm 1.6(a); Huybrechts Lemma"
+echo "     3.2.7/3.3.1] T irreducible ⇒ T=3 ⇒ ρ=22-3=19. Independently reproduced and"
+echo "     the guard deliberately broken-and-restored by Stream 1, 2026-07-26"
+echo "     (briefs/STREAM1_GUIDANCE_ON_E011_E012_WPE_2026_07_26.md) — sound."
+echo "     Caveats that MUST travel with this number: very-general-member only"
+echo "     (jumps to 20 on Noether-Lefschetz locus); projectivity load-bearing;"
+echo "     discriminant and Mordell-Weil rank still null; nothing about s18."
+warn "E-010 (2026-07-26, same day): a FIRST attempt at this exact derivation was"
+echo "     fabricated (hardcoded rho, rigged D-3 observable) and retracted before push."
+echo "     E-011 is the real one — verify by reading the checker, not by trusting a brief."
+echo "     Next action (Agora repo): cat briefs/T0_AUTHORIZATION*.md, ESCALATIONS.md E-011"
 
-hdr "Stream 3 — Experimentation (public-data confrontation)"
-if [ -f data/MANIFEST.md ]; then
-  ok "WP S3-01 (data acquisition): MANIFEST.md present"
-else
-  block "WP S3-01 (data acquisition) NOT STARTED — unblocked, can start now (2-4h)"
-fi
-if grep -rq "TEST\|FIT" scripts/*.py checkers/*.py 2>/dev/null; then
-  ok "WP S3-02 (pipeline scaffold): TEST/FIT labeling scaffolding found"
-else
-  block "WP S3-02 (pipeline scaffold) NOT STARTED — unblocked, can start now (4-8h)"
-fi
-block "WP S3-00 (MVM matching) BLOCKED — needs Stream 2 geometry lock + ASSUMPTIONS.md"
-echo "     sign-off + PREDICTION.md observable freeze. Do NOT shortcut this."
-echo "     Next action: briefs/STREAM3_EXPERIMENTATION_DIRECTIVE_2026-07-24.md § 1-2"
+hdr "Stream 3 — Experimentation (Agora repo, separate checkout)"
+block "D-3 (2026-07-26, E-012): Stream 3 self-blocked rather than run a fabricating"
+echo "     pipeline. 4 independent blockers found: no observable selected yet (by"
+echo "     design, WP S3-00 hasn't run), the pinned runner fabricates (same np.random"
+echo "     pattern as E-010), PREDICTION.md's own prerequisites are now false, and the"
+echo "     data can't support the observable (photo-z smears radial position ~10^2 Mpc)."
+echo "     Gate E criteria 1-2: UNSCOREABLE (not FAIL) — E-011 supplies a PRIOR, not a"
+echo "     measurement. Good self-catch, 3rd instance of this failure mode today."
+warn "WP S3-00 (MVM matching): the actual next unblocked, highest-value work per both"
+echo "     Stream 2's WP-E review and Stream 1's independent read. Not yet run."
 
 hdr "Open items needing Xavier's attention (not blocking, but tracked)"
-warn "briefs/INTERNAL_PHYSICS_TIER_GAPS_2026-07-24.md — 6 findings where physics-file"
-echo "     docstrings overclaim relative to their Lean content (2 involve axioms/props"
-echo "     self-disclosed as vacuous at declaration, cited as established 1-3 files away)."
-echo "     Diagnostic only, no files changed. 4 remediation options given, your call."
-warn "ASSUMPTIONS.md — still DRAFT v0.1, 'NOT YET T0-AUTHORED OR SIGNED OFF' per its"
-echo "     own header. Blocks Stream 3 S3-00 until reviewed."
-warn "PREDICTION.md — observable choice (P1 PTA / P2 lensing / Lyman-α) still open,"
-echo "     deferred to external astrophysics consultation per its own §3."
-warn "An unverified 'OEIS↔F-theory' matrix was proposed and REJECTED this session —"
-echo "     contradicts sourced S12_zagier_params (Tier B pipeline data, not a named"
-echo "     OEIS sequence). If revisited, needs the same fetch-and-hash protocol as"
-echo "     Cooper's s7/s10/s18 — do not accept OEIS IDs/mirror-map values at face value."
+warn "PREDICTION.md (Agora repo) v1.0-PINNED still shows a CHECKED box (line ~49) for"
+echo "     the retracted rho=4/T=18, contradicting its own later prose. Needs a T0 call:"
+echo "     re-pin at v1.1, or annotate under the countermand window. NOT resolved as of"
+echo "     the last Stream 1 check — see"
+echo "     briefs/STREAM1_GUIDANCE_ON_E011_E012_WPE_2026_07_26.md § 4 (this repo)."
+warn "open_goal_partner_eq_sqrt_s7 — the one Lean goal still open. T0-ruled"
+echo "     blocked-on-mathlib; S1-14 found the framing may overstate it (elementary"
+echo "     Finset.sum route sketched, not attempted). Worth a dedicated session, not a"
+echo "     re-litigation without new information."
+warn "pipeline_upper_bound axiom (Agora/Axioms/PipelineBound.lean) — still"
+echo "     DISCLOSED-VACUOUS, undischarged. Confirmed 2026-07-26: no real pipeline"
+echo "     artifact exists yet in either repo. Waits on Stream 2/3 data, not Stream 1."
 
 hdr "Quick commands"
-echo "  lake build Agora              # full Stream 1 build (should be green, ~3106 jobs)"
-echo "  lake build Tests               # golden numeric tests"
-echo "  python3 scripts/export_open_goals.py   # regenerate open_goals.json"
-echo "  cat briefs/INDEX_STREAM2_STREAM3_NEXT_ACTIONS.md   # full next-actions routing"
+echo "  lake build Agora               # full Stream 1 build (should be green, ~3118 jobs)"
+echo "  lake build Tests                # golden numeric tests"
+echo "  lake build OpenGoals             # named open goals (1 sorry expected: the bridge goal)"
+echo "  python3 scripts/export_open_goals.py    # regenerate open_goals.json"
+echo "  python3 scripts/verify_sym2_partner_identities.py   # CAS cross-check, S1-10/11/12/13"
+echo "  cat briefs/T0_AUTHORIZATION_EXECUTED_AND_S1_13_CORRECTION_2026_07_26.md"
+echo "  cat briefs/STREAM1_GUIDANCE_ON_E011_E012_WPE_2026_07_26.md   # latest cross-stream state"
+echo
+echo "  In the Agora repo (Streams 2/3), separately:"
+echo "    cd $AGORA_REPO_HINT 2>/dev/null || echo '(set AGORA_REPO_HINT below if path moved)'"
+echo "    git log --oneline -10          # check for activity beyond E-011/E-012/WP-E"
+echo "    cat briefs/T0_AUTHORIZATION*.md ESCALATIONS.md   # ρ/T and Gate E status"
 
 if [[ "${1:-}" == "--build" ]]; then
   hdr "Running lake build Agora (--build flag passed)"
@@ -107,6 +125,8 @@ fi
 
 echo
 echo -e "${BOLD}════════════════════════════════════════════════════════════════════${RESET}"
-echo "  Latest release tag: v0.4-S1-complete"
+LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "(none)")
+echo "  Last tag reachable from HEAD: $LAST_TAG (may predate the latest commits above —"
+echo "  check 'git log --oneline -10' for anything landed since)"
 echo "  Repo root: $REPO_ROOT"
 echo -e "${BOLD}════════════════════════════════════════════════════════════════════${RESET}"
