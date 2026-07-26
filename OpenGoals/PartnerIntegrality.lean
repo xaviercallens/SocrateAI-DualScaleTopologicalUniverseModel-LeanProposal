@@ -141,7 +141,61 @@ theorem open_goal_partner_integral_s7 :
        the missing operator-action-on-sequences framework.
     3. `exact?`/`apply?` / Mathlib search — no `PowerSeries.sqrt`, no holonomic
        sequence API at the pinned commit. Candidate "blocked-on-mathlib"; that
-       classification is T0's call. -/
+       classification is T0's call.
+
+    UPDATE 2026-07-26 (WP S1-14). T0 ruled this goal `blocked-on-mathlib` on Deep
+    Think's concurrence. Before accepting that for a SECOND time this session
+    (having just found it wrong for `open_goal_partner_integral_s7`, S1-13),
+    tried a fourth, different strategy — with a real result, though not closure.
+
+    4. Verify `Σ partnerSeq(i)·partnerSeq(n−i) = s7(n)` holds as a genuine
+       IDENTITY, not just plausible, then try `ore_algebra`'s `symmetric_power`
+       (the same Sage tool that derived the WZ certificates for
+       `open_goal_recurrence_s7`/`_s10`) to find a certificate for it directly.
+       — The identity itself is STRONGLY confirmed: the convolution of
+         `partnerSeq s7_params` with itself satisfies COOPER'S OWN 3-term
+         recurrence exactly, verified in exact rational arithmetic to `n = 38`
+         (two independent encodings: the `f_seq`/`cooper_s7` script from S1-10's
+         session and a fresh one this session — same result, and matches the
+         `n ≤ 3` kernel-checked instances of `sqrt_matches_partner_s7` above).
+         This is strong evidence the goal is TRUE, not merely "plausible because
+         everyone says so" — recomputed per the standing rule, not inherited.
+       — `symmetric_power(2)` applied to the (independently sanity-checked —
+         confirmed to annihilate the known partner values `1,2,22,336,…`
+         directly) order-2 recursion operator for `partnerSeq` returned an
+         order-3 operator, but with DEGREE-8 polynomial coefficients (vs.
+         Cooper's own degree-2/3), and — checked directly against the
+         convolution sequence, not just assumed — it does **not** annihilate
+         it (nonzero residuals from `n = 0`, exact rational arithmetic, not a
+         precision artifact). `GCRD(sym2, cooper_op) = 1` (no common right
+         factor) confirms this isn't just a normalization mismatch. Two
+         genuine index-convention bugs were found and fixed in the operator
+         setup along the way (both operators individually verified against
+         known sequence values before this test — a real, if unglamorous,
+         improvement to how this class of check should be done in future
+         sessions) — the mismatch persisted after both fixes. Read as a tool
+         limitation of this pinned `ore_algebra` build (already flagged
+         elsewhere as incompatible with this Sage version at HEAD) rather than
+         a refutation of the identity, given the independent triple
+         verification above — but NOT confirmed as a tool bug; recorded
+         honestly as unresolved.
+
+    NET ASSESSMENT: the "blocked-on-mathlib" framing (needing `PowerSeries`
+    reversion/holonomic-sequence APIs) describes why a GENERIC, abstract Sym²
+    transport theorem is out of reach, but may overstate the difficulty of THIS
+    SPECIFIC instance — an elementary hand derivation exists in principle (the
+    `s0, s1, s2` elimination already sketched in
+    `scripts/verify_sym2_partner_identities.py`'s `sym2_monic` docstring,
+    redone at the coefficient/`Finset.sum` level rather than the `Polynomial ℚ`
+    level, avoiding `RatFunc` entirely since `θg(n) := n·g(n)` is DEFINITIONAL
+    for coefficient sequences — no Leibniz rule to prove, no `PowerSeries` type
+    needed). Not attempted in Lean this session: real, multi-lemma effort
+    (Leibniz-for-convolution via `Finset.sum` reindexing, the coupled `s0,s1,s2`
+    recursion in cleared/polynomial form, then a recursion-uniqueness argument)
+    — plausibly substantial but not "blocked" in the same sense as
+    `open_goal_partner_integral_s7` was before S1-13. Recommend: worth a
+    dedicated session, not a re-litigation of "blocked-on-mathlib" without new
+    information. -/
 theorem open_goal_partner_eq_sqrt_s7 :
     ∀ n, partnerSeq s7_params n = FormalSqrt.sqrtSeq (fun k => (s7 k : ℤ)) n := by
   sorry
