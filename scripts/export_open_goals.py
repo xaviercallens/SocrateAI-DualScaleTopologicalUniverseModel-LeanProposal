@@ -21,7 +21,7 @@ from pathlib import Path
 # whichever WP happened to be hardcoded here (Stream 2 consumes this field).
 WP_CONTEXT = {
     "CooperRecurrences.lean": "WP S1-02/S1-03 (sequence recurrence proofs)",
-    "PartnerIntegrality.lean": "WP S1-11/S1-12 (order-2 partner arithmetic)",
+    "PartnerIntegrality.lean": "WP S1-11/S1-12/S1-13 (order-2 partner arithmetic)",
 }
 
 
@@ -36,8 +36,13 @@ def extract_goals(opengoals_dir: Path) -> list[dict]:
         content = lean_file.read_text()
 
         # Find all theorems with preceding /-- ... -/ docstrings
-        # Match: /-- ... -/ followed (possibly with whitespace) by theorem name : statement := by sorry
-        pattern = r'/--\s*(.*?)\s*-/\s*theorem\s+(\w+)\s*:\s*((?:(?!:=).)*)\s*:=\s*by'
+        # Match: /-- ... -/ followed (possibly with whitespace) by theorem name : statement :=
+        # Deliberately matches BOTH tactic-mode (":= by ...") and term-mode
+        # (":= someProof") closures: a goal proved in term mode used to be
+        # silently DROPPED from the export (not misreported — absent
+        # entirely), found when open_goal_partner_integral_s7's closure
+        # (S1-13) vanished from open_goals.json for exactly this reason.
+        pattern = r'/--\s*(.*?)\s*-/\s*theorem\s+(\w+)\s*:\s*((?:(?!:=).)*)\s*:='
         matches = re.finditer(pattern, content, re.DOTALL)
 
         for match in matches:

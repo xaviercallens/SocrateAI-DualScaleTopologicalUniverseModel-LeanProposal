@@ -21,16 +21,21 @@ open Agora.Sequences Agora.Sequences.Partner
 -- ║  open_goal_partner_integral_s7                                     ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- OPEN. The order-2 partner of Cooper's s7 (= A279619) has integral
-    coefficients at every index.
+/-- CLOSED (2026-07-26, WP S1-13). The order-2 partner of Cooper's s7
+    (= A279619) has integral coefficients at every index.
 
-    STATUS: open. Kernel-checked to `n ≤ 7` (`s7_partner_integral_pass7`); checked
-    to `n = 81` in exact rational arithmetic outside the kernel
-    (`scripts/verify_sym2_partner_identities.py`, and the denominator scan in the
-    S1-10 session). No counterexample is expected — A279619 is a catalogued
-    integer sequence — but "catalogued as an integer sequence" is a claim about a
-    database, not a proof, and this project has been burned by exactly that
-    substitution before (E-007 finding 5, E-010).
+    STATUS: kernel-proved for all `n`, via a single external citation. Proof:
+    `Agora.Sequences.Partner.s7_partner_integral`
+    (`Agora/Sequences/PartnerIntegrality.lean`), combining
+    `partnerSeq_s7_recurrence` (mechanical: `partnerSeq s7_params` satisfies
+    O'Brien 2016's recurrence for his sequence `c₇` exactly — CAS-confirmed,
+    then kernel-checked) with `Axioms.obrien2016_theorem6_2` (external: that
+    recurrence forces integer values, O'Brien 2016 Theorem 6.2, p.47 —
+    registered in `AXIOMS.md`).
+
+    ⚠️ This closure used a citation, not machinery built from scratch — record
+    kept below of how the ORIGINAL open-goal reasoning held up, since it was
+    right about everything except assuming a proof route did not exist:
 
     WHY IT IS NOT AUTOMATIC. The defining recurrence is
 
@@ -44,16 +49,20 @@ open Agora.Sequences Agora.Sequences.Partner
     integral (`s10_partner_not_integral`, `s18_partner_not_integral`, both
     complete). So no argument that ignores the specific parameters can work.
 
-    ROUTE MOST LIKELY TO CLOSE IT. Not a direct induction — the divisibility is
-    not step-local. O'Brien (2016), *"Modular forms and two new integer sequences
-    at level 7"*, MSc thesis, Massey University, Theorem 6.1 (fetched and
-    hash-pinned by Stream 2, `refs/literature_provenance.txt`) gives
-    `A279619 = ` the expansion of the g.f. of `A002652` in powers of the level-7
-    Hauptmodul `A279618`. Integrality of a `q`-expansion in powers of a Hauptmodul
-    with integral `q`-expansion is the standard route to results of this shape.
-    Formalising it needs modular-forms machinery that the pinned Mathlib does not
-    have, so this is plausibly "blocked-on-mathlib" rather than merely hard —
-    that judgement is T0's to make, and is deliberately not made here.
+    ROUTE MOST LIKELY TO CLOSE IT (2026-07-26, as originally written). Not a
+    direct induction — the divisibility is not step-local. O'Brien (2016),
+    Theorem 6.1 [CORRECTED BELOW: should read Theorem 6.2] gives the route via
+    the level-7 Hauptmodul expansion. Formalising it needs modular-forms
+    machinery that the pinned Mathlib does not have, so this is plausibly
+    "blocked-on-mathlib" — that judgement is T0's to make, deliberately not
+    made here. ★ T0 subsequently ruled `blocked-on-mathlib` on Deep Think's
+    concurrence (2026-07-26) — see the CLOSED update below for why that
+    ruling, though reasonable on the information available, undersold the
+    route: the modular-forms machinery is needed to ESTABLISH O'Brien's
+    q-expansions, not to USE his already-proved conclusion. Citing his
+    Theorem 6.2 directly, on the same footing as any other literature-sourced
+    declaration in the `Axioms/` directory, sidesteps rebuilding that
+    machinery entirely. ★
 
     Grind-loop record (three strategies, per the three-strikes rule):
     1. `induction` on the recurrence with `omega`/`decide` on the divisibility
@@ -68,18 +77,30 @@ open Agora.Sequences Agora.Sequences.Partner
     3. `exact?`/`apply?` against Mathlib — nothing applicable; Mathlib has no
        Apéry-integrality or Hauptmodul-expansion API at the pinned commit.
 
-    UPDATE 2026-07-26 (WP S1-12, after Deep Think's Q6 answer). The goal has
-    been REDUCED, conditionally: `FormalSqrt.sqrtSeq_dyadic` (Tier A, generic)
+    UPDATE 2026-07-26 (WP S1-12, after Deep Think's Q6 answer). The goal was
+    first REDUCED, conditionally: `FormalSqrt.sqrtSeq_dyadic` (Tier A, generic)
     proves the formal square root of ANY integer series is dyadic — only the
-    prime 2 can appear in denominators. So modulo the bridge
-    `open_goal_partner_eq_sqrt_s7` below, the odd-prime half of this goal is
-    already done, and what remains is exactly the 2-adic cancellation — the
-    arithmetic anomaly Deep Think attributes ([B], unformalised) to the level-7
-    parametrisation. Strategy 2's suspicion that "2 is the only obstruction" is
-    thereby confirmed on the sqrt side of the bridge. -/
+    prime 2 can appear in denominators. So modulo the (still-open) bridge
+    `open_goal_partner_eq_sqrt_s7`, the odd-prime half was already done, and
+    what remained was exactly the 2-adic cancellation — the arithmetic anomaly
+    Deep Think attributed ([B], unformalised) to the level-7 parametrisation.
+
+    CLOSED 2026-07-26 (WP S1-13, same day). The reduction above turned out to
+    be unnecessary: `partnerSeq_s7_recurrence`
+    (`Agora/Sequences/PartnerIntegrality.lean`) shows `partnerSeq s7_params`
+    satisfies O'Brien (2016)'s recurrence for his sequence `c₇` EXACTLY —
+    same coefficients, same initial data, CAS-confirmed then kernel-checked.
+    His **Theorem 6.2** (not 6.1 — the citation above named the wrong theorem;
+    6.1 only proves the generating-function correspondence, 6.2 proves
+    integrality, by an explicit coefficient-matching induction, NOT the generic
+    "η-quotient corollary" first reported to us) proves that recurrence forces
+    integer values. Cited as `Axioms.obrien2016_theorem6_2`
+    (`Agora/Axioms/OBrien2016.lean`, registered `AXIOMS.md`). No modular-forms
+    machinery needed to be built: it is needed to ESTABLISH O'Brien's
+    q-expansions, not to USE his already-published conclusion. -/
 theorem open_goal_partner_integral_s7 :
     ∀ n, IsIntegral (partnerSeq s7_params n) := by
-  sorry
+  exact Agora.Sequences.Partner.s7_partner_integral
 
 -- ╔════════════════════════════════════════════════════════════════════╗
 -- ║  open_goal_partner_eq_sqrt_s7                                      ║
