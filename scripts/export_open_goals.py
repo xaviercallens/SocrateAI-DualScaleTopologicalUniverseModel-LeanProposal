@@ -16,6 +16,15 @@ import re
 import sys
 from pathlib import Path
 
+# Which work package each OpenGoals file belongs to. Keyed by filename so a new
+# goal file shows up as explicitly unmapped rather than silently inheriting
+# whichever WP happened to be hardcoded here (Stream 2 consumes this field).
+WP_CONTEXT = {
+    "CooperRecurrences.lean": "WP S1-02/S1-03 (sequence recurrence proofs)",
+    "PartnerIntegrality.lean": "WP S1-11 (order-2 partner arithmetic)",
+}
+
+
 def extract_goals(opengoals_dir: Path) -> list[dict]:
     """
     Parse OpenGoals/*.lean files and extract theorem definitions with docstrings.
@@ -49,7 +58,10 @@ def extract_goals(opengoals_dir: Path) -> list[dict]:
             short_desc = lines[0].strip() if lines else ""
 
             # Try to extract the blocking reason (look for "STATUS:" or "Conclusion:")
-            blocking = "Requires formalization of WZ certificate"
+            # Default is deliberately non-committal: inventing a blocker for a goal
+            # whose docstring does not state one is how wrong status propagates to
+            # Stream 2, which consumes this file.
+            blocking = "not stated in docstring — add a STATUS: line"
             if "STATUS:" in docstring:
                 status_match = re.search(r'STATUS:\s*(.+?)(?:\n|$)', docstring)
                 if status_match:
@@ -63,7 +75,9 @@ def extract_goals(opengoals_dir: Path) -> list[dict]:
                 "status": status,
                 "file": lean_file.name,
                 "blocking": blocking,
-                "context": "WP S1-02/S1-03 (sequence recurrence proofs)"
+                "context": WP_CONTEXT.get(
+                    lean_file.name, f"unmapped OpenGoals file {lean_file.name} — "
+                                    "add it to WP_CONTEXT in scripts/export_open_goals.py")
             })
 
     return goals

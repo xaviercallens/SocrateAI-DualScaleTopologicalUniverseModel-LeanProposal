@@ -11,6 +11,7 @@
 
 import Agora.Sequences
 import OpenGoals.CooperRecurrences
+import OpenGoals.PartnerIntegrality
 
 namespace OpenGoals
 

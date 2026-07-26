@@ -49,6 +49,28 @@ Full analysis, evidence, and remediation: **[`briefs/ESCALATIONS.md` § E-007](b
 Retracted artifacts are retained in place with `⛔ RETRACTED` banners rather than deleted, so the
 record stays auditable.
 
+## ⚠️ Correction notice — 2026-07-26 (F6 disclosure): two vacuous "integrality" theorems
+
+`Agora/Sequences/Integrality.lean` (WP S1-03) described itself as proving that Cooper's s7 and
+s10 "are integral for all n". It does not. `s7` and `s10` are declared `ℕ → ℕ`, so the two
+theorems in question — `s7_is_nat`, `s10_is_nat`, both of the form `∃ k : ℕ, s7 n = k` — are
+**tautologies**, closed by `use s7 n`. They restate the type signature and carry no arithmetic
+content. This is the same failure mode as E-002 and E-005 (a statement that cannot fail being
+cited as though it had been verified); no external claim rested on them, and nothing else in the
+repository depended on them.
+
+Both are retained, relabelled `⚠️ VACUOUS`, so they are not silently re-added as evidence. The
+file header now states honestly what it does and does not establish.
+
+**The real arithmetic content has been supplied** in the same change, as WP S1-11
+(`Agora/Sequences/PartnerIntegrality.lean`): the *order-2 partner* sequences are ℚ-valued —
+their recurrence divides by `(k+2)²` — so their integrality is a genuine theorem, and it
+separates the candidates. Proved unconditionally: **s10's and s18's partners are NOT integral**
+(single witnesses, `17/2` and `45/2` at `n = 2`). **Not proved: s7's partner is integral** — that
+is kernel-checked only to `n ≤ 7` (`PASS(7)`) and is registered as the named open goal
+`open_goal_partner_integral_s7`, with the reason it is hard (an Apéry-style divisibility, not a
+typing fact) recorded there. Please do not cite it as established.
+
 ---
 
 ## Key Documents
