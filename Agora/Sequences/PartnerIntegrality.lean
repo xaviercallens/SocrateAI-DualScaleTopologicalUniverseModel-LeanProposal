@@ -30,6 +30,7 @@
 
 import Agora.Sequences.CooperRecurrences
 import Agora.Sequences.FormalSqrt
+import Agora.Axioms.OBrien2016
 import Mathlib.Data.Rat.Defs
 import Mathlib.Tactic
 
@@ -145,7 +146,66 @@ theorem s18_partner_not_integral : ¬ ∀ n, IsIntegral (partnerSeq s18_params n
   fun h => s18_partner_two_not_integral (h 2)
 
 -- ╔════════════════════════════════════════════════════════════════════╗
--- ║  §4. INTEGRALITY OF THE s7 PARTNER — PASS(7), NOT A THEOREM        ║
+-- ║  §4pre. INTEGRALITY OF THE s7 PARTNER — CLOSED (WP S1-13)          ║
+-- ║                                                                    ║
+-- ║  CAS-confirmed 2026-07-26: partnerSeq s7_params satisfies O'Brien's ║
+-- ║  (2016) recurrence for his sequence c₇ EXACTLY, same coefficients,  ║
+-- ║  same initial data. His Theorem 6.2 proves that recurrence forces   ║
+-- ║  integer values — so, cited via `Axioms/OBrien2016.lean`, it closes ║
+-- ║  what was `open_goal_partner_integral_s7`. §4 below (PASS(7)) is    ║
+-- ║  KEPT for the record: it was the honest position before this WP,    ║
+-- ║  and the theorem below does not touch it structurally, only makes   ║
+-- ║  it redundant for the general claim.                                ║
+-- ╚════════════════════════════════════════════════════════════════════╝
+
+/-- `partnerPair` unfolds one step on its first projection: definitional,
+    structural recursion (no well-founded machinery), so `rfl` suffices. -/
+private theorem partnerPair_fst_succ (p : CooperRecurrenceParams) (k : ℕ) :
+    (partnerPair p (k + 1)).1 = (partnerPair p k).2 := rfl
+
+/-- `partnerPair` unfolds one step on its second projection — the actual
+    recurrence formula, in terms of the previous pair. -/
+private theorem partnerPair_snd_succ (p : CooperRecurrenceParams) (k : ℕ) :
+    (partnerPair p (k + 1)).2 =
+      ((partnerPair p k).2
+          * (2 * (p.a : ℚ) * ((k : ℚ) + 1) ^ 2 + (p.a : ℚ) * ((k : ℚ) + 1) + (p.b : ℚ) / 2)
+        - (partnerPair p k).1
+          * ((p.c : ℚ) * (k : ℚ) ^ 2 + (p.c : ℚ) * (k : ℚ) + ((p.c : ℚ) + (p.d : ℚ)) / 4))
+        / ((k : ℚ) + 2) ^ 2 := rfl
+
+/-- One recurrence step of the s7 partner, in the exact shape
+    `Axioms.obrien2016_theorem6_2` expects: chains the two unfold lemmas above
+    to express `partnerSeq (k+2)` via `partnerSeq (k+1)` and `partnerSeq k`,
+    then checks the resulting polynomial identity with `s7_params` substituted
+    by `field_simp; ring` — the mechanical half of "our object is O'Brien's
+    `c₇`". -/
+theorem partnerSeq_s7_recurrence (k : ℕ) :
+    ((k : ℚ) + 2) ^ 2 * partnerSeq s7_params (k + 2) =
+      (26 * ((k : ℚ) + 1) ^ 2 + 13 * ((k : ℚ) + 1) + 2) * partnerSeq s7_params (k + 1)
+        + 3 * (3 * (k : ℚ) + 1) * (3 * (k : ℚ) + 2) * partnerSeq s7_params k := by
+  have e2 : partnerSeq s7_params (k + 2) = (partnerPair s7_params (k + 1)).2 :=
+    partnerPair_fst_succ s7_params (k + 1)
+  have e1 : (partnerPair s7_params k).2 = partnerSeq s7_params (k + 1) :=
+    (partnerPair_fst_succ s7_params k).symm
+  have e0 : (partnerPair s7_params k).1 = partnerSeq s7_params k := rfl
+  rw [e2, partnerPair_snd_succ, e1, e0, s7_params]
+  simp only
+  field_simp
+  ring
+
+/-- **The s7 partner is integral. Complete, unconditional — Theorem, not
+    PASS(N).** Closes `open_goal_partner_integral_s7` via `partnerSeq_s7_recurrence`
+    (mechanical: our recurrence matches O'Brien's) and `obrien2016_theorem6_2`
+    (external: his recurrence forces integer values). -/
+theorem s7_partner_integral : ∀ n, IsIntegral (partnerSeq s7_params n) := by
+  have h := Agora.Axioms.obrien2016_theorem6_2 (partnerSeq s7_params)
+    s7_partner_values.1 s7_partner_values.2.1 partnerSeq_s7_recurrence
+  intro n
+  obtain ⟨m, hm⟩ := h n
+  exact ⟨m, hm⟩
+
+-- ╔════════════════════════════════════════════════════════════════════╗
+-- ║  §4. INTEGRALITY OF THE s7 PARTNER — PASS(7) (superseded, kept)     ║
 -- ║                                                                    ║
 -- ║  This is the hard direction and it is NOT proved in general. The     ║
 -- ║  recurrence divides by `(k+2)²`, so integrality at each step is a    ║

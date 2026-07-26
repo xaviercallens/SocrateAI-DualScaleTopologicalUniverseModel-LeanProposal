@@ -18,11 +18,12 @@ This file maintains a complete, auditable inventory of all non-standard assumpti
 
 ## Current Inventory
 
-### Axioms — Total Count: **1** (in `Axioms/`)
+### Axioms — Total Count: **2** (in `Axioms/`)
 
 | Axiom | Location | Status |
 |---|---|---|
 | `pipeline_upper_bound` | `Agora/Axioms/PipelineBound.lean` | **DISCLOSED-VACUOUS** (E-005 / D3) — vacuously true (witness 1), encodes no pipeline data. Relocated here 2026-07-24 (Xavier T0) from `Agora/Swampland/DualScaleStability.lean`; statement verbatim. **NOT discharged.** Discharge path: Lean import of the certified Stream 2/3 artifact (`data/pipeline_artifact.json`, currently PLACEHOLDER-VACUOUS) + restate the bound about that data. See `briefs/ESCALATIONS.md` E-005. |
+| `obrien2016_theorem6_2` | `Agora/Axioms/OBrien2016.lean` | **LITERATURE CITATION** (WP S1-13, 2026-07-26) — L. O'Brien, MSc thesis, Massey University, 2016, Theorem 6.2, p.47 (fetched and hash-pinned by Stream 2, `refs/literature_provenance.txt`; full text read by Stream 1). NOT re-derived: the proof needs the q-expansions of two specific weight-1 level-7 modular objects, established via classical modular-forms machinery absent from the pinned Mathlib. Used once, to close `open_goal_partner_integral_s7` — `partnerSeq s7_params` was shown (mechanically, `partnerSeq_s7_recurrence`) to satisfy O'Brien's recurrence for his sequence `c₇` exactly. Corrects a citation error in Deep Think's 2026-07-26 literature audit, which named Theorem 6.1 (only proves the g.f. correspondence) and a generic "η-quotient corollary" mechanism that does not actually establish integrality (the object is a series *reversion*, which does not trivially preserve integrality) — the real proof is O'Brien's own explicit coefficient-matching induction, Theorem 6.2. See `briefs/DEEPTHINK_L2_PARTNERS_CORRECTION_2026_07_26.md`. |
 
 ### DISCHARGED — E-002 vacuous axioms (S1-07, 2026-07-18)
 
