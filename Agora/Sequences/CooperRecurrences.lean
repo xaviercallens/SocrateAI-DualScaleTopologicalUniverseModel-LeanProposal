@@ -126,7 +126,18 @@ def s10 (n : ℕ) : ℕ :=
     a direct transcription of the p.3 closed form disagreed with the recurrence
     at n=3 (ℕ-truncated vs signed binomial edge-cases). s18 is therefore
     represented by its (sourced) parameters plus recurrence-validated golden
-    values in Tests/; a verified closed form is deferred follow-on work. -/
+    values in Tests/; a verified closed form is deferred follow-on work.
+
+    INDEPENDENTLY CORROBORATED 2026-07-26. These parameters expand to the operator
+    of Almkvist–van Straten, arXiv:2103.08651v1, § "three sporadic third order
+    operators" (Sporadic 3) coefficient-for-coefficient, and regenerate that
+    paper's own printed `φ(x)` series `1, 6, 54, 564, 6390, 76356, 948276` exactly
+    (`scripts/verify_sym2_partner_identities.py` CLAIM 6). Recorded because these
+    parameters had been under suspicion: a Stream 2 register entry carrying them
+    was flagged BLOCKED_CORRUPT_RECURRENCE on 2026-07-20. That defect was in the
+    *encoding* — `(a,b,c,d)` written into polynomial-coefficient slots of a
+    different schema — not in the values. See
+    `briefs/STREAM1_TO_STREAM2_S18_PARTNER_AND_PARAMS_2026-07-26.md`. -/
 def s18_params : CooperRecurrenceParams := ⟨14, 6, 192, -12⟩
 
 end Agora.Sequences
