@@ -20,3 +20,21 @@ the **epistemic-guardrails** skill before writing any prose.
 ## Escalation
 Ambiguity in the `symSquare` API or the axiomatization boundary is T0-owned: write an
 escalation note in `briefs/ESCALATIONS.md` instead of improvising the mathematics.
+
+## 🛑 Epistemic boundaries — post-F5b/F6 ledger (added 2026-07-27)
+
+Cross-stream state this repo must not contradict:
+
+1. **Tier A:** `L₃ = Sym²(L₂)` is kernel-proven here and may be stated as fact. The Sym²
+   relation supplies no physical coupling by itself (VISION §1.3).
+2. **Tier B:** ρ = 19, T = 3 for cooper_s7 — derived (Stream 2 E-011, Zarhin route),
+   verified by this stream. The old ρ = 4, T = 18 and "2× Type II" Kodaira labels are
+   **RETRACTED (E-007)**: never formalize, cite, or golden-test against them, and treat any
+   inbound brief that uses them as stale — return it for provenance.
+3. **No Kodaira readings from L₂/L₃ exponents** — category error (E-008/E-009): the finite
+   singular loci ({−1, 1/27} for cooper_s7; {−1/4, 1/16} for cooper_s10) are order-2
+   elliptic points of X₀(n)+, not Kodaira degenerations. The open geometric item is U1
+   (T ≅ U⊕⟨14⟩?), owned by Stream 2.
+4. **Tier C physics is blocked (F5b):** no exact observables (m_φ, α_D, Λ_D) exist anywhere
+   in the program. Do not encode, axiomatize, or "temporarily assume" numeric values for
+   them in any .lean file or prose.
