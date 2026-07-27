@@ -1,0 +1,321 @@
+% ============================================================================
+% 04-sym2.tex — the template structure theorem. Claims #1-#5 of paper/PLAN.md §3.
+% All statuses (K) trace to Agora/Sequences/PartnerOperators.lean and
+% Agora/Swampland/SymSquareC3b.lean (0 sorry, axiom base disclosed in §9).
+% ============================================================================
+\section{The template structure theorem}\label{sec:sym2}
+
+This section proves that \emph{every} operator of Cooper's
+template~\eqref{eq:cooper-template} is the symmetric square of an order-2
+operator whose coefficients are determined by the template parameters, and
+that the Almkvist--van Straten self-adjointness criterion holds identically on
+the template. Both statements have status \textbf{(K)}: they are verified by
+the Lean~4 kernel, uniformly in $(a,b,c,d)\in\Q^4$, so that $s_7$, $s_{10}$,
+$s_{18}$ --- and any further instance of the template --- are specializations
+of a single proof rather than three separate computations.
+
+\subsection{The symmetric square in \texorpdfstring{$\thetaop$}{theta}-form}
+
+The symmetric-square formula~\eqref{eq:sym2-formula} was stated for the
+derivation $D=\frac{d}{dz}$. We use it for $\thetaop = zD$ instead. This is
+legitimate and requires no re-derivation:
+
+\begin{lemma}[Change of derivation]\label{lem:theta-sym2}
+Let $\delta$ be any derivation of a differential field $K$ of characteristic
+$0$ and let $K[\delta]$ be the associated skew polynomial ring, so that
+$\delta f = f\delta + \delta(f)$ for $f \in K$. For $L = \delta^2 + \alpha
+\delta + \beta$ with $\alpha,\beta \in K$, the monic order-3 operator
+annihilating all products of solutions of $L$ is
+\begin{equation}\label{eq:sym2-theta}
+  \Symtwo(L) \;=\;
+  \delta^3 + 3\alpha\,\delta^2
+  + \bigl(2\alpha^2 + \delta(\alpha) + 4\beta\bigr)\delta
+  + \bigl(4\alpha\beta + 2\delta(\beta)\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The classical derivation of~\eqref{eq:sym2-formula} --- set $u = y_iy_j$,
+differentiate four times, and eliminate $y_i',y_j'$ using
+$\delta^2 y = -\alpha\,\delta y - \beta y$ --- uses only the commutation rule
+$\delta f = f\delta + \delta(f)$ and the field operations. It is therefore
+valid verbatim for any derivation, in particular for $\delta = \thetaop$ on
+$K = \Q(z)$, where $\thetaop(f) = zf'$.
+\end{proof}
+
+Throughout this section $\delta = \thetaop$, and we write $\thetaop(f)$ for
+the action on a coefficient (as opposed to $\thetaop$ as an operator symbol).
+On polynomials, $\thetaop(f) = z f'$; this is exactly the map \artifact{thetaC}
+of the formalization.
+
+\subsection{The partner is determined, not chosen}
+
+Write an order-2 operator in the $\thetaop$-form~\eqref{eq:L2-theta-form},
+$\Ltwo = P_2\thetaop^2 + P_1\thetaop + P_0$, and suppose we ask for
+\begin{equation}\label{eq:factorization-goal}
+  \Lthree(a,b,c,d) \;=\; P_2\cdot\Symtwo\!\left(\tfrac{1}{P_2}\Ltwo\right),
+\end{equation}
+an identity of operators with coefficients in $\Q(z)$. Comparing
+$\thetaop$-coefficients of~\eqref{eq:factorization-goal} against the template
+coefficients~\eqref{eq:cooper-coeffs}, and using~\eqref{eq:sym2-theta} with
+$\alpha = P_1/P_2$, $\beta = P_0/P_2$, gives four conditions. Read in order,
+the first three \emph{solve} for the partner and the fourth is then a
+constraint carrying all the content:
+\begin{equation}\label{eq:four-conditions}
+  \underbrace{c_3 = P_2}_{\text{fixes }P_2}, \qquad
+  \underbrace{c_2 = 3P_1}_{\text{fixes }P_1}, \qquad
+  \underbrace{c_1 = \thetaop(P_1) + 4P_0}_{\text{fixes }P_0}, \qquad
+  \underbrace{c_0 = 2\,\thetaop(P_0)}_{\text{a constraint}}.
+\end{equation}
+Solving the first three against~\eqref{eq:cooper-coeffs} yields the candidate
+partner
+\begin{equation}\label{eq:generic-partner}
+  P_2 = 1 - 2az + cz^2, \qquad
+  P_1 = -az + cz^2, \qquad
+  P_0 = -\tfrac{b}{2}z + \tfrac{c+d}{4}z^2 .
+\end{equation}
+Nothing is free at this point. We emphasise that~\eqref{eq:generic-partner} is
+a \emph{closed-form} partner exhibited from the template parameters; no
+geometric hypothesis and no candidate-by-candidate search enters.
+
+\begin{remark}[{The partner leaves $\Z[z]$}]\label{rem:partner-not-integral}
+The halved and quartered coefficients in~\eqref{eq:generic-partner} are
+genuine: the partner lives in $\Q[z]$, not $\Z[z]$, even for integral
+template parameters. For $s_7$, $s_{10}$, $s_{18}$ the denominators happen to
+clear --- $P_0 = -2z-6z^2$, $-z-15z^2$, $-3z+45z^2$ respectively --- but that
+is arithmetic accident per candidate, not a property of the template.
+\end{remark}
+
+Two identities make~\eqref{eq:factorization-goal} work, and both hold
+identically in $(a,b,c,d)$.
+
+\begin{lemma}[Structural collapse of the $\thetaop^2$-coefficient; status (K)]
+\label{lem:c2-collapse}
+For every $(a,b,c,d)\in\Q^4$, $\;2c_2 = 3\,\thetaop(c_3)$.
+\end{lemma}
+
+\begin{lemma}[The magic collapse; status (K)]\label{lem:magic}
+For every $(a,b,c,d)\in\Q^4$, the partner~\eqref{eq:generic-partner}
+satisfies $\;\thetaop(P_2) = 2P_1$.
+\end{lemma}
+
+\begin{proof}[Proof of Lemmas~\ref{lem:c2-collapse} and~\ref{lem:magic}]
+Both are polynomial identities in $\Q[z]$ with parameters: $\thetaop(1-2az+cz^2)
+= -2az + 2cz^2 = 2(-az+cz^2)$, and $2(-3az+3cz^2) = 3(-2az+2cz^2)$. In the
+formalization they are \artifact{partner\_magic} and
+\artifact{cooperC2\_eq\_thetaC\_cooperC3}, each closed by \artifact{ring} after
+pushing \artifact{Polynomial.derivative} through the algebraic structure, so
+the differentiation itself is kernel-computed rather than transcribed.
+\end{proof}
+
+Lemma~\ref{lem:c2-collapse} explains why the second condition
+of~\eqref{eq:four-conditions} is not an independent assumption: once $P_2$ is
+matched to $c_3$, requiring the $\thetaop^2$-residual to vanish
+\emph{forces} $\thetaop(P_2) = 2P_1$. Lemma~\ref{lem:magic} is what makes the
+identity division-free, as follows. Let
+$D_k$ denote the residual between the $\thetaop^k$-coefficient of
+$\frac{1}{c_3}\Lthree$ and that of $\Symtwo(\frac{1}{P_2}\Ltwo)$. Clearing
+denominators produces the terms $P_1\thetaop(P_2)$ and $2P_0\thetaop(P_2)$;
+substituting $\thetaop(P_2) = 2P_1$ turns them into $2P_1^2$ and $4P_0P_1$,
+which cancel against the $-2P_1^2$ and $-4P_1P_0$ already present. Every
+surviving term then carries exactly one factor of $P_2$, so
+\begin{equation}\label{eq:cleared-residuals}
+  P_2^2 D_2 = P_2\,(c_2 - 3P_1),\qquad
+  P_2^2 D_1 = P_2\,\bigl(c_1 - \thetaop(P_1) - 4P_0\bigr),\qquad
+  P_2^2 D_0 = P_2\,\bigl(c_0 - 2\thetaop(P_0)\bigr),
+\end{equation}
+and the rational-function identity~\eqref{eq:factorization-goal}, which
+a priori needs $P_2^2$ in denominators, reduces to three polynomial
+identities in $\Q[z]$.
+
+\subsection{The structure theorem}
+
+\begin{theorem}[Cooper-template structure theorem; status (K)]
+\label{thm:sym2-template}
+Let $(a,b,c,d)\in\Q^4$ and let $P_2,P_1,P_0 \in \Q[z]$ be as
+in~\eqref{eq:generic-partner}. Then all four conditions
+of~\eqref{eq:four-conditions} hold identically:
+\[
+  c_3 = P_2,\qquad c_2 = 3P_1,\qquad
+  c_1 = \thetaop(P_1) + 4P_0,\qquad c_0 = 2\,\thetaop(P_0).
+\]
+Consequently, on the open set where $P_2\neq 0$,
+\[
+  \Lthree(a,b,c,d) \;=\; P_2 \cdot \Symtwo\!\left(\thetaop^2
+  + \tfrac{P_1}{P_2}\thetaop + \tfrac{P_0}{P_2}\right),
+\]
+so every operator of Cooper's template is the leading $\thetaop$-coefficient
+of itself times the symmetric square of an explicitly determined order-2
+operator.
+\end{theorem}
+
+\begin{proof}
+The first identity is a definitional equality
+(\artifact{partner\_res3}: the polynomial $1-2az+cz^2$ is literally both
+$c_3$ and $P_2$). The second is Lemma~\ref{lem:c2-collapse} combined
+with~\eqref{eq:generic-partner} (\artifact{partner\_res2}). For the third,
+$\thetaop(P_1) = -az + 2cz^2$ and $4P_0 = -2bz + (c+d)z^2$, whose sum is
+$-(a+2b)z + (3c+d)z^2 = c_1$ (\artifact{partner\_res1}). For the fourth,
+$2\thetaop(P_0) = -bz + (c+d)z^2 = c_0$ (\artifact{partner\_res0}). Only the
+fourth carries content: $P_2,P_1,P_0$ are already pinned by the first three,
+so the equation either holds or the template is not a symmetric square. It
+holds, identically in $(a,b,c,d)$.
+
+The displayed factorization then follows from~\eqref{eq:cleared-residuals}:
+each residual $D_k$ satisfies $P_2^2 D_k = P_2 \cdot 0 = 0$, and $P_2 \neq 0$
+in the field $\Q(z)$, so $D_2 = D_1 = D_0 = 0$.
+
+In the formalization the four identities are
+\artifact{partner\_res3}, \artifact{partner\_res2}, \artifact{partner\_res1},
+\artifact{partner\_res0} of \artifact{Agora/Sequences/PartnerOperators.lean},
+each proved once for a universally quantified parameter record. Two of them
+require relating the halved and quartered coefficients of $P_0$ to their
+cleared forms by hand (the constant-embedding $C$ is opaque to
+\artifact{ring}); this is done by the auxiliary lemmas
+\artifact{C\_half\_b} and \artifact{C\_quarter\_cd}.
+\end{proof}
+
+\begin{remark}[Where the theorem lives, and where it does not]
+Theorem~\ref{thm:sym2-template} is an identity in $\Q[z]$ and in
+$\Q(z)[\thetaop]$. It asserts nothing about modularity, integrality, or
+geometry of the partner --- those are the subjects of
+\S\ref{sec:integrality} and \S\ref{sec:framework}, and they separate the
+three sporadic candidates sharply even though the structure theorem does not.
+Keeping ``has a symmetric-square partner'' distinct from ``has a modular
+companion'' is the reason the theorem is stated at template level.
+\end{remark}
+
+\subsection{The three sporadic instances}
+
+\begin{corollary}[status (K)]\label{cor:sporadic-partners}
+Specializing Theorem~\ref{thm:sym2-template} at the parameter values of
+\S\ref{sec:prelim} gives the order-2 partners
+\[
+\begin{array}{llll}
+  s_7: & P_2 = 1-26z-27z^2, & P_1 = -13z-27z^2, & P_0 = -2z-6z^2,\\[2pt]
+  s_{10}: & P_2 = 1-12z-64z^2, & P_1 = -6z-64z^2, & P_0 = -z-15z^2,\\[2pt]
+  s_{18}: & P_2 = 1-28z+192z^2, & P_1 = -14z+192z^2, & P_0 = -3z+45z^2,
+\end{array}
+\]
+with finite singular points $\{-1,\tfrac1{27}\}$, $\{-\tfrac14,\tfrac1{16}\}$
+and $\{\tfrac1{12},\tfrac1{16}\}$ respectively.
+\end{corollary}
+
+The $s_7$ and $s_{10}$ partners had been obtained in the program by an
+independent computer-algebra extraction before the template argument was
+found; that the generic construction reproduces them exactly is a genuine
+cross-check of~\eqref{eq:generic-partner} rather than a restatement, and it is
+recorded as such in the formalization (\artifact{s7\_P2\_eq} and its
+siblings). For $s_{18}$ there was no independent extraction to compare
+against: its partner is obtained here with no new algebra and no literature
+transcription, which matters because no order-2 companion for $s_{18}$ appears
+to have been identified previously.
+
+\begin{remark}[Not an instance of the order-2 sporadic template; status (K)]
+The partner operators are \emph{not} instances of the classical order-2
+Ap\'ery-like template, whose $\thetaop^1$-coefficient is $\thetaop$ of its
+$\thetaop^2$-coefficient. The partners instead satisfy $P_1 = \thetaop(P_2)/2$
+(Lemma~\ref{lem:magic}); the two templates agree only when $\thetaop(P_2)=0$.
+For $s_7$, matching the $\thetaop^2$-coefficient would force
+$\thetaop^1$-coefficient $-26z-54z^2$, whereas the actual $P_1$ is
+$-13z-27z^2$. This is recorded as a theorem
+(\artifact{s7\_P1\_ne\_thetaC\_P2}, \artifact{s10\_P1\_ne\_thetaC\_P2}) so that
+the partner is not re-derived by instantiating the wrong template.
+\end{remark}
+
+\subsection{The Almkvist--van Straten criterion on the template}
+
+Independently of Theorem~\ref{thm:sym2-template}, the template satisfies the
+Almkvist--van Straten self-adjointness criterion for an order-3 operator to be
+a symmetric square~\cite{AlmkvistvanStraten2021}. Writing $\Lthree$ in $D$-form
+as $\pi_3 D^3 + \pi_2 D^2 + \pi_1 D + \pi_0$ and setting $a_i = \pi_i/\pi_3$,
+the criterion is the vanishing of
+\begin{equation}\label{eq:avs-W}
+  W \;=\; \tfrac13 a_2'' + \tfrac23 a_2 a_2' + \tfrac{4}{27}a_2^3
+        + 2a_0 - \tfrac23 a_1 a_2 - a_1'.
+\end{equation}
+The $\thetaop\to D$ conversion $\thetaop = zD$, $\thetaop^2 = z^2D^2+zD$,
+$\thetaop^3 = z^3D^3+3z^2D^2+zD$ applied to~\eqref{eq:cooper-template} gives
+\begin{equation}\label{eq:dform-coeffs}
+\begin{aligned}
+  \pi_3 &= z^3\bigl(1-2az+cz^2\bigr), &
+  \pi_2 &= 3z^2\bigl(1-3az+2cz^2\bigr), \\
+  \pi_1 &= z\bigl(1-(6a+2b)z+(7c+d)z^2\bigr), &
+  \pi_0 &= z\bigl(-b+(c+d)z\bigr).
+\end{aligned}
+\end{equation}
+
+\begin{theorem}[$W\equiv 0$ on the template; status (K)]\label{thm:avs}
+Define $\mathcal{P} \in \Q[z]$ to be the numerator obtained by substituting
+$a_i = \pi_i/\pi_3$ into~\eqref{eq:avs-W} and clearing denominators, i.e.
+$\mathcal{P} = 27\,\pi_3^3\,W$, expanded as the six-term polynomial expression
+\[
+\begin{aligned}
+  \mathcal{P} \;=\;{}& 9\bigl(\pi_2''\pi_3^2 - \pi_2\pi_3\pi_3''
+     - 2\pi_2'\pi_3\pi_3' + 2\pi_2(\pi_3')^2\bigr)
+   + 18\,\pi_2\bigl(\pi_2'\pi_3 - \pi_2\pi_3'\bigr)
+   + 4\,\pi_2^3 \\
+  &+ 54\,\pi_0\pi_3^2
+   - 18\,\pi_1\pi_2\pi_3
+   - 27\,\pi_3\bigl(\pi_1'\pi_3 - \pi_1\pi_3'\bigr).
+\end{aligned}
+\]
+Then $\mathcal{P} = 0$ in $\Q[z]$ for every $(a,b,c,d)\in\Q^4$. Since $\pi_3$
+is a nonzero polynomial for every parameter choice (its lowest coefficient is
+that of $z^3$, equal to $1$), this is equivalent to $W\equiv 0$.
+\end{theorem}
+
+\begin{proof}
+After expanding~\eqref{eq:dform-coeffs} and computing every derivative
+formally, $\mathcal{P}$ is a polynomial in $z$ whose coefficients are
+polynomials in $(a,b,c,d)$; all of them vanish. The formalization is
+\artifact{P\_cleared\_eq\_zero} in
+\artifact{Agora/Swampland/SymSquareC3b.lean}, closed by \artifact{ring} after
+\artifact{simp} pushes \artifact{Polynomial.derivative} and the constant
+embedding through the algebraic structure. The derivatives are genuine
+\artifact{Polynomial.derivative} applications rather than hand-transcribed
+closed forms, so a transcription error in a differentiation cannot slip past
+\artifact{ring}. The three sporadic cases are one-line specializations
+(\artifact{P\_cleared\_s7}, \artifact{P\_cleared\_s10},
+\artifact{P\_cleared\_s18}).
+\end{proof}
+
+\begin{remark}[Two routes, one conclusion]
+Theorems~\ref{thm:sym2-template} and~\ref{thm:avs} are logically independent
+verifications of the same structural fact via different mechanisms: the first
+exhibits the partner and checks a factorization; the second checks a
+differential invariant that does not mention the partner at all. The cleared
+form $\mathcal{P}$ was, in the program's workflow, derived twice by
+independent computer-algebra routes and required to agree before being
+encoded in Lean.
+\end{remark}
+
+\begin{remark}[Neither theorem discriminates among candidates]
+Both statements hold for \emph{all} $(a,b,c,d)$. Symmetric-square structure is
+therefore an entry ticket for the whole template and cannot, by itself,
+distinguish $s_7$ from $s_{10}$ or $s_{18}$. What does distinguish them is
+arithmetic: the integrality of the partner's holomorphic solution
+(\S\ref{sec:integrality}).
+\end{remark}
+
+\begin{remark}[Validation of the $\Symtwo$ formula; status (K)]
+\label{rem:golden-sym2}
+Formula~\eqref{eq:sym2-formula} is not taken on trust in the formalization. It
+is validated by two golden tests against examples whose symmetric squares are
+known from first principles: $\Symtwo(D^2+1) = D^3+4D$ (solutions
+$\sin t,\cos t$; products spanned by $1,\cos 2t,\sin 2t$, annihilated by
+$D(D^2+4)$) and $\Symtwo(D^2+D) = D^3+3D^2+2D$ (solutions $1,e^{-t}$; products
+$1,e^{-t},e^{-2t}$, annihilated by $D(D+1)(D+2)$). These are
+\artifact{symSquare\_golden\_harmonic} and \artifact{symSquare\_golden\_exp} in
+\artifact{Agora/SymSquare.lean}; see \S\ref{sec:formalization}.
+\end{remark}
+
+% ----------------------------------------------------------------------------
+% Generated-by: Opus 5 (Stream 1 paper agent) | Verified-by: every identity and
+% coefficient checked against Agora/Sequences/PartnerOperators.lean (partnerP2/
+% P1/P0, partner_res0-3, partner_magic, cooperC2_eq_thetaC_cooperC3, s*_P*_eq,
+% s7_P1_ne_thetaC_P2) and Agora/Swampland/SymSquareC3b.lean (p3/p2/p1/p0,
+% P_cleared, P_cleared_eq_zero, P_cleared_s7/s10/s18); golden tests vs
+% Agora/SymSquare.lean §3. Claims #1-#5 of paper/PLAN.md §3.
+% | Reviewed-by: pending T0 (Xavier)
+% ----------------------------------------------------------------------------

@@ -20,3 +20,14 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+# LaTeX build artifacts (paper/main.pdf is committed; these regenerate on compile)
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.toc
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz
+

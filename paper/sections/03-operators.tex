@@ -1,0 +1,96 @@
+% ============================================================================
+% 03-operators.tex — DRAFTED IN FULL
+% All exponent/scheme data from Stream 2 certificates L3_RIEMANN_SCHEME.json
+% and L3_IRREDUCIBLE.json (exact symbolic checkers with negative controls).
+% ============================================================================
+\section{The two operators and their exact Riemann schemes}\label{sec:operators}
+
+We now specialize to $s_7$; the $s_{10}$ data are recorded in parallel where
+they illuminate the structure. All results in this section have status
+\textbf{(E)}: they are exact computations over $\Q$, reproducible by the
+checkers named in \S\ref{sec:reproducibility}.
+
+\subsection{The order-3 operator}
+
+For $(a,b,c,d)=(13,4,-27,3)$, the leading $\thetaop$-coefficient of
+$\Lthree = \Lthree(13,4,-27,3)$ is
+\[
+  c_3 \;=\; 1 - 26z - 27z^2 \;=\; -(z+1)(27z-1),
+\]
+so the finite singular points are $z=-1$ and $z=\tfrac1{27}$, together with
+$z = 0$ and $z=\infty$. (For $s_{10}$: $c_3 = 1-12z-64z^2 = -(4z+1)(16z-1)$,
+singular at $-\tfrac14$ and $\tfrac1{16}$.)
+
+\begin{proposition}[Riemann scheme of $\Lthree$; status (E)]
+\label{prop:L3-scheme}
+The operator $\Lthree$ is Fuchsian with Riemann scheme
+\[
+\begin{Bmatrix}
+  0 & -1 & \tfrac1{27} & \infty \\
+  \hline
+  0 & 0 & 0 & \tfrac23 \\
+  0 & \tfrac12 & \tfrac12 & 1 \\
+  0 & 1 & 1 & \tfrac43
+\end{Bmatrix}
+\]
+The exponent sum is $6$, as the Fuchs relation requires for an order-3
+operator with four singular points; $z=0$ is a point of maximal unipotent
+monodromy; and the Wronskians satisfy $W(\Lthree) = W(\Ltwo)^3$ for the
+partner operator $\Ltwo$ of \S\ref{sec:sym2}.
+\end{proposition}
+
+For $s_{10}$ the scheme is the same at $0$ and at the two finite points
+($-\tfrac14$, $\tfrac1{16}$, exponents $0,\tfrac12,1$), with
+$\infty$-exponents $\{\tfrac34, 1, \tfrac54\}$ and Fuchs sum again $6$.
+
+\subsection{The order-2 partner}
+
+The partner operator produced by Theorem~\ref{thm:sym2-template} below is,
+for $s_7$, in the $\thetaop$-form~\eqref{eq:L2-theta-form}:
+\begin{equation}\label{eq:s7-partner}
+  P_2 = 1 - 26z - 27z^2, \qquad
+  P_1 = -13z - 27z^2, \qquad
+  P_0 = -2z - 6z^2.
+\end{equation}
+
+\begin{proposition}[Riemann scheme of $\Ltwo$; status (E)]
+\label{prop:L2-scheme}
+The operator $\Ltwo$ with coefficients~\eqref{eq:s7-partner} is Fuchsian with
+Riemann scheme
+\[
+\begin{Bmatrix}
+  0 & -1 & \tfrac1{27} & \infty \\
+  \hline
+  0 & 0 & 0 & \tfrac13 \\
+  0 & \tfrac12 & \tfrac12 & \tfrac23
+\end{Bmatrix}
+\]
+In particular the local exponent differences are $0$ at the MUM point $z=0$,
+$\tfrac12$ at both finite singular points, and $\tfrac13$ at infinity. The
+exponents of Proposition~\ref{prop:L3-scheme} are exactly the pairwise sums
+of these, as they must be for a symmetric square. (For the $s_{10}$ partner:
+$\infty$-exponents $\{\tfrac38, \tfrac58\}$, finite exponents as for $s_7$.)
+\end{proposition}
+
+\begin{remark}[Implied Fuchsian signature; status (E) for the signature,
+supporting evidence for the identification]\label{rem:signature}
+Reading the exponent differences of Proposition~\ref{prop:L2-scheme} as
+angles of a hyperbolic triangle group datum gives genus $0$, elliptic points
+of orders $(2,2,3)$, one cusp, and hyperbolic area $2\pi\cdot\tfrac23$. This
+is precisely the signature of the Fricke group $\Gamma_0(7)+$: $\Gamma_0(7)$
+has index $8$ in $\mathrm{PSL}_2(\Z)$ (area $2\pi\cdot\tfrac43$), the Fricke
+involution halves the area, fuses the two cusps into one and the two order-3
+points into one, and its two fixed points (class numbers
+$h(-7)=h(-28)=1$) become the two order-2 elliptic points. The identification
+of the modular coordinate with a $\Gamma_0(7)+$ Hauptmodul is taken up in
+\S\ref{sec:integrality}. The two finite singular points are thus order-2
+elliptic points of the quotient curve --- \emph{not} degeneration points of
+some elliptic fibration; no such reading is made anywhere in this paper.
+\end{remark}
+
+% ----------------------------------------------------------------------------
+% Generated-by: Fable 5 (Stream 1 paper agent) | Verified-by: schemes vs
+% L3_RIEMANN_SCHEME.json + L3_IRREDUCIBLE.json (this session); partner coeffs
+% vs Agora/Sequences/PartnerOperators.lean s7_P2/P1/P0 | Reviewed-by: pending
+% T0 (Xavier)
+% ----------------------------------------------------------------------------

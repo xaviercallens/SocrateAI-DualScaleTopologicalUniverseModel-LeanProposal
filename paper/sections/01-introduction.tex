@@ -1,0 +1,164 @@
+% ============================================================================
+% 01-introduction.tex — DRAFTED IN FULL
+% ============================================================================
+\section{Introduction}\label{sec:intro}
+
+Ap\'ery's proof of the irrationality of $\zeta(3)$ placed a handful of integer
+sequences --- defined by three-term recurrences with polynomial coefficients,
+yet integral against all apparent odds --- at the center of a circle of ideas
+connecting holonomic differential equations, modular forms, and the geometry
+of families of algebraic surfaces. The six \emph{sporadic} Ap\'ery-like
+sequences of order 2, catalogued by Zagier, and their order-3 companions have
+since been objects of sustained experimental and theoretical attention.
+Cooper~\cite{Cooper2012} identified three further sporadic sequences, commonly
+denoted $s_7$, $s_{10}$ and $s_{18}$, satisfying order-3 recurrences;
+Gorodetsky~\cite{Gorodetsky2023} gave closed forms and placed all three inside
+a single four-parameter recurrence template. Almkvist and van
+Straten~\cite{AlmkvistvanStraten2021} exhibited explicit projective K3 models
+whose periods realize the corresponding order-3 operators.
+
+This paper studies the differential operators attached to Cooper's template
+from three angles --- structural, arithmetic, and lattice-theoretic --- with a
+methodological commitment that we regard as part of the contribution:
+\emph{every claim is labeled by how it is known}. Specifically, each statement
+in this paper carries exactly one of the following statuses, and the label is
+part of the statement's presentation, not a footnote:
+
+\begin{enumerate}
+\item[\textbf{(K)}] \emph{Kernel-checked}: proved in Lean~4 and verified by
+  its proof kernel against the pinned \texttt{mathlib}
+  library~\cite{deMouraUllrich2021,mathlibCPP2020,mathlib4}, with the axiom
+  base disclosed in \S\ref{sec:formalization};
+\item[\textbf{(E)}] \emph{Exact}: established by exact symbolic computation
+  over $\Q$ (no floating point), reproducible by a named checker script in the
+  accompanying repositories, each shipped with negative controls
+  (\S\ref{sec:reproducibility});
+\item[\textbf{(N)}] \emph{Numerically supported}: derived from
+  high-precision numerics followed by exact recognition and exact
+  post-verification; stated as a \emph{Numerical Claim}, never as a theorem;
+\item[\textbf{(C)}] \emph{Cited}: a classical result of the literature, used
+  as stated, with the precise statement and location given.
+\end{enumerate}
+
+\subsection{Results}
+
+Write $\thetaop = z\,\frac{d}{dz}$. Cooper's template, in the normalization
+of~\cite{Gorodetsky2023}, is the family of order-3 operators
+\begin{equation}\label{eq:cooper-template}
+  \Lthree(a,b,c,d)
+  \;=\;
+  \thetaop^3 - z\,(2\thetaop+1)\bigl(a\thetaop^2 + a\thetaop + b\bigr)
+  + z^2\,\bigl(c(\thetaop+1)^3 + d(\thetaop+1)\bigr),
+  \qquad (a,b,c,d)\in\Q^4,
+\end{equation}
+with $(a,b,c,d) = (13,4,-27,3)$, $(6,2,-64,4)$, $(14,6,192,-12)$ for $s_7$,
+$s_{10}$, $s_{18}$ respectively \cite{Cooper2012,Gorodetsky2023}.
+
+Our first result is a uniform structure theorem
+(Theorem~\ref{thm:sym2-template}, status \textbf{(K)}): for \emph{every}
+parameter choice, $\Lthree(a,b,c,d)$ is, in a division-free
+$\thetaop$-form sense made precise in \S\ref{sec:sym2}, the product
+$P_2\cdot\Symtwo(\Ltwo)$ of its own leading $\thetaop$-coefficient with the
+symmetric square of an order-2 operator $\Ltwo$ whose coefficients are
+\emph{determined} by the template --- the partner is solved out of the
+identities, leaving a single nontrivial constraint, which holds identically.
+Independently, the Almkvist--van Straten symmetric-square criterion $W\equiv 0$
+holds identically on the template in cleared-denominator form
+(Theorem~\ref{thm:avs}, status \textbf{(K)}). Both facts are single
+kernel-checked proofs covering $s_7$, $s_{10}$, $s_{18}$ --- and any future
+instance of the template --- simultaneously by specialization. To our
+knowledge this is the first kernel-checked verification of a symmetric-square
+structure theorem for Picard--Fuchs-type operators in any proof assistant.
+
+The partner operator makes an arithmetic distinction visible
+(\S\ref{sec:integrality}): among Cooper's three sporadic sequences, only the
+$s_7$ partner has an integral holomorphic solution --- the sequence
+$1, 2, 22, 336, 6006, \dots$ (OEIS A279619~\cite{OEIS}). Non-integrality for
+$s_{10}$ and $s_{18}$ is kernel-checked by finite witness (status
+\textbf{(K)}); integrality for $s_7$ is a theorem of
+O'Brien~\cite{OBrien2016} (status \textbf{(C)}), whose applicability to our
+partner is kernel-checked at the level of recurrences. We isolate the
+mechanism: the modular coordinate $X_7 = \eta_1^3\eta_7^3/z_7^3$ is a
+\emph{normalized} integral uniformizer, and normalization --- not mere
+integrality of $\eta$-quotients --- is the load-bearing property (status
+\textbf{(E)}).
+
+Third (\S\ref{sec:irreducibility}, status \textbf{(E)}): the $s_7$ and
+$s_{10}$ partners $\Ltwo$ are irreducible, by a denominator obstruction ---
+every attainable residue sum of a hyperexponential logarithmic derivative lies
+in $\tfrac12\Z$, while the exponents of $\Ltwo$ at infinity are
+$\{\tfrac13,\tfrac23\}$ (resp.\ $\{\tfrac38,\tfrac58\}$) --- and their
+monodromy is not dihedral, because the doubled indicial root at $0$ forces a
+logarithmic solution and no nontrivial unipotent element lies in the
+normalizer of a maximal torus of $\SL_2$. Consequently
+$\Lthree = \Symtwo(\Ltwo)$ is irreducible and is the \emph{minimal-order}
+annihilator of its holomorphic solution. All steps are exact over $\Q$.
+
+Finally (\S\ref{sec:lattice}), we compute the monodromy representation of the
+$s_7$ partner by numerical analytic continuation at 60-digit working
+precision and recognize the entries exactly; the largest recognition residual
+is ${\approx}10^{-59}$ against an acceptance gate of $10^{-35}$, and the
+recognized matrices pass exact structural post-verification (involutivity,
+the cusp relation at infinity, existence and uniqueness up to scale of a
+joint invariant form, orbit-lattice closure). This step is numerics-backed
+and is reported as Numerical Claim~\ref{nc:monodromy} (status \textbf{(N)}),
+not as a theorem. Taking the recognized matrices as input, an exact
+integer-arithmetic pipeline then derives the joint monodromy-invariant
+lattice in its primitive even scaling and proves --- unconditionally, as a
+statement about the exhibited Gram matrix (Proposition~\ref{prop:usplit},
+status \textbf{(E)}) --- that it is isometric over $\Z$ to
+$\U\oplus\lat{14}$: Gram matrix
+$\left[\begin{smallmatrix}0&0&-1\\0&14&0\\-1&0&0\end{smallmatrix}\right]$,
+determinant $-14$, signature $(2,1)$, discriminant form $\Z/14$ with
+$q=\tfrac1{14}$. The isometry is realized by an explicit $\GL_3(\Z)$ base
+change and has been verified by \emph{two independently written} exact
+implementations; the identical pipeline applied to the $s_{10}$ family
+derives determinant $-20$ and $\U\oplus\lat{20}$, so the computation
+discriminates between levels. This matches on the nose the lattice
+$(M_7)^{\perp} = \U\oplus\lat{14}$ of Dolgachev's $M_n$-polarized K3
+framework~\cite{Dolgachev1996}, in which the Picard--Fuchs operator is a
+symmetric square by a theorem of Doran~\cite{Doran2000}; \S\ref{sec:framework}
+assembles the evidence that the $s_7$ family is $M_7$-polarized, and states
+precisely what remains unproven --- in particular, the identification of the
+computed monodromy lattice with the transcendental lattice of the family is
+presented conditionally, not as a theorem.
+
+\subsection{What is new}
+
+None of the framework results are ours: symmetric-square structure for
+$M_n$-polarized families is Doran's theorem, and $\smash{(M_n)^{\perp} =
+\U\oplus\lat{2n}}$ is Dolgachev's computation. The contributions of this
+paper are: (i) the uniform, kernel-checked template theorem with an
+explicitly determined partner, where the literature treats candidates one at
+a time and asserts existence rather than exhibiting the partner from the
+parameters; (ii) the exact irreducibility/minimality proofs for these
+specific operators; (iii) the sharpened integrality mechanism for $s_7$,
+including the checked resolution of an ambiguity in the source's defining
+equation; (iv) the explicit monodromy lattice of the $s_7$ family with an
+exact, doubly-verified integral splitting $\U\oplus\lat{14}$ --- a
+\emph{converse-direction} computation: rather than deducing invariants from a
+polarization assumption, we compute the invariants of a concretely given
+operator family and match them against the framework, in a situation where,
+as Doran notes (\cite{Doran2000}, \S6), the classification of rank-19
+lattice polarizations is not complete; and (v) the epistemic architecture
+itself --- kernel-checked/exact/numerical/cited labeling with reproducible
+artifacts and negative controls --- which we offer as a methodological
+contribution to experimental mathematics.
+
+\subsection{Organization}
+
+\S\ref{sec:prelim} fixes notation. \S\ref{sec:operators} presents the two
+operators for $s_7$ and their exact Riemann schemes. \S\ref{sec:sym2} states
+and proves the template structure theorem. \S\ref{sec:irreducibility} proves
+irreducibility and minimality. \S\ref{sec:lattice} presents the monodromy
+computation and the integral splitting. \S\ref{sec:integrality} treats the
+$s_7$ integrality mechanism. \S\ref{sec:framework} relates the results to the
+Dolgachev--Doran framework and states the conditional statements and open
+questions. \S\ref{sec:formalization} describes the Lean~4 formalization,
+including its complete axiom inventory. \S\ref{sec:reproducibility} indexes
+the artifacts needed to reproduce every number in this paper.
+
+% ----------------------------------------------------------------------------
+% Generated-by: Fable 5 (Stream 1 paper agent) | Verified-by: claims traced to
+% paper/PLAN.md #3 rows 1-20 | Reviewed-by: pending T0 (Xavier)
+% ----------------------------------------------------------------------------

@@ -1,0 +1,114 @@
+% ============================================================================
+% main.tex — master file. Build: pdflatex main && bibtex main && pdflatex x2
+% One file per section (paper/sections/) to manage context across sessions.
+% SCOPE RULING (T0, 2026-07-27): pure mathematics only. No physics anywhere.
+% Every number herein traces to a checker/certificate: see paper/PLAN.md §3.
+% ============================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[T1]{fontenc}
+% lmodern: scalable Type-1 T1 text fonts. Required here -- without it the T1
+% Computer Modern faces resolve to bitmap fonts and microtype's font expansion
+% aborts the build ("auto expansion is only possible with scalable fonts").
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+% ---------------------------------------------------------------------------
+% Theorem environments
+% ---------------------------------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{observation}[theorem]{Observation}
+% Epistemic-status environments: this paper distinguishes, in its theorem
+% taxonomy, what is kernel-checked, what is exact-symbolic, and what is
+% numerically supported. "Numerical Claim" is deliberately NOT a theorem.
+\theoremstyle{definition}
+\newtheorem{numclaim}[theorem]{Numerical Claim}
+
+% ---------------------------------------------------------------------------
+% Notation macros
+% ---------------------------------------------------------------------------
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\U}{U}                       % hyperbolic plane lattice
+\newcommand{\thetaop}{\theta}            % theta = z d/dz
+\newcommand{\Ltwo}{L_2}
+\newcommand{\Lthree}{L_3}
+\newcommand{\Symtwo}{\operatorname{Sym}^2}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\lat}[1]{\langle #1\rangle}
+\newcommand{\NS}{\operatorname{NS}}
+\newcommand{\artifact}[1]{\texttt{#1}}   % repo artifact names
+
+\begin{document}
+
+\title[Symmetric squares of Cooper's sporadic operators]{A kernel-checked
+symmetric-square structure theorem for Cooper's sporadic Ap\'ery-like
+operators, and the monodromy lattice of the $s_7$ family}
+
+\author{Xavier Callens}
+% Affiliation intentionally left for T0 to fill in; nothing is fabricated.
+\email{callensxavier@gmail.com}
+
+\begin{abstract}
+Cooper's three sporadic Ap\'ery-like sequences $s_7$, $s_{10}$, $s_{18}$
+satisfy order-3 recurrences belonging to a four-parameter template. We prove
+--- uniformly in the template parameters $(a,b,c,d)\in\Q^4$, with the proof
+verified by the Lean~4 kernel --- that the associated order-3 operator
+$\Lthree$ factors as $P_2\cdot\Symtwo(\Ltwo)$ for an order-2 partner operator
+$\Ltwo$ whose coefficients are determined explicitly by the template, and,
+independently, that the Almkvist--van Straten symmetric-square criterion
+$W\equiv 0$ holds identically on the template. The partner separates the three
+sporadic candidates arithmetically: only the $s_7$ partner has an integral
+holomorphic solution (OEIS A279619), and we make precise the mechanism --- a
+\emph{normalized} integral uniformizer --- underlying that integrality. We
+further prove, exactly over $\Q$, that $\Ltwo$ and $\Lthree$ are irreducible
+and that $\Lthree$ is the minimal-order annihilator of its holomorphic
+solution. Finally, we compute the monodromy of the $s_7$ family numerically to
+60 digits, recognize the entries exactly (largest residual
+$\approx 10^{-59}$), and derive --- by an exact integer pipeline verified by
+two independently written implementations --- that the joint
+monodromy-invariant lattice is isometric over $\Z$ to $\U\oplus\lat{14}$, in
+exact agreement with the lattice $(M_7)^{\perp}$ of Dolgachev's $M_n$-polarized
+K3 framework. We are explicit throughout about epistemic status: which
+statements are kernel-checked, which are exact symbolic computation, which are
+numerically supported, and which are classical results cited. All
+computations are reproducible from the accompanying repositories.
+\end{abstract}
+
+\maketitle
+\tableofcontents
+
+\input{sections/01-introduction}
+\input{sections/02-preliminaries}
+\input{sections/03-operators}
+\input{sections/04-sym2}
+\input{sections/05-irreducibility}
+\input{sections/06-lattice}
+\input{sections/07-integrality}
+\input{sections/08-dolgachev-doran}
+\input{sections/09-formalization}
+\input{sections/10-reproducibility}
+
+\bibliographystyle{amsplain}
+\bibliography{references}
+
+\end{document}
+% ---------------------------------------------------------------------------
+% Generated-by: Fable 5 (Stream 1 paper agent) | Verified-by: pdflatex build,
+% claims traced per paper/PLAN.md #3 | Reviewed-by: pending T0 (Xavier)
+% ---------------------------------------------------------------------------

@@ -1,0 +1,238 @@
+# PLAN — First mathematics paper of the program
+
+**Scope ruling (T0 directive, 2026-07-27):** pure mathematics only. Zero physics — no
+dark-sector, cosmology, or "universe model" content anywhere in the manuscript, including
+motivation. The paper is built under `paper/` only; no other repo file is modified except
+one pointer line in `TODO.md`.
+
+---
+
+## 1. Legitimacy assessment — is there a publishable paper here?
+
+### 1.1 The adversarial question first: what is classical, what is new?
+
+**Classical territory (must be cited, not claimed):**
+
+- That the Picard–Fuchs operator of an M_n-polarized K3 family is the symmetric square of
+  a second-order Fuchsian operator is **Doran, Thm 5.13** (arXiv:math/9812162, CMP 212
+  (2000)); the lattice statement (M_n)^perp = U + <2n> and K_{M_n} = H/Gamma_0(n)+ is
+  **Dolgachev 1996** (Thm 7.1, §7 p.20). Both were fetched, hash-pinned, and read by the
+  program (Stream 2 `docs/literature/MANIFEST.md`).
+- Cooper's sporadic sequences and their order-3 recurrences are **Cooper 2012**; the
+  uniform template and closed forms are **Gorodetsky** (arXiv:2102.11839); explicit
+  projective K3 models for the sporadic third-order operators are
+  **Almkvist–van Straten** (arXiv:2103.08651). The s7 partner's modular parametrization
+  and integrality is **O'Brien 2016** (Massey MSc thesis, Thm 6.2).
+- Simplicity of the transcendental Hodge structure is **Zarhin 1983** Thm 1.6(a);
+  minimality of T is **Huybrechts**, *Lectures on K3 Surfaces*, ch. 3.
+
+So a paper claiming "symmetric-square structure relates these operators to K3 families"
+as its contribution would be re-announcing known mathematics. That is NOT the paper.
+
+**What the program actually adds (candidate novel contributions, each verified against a
+repo artifact — see the claims inventory, §3):**
+
+1. **A uniform, kernel-checked structure theorem for the whole Cooper template.** The
+   literature treats the sporadic operators candidate-by-candidate. The Lean development
+   proves, for *every* parameter choice (a,b,c,d) in Q^4 of the Cooper/Gorodetsky
+   template, that the order-3 operator is P2·Sym²(L2) for an *explicitly determined*
+   order-2 partner (the partner is solved out of the identities, not guessed), via four
+   coefficient identities plus the "magic collapse" theta(P2) = 2·P1 that makes the
+   identity division-free — and, independently, that the Almkvist–van Straten
+   self-adjointness criterion W ≡ 0 holds identically in (a,b,c,d) in cleared-denominator
+   form. Both are single `ring`-closed kernel proofs covering s7, s10, s18 (and any
+   future template instance) simultaneously. To our knowledge no kernel-checked proof of
+   a symmetric-square/Picard–Fuchs structure theorem exists in any proof assistant;
+   the uniform template statement itself does not appear to be written down in the
+   literature (Doran's theorem gives existence for M_n-polarized families; here the
+   partner is exhibited in closed form from the template parameters, with no geometric
+   hypothesis). — *Artifacts:* `Agora/Sequences/PartnerOperators.lean`,
+   `Agora/Swampland/SymSquareC3b.lean`.
+
+2. **An arithmetic separation of the three sporadic candidates.** The template-level
+   partner makes a candidate-level arithmetic fact visible: s7 is the only one of
+   Cooper's three sporadic sequences whose order-2 partner has an integral holomorphic
+   solution (non-integrality of the s10/s18 partners is kernel-proven by finite witness —
+   17/2 resp. 45/2 at n = 2; integrality of the s7 partner is O'Brien's Thm 6.2, cited,
+   with the recurrence-matching step kernel-checked). The *mechanism* is sharpened: the
+   load-bearing property is that X7 = eta_1^3 eta_7^3 / z_7^3 is a **normalized** integral
+   uniformizer (leading coefficient exactly 1), not the folklore "eta-quotients are
+   integral" — the Stream 2 checker exhibits two other integral, normalized eta-quotient
+   readings that fail to reproduce A279619, so the resolution of O'Brien's eq. (3.15) is
+   itself a checked fact. — *Artifacts:* `Agora/Sequences/PartnerIntegrality.lean`,
+   Stream 2 `data/certificates/S7_PARTNER_MODULAR.json`.
+
+3. **Exact irreducibility and minimality.** L2(s7) is irreducible by a clean denominator
+   obstruction (attainable residues of a hyperexponential logarithmic derivative lie in
+   (1/2)Z, while the infinity exponents are {1/3, 2/3}; for s10, {3/8, 5/8}); the
+   monodromy is not dihedral (double indicial root at 0 forces a logarithmic solution,
+   and no nontrivial unipotent lies in the normalizer of a maximal torus of SL2); hence
+   Sym²(L2) = L3 is irreducible and is the minimal-order annihilator of its holomorphic
+   solution. Elementary but apparently not in the literature for these operators, and
+   exact over Q. — *Artifacts:* Stream 2 `checkers/check_L3_irreducible_minimal.py`,
+   `data/certificates/L3_IRREDUCIBLE.json` (+ 16-assertion negative-control test).
+
+4. **The explicit monodromy lattice with an exact integral splitting.** From 60-digit
+   analytic continuation of L2(s7), rational recognition of the Sym² monodromy entries
+   (largest residual ~1e-59 against a loud 1e-35 gate), and an exact rational lattice
+   pipeline, the joint monodromy-invariant lattice of the s7 family has primitive even
+   Gram [[0,0,-1],[0,14,0],[-1,0,0]], det -14, signature (2,1), discriminant form Z/14
+   (q = 1/14), and an explicit GL_3(Z) base change realizing U + <14> — the last step
+   verified by **two independently written exact implementations** (Stream 2 sympy
+   pipeline; Stream 1 from-scratch pure-Python construction), each with negative
+   controls, and discriminating against the s10 family (det -20). This matches
+   Dolgachev's (M_7)^perp = U + <14> on the nose and, with the Gamma_0(7)+ Hauptmodul
+   identification (Fricke constant kappa = 49) and rank T = 3, gives strong convergent
+   evidence that the s7 family is M_7-polarized. **Tier honesty:** the numerics-to-exact
+   recognition step and the identification of the computed lattice with the
+   transcendental lattice T are *not* proven; they are presented as
+   numerically-supported / conditional, never as theorems. — *Artifacts:* Stream 2
+   `checkers/check_U1_lattice.py`, `data/certificates/C2_cooper_s7_v4.json`
+   (SHA256 036cd895…), Stream 1 `checkers/check_U1_splitting_independent.py`,
+   `briefs/STREAM1_U1_INDEPENDENT_VERIFICATION_2026_07_27.md`.
+
+5. **The formalization itself as a contribution to formalized mathematics.** A worked
+   example of formalizing "experimental number theory adjacent to algebraic geometry"
+   under an explicit epistemic discipline: axiom quarantine (exactly one load-bearing
+   literature axiom, O'Brien Thm 6.2, registered and disclosed), source-pinned
+   definitions, golden validation of the Sym² formula against first-principles examples,
+   PASS(N) reporting for finite checks, and named open goals instead of silent
+   weakening. — *Artifacts:* `AXIOMS.md`, `Agora/SymSquare.lean` §3,
+   `Agora/Sequences/Integrality.lean`.
+
+### 1.2 Verdict
+
+**Yes — there is a genuinely publishable pure-mathematics paper**, provided it is framed
+as what it is: an *exact-computation + formalization* paper about a specific, arithmetically
+distinguished family, not a new-theorem-in-transcendence-theory paper. The core
+contribution is the **combination**: a kernel-checked uniform Sym² structure theorem for
+the Cooper template + exact irreducibility/minimality + the explicit, doubly-verified
+integral monodromy lattice U + <14> with a fully tier-honest account of which links are
+proven, which are exact-symbolic, and which are numerical. No single ingredient would
+carry a paper alone; the assembled package — with every number reproducible from a
+public checker — is exactly the kind of paper *Experimental Mathematics* exists for.
+
+**Honest weaknesses to manage (reviewer-anticipation):**
+- A referee may say "Doran already tells you the PF operator of an M_7-polarized family
+  is a Sym² and Dolgachev already tells you T = U + <14>." Response, built into the
+  paper: the logical direction here is the *converse* — we compute the invariants of a
+  concretely given operator family and match them against the framework; Doran himself
+  (§6) flags the rank-19 classification as lacking, which is precisely why the lattice
+  identification stays conditional here.
+- The Lean proofs are `ring` identities — technically shallow. The paper must sell the
+  *statement architecture* (the partner being determined, not chosen; non-vacuity by
+  concrete identity; the golden-test validation of the Sym² formula) rather than proof
+  difficulty.
+- The monodromy step is numerical. This is disclosed as such, prominently, with the
+  residuals and gate stated; the exact post-verification (involutions, infinity relation,
+  invariant-form uniqueness, orbit closure) is described precisely.
+
+### 1.3 Scope decision required from T0 (blocking for final framing, not for drafting)
+
+**Option A (recommended, drafted here):** one paper including the lattice/monodromy
+material as clearly-labeled numerically-supported + conditional sections (§6, §8).
+Best fit: Experimental Mathematics, where mixed exact/numerical evidence with full
+disclosure is the house genre.
+
+**Option B:** restrict to the unconditional content (Sym² template theorem,
+irreducibility/minimality, integrality mechanism, formalization) and defer the lattice
+to a second paper once/if the recognition step is made exact (e.g. via exact
+hypergeometric connection formulae) — fits J. Symbolic Computation or an ITP/CPP paper.
+The section files are organized so that Option B = dropping `06-lattice.tex` and
+`08-dolgachev-doran.tex` plus minor introduction edits.
+
+## 2. Target venues
+
+1. **Experimental Mathematics** (Taylor & Francis) — *primary recommendation.* The
+   paper's genre (exact computation + numerical recognition + formal verification, full
+   reproducibility, honest epistemic labeling) is this journal's core identity; papers
+   presenting strongly-supported conjectures alongside proven results are explicitly in
+   scope. Gorodetsky's template paper is published there, making it a natural home.
+2. **Journal of Symbolic Computation** — good fit for the operator-algebra and checker
+   content (Option B scope); the lattice/numerics sections would need to be reframed or
+   dropped. Slower, more traditional refereeing.
+3. **ITP or CPP (conference, formalization-led reframing)** — if T0 prefers to lead with
+   the Lean development ("formalizing symmetric-square structure of Picard–Fuchs
+   operators under an epistemic-tier discipline"). Different paper: the mathematics
+   becomes the case study. Keep as fallback or as a *second* publication; the
+   formalization section (§9) is written so it can seed that paper.
+
+   (Note: LMS J. Comput. Math. ceased publication in 2017 — not an option.)
+
+## 3. Claims inventory (every claim in the manuscript, with status and source)
+
+Legend: **LEAN** = kernel-checked in Lean 4 (no `sorry`; axioms as noted) · **EXACT** =
+exact symbolic computation, reproducible by a repo checker with negative controls ·
+**NUM** = numerical recognition, presented as numerically supported, never as proven ·
+**CITED** = classical result, cited to a read, hash-pinned source.
+
+| # | Claim | Status | Source artifact |
+|---|---|---|---|
+| 1 | Cooper template operator L3(a,b,c,d), theta-form coefficients | LEAN (defs, source-pinned) | `Agora/Sequences/PartnerOperators.lean` §2; Gorodetsky eq. (1.7) |
+| 2 | Partner P2 = 1-2az+cz², P1 = -az+cz², P0 = -(b/2)z+((c+d)/4)z² is determined by the template | LEAN | `partner_res3/2/1/0`, `partner_magic` (ibid. §2.5–§3.5) |
+| 3 | L3 = P2·Sym²(L2) identically in (a,b,c,d) (theta-form, division-free) | LEAN (coefficient identities) + EXACT (series cross-check) | ibid.; `scripts/verify_sym2_partner_identities.py` |
+| 4 | Almkvist–van Straten W ≡ 0 for the whole template (cleared form, 27·p3³·W) | LEAN | `Agora/Swampland/SymSquareC3b.lean` `P_cleared_eq_zero` |
+| 5 | Sym² formula D³+3pD²+(2p²+p'+4q)D+(4pq+2q') validated on two first-principles examples | LEAN | `Agora/SymSquare.lean` §3 golden tests |
+| 6 | s7 params (13,4,-27,3); s10 (6,2,-64,4); s18 (14,6,192,-12) | CITED (Cooper 2012 Table 1 / Gorodetsky) + LEAN (encoded, source-pinned) | `Agora/Sequences/CooperRecurrences.lean` |
+| 7 | s7 partner series 1,2,22,336,6006,… (= A279619); s10 partner non-integral (17/2 at n=2); s18 non-integral (45/2 at n=2) | LEAN (non-integrality: finite witness; s7 head PASS(7)) + EXACT | `Agora/Sequences/PartnerIntegrality.lean`; `S7_PARTNER_MODULAR.json` |
+| 8 | s7 partner integrality (all n) | CITED (O'Brien 2016 Thm 6.2, p.47) + LEAN (recurrence match mechanical; axiom `obrien2016_theorem6_2`, registered) | `Agora/Axioms/OBrien2016.lean`; `AXIOMS.md` |
+| 9 | X7 = eta1³eta7³/z7³ is a normalized integral uniformizer; normalization is load-bearing; reading of O'Brien eq. (3.15) resolved among three candidates | EXACT | Stream 2 `check_s7_partner_integrality_modular.py`, `S7_PARTNER_MODULAR.json` |
+| 10 | g.f. of A279618 is a Hauptmodul for Gamma_0(7)+; Fricke constant kappa = 49 | EXACT (identities to stated order) + CITED (Atkin–Lehner normalizer, classical) | Stream 2 `check_s7_hauptmodul_gamma07plus.py`, `HAUPTMODUL_S7_GAMMA07PLUS.json` |
+| 11 | Exact Riemann schemes of L2/L3 (s7: sing {0,-1,1/27,inf}; L3 exponents; Fuchs sum 6; MUM at 0; W(L3) = W(L2)³) | EXACT | Stream 2 `check_L3_riemann_scheme.py`, `L3_RIEMANN_SCHEME.json` |
+| 12 | Implied Fuchsian signature (genus 0; orders 2,2,3; 1 cusp; area/2pi = 2/3) matches Gamma_0(7)+ | EXACT (signature) + supporting identification | `L3_RIEMANN_SCHEME.json` lead1_bonus |
+| 13 | L2(s7) irreducible (denominator obstruction: residues in (1/2)Z vs inf-exponents {1/3,2/3}); not dihedral (double indicial root at 0); L3 irreducible; L3 minimal | EXACT (argument exact over Q, checker-reproduced, 16-assertion controls) | Stream 2 `check_L3_irreducible_minimal.py`, `L3_IRREDUCIBLE.json`, `test_L3_irreducible_minimal_controls.py` |
+| 14 | Monodromy matrices of L2(s7): M(1/27) = (i/sqrt7)[[0,1],[-7,0]], M(-1) = (i/sqrt7)[[7,4],[-14,-7]] | NUM (60-digit continuation; recognition residuals ~1e-59, gate 1e-35; exact post-verification of involutions + infinity relation) | Stream 2 `check_U1_lattice.py` stage 2; `C2_cooper_s7_v4.json` |
+| 15 | Joint monodromy-invariant lattice: primitive even Gram [[0,0,-1],[0,14,0],[-1,0,0]], det -14, sig (2,1), disc Z/14, q = 1/14; zero proper even invariant overlattices | NUM input + EXACT pipeline (conditional on #14) | `C2_cooper_s7_v4.json` `derived` block |
+| 16 | That Gram is GL_3(Z)-isometric to U + <14>, by explicit base change | EXACT, **two independent implementations** | Stream 2 stage 3; Stream 1 `checkers/check_U1_splitting_independent.py` (P = [[1,0,0],[0,0,-1],[0,-1,0]], det -1) + 5 controls |
+| 17 | s10 control: identical pipeline derives det -20 / U + <20> | NUM+EXACT (control) | `C2_cooper_s7_v4.json` controls; `test_U1_controls.py` |
+| 18 | rho = 19, T = 3 for the very general member (given the A–vS projective K3 model and that L3 governs its transcendental sub-VHS) | CITED (Zarhin Thm 1.6(a); Huybrechts Lem 3.2.7/3.3.1) + EXACT (rank input from #13); presented conditionally | Stream 2 `check_C2_transcendental_rank.py`, `C2_cooper_s7_v3.json` |
+| 19 | (M_n)^perp = U + <2n>; K_{M_n} = H/Gamma_0(n)+; PF of M_n-polarized family = Sym² (Doran Thm 5.13); rank-19 classification open (Doran §6) | CITED (read, hash-pinned) | Stream 2 `docs/literature/MANIFEST.md`; `STREAM2_PHASE4_STEP2_SOURCES_READ_2026_07_26.md` |
+| 20 | Identification of the computed monodromy lattice with the transcendental lattice T of the s7 family | CONDITIONAL/conjectural (framework reading; the lambda-rescaling branch excluded by framework shape, not computation) | `C2_cooper_s7_v4.json` `claim` + `tier_reason`; U1 brief §4 |
+
+**Rule enforced throughout:** every number in the manuscript traces to a row of this
+table; no typed constants presented as computed.
+
+## 4. Writing roadmap
+
+Master: `paper/main.tex` (amsart). One file per section under `paper/sections/`.
+
+| File | Content | Status | Remaining effort |
+|---|---|---|---|
+| `01-introduction.tex` | Contribution statement, epistemic-status table, related work, paper outline | **DRAFTED** | Polish after T0 scope decision (Option A/B); 1–2 h |
+| `02-preliminaries.tex` | Notation; theta-operators; Cooper template; Riemann schemes; Sym² of an operator | **DRAFTED** | 0.5 h polish |
+| `03-operators.tex` | L2/L3 for s7 (and s10 in passing): exact Riemann schemes, Fuchs sum 6, MUM, W(L3)=W(L2)³, Fuchsian signature | **DRAFTED** | 0.5 h polish |
+| `04-sym2.tex` | The template structure theorem (partner determined + magic collapse + W ≡ 0), proof, Lean pointers | **DRAFTED** | 1 h polish |
+| `05-irreducibility.tex` | Irreducibility of L2/L3, minimality; full proofs | **DRAFTED** | 1 h polish |
+| `06-lattice.tex` | Monodromy computation (disclosed as numerical), exact lattice pipeline, the U + <14> splitting proposition (unconditional part), two independent verifications, s10 control | **DRAFTED** | 1–2 h; T0 Option A/B decision |
+| `07-integrality.tex` | s7-partner integrality mechanism; normalized uniformizer; A279618/A279619; kappa = 49 | **STUB** (detailed outline, statements in place) | 3–4 h; needs care re O'Brien attribution and PASS(N) vs axiom presentation |
+| `08-dolgachev-doran.tex` | Match against the M_n-polarized framework; rho = 19 / T = 3 (conditional); what remains open | **STUB** (detailed outline) | 4–6 h; the most delicate scoping; blocked on T0 Option A/B |
+| `09-formalization.tex` | The Lean development: architecture, axiom inventory (2, disclosed), golden tests, PASS(N) discipline, what the kernel checked vs what is cited | **STUB** (detailed outline) | 3–4 h; mechanical once toolchain facts double-checked (`lake build` output, Mathlib pin) |
+| `10-reproducibility.tex` | Artifact/checker table, negative-control philosophy, how to re-run | **DRAFTED** (short) | 0.5 h |
+| `references.bib` | Real, program-read references only | **DONE** (TODO-verify comments on 2 entries) | verify Zagier 2009 & A–vS titles against PDFs: 0.5 h |
+
+**Compile status:** see §5 note in the report; `pdflatex` is available at
+`/usr/bin/pdflatex` and the draft compiles (see commit).
+
+**Not in scope of this scaffold:** abstract fine-tuning, journal-specific formatting,
+arXiv metadata, acknowledgments policy (T0 to decide whether to acknowledge the
+program's AI-assisted workflow — recommended for honesty, and Experimental Mathematics
+has no policy against it, but T0 owns the wording).
+
+## 5. Open questions for T0
+
+1. **Scope Option A vs B** (§1.3) — include lattice/monodromy material conditionally
+   (recommended) or defer to paper 2.
+2. **Venue** — Experimental Mathematics (recommended) vs JSC vs ITP/CPP-led reframing.
+3. **Authorship/acknowledgment wording** for the AI-assisted workflow; sole author
+   Xavier Callens is currently on the masthead, no affiliation typed (fill in or mark
+   independent researcher).
+4. **rho = 19 / T = 3 presentation** (§8 stub): as a conditional proposition (current
+   draft) or moved to a remark; the conditionality is on the A–vS model's PF operator
+   being L3 (cited) and the very-general-member caveat.
+5. Whether to cite the program's earlier internal report (`manuscript/main.tex`,
+   unpublished) or fold it in silently; §9 draws on it.
+
+---
+Generated-by: Fable 5 (Stream 1 paper agent) | Verified-by: every claim row checked
+against the named artifact this session (certificates read; Lean files read;
+briefs read) | Reviewed-by: pending T0 (Xavier)

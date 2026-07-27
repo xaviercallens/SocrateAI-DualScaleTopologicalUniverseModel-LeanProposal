@@ -1,0 +1,214 @@
+% ============================================================================
+% 05-irreducibility.tex — irreducibility and minimality. Claim #13 of PLAN.md §3.
+% Exponent data from L3_IRREDUCIBLE.json / L3_RIEMANN_SCHEME.json (exact, ℚ).
+% ============================================================================
+\section{Irreducibility and minimality}\label{sec:irreducibility}
+
+Everything in this section has status \textbf{(E)}: the arguments are exact
+over $\Q$, they involve no floating-point step, and they are reproduced by the
+checker \artifact{check\_L3\_irreducible\_minimal.py}, which is shipped with
+four negative controls comprising sixteen assertions
+(\S\ref{sec:reproducibility}). We treat $s_7$ throughout and record the
+$s_{10}$ data in parallel, since the same argument applies verbatim.
+
+We work over $\overline{\Q}(z)$; ``irreducible'' means that the operator
+admits no proper right factor of positive order in $\overline{\Q}(z)[D]$,
+equivalently that the associated differential module is simple. Since our
+operators are Fuchsian --- all singular points regular --- irreducibility of
+the differential module is equivalent to irreducibility of the monodromy
+representation \cite[Ch.~5--6]{vanderPutSinger2003}, and we pass between the
+two freely.
+
+\subsection{No hyperexponential solution}
+
+Recall that a nonzero function $y$ is \emph{hyperexponential} over
+$\overline{\Q}(z)$ if $y'/y \in \overline{\Q}(z)$. An order-2 operator is
+reducible precisely when it has a hyperexponential solution: a right factor of
+order $1$ is $D - u$ with $u \in \overline{\Q}(z)$, and its solution
+$\exp\int u$ solves the order-2 operator; conversely a hyperexponential
+solution $y$ produces the right factor $D - y'/y$.
+
+\begin{lemma}[Denominator obstruction; status (E)]\label{lem:denominator}
+Let $L$ be a Fuchsian operator of order $2$ on $\mathbb{P}^1$ whose finite
+singular points and whose point $z=0$ have all local exponents in
+$\tfrac12\Z$, and suppose no exponent of $L$ at $\infty$ lies in $\tfrac12\Z$.
+Then $L$ has no hyperexponential solution, and hence $L$ is irreducible.
+\end{lemma}
+
+\begin{proof}
+Suppose $y$ is a hyperexponential solution and put $u = y'/y \in
+\overline{\Q}(z)$. Because $L$ is Fuchsian, $y$ has moderate growth at every
+point of $\mathbb{P}^1$, so $u$ has at worst simple poles and no polynomial
+part; write
+\[
+  u \;=\; \sum_{p} \frac{r_p}{z - p},
+\]
+the sum over the finitely many poles. At a singular point $p$ of $L$, the
+residue $r_p$ is the local exponent of $y$ at $p$, hence lies in
+$\tfrac12\Z$ by hypothesis. At an ordinary point $p$ of $L$, $y$ is
+meromorphic near $p$ and $r_p$ is its vanishing order, a (possibly negative)
+integer; in fact solutions of a Fuchsian operator are holomorphic at ordinary
+points, so $r_p \in \Z_{\geq 0}$. Either way $r_p \in \tfrac12\Z$ for every
+$p$, whence
+\[
+  \sum_p r_p \in \tfrac12\Z .
+\]
+The exponent of $y$ at $\infty$ is $-\sum_p r_p$, and it must be one of the
+exponents of $L$ at $\infty$. But no exponent of $L$ at $\infty$ lies in
+$\tfrac12\Z$, a contradiction. Hence no hyperexponential solution exists, and
+by the remark above $L$ is irreducible.
+\end{proof}
+
+\begin{proposition}[$\Ltwo$ is irreducible; status (E)]\label{prop:L2-irred}
+The $s_7$ partner $\Ltwo$ of~\eqref{eq:s7-partner} is irreducible over
+$\overline{\Q}(z)$. The same holds for the $s_{10}$ partner.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:L2-scheme} the exponents of the $s_7$ partner are
+$\{0,0\}$ at $z=0$ and $\{0,\tfrac12\}$ at each of $z=-1$ and
+$z=\tfrac1{27}$ --- all in $\tfrac12\Z$ --- while at $\infty$ they are
+$\{\tfrac13,\tfrac23\}$, neither of which lies in $\tfrac12\Z$.
+Lemma~\ref{lem:denominator} applies. For $s_{10}$ the finite data are
+identical in shape (exponents $\{0,\tfrac12\}$ at $-\tfrac14$ and
+$\tfrac1{16}$, $\{0,0\}$ at $0$) and the exponents at $\infty$ are
+$\{\tfrac38,\tfrac58\}$, again outside $\tfrac12\Z$.
+\end{proof}
+
+The checker computes the least common denominator $N$ of all attainable
+residues at runtime rather than assuming it, obtaining $N = 2$ for both
+families, and then verifies that \emph{every} exponent at $\infty$ is
+obstructed --- not merely one of them.
+
+\subsection{The monodromy is not dihedral}
+
+Let $V$ denote the rank-2 local system of solutions of $\Ltwo$ on
+$\mathbb{P}^1 \setminus \{0,-1,\tfrac1{27},\infty\}$, with monodromy group
+$G \subseteq \GL(V)$ and projective image $\overline{G} \subseteq \mathrm{PGL}_2$.
+We say the monodromy is \emph{dihedral} if $\overline{G}$ is contained in the
+image of the normalizer $N(T)$ of a maximal torus $T \subset \SL_2$.
+
+\begin{lemma}[Nontrivial unipotent at the MUM point; status (E)]
+\label{lem:unipotent}
+The local monodromy of $\Ltwo$ at $z=0$ is unipotent and $\neq \mathrm{Id}$.
+\end{lemma}
+
+\begin{proof}
+The indicial equation of $\Ltwo$ at $z=0$ has the double root $0$
+(Proposition~\ref{prop:L2-scheme}). By the Frobenius method a repeated
+indicial root forces a second solution containing $\log z$: with $A(z)$ the
+holomorphic solution normalized by $A(0)=1$, a second solution is
+$A(z)\log z + g(z)$ with $g$ holomorphic and $g(0)=0$. Continuing once around
+$z=0$ fixes $A$ and adds $2\pi i\,A$ to the second solution, so the local
+monodromy is a single nontrivial Jordan block, i.e. unipotent and
+$\neq\mathrm{Id}$.
+\end{proof}
+
+\begin{lemma}[Not dihedral; status (E)]\label{lem:not-dihedral}
+$\overline{G}$ is not contained in the image of the normalizer of a maximal
+torus of $\SL_2$.
+\end{lemma}
+
+\begin{proof}
+Let $g \in N(T)$. Either $g \in T$, in which case $g$ is semisimple, or $g$
+lies in the nontrivial coset, in which case $g$ conjugates $T$ by inversion
+and is conjugate to an antidiagonal matrix; then $g^2 \in T$ is semisimple. Let
+$u$ be a lift of the local monodromy at $z=0$. By
+Lemma~\ref{lem:unipotent} $u$ is unipotent and $\neq\mathrm{Id}$, hence not
+semisimple; and $u^2$ is again unipotent and $\neq\mathrm{Id}$, hence also not
+semisimple. So $u$ lies in neither coset, and $\overline{G}\not\subseteq
+N(T)/\{\pm 1\}$.
+\end{proof}
+
+\subsection{Irreducibility of \texorpdfstring{$\Lthree$}{L3}}
+
+\begin{lemma}[Symmetric square of a rank-2 system]\label{lem:sym2-irred}
+Let $V$ be an irreducible rank-2 local system with monodromy group $G$ and
+projective image $\overline{G}$. Then $\Symtwo V$ is reducible if and only if
+$\overline{G}$ is contained in the normalizer of a maximal torus.
+\end{lemma}
+
+\begin{proof}
+In characteristic $0$, $V\otimes V \cong \Symtwo V \oplus \wedge^2 V$ and
+$V \otimes V \cong \mathrm{End}(V)\otimes \det V$; comparing ranks and the
+trace decomposition $\mathrm{End}(V) = \mathrm{End}_0(V)\oplus \mathrm{Id}$
+gives
+\[
+  \Symtwo V \;\cong\; \mathrm{End}_0(V) \otimes \det V ,
+\]
+so $\Symtwo V$ is reducible if and only if $\overline{G}$ acts reducibly on
+$\mathfrak{sl}(V) = \mathrm{End}_0(V)$ by conjugation.
+
+Suppose $\mathfrak{sl}(V)$ has a $\overline{G}$-stable line, spanned by $X\neq
+0$. If $X$ is nilpotent, $\ker X \subset V$ is a line and is
+$\overline{G}$-stable, contradicting irreducibility of $V$. Hence $X$ is
+semisimple with two distinct eigenvalues, and $\overline{G}$ permutes its two
+eigenlines in $V$; that is, $\overline{G}$ normalizes the maximal torus
+determined by that eigenline pair. If instead $\mathfrak{sl}(V)$ has a stable
+plane, its annihilator under the (nondegenerate, invariant) Killing form is a
+stable line and the previous case applies. The converse is immediate: if
+$\overline{G}$ normalizes $T$ with eigenlines $\langle e_1\rangle, \langle
+e_2\rangle$, then the line spanned by $e_1e_2$ in $\Symtwo V$ is stable.
+\end{proof}
+
+\begin{theorem}[$\Lthree$ is irreducible; status (E)]\label{thm:L3-irred}
+The operator $\Lthree = \Lthree(13,4,-27,3)$ is irreducible over
+$\overline{\Q}(z)$. The same holds for $\Lthree(6,2,-64,4)$.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{thm:sym2-template}, $\Lthree$ is $P_2\cdot\Symtwo(\Ltwo/P_2)$,
+so its solution space is the space of products of solutions of $\Ltwo$, i.e.
+the local system $\Symtwo V$. $V$ is irreducible by
+Proposition~\ref{prop:L2-irred}, and $\overline{G}$ is not contained in the
+normalizer of a maximal torus by Lemma~\ref{lem:not-dihedral}. By
+Lemma~\ref{lem:sym2-irred}, $\Symtwo V$ is irreducible, hence so is $\Lthree$.
+\end{proof}
+
+\begin{corollary}[Minimality; status (E)]\label{cor:minimal}
+$\Lthree$ is the minimal-order annihilator in $\overline{\Q}(z)[D]$ of each of
+its nonzero solutions; in particular of the holomorphic solution
+$u(z) = \sum_{n\geq 0}s_7(n)z^n$ at $z=0$. Consequently the differential
+module generated by $u$ has rank exactly $3$.
+\end{corollary}
+
+\begin{proof}
+Let $y\neq 0$ solve $\Lthree y = 0$ and suppose $M$ has order $m$ with
+$1 \leq m < 3$ and $My = 0$. Then $\operatorname{gcrd}(\Lthree,M)$
+annihilates $y$, so it
+has order $\geq 1$; and it is a right factor of $\Lthree$ of order
+$\leq m < 3$. This is a proper right factor, contradicting
+Theorem~\ref{thm:L3-irred}. Hence no annihilator of order $<3$ exists, and
+$\Lthree$ itself annihilates $y$.
+\end{proof}
+
+\begin{remark}[Why minimality is the load-bearing statement]
+\label{rem:minimality-load}
+Corollary~\ref{cor:minimal} is what pins the rank of the differential module
+generated by the holomorphic solution at $3$ rather than at $1$ or $2$. Every
+rank-based statement downstream --- in particular the conditional rank
+statement of \S\ref{sec:framework} --- rests on it. Had $\Lthree$ factored,
+that rank, and everything computed from it, would move. This is why the
+argument is given in full here rather than cited.
+\end{remark}
+
+\begin{remark}[Negative controls; status (E)]
+The checker reproducing this section is deliberately fallible. Its controls
+feed it (i) an operator with a hyperexponential solution by construction,
+$\thetaop^2-2\thetaop+1$, which annihilates $y = z$ so that $y'/y = 1/z$ is
+rational --- the irreducibility step must and does reject it; (ii) an operator
+with distinct indicial roots at $0$, so no logarithm and no unipotent --- the
+non-dihedral step must and does reject it; (iii) a cross-check against the
+independently computed Riemann scheme of \S\ref{sec:operators}, requiring that
+the pairwise sums of the $\Ltwo$ exponents reproduce the $\Lthree$ exponents at
+all four singular points for both families; and (iv) a positive control that
+the real operators still pass. All sixteen assertions behave as required.
+\end{remark}
+
+% ----------------------------------------------------------------------------
+% Generated-by: Opus 5 (Stream 1 paper agent) | Verified-by: exponent data and
+% step structure checked against Stream 2 data/certificates/L3_IRREDUCIBLE.json
+% and L3_RIEMANN_SCHEME.json; control inventory checked by running
+% checkers/test_L3_irreducible_minimal_controls.py (16 assertions, all ok).
+% Claim #13 of paper/PLAN.md §3. | Reviewed-by: pending T0 (Xavier)
+% ----------------------------------------------------------------------------

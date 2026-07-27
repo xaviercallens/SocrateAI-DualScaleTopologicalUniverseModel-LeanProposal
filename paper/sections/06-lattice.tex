@@ -1,0 +1,240 @@
+% CONDITIONAL SECTION — included under Option A of paper/PLAN.md §1.3 (scope
+% ruling still open for T0). Under Option B this file is deleted wholesale,
+% together with 08-dolgachev-doran.tex; no other section depends on it except
+% via the labels sec:lattice, nc:monodromy, prop:usplit.
+% ============================================================================
+% 06-lattice.tex — monodromy and the integral lattice. Claims #14-#17 of
+% paper/PLAN.md §3. Every number traces to C2_cooper_s7_v4.json (SHA256
+% 036cd895db892aee9802514ec18668535f8896cee53cf6123533af9844387c3e).
+% ============================================================================
+\section{The monodromy lattice of the \texorpdfstring{$s_7$}{s7} family}
+\label{sec:lattice}
+
+\subsection*{Disclosure}
+
+\emph{The monodromy matrices used in this section are obtained numerically.}
+They are computed by analytic continuation at 60-digit working precision and
+then recognized as exact algebraic numbers. That recognition step is not a
+proof, and nothing derived from it is stated as a theorem here: the recognized
+matrices appear as Numerical Claim~\ref{nc:monodromy}, status \textbf{(N)}.
+Everything downstream of them --- the invariant form, the orbit lattice, the
+Gram matrix, and the integral splitting --- is exact integer and rational
+arithmetic, and is stated as a proposition \emph{about the recognized
+matrices}, i.e. conditionally on Numerical Claim~\ref{nc:monodromy}. The one
+statement in this section that is unconditional, because it is a finite
+verifiable assertion about an explicitly displayed integer matrix, is
+Proposition~\ref{prop:usplit}. We are equally explicit in
+\S\ref{sec:framework} about what is \emph{not} claimed: nothing here
+identifies the computed lattice with any invariant of a surface.
+
+\subsection{Numerical continuation}
+
+Work in the Frobenius basis of $\Ltwo$ at the MUM point $z=0$: the
+holomorphic solution $A(z)$ with $A(0)=1$, and
+\[
+  \widehat{B}(z) \;=\; \frac{A(z)\log z + g(z)}{2\pi i},
+  \qquad g \text{ holomorphic},\ g(0)=0,
+\]
+whose existence is Lemma~\ref{lem:unipotent}. In this basis the local
+monodromy at $z=0$ is $\left[\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right]$
+by construction.
+
+The finite singular loci are computed at runtime as the roots of the leading
+$\thetaop$-coefficient of $\Ltwo$, giving $\{-1,\tfrac1{27}\}$ for $s_7$; they
+are not typed in. Continuation is by Taylor stepping at 60 decimal digits of
+working precision, series order $140$, step ratio $0.35$, with the series tail
+bounded by $10^{-45}$ at every step and the bound asserted rather than
+assumed. Loops are taken based at $z_0 = \rho/4$, where $\rho$ is the distance
+from $0$ to the nearest singular point.
+
+\begin{remark}[Machinery control]\label{rem:machinery-control}
+Before any unknown loop is computed, the numerical machinery is required to
+reproduce a matrix known analytically: the continued loop around $z=0$ must
+return $\left[\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right]$. It does, to
+$3.17\times 10^{-61}$. A pipeline that cannot recover a known answer is not
+used to produce unknown ones.
+\end{remark}
+
+\begin{numclaim}[Elliptic monodromies of the $s_7$ partner; status (N)]
+\label{nc:monodromy}
+In the Frobenius basis above, the monodromy matrices of $\Ltwo$ around the two
+finite singular points are
+\[
+  M(\tfrac1{27}) \;=\; \frac{i}{\sqrt7}
+  \begin{pmatrix} 0 & 1 \\ -7 & 0\end{pmatrix},
+  \qquad
+  M(-1) \;=\; \frac{i}{\sqrt7}
+  \begin{pmatrix} 7 & 4 \\ -14 & -7\end{pmatrix} .
+\]
+\end{numclaim}
+
+The evidence, and the limits of that evidence, are as follows. The two
+numerically continued matrices satisfy $\det M = -1$ and $M^2 = \mathrm{Id}$ to
+about $10^{-59}$, as the local exponents $\{0,\tfrac12\}$ of
+Proposition~\ref{prop:L2-scheme} require. The quantity $\sqrt7$ is not put in
+by hand: it emerges from the continuation. What is actually recognized is not
+the $2\times 2$ matrices themselves but their symmetric squares in the flag
+basis $(A^2, A\widehat{B}, \widehat{B}^2)$, which are rational; recognition is
+performed with a loud acceptance gate of $10^{-35}$, the largest observed
+residual is ${\approx}10^{-59}$, and the denominators appearing in the
+recognized entries come out as $\{1,7\}$. The recognized matrices are then
+subjected to exact post-verification: each is an involution; the product of
+the three loops matches the monodromy at $\infty$ predicted by the
+independently computed exponents $\{\tfrac13,\tfrac23\}$ there (trace $0$,
+order $3$); the joint invariant symmetric bilinear form exists and is unique
+up to scale; and the orbit lattice below closes under all generators and their
+inverses. A conspiracy of numerical errors surviving all of these exact gates
+is not credible. It is nevertheless not a proof, which is why this is a
+Numerical Claim.
+
+\subsection{The exact lattice pipeline}
+
+From here on, all arithmetic is exact --- integers and rationals only.
+
+\begin{proposition}[The joint monodromy-invariant lattice; status (E), given
+Numerical Claim~\ref{nc:monodromy}]\label{prop:lattice}
+Let $N(p) = \Symtwo M(p)$ denote the recognized rational $3\times3$ matrices
+and let $\Gamma$ be the group they generate together with the cusp matrix
+$N(0) = \left[\begin{smallmatrix}1&1&1\\0&1&2\\0&0&1\end{smallmatrix}\right]$.
+Then:
+\begin{enumerate}
+\item the space of $\Gamma$-invariant symmetric bilinear forms on $\Q^3$ is
+  one-dimensional;
+\item the $\Gamma$-orbit of the cusp-invariant isotropic vector $f$ spans a
+  lattice that stabilizes after finitely many steps and is closed under all
+  generators and inverses;
+\item in its primitive even rescaling, the restriction of the invariant form
+  to that lattice has Gram matrix
+  \[
+    G \;=\;
+    \begin{pmatrix} 0&0&-1\\ 0&14&0\\ -1&0&0 \end{pmatrix},
+  \]
+  with $\det G = -14$, signature $(2,1)$, discriminant group $\Z/14$ and
+  discriminant form (in the sense of~\cite{Nikulin1979}) taking the value
+  $q = \tfrac{1}{14} \bmod 2\Z$ on a generator;
+\item the divisibility of $(N(0)-\mathrm{Id})^2$ on the lattice yields
+  $2n = 14$;
+\item the lattice admits no proper even $\Gamma$-invariant overlattice.
+\end{enumerate}
+\end{proposition}
+
+Items (i)--(v) are finite exact computations on the recognized matrices; they
+are performed by \artifact{check\_U1\_lattice.py}, whose structural conditions
+are asserted (and therefore can fail) rather than reported. The sign of the
+form is fixed by an independent positivity re-derivation of the framework
+period shape, not chosen.
+
+\subsection{The integral splitting}
+
+The next statement is the one place in this section where nothing is
+conditional. It is a finite assertion about the explicit integer matrix $G$
+displayed above, checkable by hand in a minute, and we give the witness so
+that the reader can do so.
+
+\begin{proposition}[$G \cong \U\oplus\lat{14}$ over $\Z$; status (E),
+unconditional]\label{prop:usplit}
+Let $G$ be the integer matrix of Proposition~\ref{prop:lattice}(iii) and let
+\[
+  P \;=\;
+  \begin{pmatrix} 1&0&0\\ 0&0&-1\\ 0&-1&0\end{pmatrix},
+  \qquad \det P = -1 .
+\]
+Then $P \in \GL_3(\Z)$ and
+\[
+  P^{\mathsf T} G P \;=\;
+  \begin{pmatrix} 0&1&0\\ 1&0&0\\ 0&0&14 \end{pmatrix}
+  \;=\; \U \oplus \lat{14}.
+\]
+In particular the lattice with Gram matrix $G$ is isometric over $\Z$ to
+$\U\oplus\lat{14}$.
+\end{proposition}
+
+\begin{proof}
+Write $p_1,p_2,p_3$ for the columns of $P$ and $\langle\cdot,\cdot\rangle$ for
+the form with Gram matrix $G$ in the standard basis $e_1,e_2,e_3$. Then
+$p_1 = e_1$, $p_2 = -e_3$, $p_3 = -e_2$, and directly from $G$:
+$\langle p_1,p_1\rangle = G_{11} = 0$;
+$\langle p_1,p_2\rangle = -G_{13} = 1$;
+$\langle p_1,p_3\rangle = -G_{12} = 0$;
+$\langle p_2,p_2\rangle = G_{33} = 0$;
+$\langle p_2,p_3\rangle = G_{32} = 0$;
+$\langle p_3,p_3\rangle = G_{22} = 14$.
+So $\{p_1,p_2\}$ spans a hyperbolic plane $\U$, orthogonal to $\langle
+p_3\rangle \cong \lat{14}$. Expanding $\det P$ along the first column gives
+$\det\left[\begin{smallmatrix}0&-1\\-1&0\end{smallmatrix}\right] = -1$, so $P$
+is unimodular and the base change is an isometry of lattices over $\Z$.
+\end{proof}
+
+\begin{remark}[Two independent verifications]\label{rem:two-verifications}
+Proposition~\ref{prop:usplit} has been verified by two implementations written
+independently of one another and sharing no code.
+\begin{enumerate}
+\item The pipeline of \artifact{check\_U1\_lattice.py} constructs a base change
+  of determinant $+1$ during its stage 3 and checks $S^{\mathsf T}GS =
+  \U\oplus\lat{14}$ exactly. It serializes $\det S$ and $S^{\mathsf T}GS$ to
+  its certificate but not $S$ itself.
+\item A from-scratch implementation, \artifact{check\_U1\_splitting\_independent.py},
+  loads the certificate at runtime, reads only $G$ and the integer $d$ (never
+  hardcoding $14$ outside a labeled control), assembles the target
+  $\U\oplus\lat{d}$ at runtime, and re-derives its own witness from $G$ alone
+  --- locating a primitive isotropic vector of unimodular pairing, completing
+  it to a hyperbolic pair by an extended-gcd combination, and taking the
+  orthogonal-complement generator. All arithmetic is exact Python integers. It
+  returns the matrix $P$ displayed in Proposition~\ref{prop:usplit}, of
+  determinant $-1$.
+\end{enumerate}
+The two witnesses differ (determinants $+1$ and $-1$); that they differ is
+expected, since any element of $\GL_3(\Z)$ realizing the isometry is an equally
+valid proof, and it confirms that the second implementation did not reproduce
+the first. The second is shipped with five negative controls: perturbing one
+entry of $G$ must break agreement with the certificate's own determinant, and
+does; corrupting the witness must break $P^{\mathsf T}GP = \U\oplus\lat{d}$,
+and does; doubling a column of the witness must be rejected at the
+$\GL_3(\Z)$ gate, and is; testing the genuine $s_7$ Gram against the target
+$\U\oplus\lat{20}$ must fail, and does; and the unmodified certificate must
+still pass after all scrambling hooks have been exercised, and does.
+\end{remark}
+
+\subsection{The \texorpdfstring{$s_{10}$}{s10} control}
+
+\begin{numclaim}[Level discrimination; status (N)+(E)]\label{nc:s10-control}
+The identical pipeline --- same code, same tolerances, same exact
+post-verification --- applied to the $s_{10}$ family derives determinant $-20$,
+$2n = 20$, and an integral splitting $\U\oplus\lat{20}$.
+\end{numclaim}
+
+This is the control that matters most. A pipeline that produced
+$\U\oplus\lat{14}$ from any input, or that had $14$ wired into it anywhere,
+would be worthless; running it unchanged on a different member of the same
+template and obtaining a different, internally consistent answer at a
+different level shows that the computation is sensitive to the operator it is
+given. The certificate records the $s_{10}$ values as computed-versus-computed
+inequalities against the $s_7$ values, with no expected result typed in.
+Further controls in the same suite corrupt the recognized matrices in three
+distinct ways: a raw entry perturbation fails at the involution gate; a
+conjugated involution fails at the infinity-product gate; and a corruption fed
+directly to the invariant-form step causes the joint invariant form to vanish
+(solution space of dimension $0$) rather than to be silently replaced by a
+different form.
+
+\begin{remark}[What has and has not been established]
+\label{rem:lattice-scope}
+Established, conditionally on Numerical Claim~\ref{nc:monodromy}: the joint
+monodromy-invariant lattice of the $s_7$ family, in its primitive even
+scaling, is isometric over $\Z$ to $\U\oplus\lat{14}$, with the discriminant
+data of Proposition~\ref{prop:lattice}. Established unconditionally:
+Proposition~\ref{prop:usplit}, a statement about the displayed matrix $G$.
+\emph{Not} established anywhere in this section: that this lattice is the
+transcendental lattice of anything. That identification is a separate question,
+taken up --- and left conditional --- in \S\ref{sec:framework}.
+\end{remark}
+
+% ----------------------------------------------------------------------------
+% Generated-by: Opus 5 (Stream 1 paper agent) | Verified-by: all numbers read
+% from Stream 2 data/certificates/C2_cooper_s7_v4.json (derived block, controls
+% block, how block) and briefs/STREAM2_U1_EXECUTION_2026_07_27.md; witness P and
+% control inventory from this repo's briefs/STREAM1_U1_INDEPENDENT_VERIFICATION_
+% 2026_07_27.md and checkers/check_U1_splitting_independent.py; P^T G P verified
+% by hand in the proof. Claims #14-#17 of paper/PLAN.md §3.
+% | Reviewed-by: pending T0 (Xavier)
+% ----------------------------------------------------------------------------

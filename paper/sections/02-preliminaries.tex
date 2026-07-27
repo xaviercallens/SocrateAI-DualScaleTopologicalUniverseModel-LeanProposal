@@ -1,0 +1,99 @@
+% ============================================================================
+% 02-preliminaries.tex — DRAFTED IN FULL
+% ============================================================================
+\section{Preliminaries and notation}\label{sec:prelim}
+
+\subsection{Operators}
+
+Throughout, $z$ is the affine coordinate, $D = \frac{d}{dz}$, and
+$\thetaop = zD$ is the Euler operator. We work with linear differential
+operators with coefficients in $\Q[z]$ (occasionally $\Q(z)$ when a monic
+normalization is needed), acting on formal power series and on multivalued
+analytic functions on $\mathbb{P}^1$ minus the singular locus.
+
+An order-2 operator will be written in $\thetaop$-form as
+\begin{equation}\label{eq:L2-theta-form}
+  \Ltwo \;=\; P_2\,\thetaop^2 + P_1\,\thetaop + P_0,
+  \qquad P_i\in\Q[z],
+\end{equation}
+and an order-3 operator as
+$\Lthree = c_3\,\thetaop^3 + c_2\,\thetaop^2 + c_1\,\thetaop + c_0$ with
+$c_i \in \Q[z]$. For a monic operator in $D$-form,
+$L = D^2 + pD + q$ with $p,q$ rational functions, the \emph{symmetric square}
+$\Symtwo(L)$ is the unique monic order-3 operator annihilating all products
+$y_iy_j$ of solutions of $L$; explicitly
+\begin{equation}\label{eq:sym2-formula}
+  \Symtwo(D^2+pD+q) \;=\;
+  D^3 + 3p\,D^2 + \bigl(2p^2 + p' + 4q\bigr)D + \bigl(4pq + 2q'\bigr).
+\end{equation}
+Formula~\eqref{eq:sym2-formula} is validated in the formalization against two
+examples derived from first principles (\S\ref{sec:formalization}): the
+harmonic oscillator, $\Symtwo(D^2+1) = D^3+4D$ (solution products spanned by
+$1, \cos 2t, \sin 2t$), and $\Symtwo(D^2+D) = D^3+3D^2+2D$ (solution products
+$1, e^{-t}, e^{-2t}$).
+
+\subsection{Riemann schemes and Fuchsian invariants}
+
+For a Fuchsian operator $L$ of order $n$ on $\mathbb{P}^1$, the
+\emph{Riemann scheme} records the local exponents of $L$ at each singular
+point. The Fuchs relation states that the sum of all exponents, over all
+singular points, equals $\binom{n}{2}(s-2)$ where $s$ is the number of
+singular points; for an order-3 operator with four singular points the
+required total is $6$. A point of \emph{maximal unipotent monodromy} (MUM) is
+one whose exponents all coincide (here: $0,0,0$ at $z=0$), so that the local
+monodromy is a single Jordan block. We write $W(L)$ for the Wronskian of a
+fundamental system of solutions of $L$.
+
+\subsection{Cooper's template and the three sporadic sequences}
+
+Cooper~\cite{Cooper2012} introduced three sequences $s_7$, $s_{10}$, $s_{18}$
+satisfying order-3 Ap\'ery-like recurrences; Gorodetsky~\cite{Gorodetsky2023}
+subsumed them in the template~\eqref{eq:cooper-template}, whose
+$\thetaop$-form coefficients, after expanding and moving powers of $z$ to the
+left (the inner factors have constant coefficients, so no commutator terms
+arise), are
+\begin{equation}\label{eq:cooper-coeffs}
+\begin{aligned}
+  c_3 &= 1 - 2a\,z + c\,z^2, &
+  c_2 &= -3a\,z + 3c\,z^2, \\
+  c_1 &= -(a+2b)\,z + (3c+d)\,z^2, &
+  c_0 &= -b\,z + (c+d)\,z^2.
+\end{aligned}
+\end{equation}
+The holomorphic solution of $\Lthree(a,b,c,d)$ at $z=0$ normalized by
+$u(0)=1$ has coefficients satisfying Cooper's three-term recurrence; for
+$(a,b,c,d)=(13,4,-27,3)$ this is $s_7$ (OEIS A183204: $1, 4, 48, 760,
+\dots$), for $(6,2,-64,4)$ it is $s_{10}$ (OEIS A005260, the sums
+$\sum_k\binom{n}{k}^4$), and for $(14,6,192,-12)$ it is $s_{18}$
+\cite{Cooper2012,Gorodetsky2023}. The parameter values are transcribed from
+the literature and are pinned, with source citations attached to the
+definitions, in the formal development (\S\ref{sec:formalization}).
+
+\subsection{Lattices}
+
+A \emph{lattice} is a free $\Z$-module of finite rank with a nondegenerate
+symmetric bilinear form; it is \emph{even} if $\lat{x,x}\in 2\Z$ for all $x$.
+$\U$ denotes the hyperbolic plane
+$\left[\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right]$ and $\lat{m}$ the
+rank-1 lattice with Gram matrix $(m)$. The \emph{discriminant group} of a
+lattice $T$ is $T^\vee/T$, carrying its discriminant quadratic form
+$q\colon T^\vee/T\to\Q/2\Z$. Two lattices are isometric over $\Z$ if their
+Gram matrices are conjugate under $\GL_n(\Z)$.
+
+For a K3 surface $X$, $\NS(X)\subset H^2(X,\Z)$ is the N\'eron--Severi
+lattice, of rank $\rho(X)$, and the \emph{transcendental lattice} $T(X)$ is
+its orthogonal complement, of rank $22-\rho(X)$. Following
+Dolgachev~\cite{Dolgachev1996}, for $M$ a fixed even lattice of signature
+$(1,t)$, an \emph{$M$-polarized} K3 surface is one with a primitive lattice
+embedding $M\hookrightarrow \NS(X)$; for the rank-19 lattices
+$M_n = \U\oplus E_8^2\oplus\lat{-2n}$, Dolgachev computes
+$(M_n)^{\perp} = \U\oplus\lat{2n}$ (\cite{Dolgachev1996}, \S7) and proves
+that the coarse moduli space of $M_n$-polarized K3 surfaces is the Fricke
+modular curve $H/\Gamma_0(n)+$ (\cite{Dolgachev1996}, Thm 7.1).
+
+% ----------------------------------------------------------------------------
+% Generated-by: Fable 5 (Stream 1 paper agent) | Verified-by: eq (coeffs) vs
+% Agora/Sequences/PartnerOperators.lean cooperC3..C0; params vs
+% CooperRecurrences.lean; Dolgachev statements vs Stream 2 sources-read brief
+% | Reviewed-by: pending T0 (Xavier)
+% ----------------------------------------------------------------------------

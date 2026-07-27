@@ -1,0 +1,150 @@
+% ============================================================================
+% 10-reproducibility.tex — artifact index and negative-control philosophy.
+% Repository URLs deliberately not typed: T0 supplies them at submission
+% (paper/PLAN.md §4, "not in scope of this scaffold").
+% ============================================================================
+\section{Reproducibility}\label{sec:reproducibility}
+
+Every number in this paper is produced by a script or a proof in one of two
+repositories, referred to below as \textbf{R1} (the formal development, Lean~4)
+and \textbf{R2} (the exact and numerical computations, Python with
+\texttt{sympy} and \texttt{mpmath}). Repository locations are given with the
+published version. Nothing in this paper is a constant typed from memory; the
+program's standing rule is that a number may enter prose only by being read
+from an artifact that a reader can regenerate.
+
+\subsection{Artifact index}
+
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Result & Status & Artifact & Repo \\
+\midrule
+Thms.~\ref{thm:sym2-template}, \ref{lem:magic}, Cor.~\ref{cor:sporadic-partners}
+  & (K) & \artifact{Agora/Sequences/PartnerOperators.lean} & R1 \\
+Thm.~\ref{thm:avs}
+  & (K) & \artifact{Agora/Swampland/SymSquareC3b.lean} & R1 \\
+Rem.~\ref{rem:golden-sym2}
+  & (K) & \artifact{Agora/SymSquare.lean} \S3 & R1 \\
+Prop.~\ref{prop:dyadic}
+  & (K) & \artifact{Agora/Sequences/FormalSqrt.lean} & R1 \\
+Thm.~\ref{thm:non-integral}, Cor.~\ref{cor:s7-integral}, Rem.~\ref{rem:pass7}
+  & (K) & \artifact{Agora/Sequences/PartnerIntegrality.lean} & R1 \\
+Thm.~\ref{thm:obrien} (as axiom)
+  & (C) & \artifact{Agora/Axioms/OBrien2016.lean}, \artifact{AXIOMS.md} & R1 \\
+Props.~\ref{prop:L3-scheme}, \ref{prop:L2-scheme}, Rem.~\ref{rem:signature}
+  & (E) & \artifact{check\_L3\_riemann\_scheme.py} $\to$
+          \artifact{L3\_RIEMANN\_SCHEME.json} & R2 \\
+\S\ref{sec:irreducibility} in full
+  & (E) & \artifact{check\_L3\_irreducible\_minimal.py} $\to$
+          \artifact{L3\_IRREDUCIBLE.json} & R2 \\
+\S\ref{sec:irreducibility} controls
+  & (E) & \artifact{test\_L3\_irreducible\_minimal\_controls.py} & R2 \\
+Props.~\ref{prop:mechanism}, Rem.~\ref{rem:315}
+  & (E) & \artifact{check\_s7\_partner\_integrality\_modular.py} $\to$
+          \artifact{S7\_PARTNER\_MODULAR.json} & R2 \\
+Prop.~\ref{prop:hauptmodul}
+  & (E) & \artifact{check\_s7\_hauptmodul\_gamma07plus.py} $\to$
+          \artifact{HAUPTMODUL\_S7\_GAMMA07PLUS.json} & R2 \\
+NC~\ref{nc:monodromy}, Prop.~\ref{prop:lattice}, NC~\ref{nc:s10-control}
+  & (N)/(E) & \artifact{check\_U1\_lattice.py} $\to$
+          \artifact{C2\_cooper\_s7\_v4.json} & R2 \\
+\S\ref{sec:lattice} controls
+  & (E) & \artifact{test\_U1\_controls.py} & R2 \\
+Prop.~\ref{prop:usplit} (2nd implementation)
+  & (E) & \artifact{checkers/check\_U1\_splitting\_independent.py} & R1 \\
+Prop.~\ref{prop:usplit} controls
+  & (E) & \artifact{checkers/test\_U1\_splitting\_independent\_controls.py} & R1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The lattice certificate is content-addressed: the version underlying
+\S\ref{sec:lattice} has
+\[
+  \text{SHA256} =
+  \mathtt{036cd895db892aee9802514ec18668535f8896cee53cf6123533af9844387c3e},
+\]
+and the independent verification of Proposition~\ref{prop:usplit} was run
+against that file and against its immediate predecessor, whose derived block
+is byte-identical, with the same result. Literature sources used in this paper
+were fetched and hash-pinned before being read; the hashes are recorded in the
+repositories' provenance files.
+
+\subsection{Running the artifacts}
+
+R1 builds with \artifact{lake build}; the golden tests build with it. R2's
+checkers are standalone scripts, each taking an optional \artifact{-{}-json}
+argument that writes its certificate, so a checker can be re-run and its output
+diffed against the committed certificate:
+\begin{center}\small
+\artifact{python3 checkers/check\_L3\_irreducible\_minimal.py -{}-json /tmp/out.json}
+\end{center}
+The independent splitting check takes the certificate path as an argument
+rather than embedding it, and reads the target level from the certificate at
+runtime:
+\begin{center}\small
+\artifact{python3 checkers/check\_U1\_splitting\_independent.py -{}-cert <path>}
+\end{center}
+The control suites are runnable directly or under \texttt{pytest}.
+
+\subsection{Negative controls}
+
+The program's operating rule is that \emph{a check which cannot fail is not a
+check}. Every computation above ships with controls designed to make it fail,
+and the controls are run, not merely written. The rule has a specific origin:
+an earlier computation in the program passed its own test because its
+statistic had been clamped below its own threshold, and the resulting claim had
+to be retracted. The controls exist so that this cannot recur silently.
+
+Concretely, the controls used in this paper are:
+
+\begin{itemize}
+\item \emph{Known-negative inputs.} The irreducibility checker is fed an
+  operator with a hyperexponential solution by construction and one with
+  distinct indicial roots at the origin; it must reject both, and does
+  (\S\ref{sec:irreducibility}).
+\item \emph{Cross-checker agreement.} The $\Ltwo$ exponents computed by one
+  checker must reproduce, under pairwise summation, the $\Lthree$ Riemann
+  scheme computed independently by another --- at all four singular points, for
+  both families.
+\item \emph{Machinery controls.} The numerical continuation must recover a
+  matrix known analytically before it is used on unknown loops
+  (Remark~\ref{rem:machinery-control}).
+\item \emph{Corruption controls.} Perturbing a recognized matrix must break a
+  downstream exact gate; three distinct corruptions are exercised, failing at
+  the involution gate, at the infinity-product gate, and by collapsing the
+  invariant-form solution space to dimension $0$ (\S\ref{sec:lattice}).
+  Corrupting a coefficient of the modular series must break the degree-2
+  verification (\S\ref{sec:integrality}).
+\item \emph{Discrimination controls.} The identical lattice pipeline run on the
+  $s_{10}$ family must produce a different, internally consistent answer, and
+  does (NC~\ref{nc:s10-control}); the modular fit tested against the wrong
+  level must fail every fit, and does; the genuine $s_7$ Gram matrix tested
+  against $\U\oplus\lat{20}$ must fail, and does.
+\item \emph{Vacuity controls.} A statement whose content is not obvious is
+  accompanied by a check that it is not trivially true: the dyadic baseline of
+  Proposition~\ref{prop:dyadic} is paired with a proof that
+  $\tfrac13\notin\Z[\tfrac12]$.
+\item \emph{Positive controls after corruption.} Every suite re-runs the
+  unmodified input last, confirming that the scrambling hooks are surgical and
+  leave no state behind.
+\end{itemize}
+
+Two further disciplines are worth stating because they constrain what the
+artifacts are permitted to emit. First, target values are assembled at runtime
+from data read out of the certificate under test, never hardcoded outside a
+labeled control --- so a checker cannot accidentally test a constant against
+itself. Second, checkers that cannot derive a quantity emit \texttt{null} for
+it rather than a plausible value: the irreducibility certificate reports no
+rank at all, precisely because the step that would license one is a citation
+and not a computation (\S\ref{sec:framework}).
+
+% ----------------------------------------------------------------------------
+% Generated-by: Opus 5 (Stream 1 paper agent) | Verified-by: file names and
+% certificate names checked against the two repositories' checkers/ and
+% data/certificates/ directories; SHA256 from briefs/STREAM1_U1_INDEPENDENT_
+% VERIFICATION_2026_07_27.md; control inventory from the control scripts
+% themselves. | Reviewed-by: pending T0 (Xavier)
+% ----------------------------------------------------------------------------

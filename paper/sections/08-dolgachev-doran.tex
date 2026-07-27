@@ -1,0 +1,234 @@
+% CONDITIONAL SECTION — included under Option A of paper/PLAN.md §1.3 (scope
+% ruling still open for T0). Under Option B this file is deleted wholesale,
+% together with 06-lattice.tex; no other section depends on it except via the
+% label sec:framework.
+% ============================================================================
+% 08-dolgachev-doran.tex — the M_n-polarized framework. Claims #18-#20 of
+% PLAN.md §3. rho=19 / T=3 is presented CONDITIONALLY (PLAN.md §5 item 4); the
+% identification of the computed lattice with T is conjectural throughout.
+% ============================================================================
+\section{Relation to the \texorpdfstring{$M_n$}{Mn}-polarized framework}
+\label{sec:framework}
+
+This section places the computations of \S\S\ref{sec:sym2}--\ref{sec:integrality}
+next to a classical framework and states carefully what the juxtaposition does
+and does not establish. Nothing in this section is claimed as a new theorem.
+
+\subsection{The framework, as cited}
+
+\begin{theorem}[cited, Dolgachev 1996]\label{thm:dolgachev}
+\cite[\S7, p.~20 and Thm.~7.1]{Dolgachev1996}. For $M_n = \U\oplus E_8^2
+\oplus\lat{-2n}$ one has $(M_n)^{\perp} = \U\oplus\lat{2n}$ in the K3 lattice,
+and the coarse moduli space of $M_n$-polarized K3 surfaces is the Fricke
+modular curve $\mathbb{H}/\Gamma_0(n)+$.
+\end{theorem}
+
+\begin{theorem}[cited, Doran 2000]\label{thm:doran}
+\cite[Thm.~5.13]{Doran2000}. The Picard--Fuchs operator of an
+$M_n$-polarized family of K3 surfaces is the symmetric square of a
+second-order Fuchsian operator.
+\end{theorem}
+
+Both sources were fetched, hash-pinned, and read by the program; the parts of
+Theorem~\ref{thm:dolgachev} used below were additionally re-derived
+symbolically before use, with the period shape and the invariant bilinear form
+recomputed from scratch rather than transcribed. We also record, because it
+governs how much the coincidences below can be made to prove, that Doran
+himself notes the classification of rank-19 lattice polarizations to be
+incomplete~\cite[\S6]{Doran2000}.
+
+\subsection{The logical direction}
+
+A referee's first reaction to \S\ref{sec:lattice} should be that
+Theorem~\ref{thm:dolgachev} already says $(M_7)^{\perp} = \U\oplus\lat{14}$
+and Theorem~\ref{thm:doran} already says the Picard--Fuchs operator of such a
+family is a symmetric square, so nothing has been learned. The reply is that
+the direction of inference here is the reverse of the framework's. The
+framework starts from a polarization hypothesis and deduces invariants. We
+start from a concretely given operator family --- specified by four rational
+numbers --- and \emph{compute} its invariants: the symmetric-square structure
+(kernel-checked, and for the whole template rather than for one member), the
+Fuchsian signature, the modular coordinate and its level, and the monodromy
+lattice. Each of these is a fact about the operator, established without any
+geometric hypothesis. The framework then supplies a reading under which they
+all cohere, and the coherence is close: the same level $7$ appears from four
+computations that share no code, and the monodromy lattice matches
+$(M_7)^{\perp}$ on the nose, including the discriminant form.
+
+That is convergent evidence, not a proof, and the incompleteness of the
+rank-19 classification is precisely why it cannot be upgraded by citation.
+
+\subsection{The evidence, assembled}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{@{}p{0.42\textwidth}ll@{}}
+\toprule
+\textbf{Computed fact about the $s_7$ operators} & \textbf{Status} &
+\textbf{Framework counterpart} \\
+\midrule
+$\Lthree = P_2\cdot\Symtwo(\Ltwo)$, uniformly on the template
+  (Thm.~\ref{thm:sym2-template}) & (K) & Thm.~\ref{thm:doran} \\
+Almkvist--van Straten $W\equiv0$ (Thm.~\ref{thm:avs}) & (K) &
+  self-adjointness of a $\Symtwo$ \\
+$\Ltwo$, $\Lthree$ irreducible; $\Lthree$ minimal
+  (\S\ref{sec:irreducibility}) & (E) & rank-3 sub-system \\
+Implied Fuchsian signature: genus $0$, orders $(2,2,3)$, one cusp,
+  area$/2\pi = \tfrac23$ (Rem.~\ref{rem:signature}) & (E) &
+  signature of $\Gamma_0(7)+$ \\
+Modular coordinate is a $\Gamma_0(7)+$ Hauptmodul, $\kappa = 49$
+  (Prop.~\ref{prop:hauptmodul}) & (E) & $\mathbb{H}/\Gamma_0(7)+$ of
+  Thm.~\ref{thm:dolgachev} \\
+$\sqrt7$ in the elliptic monodromies (NC~\ref{nc:monodromy}) & (N) &
+  level $7$ \\
+Monodromy lattice $\U\oplus\lat{14}$, $\det = -14$, disc.\ $\Z/14$,
+  $q = \tfrac1{14}$ (Props.~\ref{prop:lattice},~\ref{prop:usplit}) & (N)+(E) &
+  $(M_7)^{\perp}$ of Thm.~\ref{thm:dolgachev} \\
+$s_{10}$ control gives $\U\oplus\lat{20}$ (NC~\ref{nc:s10-control}) & (N)+(E) &
+  level $10$, not level $7$ \\
+\bottomrule
+\end{tabular}
+\medskip
+\caption{Computed invariants of the $s_7$ operator family against the
+$M_n$-polarized framework. Status labels as in \S\ref{sec:intro}.}
+\label{tab:evidence}
+\end{table}
+
+\subsection{A conditional rank statement}
+
+We now record the rank statement that the minimality result of
+\S\ref{sec:irreducibility} yields \emph{if} two external inputs are granted.
+It is stated as a conditional proposition, with its hypotheses displayed, and
+it is used nowhere else in this paper.
+
+\begin{proposition}[conditional; status (C)+(E) under (H1)--(H2)]
+\label{prop:ranks}
+Assume:
+\begin{itemize}
+\item[\textbf{(H1)}] the $s_7$ family is realized by the explicit projective
+  K3 model of Almkvist and van Straten~\cite{AlmkvistvanStraten2021}, and
+  $\Lthree$ is the Picard--Fuchs operator of the period of its holomorphic
+  $2$-form; and
+\item[\textbf{(H2)}] for the very general member $X$ of the family,
+  $\operatorname{rank}T(X)$ equals the rank of the $\Q$-sub-variation of Hodge
+  structure generated by that period under Gauss--Manin.
+\end{itemize}
+Then $\operatorname{rank}T(X) = 3$ and $\rho(X) = 19$.
+\end{proposition}
+
+\begin{proof}
+By Corollary~\ref{cor:minimal}, the sub-variation generated by the period has
+rank $3$, that being the order of its minimal annihilator. (H2) transfers this
+to $\operatorname{rank}T(X)$, and $\rho(X) = 22 - \operatorname{rank}T(X) = 19$.
+\end{proof}
+
+\begin{remark}[On (H2), and on the caveat that must travel with $\rho = 19$]
+\label{rem:H2}
+(H2) is standard Hodge theory and we cite rather than re-derive it. It is the
+conjunction of two inclusions. First, for very general $z$ the N\'eron--Severi
+lattice is locally constant, the Noether--Lefschetz locus being a countable
+union of proper subvarieties, so $T = \NS^{\perp}$ is a Gauss--Manin-flat
+sub-Hodge-structure containing the holomorphic $2$-form; the sub-variation
+generated by that form is therefore contained in $T$. Second, $T(X)\otimes\Q$
+is by definition the minimal primitive sub-Hodge-structure of $H^2(X,\Q)$
+whose complexification contains $H^{2,0}$, and the saturation of the
+sub-variation is such a structure; so the reverse inclusion holds
+\cite[ch.~3 \S3.1, ch.~17 \S17.1]{Huybrechts2016}. Simplicity of the
+transcendental Hodge structure is~\cite[Thm.~1.6(a)]{Zarhin1983}.
+
+The caveat is essential and is not a formality: $\rho = 19$ is the value for
+the \emph{very general} member. It jumps to $20$ on a countable dense subset
+of the base. Any use of Proposition~\ref{prop:ranks} that drops the phrase
+``very general'' is a misuse of it.
+\end{remark}
+
+\subsection{What is conjectural}
+
+\begin{conjecture}[Identification of the computed lattice]\label{conj:T}
+The joint monodromy-invariant lattice computed in \S\ref{sec:lattice} is the
+transcendental lattice of the very general member of the $s_7$ family; that
+is, $T \cong \U\oplus\lat{14}$, and the family is $M_7$-polarized.
+\end{conjecture}
+
+We are explicit about the two gaps between Proposition~\ref{prop:lattice} and
+Conjecture~\ref{conj:T}, because within the computation itself the
+identification is pinned only up to two enumerable ambiguities, and only one
+of them is closed by computation.
+
+\begin{enumerate}
+\item \emph{Even invariant overlattices.} A priori the transcendental lattice
+  could be an even overlattice of the computed orbit lattice, with the same
+  rational form. These were enumerated: there are none
+  (Proposition~\ref{prop:lattice}(v)). This gap is closed, conditionally on
+  Numerical Claim~\ref{nc:monodromy}.
+\item \emph{Overall integral rescaling.} The transcendental lattice could
+  carry $\lambda\cdot G$ for an integer $\lambda>1$. This branch is excluded
+  by the shape $\U\oplus\lat{2n}$ that the framework predicts
+  (Theorem~\ref{thm:dolgachev}) --- that is, by a reading, not by a
+  computation. It is the honest residual gap, and we do not paper over it: the
+  argument that rules it out presupposes the conclusion it is used to support.
+\end{enumerate}
+
+To these must be added the fact that Numerical Claim~\ref{nc:monodromy} is
+itself numerics-backed, and hypothesis (H1) of
+Proposition~\ref{prop:ranks}, which is a citation about a geometric model and
+is not verified anywhere in this paper.
+
+\subsection{What is not claimed}
+
+We close by listing, explicitly, statements a reader might expect to find here
+and will not.
+
+\begin{itemize}
+\item No degeneration or fibre-type reading is made of the singular points
+  $z=-1$ and $z=\tfrac1{27}$. Remark~\ref{rem:signature} identifies them as
+  order-2 elliptic points of the quotient curve; that is the only reading
+  taken, and no elliptic fibration is invoked anywhere.
+\item No claim is made that the $s_{10}$ or $s_{18}$ partners are modular,
+  and no level is assigned to $s_{18}$ (Remark~\ref{rem:integrality-scope}).
+\item Theorem~\ref{thm:sym2-template} is not claimed to imply
+  Theorem~\ref{thm:doran} or to be implied by it: the template theorem
+  exhibits a partner from four rational parameters with no geometric
+  hypothesis, whereas Doran's theorem asserts existence under a polarization
+  hypothesis. Neither subsumes the other.
+\item Proposition~\ref{prop:ranks} is not asserted unconditionally, and
+  Conjecture~\ref{conj:T} is not asserted at all.
+\end{itemize}
+
+\subsection{Open questions}
+
+\begin{enumerate}
+\item Make Numerical Claim~\ref{nc:monodromy} exact. The natural route is
+  exact hypergeometric connection formulae for $\Ltwo$, which would upgrade
+  Propositions~\ref{prop:lattice} and~\ref{prop:usplit} to unconditional
+  statements about the $s_7$ family and remove the only numerical input in
+  this paper.
+\item Close the rescaling ambiguity of Conjecture~\ref{conj:T} by a
+  computation rather than by the framework's shape --- for instance by
+  exhibiting a $\lambda>1$ obstruction intrinsic to the monodromy
+  representation.
+\item Prove Theorem~\ref{thm:obrien} in a proof assistant, discharging the one
+  literature axiom of the formal development (\S\ref{sec:formalization}). This
+  requires $q$-expansion machinery for weight-1 level-7 modular objects that
+  the pinned library does not have.
+\item Determine whether the $s_{18}$ partner exhibited in
+  Corollary~\ref{cor:sporadic-partners} --- which appears not to have been
+  written down before --- has any modular interpretation, or whether its
+  non-integrality is an obstruction to one.
+\item Establish the genus statement for the abstract lattice
+  $\U\oplus\lat{14}$ independently. It is not needed for
+  Proposition~\ref{prop:usplit}, which is constructive and therefore stronger
+  than a genus argument for the specific lattice at hand, but it would be the
+  natural framing for a classification statement.
+\end{enumerate}
+
+% ----------------------------------------------------------------------------
+% Generated-by: Opus 5 (Stream 1 paper agent) | Verified-by: framework
+% statements vs paper/references.bib entries Dolgachev1996 / Doran2000 as
+% recorded in PLAN.md row #19; rho=19 / T=3 conditionality and the (H1)/(H2)
+% split vs Stream 2 data/certificates/L3_IRREDUCIBLE.json step5_hodge_
+% identification + conditional_on_step5; overlattice and rescaling ambiguities
+% vs C2_cooper_s7_v4.json and briefs/STREAM2_U1_EXECUTION_2026_07_27.md §4.
+% Claims #18-#20 of paper/PLAN.md §3; presented conditionally per PLAN.md §5.4.
+% | Reviewed-by: pending T0 (Xavier)
+% ----------------------------------------------------------------------------

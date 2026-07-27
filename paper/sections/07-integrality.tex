@@ -1,0 +1,287 @@
+% ============================================================================
+% 07-integrality.tex — the arithmetic separation. Claims #7-#10 of PLAN.md §3.
+% Attribution discipline: integrality of the s7 partner is O'Brien 2016 Thm 6.2
+% (CITED), used in the formalization as the single registered literature axiom;
+% the recurrence-matching step is kernel-checked. Nothing here re-proves it.
+% ============================================================================
+\section{The arithmetic separation of the three candidates}
+\label{sec:integrality}
+
+Theorem~\ref{thm:sym2-template} is blind to the choice of parameters. This
+section exhibits the invariant that is not: the integrality of the holomorphic
+solution of the order-2 partner. Among Cooper's three sporadic sequences, only
+$s_7$ has an integral partner, and we make the mechanism behind that
+integrality precise.
+
+\subsection{The partner recurrence}
+
+Extracting the coefficient of $z^{M}$ from $\Ltwo f = 0$ for
+$f = \sum_{n\geq0}a_nz^n$ with $a_0 = 1$, using the partner
+coefficients~\eqref{eq:generic-partner}, gives $a_1 = \tfrac{b}{2}$ and, for
+$k\geq0$,
+\begin{equation}\label{eq:partner-recurrence}
+  (k+2)^2 a_{k+2}
+  \;=\; a_{k+1}\Bigl(2a(k+1)^2 + a(k+1) + \tfrac{b}{2}\Bigr)
+      - a_k\Bigl(ck^2 + ck + \tfrac{c+d}{4}\Bigr).
+\end{equation}
+The leading coefficient $(k+2)^2$ is the crux: the sequence is
+$\Q$-valued by construction, and integrality --- when it holds --- is an
+Ap\'ery-style theorem, not a consequence of the shape of the recursion.
+
+There is, however, a floor. Let $s\colon\mathbb{N}\to\Z$ be \emph{any} integer
+sequence with $s(0)=1$ and let $g$ be the coefficient sequence of the formal
+square root of $\sum_n s(n)z^n$, defined by $g_0=1$ and
+$g_n = \bigl(s(n) - \sum_{k=1}^{n-1}g_kg_{n-k}\bigr)/2$.
+
+\begin{proposition}[Dyadic baseline; status (K)]\label{prop:dyadic}
+For every integer sequence $s$ with $s(0)=1$, every $g_n$ lies in
+$\Z[\tfrac12]$.
+\end{proposition}
+
+\begin{proof}
+Induction on $n$: $\Z[\tfrac12]$ is a ring containing $\Z$, so the sum of
+products of earlier terms lies in it, and it is closed under division by $2$.
+Formalized as \artifact{sqrtSeq\_dyadic} in
+\artifact{Agora/Sequences/FormalSqrt.lean}; the accompanying control
+\artifact{dyadic\_baseline\_control} checks that $\tfrac13\notin\Z[\tfrac12]$,
+so the statement is not vacuous.
+\end{proof}
+
+So powers of $2$ in the denominators are the \emph{forced} baseline for the
+partner of any Cooper-template instance with integral holomorphic solution,
+and $s_{10}$ and $s_{18}$ merely exhibit it. It is $s_7$ that is anomalous.
+
+\subsection{Non-integrality for \texorpdfstring{$s_{10}$}{s10} and
+\texorpdfstring{$s_{18}$}{s18}}
+
+\begin{theorem}[status (K)]\label{thm:non-integral}
+The holomorphic solution of the $s_{10}$ partner has coefficients beginning
+$1,\;1,\;\tfrac{17}{2},\;\tfrac{147}{2}$, and that of the $s_{18}$ partner
+begins $1,\;3,\;\tfrac{45}{2},\;\tfrac{429}{2}$. In particular neither
+sequence is integral.
+\end{theorem}
+
+\begin{proof}
+Evaluate~\eqref{eq:partner-recurrence} at the respective parameters; the terms
+listed are exact rationals. Integrality of the $n=2$ term would force
+$17 = 2m$ resp. $45 = 2m$ for an integer $m$, which is impossible. The
+formalization states the refutation in this arithmetic form rather than as
+denominator bookkeeping: \artifact{s10\_partner\_two\_not\_integral},
+\artifact{s18\_partner\_two\_not\_integral}, and the conclusions
+\artifact{s10\_partner\_not\_integral}, \artifact{s18\_partner\_not\_integral}
+in \artifact{Agora/Sequences/PartnerIntegrality.lean}.
+\end{proof}
+
+Note the asymmetry of difficulty: refuting integrality needs one witness,
+establishing it needs all of them. The formalization keeps that asymmetry
+visible in the type of its summary statement
+(\artifact{cooper\_partner\_separation}), which asserts only the two negative
+halves.
+
+\subsection{Integrality for \texorpdfstring{$s_7$}{s7}}
+
+For $(a,b,c,d) = (13,4,-27,3)$, recurrence~\eqref{eq:partner-recurrence}
+becomes, after clearing,
+\begin{equation}\label{eq:s7-partner-recurrence}
+  (k+2)^2a_{k+2}
+  = \bigl(26(k+1)^2 + 13(k+1) + 2\bigr)a_{k+1}
+    + 3(3k+1)(3k+2)\,a_k,
+  \qquad a_0=1,\ a_1=2 .
+\end{equation}
+Its first terms are
+\[
+  1,\;2,\;22,\;336,\;6006,\;117348,\;2428272,\;52303680,\;\dots
+\]
+which is OEIS A279619~\cite{OEIS}. Integrality of this sequence is a theorem
+of the literature, and we state it as such.
+
+\begin{theorem}[cited, O'Brien 2016]\label{thm:obrien}
+\cite[Thm.~6.2, p.~47]{OBrien2016}. Any rational sequence satisfying
+recurrence~\eqref{eq:s7-partner-recurrence} with the stated initial values is
+integer-valued.
+\end{theorem}
+
+O'Brien's proof is an explicit coefficient-matching induction using the
+$q$-expansions of two specific weight-1 level-7 modular objects; it is not a
+formal consequence of any general integrality principle, and \S\ref{ssec:mechanism}
+explains why. We do not reprove it.
+
+\begin{corollary}[status (K), modulo Theorem~\ref{thm:obrien}]
+\label{cor:s7-integral}
+The holomorphic solution of the $s_7$ partner is integral, and its coefficient
+sequence is A279619.
+\end{corollary}
+
+\begin{proof}
+That the sequence defined by the generic
+recurrence~\eqref{eq:partner-recurrence} at the $s_7$ parameters satisfies
+exactly~\eqref{eq:s7-partner-recurrence}, with the same initial values, is a
+mechanical identity; it is kernel-checked as
+\artifact{partnerSeq\_s7\_recurrence}. Theorem~\ref{thm:obrien} then applies.
+In the formalization the cited theorem is the registered axiom
+\artifact{obrien2016\_theorem6\_2}, and the conclusion is
+\artifact{s7\_partner\_integral}; see \S\ref{sec:formalization} for the axiom's
+statement and its disclosure.
+\end{proof}
+
+\begin{remark}[PASS(7)]\label{rem:pass7}
+The formalization independently retains a kernel-checked finite verification,
+\artifact{s7\_partner\_integral\_pass7}: the coefficients are integers for
+$n\leq7$, each obtained by evaluating the recurrence rather than by table
+lookup, with the eight witnesses displayed above. This was the honest position
+before the citation was traced to its correct source, and it is kept on the
+record. It is evidence, not proof, of the general statement, and is reported
+as \emph{PASS(7)} rather than as a theorem about all $n$
+(\S\ref{sec:formalization}).
+\end{remark}
+
+\subsection{The mechanism: a normalized integral uniformizer}
+\label{ssec:mechanism}
+
+Why is $s_7$'s partner integral when the dyadic floor of
+Proposition~\ref{prop:dyadic} permits denominators? The answer is not that
+$\eta$-quotients have integer Fourier coefficients. It is a normalization
+statement, and the distinction is not pedantic --- the object in question is a
+series \emph{reversion}, and reversion does not preserve integrality in
+general.
+
+Following~\cite{OBrien2016}, set
+\begin{equation}\label{eq:obrien-objects}
+  z_7 = \sum_{m,n\in\Z}q^{\,m^2+mn+2n^2}, \qquad
+  Z_7 = \frac{7P(q^7)-P(q)}{6}, \qquad
+  X_7 = \frac{\eta_1^3\eta_7^3}{z_7^{\,3}},
+\end{equation}
+with $P$ the Ramanujan Eisenstein series $P(q) = 1-24\sum_{n\geq1}\sigma(n)q^n$
+and $\eta_1^3\eta_7^3 = q\prod_{j\geq1}(1-q^j)^3(1-q^{7j})^3$. O'Brien's
+Theorem~6.1 gives the expansion $z_7 = \sum_{n\geq0}c_7(n)X_7^{\,n}$, and the
+$c_7(n)$ are the terms of~\eqref{eq:s7-partner-recurrence}.
+
+\begin{proposition}[Reversion of a normalized integral series]
+\label{prop:normalized-reversion}
+Let $X \in q\,\Z[[q]]$ have leading coefficient exactly $1$, i.e.
+$X = q + O(q^2)$, and let $Y \in \Z[[q]]$. Then the unique expansion
+$Y = \sum_{n\geq0}c_nX^n$ has $c_n \in \Z$ for all $n$.
+\end{proposition}
+
+\begin{proof}
+Determine the $c_n$ recursively: $c_0 = Y(0)$, and having fixed
+$c_0,\dots,c_{n-1}$, the residual $Y - \sum_{k<n}c_kX^k$ lies in
+$q^n\Z[[q]]$, while $X^n = q^n + O(q^{n+1})$; so $c_n$ is the coefficient of
+$q^n$ in the residual divided by $1$, hence an integer. Integrality of the
+leading coefficient of $X$ is exactly what makes that division trivial; a
+leading coefficient of $2$, say, would reintroduce denominators of precisely
+the kind Proposition~\ref{prop:dyadic} permits.
+\end{proof}
+
+\begin{proposition}[The mechanism, verified; status (E)]\label{prop:mechanism}
+With $X_7$ as in~\eqref{eq:obrien-objects}, exact rational arithmetic on
+$q$-expansions gives
+\[
+  X_7 \;=\; q - 9q^2 + 30q^3 - 15q^4 + \cdots \in q\,\Z[[q]],
+\]
+so $X_7$ is a normalized integral uniformizer; and expanding $z_7$ in powers
+of $X_7$ reproduces $1,2,22,336,6006,117348,2428272$, i.e. A279619.
+Consequently, by Proposition~\ref{prop:normalized-reversion}, integrality of
+$c_7$ follows from~\eqref{eq:obrien-objects} together with O'Brien's
+Theorem~6.1 --- but from those taken \emph{jointly}, and not from the
+integrality of an $\eta$-quotient alone.
+\end{proposition}
+
+\begin{remark}[Resolving the source's equation (3.15); status (E)]
+\label{rem:315}
+The pinned copy of~\cite{OBrien2016} renders the denominator of its equation
+(3.15) ambiguously between $z_7$ and $Z_7$ and drops the exponent, so which
+object is meant is not determined by the text. Three readings were tested in
+exact arithmetic:
+\[
+  \frac{\eta_1^3\eta_7^3}{z_7^{\,3}}, \qquad
+  \frac{\eta_1^3\eta_7^3}{Z_7^{\,3}}, \qquad
+  \frac{\eta_1^3\eta_7^3}{Z_7^{\,2}} .
+\]
+\emph{All three} are normalized integral uniformizers, and all three therefore
+produce integral expansion coefficients --- which is exactly why integrality
+alone cannot resolve the ambiguity. They produce, respectively,
+\[
+  1,2,22,336,6006,117348,2428272; \qquad
+  1,2,34,828,23662,739984,24521448; \qquad
+  1,2,26,476,10206,239280,5942232,
+\]
+so only the first reproduces A279619. It is also the only weight-consistent
+reading: $\eta_1^3\eta_7^3$ has weight $3$ and $z_7$ has weight $1$, so
+$z_7^{\,3}$ is what makes the quotient weight $0$, as a uniformizer must be.
+The computation additionally verifies $z_7^{\,2} = Z_7$ exactly, confirming
+that the two symbols denote genuinely different objects. The resolution is
+recorded so that the ambiguity need not be re-litigated.
+\end{remark}
+
+\begin{remark}[Scope]\label{rem:integrality-scope}
+Proposition~\ref{prop:mechanism} establishes nothing about $s_{10}$ or
+$s_{18}$. Their partners are non-integral by Theorem~\ref{thm:non-integral},
+and no modular parametrization by a normalized integral uniformizer is known
+for them --- but absence of a known parametrization is not a proof that none
+exists, and no such negative claim is made here. In particular no level is
+assigned to $s_{18}$ anywhere in this paper.
+\end{remark}
+
+\subsection{The modular coordinate}
+
+The parameter of the $s_7$ family is a modular function for the same group
+that Remark~\ref{rem:signature} identified from the exponent data.
+
+\begin{proposition}[status (E), with a cited group-theoretic input]
+\label{prop:hauptmodul}
+Let $t$ be the generating function of OEIS A279618~\cite{OEIS} and let
+$u = q^{-1}\bigl(E(q)/E(q^7)\bigr)^4$, with $E(q)=\prod_{n\geq1}(1-q^n)$, be
+the classical $\Gamma_0(7)$ Hauptmodul; put $v = 1/u \in q\,\Z[[q]]$. Then,
+in exact rational arithmetic on $q$-expansions:
+\begin{enumerate}
+\item $t$ is \emph{not} a M\"obius function of $v$ (the linear system solved
+  from the first 6 orders admits no solution verifying on later orders);
+\item $t$ \emph{is} of the form $(\alpha v^2+\beta v+\gamma)/(\delta
+  v^2+\varepsilon v+\zeta)$, with coefficients solved linearly from the first
+  12 orders and then verified on held-out orders 13 and 29 that were not used
+  in solving (29 orders available in total);
+\item rewriting $t$ as a degree-2 rational function of $u$ and solving for the
+  involution constant $\kappa$ with $R(\kappa/u)\equiv R(u)$ yields
+  $\kappa = 49$.
+\end{enumerate}
+Items (i) and (ii) give $[\Q(u):\Q(t)] = 2$, so $\Q(t)$ is the fixed field of
+an element normalizing $\Gamma_0(7)$. The normalizer of $\Gamma_0(N)$ in
+$\mathrm{PSL}_2(\mathbb{R})$ for prime $N$ is the Fricke extension
+$\Gamma_0(N)+$ \cite{AtkinLehner1970} --- this step is cited, not re-derived
+--- so that element is the Fricke involution and $t$ is a $\Gamma_0(7)+$
+Hauptmodul. Item (iii) exhibits the Fricke constant $\kappa = 7^2$ directly.
+\end{proposition}
+
+The constant $\kappa$ is computed from the fitted coefficients, never assumed;
+the checker's verdict requires it to come out $49$ but does not supply that
+value to the fit. Three negative controls accompany the computation: feeding
+it $v$ itself (a genuine $\Gamma_0(7)$ Hauptmodul) must return the verdict
+``not plus'', and does; corrupting one coefficient of A279618 must break the
+degree-2 verification, and does; and testing against the wrong level,
+$v_5 = q\bigl(E(q^5)/E(q)\bigr)^6$ for $\Gamma_0(5)$, must fail every fit, and
+does.
+
+\begin{remark}[Three independent indicators of the level]
+\label{rem:level-indicators}
+The number $7$ has now appeared from three computations that share no code:
+the implied Fuchsian signature of the $s_7$ operators, matching
+$\Gamma_0(7)+$ (Remark~\ref{rem:signature}, status (E)); the Hauptmodul and
+Fricke constant $\kappa = 49$ of Proposition~\ref{prop:hauptmodul} (status
+(E)); and the $\sqrt7$ appearing uninvited in the numerically continued
+monodromy, together with $\det G = -14$ (Numerical Claim~\ref{nc:monodromy}
+and Proposition~\ref{prop:lattice}, status (N)/(E)). What that convergence
+does and does not license is the subject of \S\ref{sec:framework}.
+\end{remark}
+
+% ----------------------------------------------------------------------------
+% Generated-by: Opus 5 (Stream 1 paper agent) | Verified-by: recurrence and
+% values vs Agora/Sequences/PartnerIntegrality.lean (partnerPair, s7/s10/s18_
+% partner_values, partnerSeq_s7_recurrence, s7_partner_integral_pass7) and
+% Agora/Axioms/OBrien2016.lean; dyadic baseline vs Agora/Sequences/FormalSqrt.
+% lean (sqrtSeq_dyadic, dyadic_baseline_control); X7/readings/c7 vs Stream 2
+% data/certificates/S7_PARTNER_MODULAR.json; Hauptmodul orders, held-out orders,
+% kappa and controls vs HAUPTMODUL_S7_GAMMA07PLUS.json and
+% checkers/check_s7_hauptmodul_gamma07plus.py. Claims #7-#10 of paper/PLAN.md §3.
+% | Reviewed-by: pending T0 (Xavier)
+% ----------------------------------------------------------------------------

@@ -1,0 +1,238 @@
+% ============================================================================
+% 09-formalization.tex — the Lean 4 development. Toolchain facts checked against
+% lean-toolchain (v4.32.0) and lake-manifest.json (mathlib rev 3dffaf2f...).
+% Axiom inventory checked against AXIOMS.md and Agora/Axioms/*.lean.
+% ============================================================================
+\section{The formal development}\label{sec:formalization}
+
+The statements labeled \textbf{(K)} in this paper are theorems of a Lean~4
+development which we describe here in enough detail to be audited. We also
+describe what the kernel did \emph{not} check, since a formalization paper
+that reports only its successes is of no use to a referee.
+
+\subsection{Toolchain and layout}
+
+The development builds with Lean~4 at toolchain \texttt{v4.32.0}
+\cite{deMouraUllrich2021} against \texttt{mathlib4}~\cite{mathlib4,mathlibCPP2020}
+pinned at commit \texttt{3dffaf2f18b47d11948f6390838ea6f2ae662aaf}. It is
+organized so that each epistemic category has exactly one place to live:
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Directory & Contents and rule \\
+\midrule
+\artifact{Agora/} & The mathematics. No \artifact{sorry} anywhere. \\
+\artifact{Agora/Axioms/} & The only permitted location for an
+  \artifact{axiom} declaration. \\
+\artifact{OpenGoals/} & The only permitted location for a \artifact{sorry};
+  each is a named goal. \\
+\artifact{Tests/} & Golden numeric tests against independently computed
+  values. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The placement rules are enforced mechanically by a repository hook rather than
+by convention: an \artifact{axiom} introduced outside \artifact{Agora/Axioms/}
+is rejected, and the no-\artifact{sorry} check excludes
+\artifact{OpenGoals/} and nothing else. This matters because the failure mode
+being guarded against is not dishonesty but drift --- an assumption introduced
+locally during a proof attempt and never surfaced.
+
+\subsection{The results, and how they are stated}
+
+The kernel-checked content of this paper is:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Statement & Lean name & File \\
+\midrule
+Thm.~\ref{thm:sym2-template}, $\thetaop^3$ &
+  \artifact{partner\_res3} & \artifact{Sequences/PartnerOperators.lean} \\
+Thm.~\ref{thm:sym2-template}, $\thetaop^2$ &
+  \artifact{partner\_res2} & \artifact{"} \\
+Thm.~\ref{thm:sym2-template}, $\thetaop^1$ &
+  \artifact{partner\_res1} & \artifact{"} \\
+Thm.~\ref{thm:sym2-template}, $\thetaop^0$ &
+  \artifact{partner\_res0} & \artifact{"} \\
+Lemma~\ref{lem:magic} &
+  \artifact{partner\_magic} & \artifact{"} \\
+Lemma~\ref{lem:c2-collapse} &
+  \artifact{cooperC2\_eq\_thetaC\_cooperC3} & \artifact{"} \\
+Cor.~\ref{cor:sporadic-partners} &
+  \artifact{s7\_P2\_eq}, \dots, \artifact{s18\_P0\_eq} & \artifact{"} \\
+Thm.~\ref{thm:avs} &
+  \artifact{P\_cleared\_eq\_zero} & \artifact{Swampland/SymSquareC3b.lean} \\
+Rem.~\ref{rem:golden-sym2} &
+  \artifact{symSquare\_golden\_harmonic/\_exp} & \artifact{SymSquare.lean} \\
+Prop.~\ref{prop:dyadic} &
+  \artifact{sqrtSeq\_dyadic} & \artifact{Sequences/FormalSqrt.lean} \\
+Thm.~\ref{thm:non-integral} &
+  \artifact{s10\_partner\_not\_integral}, \artifact{s18\_\dots} &
+  \artifact{Sequences/PartnerIntegrality.lean} \\
+Cor.~\ref{cor:s7-integral}, mechanical half &
+  \artifact{partnerSeq\_s7\_recurrence} & \artifact{"} \\
+Cor.~\ref{cor:s7-integral} &
+  \artifact{s7\_partner\_integral} & \artifact{"} \\
+Rem.~\ref{rem:pass7} &
+  \artifact{s7\_partner\_integral\_pass7} & \artifact{"} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Three design decisions shape how these are stated.
+
+\emph{$\thetaop$-form, not monic $D$-form.} Normalizing an order-3 operator to
+be monic in $D$ introduces genuine rational-function coefficients, and the
+rational-function type in the pinned library carries no derivative API. Rather
+than improvise one, every statement above lives in \artifact{Polynomial}~$\Q$:
+no division, no nonvanishing side conditions, and every proof obligation a
+polynomial identity. This is why Theorem~\ref{thm:sym2-template} is stated as
+four coefficient identities plus the collapse lemma rather than as an operator
+equation --- the factorization in $\Q(z)[\thetaop]$ is then derived on paper,
+as in \S\ref{sec:sym2}, from kernel-checked polynomial facts.
+
+\emph{Concrete identities, not existence claims.} The relation
+``$\Lthree$ is the symmetric square of $\Ltwo$'' is encoded as an equality
+fixing \emph{every} coefficient of $\Lthree$ as an explicit polynomial function
+of those of $\Ltwo$. It is falsifiable per candidate. The development had an
+earlier generation of statements of the form ``there exists a polynomial of
+degree 3'', true of any cubic and therefore content-free; those were deleted
+and the episode is recorded in the repository's escalation log. The lesson
+generalizes: a formalized statement is worth exactly the content of its
+statement, and no amount of kernel checking supplies content the statement
+lacks.
+
+\emph{Derivatives are computed, not transcribed.} Every occurrence of a
+derivative in Theorem~\ref{thm:avs} is an application of the library's
+\artifact{Polynomial.derivative}, so the kernel performs each differentiation
+itself. Encoding a hand-computed derivative as an opaque definition would let
+a transcription error pass \artifact{ring} undetected.
+
+\subsection{The axiom inventory, in full}
+
+The development registers exactly one load-bearing literature axiom.
+
+\begin{center}
+\begin{minipage}{0.93\textwidth}
+\small
+\begin{verbatim}
+axiom obrien2016_theorem6_2 (c : N -> Q) (h0 : c 0 = 1) (h1 : c 1 = 2)
+    (hrec : forall k : N,
+      ((k : Q) + 2)^2 * c (k + 2) =
+        (26 * ((k : Q) + 1)^2 + 13 * ((k : Q) + 1) + 2) * c (k + 1)
+          + 3 * (3*(k : Q) + 1) * (3*(k : Q) + 2) * c k) :
+    forall n, exists m : Z, c n = (m : Q)
+\end{verbatim}
+\end{minipage}
+\end{center}
+
+\noindent
+This is Theorem~\ref{thm:obrien} verbatim, re-indexed by $n = k+1$ to avoid
+truncated subtraction on $\mathbb{N}$ and with the source's boundary
+computation replaced by the two initial values as hypotheses. It is used
+exactly once, to conclude \artifact{s7\_partner\_integral} from
+\artifact{partnerSeq\_s7\_recurrence}. It is registered in the repository's
+axiom register with its provenance, and the source was read in full before
+being cited --- which mattered: an earlier attribution in the program named
+the wrong theorem of the same source and a mechanism (``$\eta$-quotients have
+integer coefficients, hence a corollary'') that does not in fact establish
+integrality, since the object is a series reversion. See
+Proposition~\ref{prop:normalized-reversion} for what the correct mechanism is.
+
+It is not provable in the pinned library: O'Brien's argument needs the
+$q$-expansions of two specific weight-1 level-7 modular objects, obtained by
+classical modular-forms machinery that \texttt{mathlib} at the pinned commit
+does not contain. Discharging it is open question~3 of
+\S\ref{sec:framework}.
+
+For completeness: the register carries one further axiom declaration,
+\artifact{pipeline\_upper\_bound}, belonging to a part of the repository
+unrelated to the mathematics of this paper. It is disclosed in the register as
+vacuously true --- its statement is an existential satisfied by the witness
+$1$ and encodes no data --- and no file used in this paper imports it. We
+mention it because an axiom inventory that reports only the axioms one wishes
+to discuss is not an inventory.
+
+\subsection{Golden validation and PASS(\texorpdfstring{$N$}{N}) discipline}
+
+Two devices keep the development from certifying its own mistakes.
+
+\emph{Golden tests} check a formula against an answer obtained by other means.
+The symmetric-square formula~\eqref{eq:sym2-formula} is validated against two
+examples whose answers are derivable by inspection
+(Remark~\ref{rem:golden-sym2}); no candidate-level symmetric-square theorem is
+accepted until those are green, because the formula is the single point of
+failure for every such theorem. The sequence values in \artifact{Tests/} are
+checked against reference values computed independently in exact integer
+arithmetic outside Lean, for $n \leq 19$. Separately, the recurrence-defined
+partner sequence is checked against the formal square root of the bulk
+sequence, on both the integral side ($s_7$: $2, 22, 336$) and the
+non-integral side ($s_{10}$: $1, \tfrac{17}{2}$) --- so the $\tfrac{17}{2}$
+witnessing Theorem~\ref{thm:non-integral} is not an artifact of one encoding.
+
+\emph{PASS($N$)} is the reporting convention for a kernel-checked finite
+range. \artifact{s7\_partner\_integral\_pass7} verifies integrality for
+$n\leq7$ and is cited as PASS(7), never as ``the sequence is integral'' --- a
+distinction that is not pedantry here, since establishing integrality needs
+every term while refuting it needs one. The convention survived the arrival of
+the axiom-backed general theorem: the finite statement was kept rather than
+deleted, and the summary theorem \artifact{cooper\_partner\_separation}
+deliberately asserts only the two \emph{negative} halves of the separation, so
+that no downstream file can cite ``only $s_7$ is integral'' as a single
+uniformly-established fact.
+
+\subsection{What the kernel did not check}
+
+\begin{itemize}
+\item \emph{Theorem~\ref{thm:obrien}}, as discussed. Kernel-checked:
+  that our sequence satisfies its hypotheses.
+\item \emph{Everything with status \textbf{(E)} or \textbf{(N)}}:
+  \S\ref{sec:irreducibility}, \S\ref{sec:lattice}, and the computational parts
+  of \S\ref{sec:integrality} are Python and computer-algebra computations, not
+  Lean. They are exact and reproducible (\S\ref{sec:reproducibility}) but they
+  are not kernel-checked, and the paper never labels them as though they were.
+\item \emph{The golden tests in} \artifact{Tests/} use
+  \artifact{native\_decide} for terms up to $n=19$, whose binomial
+  coefficients make kernel evaluation impractical. \artifact{native\_decide}
+  trusts the compiler in addition to the kernel; both affected theorems carry
+  an explicit trust annotation. No result in \S\S\ref{sec:sym2}--\ref{sec:integrality}
+  depends on them.
+\item \emph{One named open goal remains}: the equality, for all $n$, of the
+  recurrence-defined partner sequence with the formal square root of the bulk
+  sequence (\artifact{open\_goal\_partner\_eq\_sqrt\_s7}). It is the
+  solution-level transport of the operator identity that
+  Theorem~\ref{thm:sym2-template} establishes at operator level, and it is the
+  single remaining \artifact{sorry} in the development --- carried as a named
+  goal in \artifact{OpenGoals/} rather than as a silently weakened statement.
+\end{itemize}
+
+\subsection{An honest assessment of the formalization}
+
+The proofs above are, as proofs, shallow: after the right statements are set
+up, almost all of them are closed by \artifact{ring}. We do not claim
+otherwise, and we do not think it detracts from the contribution. What is
+difficult in this development is not discharging the goals but arriving at
+statements that are simultaneously (i) true uniformly in the template
+parameters rather than per candidate, (ii) division-free, so that they can be
+stated at all in the available library, (iii) non-vacuous, in the sense that
+they pin coefficients rather than assert existence, and (iv) honest about
+which of them rests on a citation. The partner
+of~\eqref{eq:generic-partner} being \emph{determined} by the template rather
+than guessed, the collapse $\thetaop(P_2) = 2P_1$ making the identity
+polynomial, and the axiom quarantine are the three places where that work
+went. To our knowledge, no kernel-checked proof of a symmetric-square
+structure theorem for Picard--Fuchs-type operators has previously been given
+in any proof assistant.
+
+% ----------------------------------------------------------------------------
+% Generated-by: Opus 5 (Stream 1 paper agent) | Verified-by: toolchain vs
+% lean-toolchain (leanprover/lean4:v4.32.0) and lake-manifest.json (mathlib rev
+% 3dffaf2f18b47d11948f6390838ea6f2ae662aaf); axiom text transcribed from
+% Agora/Axioms/OBrien2016.lean; second axiom + hook rules from AXIOMS.md;
+% native_decide disclosure from Tests/CooperSequences.lean header; remaining
+% sorry located by grep (OpenGoals/PartnerIntegrality.lean:201 only).
+% | Reviewed-by: pending T0 (Xavier)
+% ----------------------------------------------------------------------------
