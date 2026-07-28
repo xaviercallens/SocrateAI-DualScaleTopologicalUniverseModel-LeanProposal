@@ -218,19 +218,30 @@ arXiv metadata, acknowledgments policy (T0 to decide whether to acknowledge the
 program's AI-assisted workflow — recommended for honesty, and Experimental Mathematics
 has no policy against it, but T0 owns the wording).
 
-## 5. Open questions for T0
+## 5. Open questions for T0 — **ALL RESOLVED (T0 ruling 2026-07-28)**
 
-1. **Scope Option A vs B** (§1.3) — include lattice/monodromy material conditionally
-   (recommended) or defer to paper 2.
-2. **Venue** — Experimental Mathematics (recommended) vs JSC vs ITP/CPP-led reframing.
-3. **Authorship/acknowledgment wording** for the AI-assisted workflow; sole author
-   Xavier Callens is currently on the masthead, no affiliation typed (fill in or mark
-   independent researcher).
-4. **rho = 19 / T = 3 presentation** (§8 stub): as a conditional proposition (current
-   draft) or moved to a remark; the conditionality is on the A–vS model's PF operator
-   being L3 (cited) and the very-general-member caveat.
-5. Whether to cite the program's earlier internal report (`manuscript/main.tex`,
-   unpublished) or fold it in silently; §9 draws on it.
+Rulings recorded by T0 (Xavier Callens) 2026-07-28; full decision record with rationales
+in the Stream 3 coordination repo, `briefs/T0_DECISIONS_2026_07_28_PENDING_ITEMS.md` (D2).
+
+1. **Scope Option A vs B** (§1.3) — **RESOLVED: Option A.** One unified paper; the
+   lattice/monodromy material stays as clearly-labeled conditional sections (§6, §8).
+   Option B is retained only as a structural fallback if referees demand a split.
+2. **Venue** — **RESOLVED: Experimental Mathematics** (primary submission target, per §2
+   ranking).
+3. **Authorship/acknowledgment** — **RESOLVED:** sole author Xavier Callens, affiliation
+   "Independent Researcher". T0-mandated acknowledgment wording (verbatim):
+   > "Computations, architectural drafting, and formal verification tooling were
+   > accelerated via AI models (Anthropic Claude/Google Gemini). However, no mathematical
+   > claim relies on generative text. All claims are explicitly backed by either Lean 4
+   > kernel verification, exact symbolic Python execution, or hash-pinned literature,
+   > with all artifacts publicly available for reproduction."
+4. **rho = 19 / T = 3 presentation** (§8) — **RESOLVED: conditional proposition** (current
+   draft form stands), hypotheses (A–vS operator identification; very-general-member
+   caveat) stated explicitly. Tier note: the rank result is Tier B (derived) via two
+   independent exact routes — Zarhin (E-011) and the Nikulin NS-complement (Stream 2 G0
+   certificate, promoted LIVE 2026-07-28) — presented as such, not as kernel-proven.
+5. **Internal report citation** — **RESOLVED: cite explicitly** as a hash-pinned
+   unpublished technical report (title, year, repo + commit hash); no silent folding.
 
 ---
 Generated-by: Fable 5 (Stream 1 paper agent) | Verified-by: every claim row checked
