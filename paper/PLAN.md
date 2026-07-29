@@ -188,6 +188,7 @@ exact symbolic computation, reproducible by a repo checker with negative control
 | 18 | rho = 19, T = 3 for the very general member (given the A–vS projective K3 model and that L3 governs its transcendental sub-VHS) | CITED (Zarhin Thm 1.6(a); Huybrechts Lem 3.2.7/3.3.1) + EXACT (rank input from #13); presented conditionally | Stream 2 `check_C2_transcendental_rank.py`, `C2_cooper_s7_v3.json` |
 | 19 | (M_n)^perp = U + <2n>; K_{M_n} = H/Gamma_0(n)+; PF of M_n-polarized family = Sym² (Doran Thm 5.13); rank-19 classification open (Doran §6) | CITED (read, hash-pinned) | Stream 2 `docs/literature/MANIFEST.md`; `STREAM2_PHASE4_STEP2_SOURCES_READ_2026_07_26.md` |
 | 20 | Identification of the computed monodromy lattice with the transcendental lattice T of the s7 family | CONDITIONAL/conjectural (framework reading; the lambda-rescaling branch excluded by framework shape, not computation) | `C2_cooper_s7_v4.json` `claim` + `tier_reason`; U1 brief §4 |
+| 21 | Orthogonal complement of the computed lattice G in the K3 lattice Λ=U³⊕E8(-1)²: NS ≅ U⊕E8(-1)⊕E8(-1)⊕⟨-14⟩, rank 19, signature (1,18), disc. group Z/14 (q=27/14 mod 2Z); exactly M_7. Verified 3 ways (2 in-house exact routes + 1 external zero-shot re-derivation); does NOT independently re-derive rho=19 (rank is arithmetically forced by rank T=3) and does NOT discharge (H1)/(H2) or Conjecture T — conditional on the same Numerical Claim (monodromy) as row #14 | NUM input + EXACT pipeline (conditional on #14), added 2026-07-29 per WP-P1 | Stream 2 `briefs/G0_NS_GENUS_RESULT_2026_07_28.md` (commits 9a386d9, 15f16c5); decision log `briefs/WP_S2G_X4_EXHIBITION_PLAN_2026_07_27.md` §8 (commit 256017d); `checkers/check_NS_genus_G0.py`, `test_NS_genus_G0_controls.py` (5/5) |
 
 **Rule enforced throughout:** every number in the manuscript traces to a row of this
 table; no typed constants presented as computed.
@@ -205,10 +206,11 @@ Master: `paper/main.tex` (amsart). One file per section under `paper/sections/`.
 | `05-irreducibility.tex` | Irreducibility of L2/L3, minimality; full proofs | **DRAFTED** | 1 h polish |
 | `06-lattice.tex` | Monodromy computation (disclosed as numerical), exact lattice pipeline, the U + <14> splitting proposition (unconditional part), two independent verifications, s10 control | **DRAFTED** | 1–2 h; T0 Option A/B decision |
 | `07-integrality.tex` | s7-partner integrality mechanism; normalized uniformizer; A279618/A279619; kappa = 49 | **STUB** (detailed outline, statements in place) | 3–4 h; needs care re O'Brien attribution and PASS(N) vs axiom presentation |
-| `08-dolgachev-doran.tex` | Match against the M_n-polarized framework; rho = 19 / T = 3 (conditional); what remains open | **STUB** (detailed outline) | 4–6 h; the most delicate scoping; blocked on T0 Option A/B |
+| `08-dolgachev-doran.tex` | Match against the M_n-polarized framework; rho = 19 / T = 3 (conditional); G0 orthogonal-complement cross-check (added 2026-07-29, claim #21); G1 construction placeholder stub (dated 2026-07-29, undescribed pending twisted-Weierstrass feasibility check — scope question for T0, see WP-P1 status brief); what remains open | **DRAFTED** (G0/G1 additions 2026-07-29) | polish pass only |
 | `09-formalization.tex` | The Lean development: architecture, axiom inventory (2, disclosed), golden tests, PASS(N) discipline, what the kernel checked vs what is cited | **STUB** (detailed outline) | 3–4 h; mechanical once toolchain facts double-checked (`lake build` output, Mathlib pin) |
-| `10-reproducibility.tex` | Artifact/checker table, negative-control philosophy, how to re-run | **DRAFTED** (short) | 0.5 h |
-| `references.bib` | Real, program-read references only | **DONE** (TODO-verify comments on 2 entries) | verify Zagier 2009 & A–vS titles against PDFs: 0.5 h |
+| `10-reproducibility.tex` | Artifact/checker table, negative-control philosophy, how to re-run | **DRAFTED** (short; G0 rows added 2026-07-29) | 0.5 h |
+| `11-acknowledgments.tex` | T0-mandated AI-acknowledgment paragraph, verbatim (PLAN.md §5 item 3) | **DRAFTED** 2026-07-29 (WP-P1) | none — wording is non-negotiable |
+| `references.bib` | Real, program-read references only | **DONE** (TODO-verify comments on 2 entries; 2 `@techreport` entries added 2026-07-29 for the G0 internal reports, D2.5) | verify Zagier 2009 & A–vS titles against PDFs: 0.5 h |
 
 **Compile status:** see §5 note in the report; `pdflatex` is available at
 `/usr/bin/pdflatex` and the draft compiles (see commit).

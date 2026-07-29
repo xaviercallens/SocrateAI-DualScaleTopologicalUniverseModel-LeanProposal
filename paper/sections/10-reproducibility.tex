@@ -56,6 +56,10 @@ Prop.~\ref{prop:usplit} (2nd implementation)
   & (E) & \artifact{checkers/check\_U1\_splitting\_independent.py} & R1 \\
 Prop.~\ref{prop:usplit} controls
   & (E) & \artifact{checkers/test\_U1\_splitting\_independent\_controls.py} & R1 \\
+Prop.~\ref{prop:g0complement}
+  & (N)/(E) & \artifact{check\_NS\_genus\_G0.py} & R2 \\
+Prop.~\ref{prop:g0complement} controls
+  & (E) & \artifact{test\_NS\_genus\_G0\_controls.py} (5/5) & R2 \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -70,7 +74,10 @@ and the independent verification of Proposition~\ref{prop:usplit} was run
 against that file and against its immediate predecessor, whose derived block
 is byte-identical, with the same result. Literature sources used in this paper
 were fetched and hash-pinned before being read; the hashes are recorded in the
-repositories' provenance files.
+repositories' provenance files. Proposition~\ref{prop:g0complement}'s
+certificate and its two internal reports are likewise cited by name and commit
+hash rather than folded silently into the surrounding prose
+\cite{G0NSGenus2026,G0DecisionLog2026}.
 
 \subsection{Running the artifacts}
 
@@ -142,9 +149,12 @@ rank at all, precisely because the step that would license one is a citation
 and not a computation (\S\ref{sec:framework}).
 
 % ----------------------------------------------------------------------------
-% Generated-by: Opus 5 (Stream 1 paper agent) | Verified-by: file names and
-% certificate names checked against the two repositories' checkers/ and
-% data/certificates/ directories; SHA256 from briefs/STREAM1_U1_INDEPENDENT_
-% VERIFICATION_2026_07_27.md; control inventory from the control scripts
-% themselves. | Reviewed-by: pending T0 (Xavier)
+% Generated-by: Opus 5 (Stream 1 paper agent), G0 rows added 2026-07-29 by
+% Sonnet 5 (WP-P1) | Verified-by: file names and certificate names checked
+% against the two repositories' checkers/ and data/certificates/ directories;
+% SHA256 from briefs/STREAM1_U1_INDEPENDENT_VERIFICATION_2026_07_27.md;
+% control inventory from the control scripts themselves. G0 artifact names
+% (check_NS_genus_G0.py, test_NS_genus_G0_controls.py, 5/5) from S2
+% briefs/G0_NS_GENUS_RESULT_2026_07_28.md "Coordinator independent
+% verification" paragraph. | Reviewed-by: pending T0 (Xavier)
 % ----------------------------------------------------------------------------

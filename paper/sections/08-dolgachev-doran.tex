@@ -86,6 +86,9 @@ Monodromy lattice $\U\oplus\lat{14}$, $\det = -14$, disc.\ $\Z/14$,
   $(M_7)^{\perp}$ of Thm.~\ref{thm:dolgachev} \\
 $s_{10}$ control gives $\U\oplus\lat{20}$ (NC~\ref{nc:s10-control}) & (N)+(E) &
   level $10$, not level $7$ \\
+Orthogonal complement of $G$ in $\Lambda$ is
+  $\U\oplus E_8(-1)^2\oplus\lat{-14}$ (Prop.~\ref{prop:g0complement}) & (N)+(E) &
+  exactly $M_7$, mutual complement of Thm.~\ref{thm:dolgachev} \\
 \bottomrule
 \end{tabular}
 \medskip
@@ -142,6 +145,69 @@ of the base. Any use of Proposition~\ref{prop:ranks} that drops the phrase
 ``very general'' is a misuse of it.
 \end{remark}
 
+\subsection{An independent cross-check: the orthogonal complement (G0)}
+\label{subsec:g0}
+
+A separate, purely lattice-theoretic computation supplies additional support
+for the coherence recorded in Table~\ref{tab:evidence}, and it is reported
+here with exactly the same conditionality as \S\ref{sec:lattice}: it takes the
+recognized matrices of Numerical Claim~\ref{nc:monodromy} as input, is
+otherwise exact, and is dated 2026-07-28.
+
+\begin{proposition}[The orthogonal complement of $G$ in the K3 lattice;
+status (E), given Numerical Claim~\ref{nc:monodromy}]\label{prop:g0complement}
+Let $G$ be the Gram matrix of Proposition~\ref{prop:lattice}(iii), embedded
+primitively in the K3 lattice $\Lambda = \U^3\oplus E_8(-1)^2$ via the
+hyperbolic-plane witness $f\mapsto e_{U_1},\ e\mapsto f_{U_1},\ w\mapsto
+e_{U_2}+7f_{U_2}$ (a norm-$14$ vector in a hyperbolic plane is forced to have
+this shape; there is no other primitive choice). Its orthogonal complement is
+isometric over $\Z$ to
+\[
+  \U \oplus E_8(-1) \oplus E_8(-1) \oplus \lat{-14},
+\]
+of rank $19$, signature $(1,18)$, cyclic discriminant group of order $14$
+(discriminant-form value $q = \tfrac{27}{14} \bmod 2\Z$ on a generator), and
+existence and uniqueness of the primitive embedding are certified rather than
+assumed, via the Nikulin/Eichler bound $\operatorname{rank}\Lambda -
+\operatorname{rank}G = 19 \ge \ell(A_G) + 2 = 3$.
+\end{proposition}
+
+Two remarks fix what this proposition does and does not add to
+Proposition~\ref{prop:ranks}.
+
+\emph{What it does not add.} Arithmetically, rank $19$ here is forced by
+$\operatorname{rank}\Lambda - \operatorname{rank}G = 22 - 3$; it carries no
+information about $\rho$ beyond what Proposition~\ref{prop:ranks} already
+gives, and it is \emph{not} presented as a second derivation of $\rho = 19$.
+Nor does it discharge hypotheses (H1)/(H2) of Proposition~\ref{prop:ranks}, or
+either gap of Conjecture~\ref{conj:T} below: it is a further exact computation
+downstream of the same numerically-recognized input (Numerical
+Claim~\ref{nc:monodromy}), not an independent route to the identification of
+the transcendental lattice.
+
+\emph{What it does add.} The proposition computes the \emph{explicit isometry
+type} of the complement, not merely its rank. Comparing it to
+Theorem~\ref{thm:dolgachev}: under the standard convention that $E_8^2$
+there denotes $E_8(-1)\oplus E_8(-1)$ (as fixed by $\Lambda$ itself, above),
+$\U\oplus E_8(-1)^2\oplus\lat{-14}$ is exactly $M_7$. On the computation, $G$
+and $M_7$ are thus mutual orthogonal complements inside $\Lambda$ --- the same
+coherence already recorded for $T$ and $(M_7)^{\perp}$ in
+Table~\ref{tab:evidence}, now confirmed from the other side, together with a
+verified (not assumed) uniqueness-of-embedding bound.
+
+On independence, precisely: this computation has been carried out three
+times --- two in-house exact-symbolic implementations sharing no code (a
+constructive embedding witness, and an independent genus-uniqueness argument),
+agreeing on the Gram matrix bit-for-bit, and one further zero-shot
+re-derivation by a separate reviewing model, which built its own $E_8$ Cartan
+matrix from a different Dynkin-node labeling and independently recomputed the
+discriminant value; all three agree exactly
+\cite{G0NSGenus2026,G0DecisionLog2026}. This is reported as corroboration of
+the computation, not as a fourth independent geometric derivation of $\rho=19$:
+the third check was supplied the specific embedding formula displayed above
+rather than asked to discover it, and, like the first two, it starts from the
+same Numerical Claim~\ref{nc:monodromy} input.
+
 \subsection{What is conjectural}
 
 \begin{conjecture}[Identification of the computed lattice]\label{conj:T}
@@ -172,7 +238,10 @@ of them is closed by computation.
 To these must be added the fact that Numerical Claim~\ref{nc:monodromy} is
 itself numerics-backed, and hypothesis (H1) of
 Proposition~\ref{prop:ranks}, which is a citation about a geometric model and
-is not verified anywhere in this paper.
+is not verified anywhere in this paper. Proposition~\ref{prop:g0complement}
+(\S\ref{subsec:g0}) closes neither gap: it computes the orthogonal complement
+of the same conjectured lattice, and so is exactly as conditional as the
+lattice itself.
 
 \subsection{What is not claimed}
 
@@ -193,6 +262,11 @@ and will not.
   hypothesis. Neither subsumes the other.
 \item Proposition~\ref{prop:ranks} is not asserted unconditionally, and
   Conjecture~\ref{conj:T} is not asserted at all.
+\item Proposition~\ref{prop:g0complement} (\S\ref{subsec:g0}) is not claimed
+  as evidence independent of \S\ref{sec:lattice}: it shares Numerical
+  Claim~\ref{nc:monodromy} with every other statement in this section, and its
+  three-way agreement is a corroboration of one exact computation, not three
+  independent geometric derivations of $\rho=19$.
 \end{itemize}
 
 \subsection{Open questions}
@@ -222,13 +296,32 @@ and will not.
   natural framing for a classification statement.
 \end{enumerate}
 
+\subsection*{A further construction (placeholder, 2026-07-29)}
+
+A further section, extending the lattice-theoretic results above toward an
+explicit higher-dimensional construction, is planned but not yet drafted: an
+in-progress feasibility check on the relevant base spaces has not concluded,
+and drafting ahead of it risks stating a result that the check may
+contradict. This placeholder will be replaced once that check resolves; no
+content, method, or conclusion of the pending section is anticipated here.
+
 % ----------------------------------------------------------------------------
-% Generated-by: Opus 5 (Stream 1 paper agent) | Verified-by: framework
-% statements vs paper/references.bib entries Dolgachev1996 / Doran2000 as
-% recorded in PLAN.md row #19; rho=19 / T=3 conditionality and the (H1)/(H2)
-% split vs Stream 2 data/certificates/L3_IRREDUCIBLE.json step5_hodge_
-% identification + conditional_on_step5; overlattice and rescaling ambiguities
-% vs C2_cooper_s7_v4.json and briefs/STREAM2_U1_EXECUTION_2026_07_27.md §4.
+% Generated-by: Opus 5 (Stream 1 paper agent), G0/G1 additions 2026-07-29 by
+% Sonnet 5 (WP-P1) | Verified-by: framework statements vs paper/references.bib
+% entries Dolgachev1996 / Doran2000 as recorded in PLAN.md row #19; rho=19 /
+% T=3 conditionality and the (H1)/(H2) split vs Stream 2
+% data/certificates/L3_IRREDUCIBLE.json step5_hodge_identification +
+% conditional_on_step5; overlattice and rescaling ambiguities vs
+% C2_cooper_s7_v4.json and briefs/STREAM2_U1_EXECUTION_2026_07_27.md §4.
 % Claims #18-#20 of paper/PLAN.md §3; presented conditionally per PLAN.md §5.4.
+% G0 (Prop.~g0complement, \S8.4): S2 briefs/G0_NS_GENUS_RESULT_2026_07_28.md
+% (commits 9a386d9, 15f16c5) + decision log
+% briefs/WP_S2G_X4_EXHIBITION_PLAN_2026_07_27.md §8 (commit 256017d, LIVE
+% promotion + cross-model verification entry); independence caveats
+% transcribed from the G0 brief's own "Two honest limits" paragraph, not
+% invented here. G1 placeholder: PLAN.md scope ruling (pure mathematics, zero
+% physics) kept in mind -- deliberately undescribed and unmotivated per WP-P1
+% instructions; whether it belongs in this manuscript at all is flagged as a
+% scope question for T0 in briefs/P1_DRAFT_STATUS_2026_07_29.md.
 % | Reviewed-by: pending T0 (Xavier)
 % ----------------------------------------------------------------------------
