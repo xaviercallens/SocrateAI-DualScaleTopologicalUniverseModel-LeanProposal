@@ -267,6 +267,32 @@ and will not.
   Claim~\ref{nc:monodromy} with every other statement in this section, and its
   three-way agreement is a corroboration of one exact computation, not three
   independent geometric derivations of $\rho=19$.
+\item \textbf{[STUB, 2026-07-30]} No claim of the form ``$T(\text{$s_{10}$}) \cong
+  \U\oplus\lat{20}$'' is made anywhere in this paper, and none is available to
+  make: the only extant occurrence of $\U\oplus\lat{20}$ in the program is
+  Numerical Claim~\ref{nc:s10-control} of \S\ref{sec:lattice}, a
+  \emph{discriminating control} run on the identical pipeline to show
+  level-sensitivity against the $s_7$ result (Remark~\ref{rem:lattice-scope}
+  states explicitly that even the $s_7$ lattice's identification with a
+  transcendental lattice is not established there, let alone $s_{10}$'s). It
+  is not a certified, independently-verified monodromy-lattice derivation for
+  $s_{10}$ analogous to Proposition~\ref{prop:usplit}/\ref{rem:two-verifications}
+  for $s_7$: no second implementation, no negative-control suite, and no
+  $s_{10}$-specific G0-style orthogonal-complement check exist for it in this
+  repository or in Stream~2's epistemic ledger (\texttt{PREDICTION.md},
+  \texttt{PROOF\_STATUS.txt}, \texttt{K3\_SELECTION\_REPORT.md} --- checked
+  2026-07-30, no hit beyond the control note itself and an identical
+  regression-control comment in Stream 2's G0 checker). Any inbound brief
+  presenting $s_{10}$'s $\U\oplus\lat{20}$ as a certified, stand-alone result
+  should be treated as stale and returned for provenance, per the program's
+  standing verification rule. \emph{[Update 2026-08-01: Stream~2 has since
+  promoted the fiber-level Nikulin-complement computation for $s_{10}$ to a
+  titled draft certificate (\texttt{G0\_NS\_genus\_cooper\_s10.json}, Tier~B,
+  pending review), with its own negative-control suite. That certificate
+  takes the $s_{10}$ transcendental-lattice identification as an \emph{input}
+  and states explicitly that the reviewed monodromy-lattice derivation this
+  item says is missing remains missing; the stance of this item --- no
+  $s_{10}$ lattice claim is made in this paper --- is unchanged.]}
 \end{itemize}
 
 \subsection{Open questions}
@@ -323,5 +349,16 @@ content, method, or conclusion of the pending section is anticipated here.
 % physics) kept in mind -- deliberately undescribed and unmotivated per WP-P1
 % instructions; whether it belongs in this manuscript at all is flagged as a
 % scope question for T0 in briefs/P1_DRAFT_STATUS_2026_07_29.md.
+% U+<20> stub added 2026-07-30 by Sonnet 5 (T0 Directive 3): searched this
+% repo (paper/PLAN.md row 17, 06-lattice.tex nc:s10-control) and Stream 2
+% (~/SocrateAI-Scientific-Agora-K3-DarkMatter) PREDICTION.md, PROOF_STATUS.txt,
+% K3_SELECTION_REPORT.md for a certified cooper_s10 monodromy-lattice
+% derivation; none found -- only the discriminating-control number (already
+% correctly tiered NC/(N)+(E) in this manuscript) and an identical
+% regression-control comment in Stream 2's checkers/check_NS_genus_G0.py /
+% data/certificates/G0_NS_genus_cooper_s7.json. Per Stream 2 Standing Rule 4,
+% the directive's implied "certified cooper_s10 section" is not executed;
+% this explicit stub is inserted instead. Deviation-with-cause recorded here
+% and in the commit message.
 % | Reviewed-by: pending T0 (Xavier)
 % ----------------------------------------------------------------------------

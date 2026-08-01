@@ -207,10 +207,27 @@ Master: `paper/main.tex` (amsart). One file per section under `paper/sections/`.
 | `06-lattice.tex` | Monodromy computation (disclosed as numerical), exact lattice pipeline, the U + <14> splitting proposition (unconditional part), two independent verifications, s10 control | **DRAFTED** | 1–2 h; T0 Option A/B decision |
 | `07-integrality.tex` | s7-partner integrality mechanism; normalized uniformizer; A279618/A279619; kappa = 49 | **STUB** (detailed outline, statements in place) | 3–4 h; needs care re O'Brien attribution and PASS(N) vs axiom presentation |
 | `08-dolgachev-doran.tex` | Match against the M_n-polarized framework; rho = 19 / T = 3 (conditional); G0 orthogonal-complement cross-check (added 2026-07-29, claim #21); G1 construction placeholder stub (dated 2026-07-29, undescribed pending twisted-Weierstrass feasibility check — scope question for T0, see WP-P1 status brief); what remains open | **DRAFTED** (G0/G1 additions 2026-07-29) | polish pass only |
-| `09-formalization.tex` | The Lean development: architecture, axiom inventory (2, disclosed), golden tests, PASS(N) discipline, what the kernel checked vs what is cited | **STUB** (detailed outline) | 3–4 h; mechanical once toolchain facts double-checked (`lake build` output, Mathlib pin) |
+| `09-formalization.tex` | The Lean development: architecture, axiom inventory (2, disclosed), golden tests, PASS(N) discipline, three-strikes escalation discipline (§9.4, added 2026-07-30), what the kernel checked vs what is cited | **DRAFTED** (was mislabeled STUB in this table; body content already complete as of 5bd0916 — toolchain/axiom facts re-verified 2026-07-30 against `lean-toolchain`/`lake-manifest.json`/`AXIOMS.md`, all match; §9.4 added this session) | polish pass only |
 | `10-reproducibility.tex` | Artifact/checker table, negative-control philosophy, how to re-run | **DRAFTED** (short; G0 rows added 2026-07-29) | 0.5 h |
+| `10a-calabi-yau-construction.tex` | Empty placeholder, gated on Directive 1 | **STUB (deliberately empty)**, added 2026-07-30 (T0 Directive 3) | none — waits on Directive 1 |
+| `10b-empirical-astrophysics.tex` | Empty placeholder, gated on Directive 2; scope tension vs this paper's own zero-physics ruling flagged, not resolved | **STUB (deliberately empty)**, added 2026-07-30 (T0 Directive 3) | none — waits on Directive 2 + a T0 scope call |
 | `11-acknowledgments.tex` | T0-mandated AI-acknowledgment paragraph, verbatim (PLAN.md §5 item 3) | **DRAFTED** 2026-07-29 (WP-P1) | none — wording is non-negotiable |
 | `references.bib` | Real, program-read references only | **DONE** (TODO-verify comments on 2 entries; 2 `@techreport` entries added 2026-07-29 for the G0 internal reports, D2.5) | verify Zagier 2009 & A–vS titles against PDFs: 0.5 h |
+
+**2026-07-30 (T0 Directive 3) deviation-with-cause:** the directive listed a
+"U⊕⟨20⟩ monodromy derivation" (cooper_s10) among certified sections to draft.
+Searched this repo (row #17 above; `06-lattice.tex` `nc:s10-control`) and
+Stream 2's `PREDICTION.md`, `PROOF_STATUS.txt`, `K3_SELECTION_REPORT.md`: no
+certified, independently-verified cooper_s10 monodromy-lattice derivation
+exists anywhere in either ledger. The only occurrence of $\U\oplus\langle
+20\rangle$ is a discriminating regression control (already correctly tiered
+NC/(N)+(E) in `06-lattice.tex`, used only to show the $s_7$ pipeline is
+level-sensitive) and an identical control note in Stream 2's
+`checkers/check_NS_genus_G0.py` / `data/certificates/G0_NS_genus_cooper_s7.json`.
+Per Stream 2 Standing Rule 4 (verify a directive's artifacts before
+executing), no new "certified cooper_s10" section was written; an explicit
+stub disclaimer was inserted instead in `08-dolgachev-doran.tex` §"What is
+not claimed".
 
 **Compile status:** see §5 note in the report; `pdflatex` is available at
 `/usr/bin/pdflatex` and the draft compiles (see commit).

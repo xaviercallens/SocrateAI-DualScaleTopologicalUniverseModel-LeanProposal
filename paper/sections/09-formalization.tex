@@ -184,6 +184,55 @@ deliberately asserts only the two \emph{negative} halves of the separation, so
 that no downstream file can cite ``only $s_7$ is integral'' as a single
 uniformly-established fact.
 
+\subsection{The three-strikes escalation discipline}
+\label{subsec:three-strikes}
+
+A lemma is not worked indefinitely. The development's house rule --- three
+named strategies attempted and recorded, then escalate or name an open goal,
+never grind unboundedly --- governs every stalled proof attempt, and it is
+mechanical rather than a stylistic preference: an escalation path routes a
+lemma from the working tier, through one tier up after three failed
+attempts \emph{or} a verifier-uncheckable obstruction, to the top after a
+further two failed attempts \emph{or} a genuine design ambiguity, with
+de-escalation available once the top tier decomposes the problem.
+
+The single open goal of this development,
+\artifact{open\_goal\_partner\_eq\_sqrt\_s7} (that the recurrence-defined
+partner sequence equals the formal square root of the bulk $s_7$ series,
+solution-level transport of Theorem~\ref{thm:sym2-template}), carries its
+three-strikes record verbatim in \artifact{OpenGoals/PartnerIntegrality.lean}:
+(1) direct strong induction on $n$, which fails because the inductive step
+needs a convolution identity equivalent to the goal itself; (2) simultaneous
+induction on the equality together with the convolution identity, which
+reduces to a WZ-style certificate identity not derivable without an
+operator-action-on-sequences bridge the pinned library lacks; (3) a Mathlib
+search (\artifact{exact?}/\artifact{apply?}), which returns nothing, since no
+\artifact{PowerSeries.sqrt} or holonomic-sequence API exists at the pinned
+commit. All three are recorded as failures of route, not failures of effort.
+The same file also records a fourth, post-ruling attempt (2026-07-26): the
+underlying convolution identity was re-verified as an exact-arithmetic
+identity to $n=38$ by two independent encodings --- evidence, not proof, that
+the goal is true --- while a computer-algebra certificate search
+(\artifact{ore\_algebra} symmetric power) produced an operator that
+demonstrably does \emph{not} annihilate the convolution sequence, a mismatch
+recorded in the file as unresolved rather than explained away. The goal is
+carried as a named \artifact{sorry} in \artifact{OpenGoals/}, per the
+placement rule of \S\ref{sec:formalization}, rather than being silently
+dropped or its statement weakened.
+
+The discipline is not merely a stopping rule: the sibling goal
+\artifact{open\_goal\_partner\_integral\_s7} was opened under an identical
+three-strikes record (induction on the recurrence, a $p$-adic-valuation
+strengthening, and a Mathlib search --- each with its own recorded failure
+mode) and was later \textbf{closed} --- not by any of the three grind
+strategies succeeding, but by locating the applicable literature theorem
+(O'Brien's Theorem~6.2, cited as the disclosed axiom
+\artifact{obrien2016\_theorem6\_2} of \S\ref{sec:formalization} above, not
+re-proved) after escalation. The record of
+the failed attempts was kept rather than deleted once the citation route
+closed the goal, on the view that a documented dead end is itself
+information for the next person who reaches the same lemma.
+
 \subsection{What the kernel did not check}
 
 \begin{itemize}
@@ -228,11 +277,16 @@ structure theorem for Picard--Fuchs-type operators has previously been given
 in any proof assistant.
 
 % ----------------------------------------------------------------------------
-% Generated-by: Opus 5 (Stream 1 paper agent) | Verified-by: toolchain vs
+% Generated-by: Opus 5 (Stream 1 paper agent); \S9.4 (three-strikes discipline)
+% added 2026-07-30 by Sonnet 5 (T0 Directive 3) | Verified-by: toolchain vs
 % lean-toolchain (leanprover/lean4:v4.32.0) and lake-manifest.json (mathlib rev
 % 3dffaf2f18b47d11948f6390838ea6f2ae662aaf); axiom text transcribed from
 % Agora/Axioms/OBrien2016.lean; second axiom + hook rules from AXIOMS.md;
 % native_decide disclosure from Tests/CooperSequences.lean header; remaining
-% sorry located by grep (OpenGoals/PartnerIntegrality.lean:201 only).
+% sorry located by grep (OpenGoals/PartnerIntegrality.lean:201 only);
+% three-strikes record transcribed verbatim from
+% OpenGoals/PartnerIntegrality.lean (both goals, incl. the CLOSED one's
+% original record) and the escalation-path wording cross-checked against
+% CLAUDE.md rule 5 and EXECUTION_PLAN.md §"Escalation path".
 % | Reviewed-by: pending T0 (Xavier)
 % ----------------------------------------------------------------------------
