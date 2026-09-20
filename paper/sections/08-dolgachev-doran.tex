@@ -208,6 +208,58 @@ the third check was supplied the specific embedding formula displayed above
 rather than asked to discover it, and, like the first two, it starts from the
 same Numerical Claim~\ref{nc:monodromy} input.
 
+\subsection{The lattice arithmetic, kernel-checked}\label{subsec:mn-lean}
+
+The identification of the computed lattice with $\U\oplus\lat{14}$ is status
+(E) and is not re-derived in Lean. What \emph{is} kernel-checked
+(\artifact{Agora/Geometry/MnLattice.lean}) is the lattice arithmetic that the
+identification is then fed into, uniformly in $N$. It is built on the lattice
+interface of an independent Lean development of the K3 and Narain
+lattices~\cite{LeanMaster2026}, which supplies the Gram-matrix type, the
+hyperbolic plane, and the signature of $\Lambda_{K3}$; nothing in the present
+subsection depends on that development's physical content.
+
+\begin{proposition}[status (K)]\label{prop:mn-lean}
+Let $N\in\Z$ and let $T_N$ be the Gram matrix of $\U\oplus\lat{2N}$ in a basis
+$(e,f,w)$ with $e^2=f^2=0$, $e\cdot f=1$, $w^2=2N$.
+\begin{enumerate}
+\item $T_N$ is symmetric and even, with $\det T_N=-2N$; for $N=7$ it is not
+  unimodular.
+\item \emph{(Glue.)} In a single hyperbolic plane, $e+Nf$ and $e-Nf$ are
+  orthogonal of norms $2N$ and $-2N$, and span a sublattice of index $2N$;
+  $e+Nf$ is primitive. For $N=7$ this is the witness $w\mapsto e+7f$ of
+  Proposition~\ref{prop:g0complement}.
+\item \emph{(Swap.)} The exchange $\sigma\colon e\leftrightarrow f$ is an
+  isometry of $T_N$, an involution, of determinant $-1$.
+\item \emph{(Swap $=$ Fricke.)} Over any field, the vector
+  $\omega(\tau)=e-N\tau^2f+\tau w$ is isotropic, and for $N,\tau\neq0$
+  \[
+    \sigma\,\omega(\tau) \;=\; (-N\tau^2)\;\omega\!\Bigl(-\frac{1}{N\tau}\Bigr).
+  \]
+  If $N\tau^2=-1$ then $\sigma\,\omega(\tau)=\omega(\tau)$.
+\end{enumerate}
+\end{proposition}
+
+Item~(iv) is the statement, at the level of the period line, that the lattice
+involution $\sigma$ induces the Fricke involution $\tau\mapsto-1/(N\tau)$ on
+the tube-domain parameter of the $M_N$-polarized period domain
+\cite{Dolgachev1996}; the formalization includes a control refuting the
+variant with the opposite sign, so the statement is not an artifact of the
+normalization. The signatures $(2,1)$ and $(1,18)$ assigned to
+$\U\oplus\lat{2N}$ and $M_N$ add to the $(3,19)$ of $\Lambda_{K3}$
+(\artifact{sig\_fills\_K3}); as in the cited development, these are asserted
+pairs, not extracted from definiteness proofs, and the rank $19$ is forced by
+$22-3$.
+
+One structural observation, stated with its limits. The $2\times2$ block of
+$\sigma$ on the $\U$ summand is the Gram matrix of $\U$ itself, which the cited
+development proves equal to the Narain form of a circle compactification, where
+the same exchange (of momentum and winding) is the generator of T-duality. So a
+single integer matrix is, on one lattice, the Fricke involution of the $M_N$
+period domain and, on another, the T-duality generator. This is a fact about a
+lattice isometry. We do not assert, and nothing here supports, a physical
+identification of the two.
+
 \subsection{What is conjectural}
 
 \begin{conjecture}[Identification of the computed lattice]\label{conj:T}
