@@ -111,6 +111,36 @@ theorem rho_mul (N a b c d a' b' c' d' : K) :
   fin_cases i <;> fin_cases j <;>
     simp [rho, Matrix.mul_apply, Fin.sum_univ_succ] <;> ring
 
+/-- **ρ IS THE SYMMETRIC SQUARE**: its character is that of `Sym²` of the
+    standard 2-dimensional representation, `tr ρ(g) = (tr g)² − det g`.
+
+    This is the precise sense in which the rank-3 lattice picture is the
+    *same* symmetric-square construction as the operator identity
+    `L₃ = P₂·Sym²(L₂)`: the monodromy of `L₂` is a rank-2 representation, that
+    of `Sym²(L₂)` is its symmetric square, and `ρ` is that symmetric square
+    written in integer coordinates on `U ⊕ ⟨2N⟩`. -/
+theorem rho_trace (N a b c d : K) :
+    (rho N a b c d).trace = (a + d) ^ 2 - (a * d - N * b * c) := by
+  simp [rho, Matrix.trace_fin_three]; ring
+
+/-- **The image lies in `SO`, not merely `O`**: `det ρ(g) = (det g)³`, so an
+    element of determinant 1 maps to an isometry of determinant 1.
+
+    Together with `rho_isometry` and `rho_mul` this is the integral form of the
+    exceptional isomorphism `SL(2) → SO(2,1)`: the lattice `U ⊕ ⟨2N⟩` has
+    signature `(2,1)` (`MnLattice.sigTN_eq`), and `Γ₀(N)` acts on it through
+    determinant-preserving isometries. -/
+theorem rho_det (N a b c d : K) :
+    (rho N a b c d).det = (a * d - N * b * c) ^ 3 := by
+  simp [rho, Matrix.det_fin_three]; ring
+
+/-- Specialization: a determinant-1 element of `Γ₀(N)` gives an element of
+    `SO(U ⊕ ⟨2N⟩)` — an isometry (`rho_isometry`) of determinant 1. -/
+theorem rho_mem_SO (N a b c d : K) (h : a * d - N * b * c = 1) :
+    (rho N a b c d).det = 1 ∧
+      (rho N a b c d)ᵀ * TNR N * rho N a b c d = TNR N :=
+  ⟨by rw [rho_det, h]; ring, rho_isometry N a b c d (by rw [h]; ring)⟩
+
 -- ╔════════════════════════════════════════════════════════════════════╗
 -- ║  §2. ρ ACTS ON THE PERIOD BY MÖBIUS TRANSFORMATIONS                 ║
 -- ╚════════════════════════════════════════════════════════════════════╝
@@ -196,6 +226,13 @@ theorem rhoAL_mulVec_period (N a b c d τ : K) :
   ext i
   fin_cases i <;>
     simp [rhoAL, periodR, Matrix.mulVec, dotProduct, Fin.sum_univ_succ] <;> ring
+
+/-- The Atkin–Lehner elements are also determinant-cubes, hence also land in
+    `SO(2,1)` when `Nad − bc = 1`. So the WHOLE of `Γ₀(N)⁺`, Fricke included,
+    acts by orientation-preserving isometries of `U ⊕ ⟨2N⟩`. -/
+theorem rhoAL_det (N a b c d : K) :
+    (rhoAL N a b c d).det = (N * a * d - b * c) ^ 3 := by
+  simp [rhoAL, Matrix.det_fin_three]; ring
 
 section Field2
 variable {F : Type*} [Field F]
