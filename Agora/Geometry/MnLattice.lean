@@ -140,7 +140,40 @@ theorem s7_discriminants_match : |T7.det| = |hyperbolicU.det * (-14)| := by
 -- ║  §3. SIGNATURES, against LeanMaster's K3 lattice                    ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- Signature of `U ⊕ ⟨2N⟩`, `N > 0` (asserted pair; see header). -/
+/-- **The signature is now kernel-backed, not asserted.** The integer basis
+    change `P = (e+f, w, e−f)`, of determinant 2, diagonalizes `U ⊕ ⟨2N⟩`:
+
+        Pᵀ · T_N · P = diag(2, 2N, −2)
+
+    For `N > 0` that is two positive entries and one negative, so the signature
+    is `(2,1)` by Sylvester's law of inertia (quoted, Tier L — the diagonal form
+    itself is Tier A).
+
+    Supplied by the LeanMaster session (`DualScaleDyons.FrickeCriterion.
+    uPlus2N_diagonalises`, tag v3.43.0) and restated and re-verified here; it
+    retires the "asserted pairs" caveat this file inherited for `sigTN`. -/
+def diagBasis : Gram 3 := !![1, 0, 1; 1, 0, -1; 0, 1, 0]
+
+theorem diagBasis_det : diagBasis.det = 2 := by
+  simp [diagBasis, Matrix.det_fin_three]
+
+theorem TN_diagonalises (N : ℤ) :
+    diagBasisᵀ * TN N * diagBasis = !![2, 0, 0; 0, 2 * N, 0; 0, 0, -2] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [diagBasis, TN, Matrix.mul_apply, Fin.sum_univ_succ] <;> ring
+
+/-- NEGATIVE CONTROL: the sign is load-bearing. The last diagonal entry is `−2`,
+    not `+2`. -/
+theorem TN_diagonalises_sign (N : ℤ) :
+    diagBasisᵀ * TN N * diagBasis ≠ !![2, 0, 0; 0, 2 * N, 0; 0, 0, 2] := by
+  intro hc
+  rw [TN_diagonalises] at hc
+  have h := congrFun (congrFun hc 2) 2
+  simp at h
+
+/-- Signature of `U ⊕ ⟨2N⟩` for `N > 0`. Backed by `TN_diagonalises` above
+    (modulo Sylvester's law, Tier L) rather than merely asserted. -/
 def sigTN : Signature := sigU + ⟨1, 0⟩
 
 /-- Signature of `Mₙ = U ⊕ E₈(−1)² ⊕ ⟨−2N⟩`, `N > 0`. -/

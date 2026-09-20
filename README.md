@@ -67,11 +67,11 @@ Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trus
 
 | Check | Result |
 |---|---|
-| `lake build Agora OpenGoals Tests` | 3723 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **278 theorems audited.** 275 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| `lake build Agora OpenGoals Tests` | 3724 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **297 theorems audited.** 294 depend only on `propext`, `Classical.choice`, `Quot.sound` |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 436 declarations in 34 files, no existing statement changed |
+| Statement lock | OK — 460 declarations in 35 files, no existing statement changed |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)
 
@@ -129,13 +129,30 @@ discharge `obrien2016_theorem6_2`.
   unimodular and splits off. This upgrades the paper's embedding *witness* from (E) to (K); that
   the *monodromy* lattice is `U⊕⟨14⟩` still depends on the numerical claim and stays Tier B.
 
+- **Two rank-3 lattices, not one** (`Agora/Geometry/SymSquareForms.lean`). The symmetric square
+  `sym2` acts on the *discriminant* lattice of Γ₀(N)-forms (`b² − 4Nac`, Gram determinant `−4N²`);
+  ρ acts on the *transcendental* lattice `U ⊕ ⟨2N⟩` (Gram determinant `−2N`). Both have signature
+  (2,1) and both carry Γ₀(N)⁺ actions, but they are **not isometric** — an isometry preserves the
+  Gram determinant, and `−4N² = −2N` only at `N = 0` or `N = ½` (`no_isometry_G0N_TN`). Conflating
+  them under one name is a real error; this was caught in cross-session review with the LeanMaster
+  repository. Neither repository's Lean files asserted the conflation — a directive did.
+  Also proved here: `sym2(M)ᵀG₀sym2(M) = (det M)²G₀` with **no** `det = 1` hypothesis,
+  `det sym2 = (det M)³`, `tr sym2 = (tr M)² − det M`, and `sym2` is **contravariant**
+  (`sym2(MM') = sym2(M')sym2(M)`, with a negative control showing the order matters).
+- **The signature (2,1) of `U ⊕ ⟨2N⟩` is now Tier A**, not asserted: the integer basis change
+  `P = (e+f, w, e−f)` gives `PᵀT_N P = diag(2, 2N, −2)` (`TN_diagonalises`, with a sign control).
+  Supplied by the LeanMaster session and re-verified here; it retires a caveat this repo had
+  inherited.
+
 Directions and the (Tier C, conjecture-marked, not in the paper) K3 × T² question:
 [`briefs/RESEARCH_DIRECTIONS_2026_09_20.md`](briefs/RESEARCH_DIRECTIONS_2026_09_20.md).
 
 Full account of the closure, including the verification chain and its negative control:
 **[`briefs/BRIDGE_GOAL_CLOSED_2026_09_20.md`](briefs/BRIDGE_GOAL_CLOSED_2026_09_20.md)**.
 
-<sub>Counts moved 3155 → 3159 → 3171 → 3716 → 3720 jobs and 165 → 168 → 176 → 219 → 238 audited theorems over four changes on
+<sub>All figures in the table are from the run recorded in the most recent commit; earlier revisions of
+this README carried counts from earlier commits. Counts have moved 3155 → 3724 jobs and 165 → 297
+audited theorems over the changes on
 2026-09-20 (the LeanMaster dependency, then this closure). No existing statement changed at any
 point and no new axiom dependency entered.</sub>
 
