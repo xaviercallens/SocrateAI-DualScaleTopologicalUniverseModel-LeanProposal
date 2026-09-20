@@ -21,6 +21,48 @@ This repository is **not** responsible for:
 
 ---
 
+## Toolchain (pinned)
+
+| | Value |
+|---|---|
+| Lean | `leanprover/lean4:v4.34.0-rc2` |
+| Mathlib | tag `v4.34.0-rc2` = commit `85e3a25e006c35636f0e53b0e9296caca2685bc0` |
+
+Migrated from Lean `v4.32.0` / Mathlib `3dffaf2f…` on **2026-09-20** (T0 decision). The pin matches
+`SocrateAI-Scientific-Agora-LeanMaster` deliberately, so the two projects share one Mathlib olean
+cache — that cache is toolchain-exact, and a mismatch costs a from-source Mathlib rebuild.
+The pin is frozen again: changing it needs a new dated T0 decision (`CLAUDE.md` rule 1).
+
+The migration required **no change to any Lean source file**; all 314 declaration signatures are
+byte-identical across the two versions. Details, and a reusable migration playbook, in
+**[`briefs/MEMO_LEAN_4_34_MIGRATION_2026_09_20.md`](briefs/MEMO_LEAN_4_34_MIGRATION_2026_09_20.md)**.
+
+## Verified status
+
+Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trusting these numbers.**
+
+| Check | Result |
+|---|---|
+| `lake build Agora OpenGoals Tests` | 3155 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **165 theorems audited.** 162 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
+| `sorry` | **exactly one**, `OpenGoals/PartnerIntegrality.lean:201` (`open_goal_partner_eq_sqrt_s7`) |
+| Statement lock | OK — 299 declarations in 25 files, none changed |
+
+The two axioms, both registered in [`AXIOMS.md`](AXIOMS.md):
+
+- **`obrien2016_theorem6_2`** — a literature citation (O'Brien 2016, MSc thesis, Massey University,
+  Thm 6.2 p.47), used once, to close `open_goal_partner_integral_s7`. Not re-derived here.
+- **`pipeline_upper_bound`** — flagged **DISCLOSED-VACUOUS**: vacuously true, encodes no pipeline
+  data, **not** discharged. The two theorems reaching it carry no content from it; do not cite it
+  as evidence.
+
+`native_decide` is confined to `Tests/` (four golden numeric tests, each tagged `TRUST:
+native_decide`). Results proved that way are kernel-checked *modulo compiler trust*, not plain
+Tier A. Nothing in `Agora/` or `OpenGoals/` uses it.
+
+---
+
 ## ⚠️ Correction notice — 2026-07-25 (F6 disclosure)
 
 Work published to `main` on 2026-07-25 under the heading "Stream 2 geometry locked" has been
@@ -86,30 +128,52 @@ typing fact) recorded there. Please do not cite it as established.
 
 ```
 .
-├── Agora/                  # Lean 4 formalizations
-│   ├── Sequences/          # Cooper sequences and recurrences
-│   ├── Operators/          # Picard-Fuchs ODEs and symmetric squares
-│   ├── Geometry/           # K3 surface conjectures (axiomatized)
-│   ├── Swampland/          # Swampland constraints
-│   └── Physics/            # Physical observables
-├── docs/                   # Documentation and references
+├── Agora/                  # The mathematics. No `sorry` anywhere.
+│   ├── Axioms/             # The ONLY place an `axiom` may be declared (see AXIOMS.md)
+│   ├── Sequences/          # Cooper sequences, recurrences, θ-form operators, Sym² partners
+│   ├── Geometry/           # Weierstrass / discriminant / F-theory fibration scaffolding
+│   ├── Swampland/          # Swampland constraints, Sym² C3b checker
+│   ├── Phenomenology/      # ChameleonRescue
+│   └── ML/                 # Python/notebook experiments (not Lean)
+├── OpenGoals/              # The ONLY place a `sorry` may appear; each is a named goal
+├── Tests/                  # Golden numeric tests (these use `native_decide`)
+├── briefs/                 # Session briefs, escalations, cross-stream memos
+├── paper/                  # LaTeX manuscript
+├── docs/                   # Documentation, references, statement_lock.json
 ├── data/                   # Test data and sequence values
-├── external/               # External Lean/math libraries
-└── scripts/                # Automation (testing, verification)
+├── external/               # Vendored third-party repos (reference only — not build deps)
+└── scripts/                # Automation (export_open_goals.py, checkers, verification)
 ```
+
+The `Agora/` – `Agora/Axioms/` – `OpenGoals/` split is the epistemic contract: the mathematics,
+the declared assumptions, and the admitted gaps each have exactly one place to live.
 
 ---
 
 ## Building & Testing
 
 ```bash
-# Clone and set up
 git clone https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal.git
 cd SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal
-./scripts/setup_externals.sh
 
-# Build the Lean 4 proofs (no `sorry` stubs in kernel)
-lake build
+# Fetch the prebuilt Mathlib oleans for the pinned commit (minutes instead of hours).
+lake exe cache get
+
+# Build. Name the targets explicitly — the package declares no default target,
+# so a bare `lake build` reports "Nothing to build" and exits 0.
+lake build Agora OpenGoals Tests
+```
+
+`./scripts/setup_externals.sh` is **not** needed to build. It clones the `external/` submodules,
+which are vendored for reference only; since 2026-09-20 no `external/` package is a build
+dependency (the unused `QuantumInfo` require was removed during the toolchain migration).
+
+Expect exactly one `sorry` warning, from `OpenGoals/PartnerIntegrality.lean` — that is the single
+named open goal, and it is the only permitted location. Verify the claims above with:
+
+```bash
+grep -rn '\bsorry\b' Agora OpenGoals Tests --include=*.lean   # one hit, in OpenGoals/
+python3 scripts/export_open_goals.py                          # regenerates open_goals.json
 ```
 
 ---
@@ -132,4 +196,16 @@ lake build
 
 - **Author:** Xavier Callens (callensxavier@gmail.com)
 - **Feedback:** Open issues or PRs. Mathematical results should be reviewed by the modular-forms / mirror-symmetry community before claiming Tier A status.
-- **External math libraries:** See `external/` for credits (Lean-QuantumInfo, Lean4PHYS, etc.)
+- **External math libraries:** See `external/` for credits (Lean-QuantumInfo, Lean4PHYS, ml-string-landscape).
+  These are vendored for reference and are **not** build dependencies — the repository's only Lean
+  dependency is Mathlib at the pinned commit.
+- **Sibling repository:** [`SocrateAI-Scientific-Agora-LeanMaster`](https://github.com/xaviercallens/SocrateAI-Scientific-Agora-LeanMaster)
+  shares this toolchain pin and supplies the reusable proof-gate tooling (`statement_lock.py`,
+  `axiom_audit.py`) used to verify the table above.
+
+---
+
+<sub>README verified against the repository 2026-09-20 (Lean v4.34.0-rc2). Build, axiom, `sorry` and
+statement-lock figures are from that session's runs, recorded in
+[`briefs/MEMO_LEAN_4_34_MIGRATION_2026_09_20.md`](briefs/MEMO_LEAN_4_34_MIGRATION_2026_09_20.md).
+Tier discipline per [VISION.md](VISION.md) §2. Not yet T0-reviewed.</sub>

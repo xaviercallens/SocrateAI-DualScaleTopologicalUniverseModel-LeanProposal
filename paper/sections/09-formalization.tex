@@ -1,6 +1,11 @@
 % ============================================================================
 % 09-formalization.tex — the Lean 4 development. Toolchain facts checked against
-% lean-toolchain (v4.32.0) and lake-manifest.json (mathlib rev 3dffaf2f...).
+% lean-toolchain (v4.34.0-rc2) and lake-manifest.json (mathlib tag v4.34.0-rc2,
+% rev 85e3a25e...). Updated 2026-09-20 with the toolchain migration; the prior
+% pin was v4.32.0 / mathlib 3dffaf2f. The migration required no source change
+% and left the axiom inventory, the native_decide disclosure and the single
+% remaining sorry all unchanged -- each re-verified at the new pin, not carried
+% over. See briefs/MEMO_LEAN_4_34_MIGRATION_2026_09_20.md.
 % Axiom inventory checked against AXIOMS.md and Agora/Axioms/*.lean.
 % ============================================================================
 \section{The formal development}\label{sec:formalization}
@@ -12,9 +17,14 @@ that reports only its successes is of no use to a referee.
 
 \subsection{Toolchain and layout}
 
-The development builds with Lean~4 at toolchain \texttt{v4.32.0}
+The development builds with Lean~4 at toolchain \texttt{v4.34.0-rc2}
 \cite{deMouraUllrich2021} against \texttt{mathlib4}~\cite{mathlib4,mathlibCPP2020}
-pinned at commit \texttt{3dffaf2f18b47d11948f6390838ea6f2ae662aaf}. It is
+pinned at tag \texttt{v4.34.0-rc2}, commit
+\texttt{85e3a25e006c35636f0e53b0e9296caca2685bc0}. (The development was
+migrated to this pin from Lean~\texttt{v4.32.0} / \texttt{mathlib4}
+\texttt{3dffaf2f} on 2026-09-20; no source file required any change, and every
+statement in the development is unchanged, as certified by a
+statement-hash lock taken before the migration and re-checked after it.) It is
 organized so that each epistemic category has exactly one place to live:
 
 \begin{center}
@@ -33,10 +43,29 @@ Directory & Contents and rule \\
 \end{tabular}
 \end{center}
 
-The placement rules are enforced mechanically by a repository hook rather than
-by convention: an \artifact{axiom} introduced outside \artifact{Agora/Axioms/}
-is rejected, and the no-\artifact{sorry} check excludes
-\artifact{OpenGoals/} and nothing else. This matters because the failure mode
+% ⚠️ T0 CORRECTION 2026-09-20 (Opus 5) — AMENDED ON T0 INSTRUCTION, same date.
+% The previous wording claimed both placement rules were "enforced mechanically
+% by a repository hook" and referred to a "no-sorry check". Verified false this
+% session; corrected below. Record of what was wrong:
+%   * "enforced mechanically by a repository hook" — the only mechanism is
+%     .claude/hooks/lean_guard.sh, a Claude Code PostToolUse hook. It fires ONLY
+%     when Claude edits a .lean file in a session loading .claude/settings.json.
+%     A hand edit, another tool, or any `git commit` bypasses it entirely.
+%   * "an axiom ... is rejected" — TRUE (the hook exits 2 on that path).
+%   * "the no-sorry check excludes OpenGoals/ and nothing else" — there is NO
+%     blocking no-sorry check. The hook only warns and exits 0, and the repo has
+%     no .github/ directory, so there is no CI at all. (CLAUDE.md rule 3 made the
+%     same "CI-enforced" claim; it is corrected on this branch.)
+% The paper must not claim an enforcement mechanism stronger than the one that
+% exists; that is the claim a referee is most entitled to check.
+The two placement rules are enforced differently, and we state the difference
+because a formalization paper that overstates its own safeguards forfeits the
+audit it is asking for. The \artifact{axiom} rule is enforced mechanically: an
+editor hook rejects an \artifact{axiom} declaration introduced outside
+\artifact{Agora/Axioms/}. The \artifact{sorry} rule is \emph{not} mechanically
+enforced --- it is maintained by review, and checked by the audit commands of
+\S\ref{subsec:not-checked}, which report every occurrence and its location; at
+the time of writing they report exactly one, in \artifact{OpenGoals/}. This matters because the failure mode
 being guarded against is not dishonesty but drift --- an assumption introduced
 locally during a proof attempt and never surfaced.
 
@@ -233,7 +262,7 @@ the failed attempts was kept rather than deleted once the citation route
 closed the goal, on the view that a documented dead end is itself
 information for the next person who reaches the same lemma.
 
-\subsection{What the kernel did not check}
+\subsection{What the kernel did not check}\label{subsec:not-checked}
 
 \begin{itemize}
 \item \emph{Theorem~\ref{thm:obrien}}, as discussed. Kernel-checked:
@@ -279,8 +308,10 @@ in any proof assistant.
 % ----------------------------------------------------------------------------
 % Generated-by: Opus 5 (Stream 1 paper agent); \S9.4 (three-strikes discipline)
 % added 2026-07-30 by Sonnet 5 (T0 Directive 3) | Verified-by: toolchain vs
-% lean-toolchain (leanprover/lean4:v4.32.0) and lake-manifest.json (mathlib rev
-% 3dffaf2f18b47d11948f6390838ea6f2ae662aaf); axiom text transcribed from
+% lean-toolchain (leanprover/lean4:v4.34.0-rc2) and lake-manifest.json (mathlib
+% tag v4.34.0-rc2, rev 85e3a25e006c35636f0e53b0e9296caca2685bc0 -- re-verified
+% at the new pin 2026-09-20 by Opus 5; axiom inventory, native_decide
+% disclosure and sorry location all re-checked, all unchanged); axiom text transcribed from
 % Agora/Axioms/OBrien2016.lean; second axiom + hook rules from AXIOMS.md;
 % native_decide disclosure from Tests/CooperSequences.lean header; remaining
 % sorry located by grep (OpenGoals/PartnerIntegrality.lean:201 only);
