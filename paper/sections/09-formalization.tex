@@ -3,9 +3,13 @@
 % lean-toolchain (v4.34.0-rc2) and lake-manifest.json (mathlib tag v4.34.0-rc2,
 % rev 85e3a25e...). Updated 2026-09-20 with the toolchain migration; the prior
 % pin was v4.32.0 / mathlib 3dffaf2f. The migration required no source change
-% and left the axiom inventory, the native_decide disclosure and the single
-% remaining sorry all unchanged -- each re-verified at the new pin, not carried
-% over. See briefs/MEMO_LEAN_4_34_MIGRATION_2026_09_20.md.
+% and left the axiom inventory and the native_decide disclosure unchanged --
+% each re-verified at the new pin, not carried over.
+% See briefs/MEMO_LEAN_4_34_MIGRATION_2026_09_20.md.
+% FURTHER UPDATE 2026-09-20: open_goal_partner_eq_sqrt_s7 was CLOSED
+% (Agora/Sequences/SqrtBridge.lean); the development now has ZERO sorry. The
+% "blocked-on-mathlib" ruling on it was wrong -- see
+% briefs/BRIDGE_GOAL_CLOSED_2026_09_20.md. Sorry-count claims updated throughout.
 % Axiom inventory checked against AXIOMS.md and Agora/Axioms/*.lean.
 % ============================================================================
 \section{The formal development}\label{sec:formalization}
@@ -65,7 +69,7 @@ editor hook rejects an \artifact{axiom} declaration introduced outside
 \artifact{Agora/Axioms/}. The \artifact{sorry} rule is \emph{not} mechanically
 enforced --- it is maintained by review, and checked by the audit commands of
 \S\ref{subsec:not-checked}, which report every occurrence and its location; at
-the time of writing they report exactly one, in \artifact{OpenGoals/}. This matters because the failure mode
+the time of writing they report none at all. This matters because the failure mode
 being guarded against is not dishonesty but drift --- an assumption introduced
 locally during a proof attempt and never surfaced.
 
@@ -140,7 +144,7 @@ derivative in Theorem~\ref{thm:avs} is an application of the library's
 itself. Encoding a hand-computed derivative as an opaque definition would let
 a transcription error pass \artifact{ring} undetected.
 
-\subsection{The axiom inventory, in full}
+\subsection{The axiom inventory, in full}\label{subsec:axioms}
 
 The development registers exactly one load-bearing literature axiom.
 
@@ -225,7 +229,7 @@ attempts \emph{or} a verifier-uncheckable obstruction, to the top after a
 further two failed attempts \emph{or} a genuine design ambiguity, with
 de-escalation available once the top tier decomposes the problem.
 
-The single open goal of this development,
+The development's last open goal,
 \artifact{open\_goal\_partner\_eq\_sqrt\_s7} (that the recurrence-defined
 partner sequence equals the formal square root of the bulk $s_7$ series,
 solution-level transport of Theorem~\ref{thm:sym2-template}), carries its
@@ -244,10 +248,27 @@ identity to $n=38$ by two independent encodings --- evidence, not proof, that
 the goal is true --- while a computer-algebra certificate search
 (\artifact{ore\_algebra} symmetric power) produced an operator that
 demonstrably does \emph{not} annihilate the convolution sequence, a mismatch
-recorded in the file as unresolved rather than explained away. The goal is
+recorded in the file as unresolved rather than explained away. The goal was
 carried as a named \artifact{sorry} in \artifact{OpenGoals/}, per the
 placement rule of \S\ref{sec:formalization}, rather than being silently
 dropped or its statement weakened.
+
+That record is the reason we can report the sequel honestly. On 2026-09-20 the
+goal was \emph{closed}, by a fifth route that none of the four recorded
+attempts had considered: a convolution sum may be symmetrized in its two
+indices, after which the solution-level transport is a single linear
+combination against the order-2 recurrence. The ``blocked-on-library'' verdict
+that attempt (3) had supported was therefore wrong --- and wrong for the second
+time on this same pair of goals, the sibling
+\artifact{open\_goal\_partner\_integral\_s7} having been closed earlier by a
+citation the same verdict had ruled out. We draw the obvious conclusion rather
+than a flattering one: the discipline's value is that it \emph{records
+routes and preserves the statement}, not that its verdicts are reliable. Four
+recorded failures are evidence about four routes. Because the statement had
+never been weakened to accommodate them, the later proof closed the original
+goal verbatim --- checked here by a statement lock against the untouched
+declaration, together with a negative control confirming that the lock can
+fail.
 
 The discipline is not merely a stopping rule: the sibling goal
 \artifact{open\_goal\_partner\_integral\_s7} was opened under an identical
@@ -278,13 +299,32 @@ information for the next person who reaches the same lemma.
   trusts the compiler in addition to the kernel; both affected theorems carry
   an explicit trust annotation. No result in \S\S\ref{sec:sym2}--\ref{sec:integrality}
   depends on them.
-\item \emph{One named open goal remains}: the equality, for all $n$, of the
-  recurrence-defined partner sequence with the formal square root of the bulk
-  sequence (\artifact{open\_goal\_partner\_eq\_sqrt\_s7}). It is the
-  solution-level transport of the operator identity that
-  Theorem~\ref{thm:sym2-template} establishes at operator level, and it is the
-  single remaining \artifact{sorry} in the development --- carried as a named
-  goal in \artifact{OpenGoals/} rather than as a silently weakened statement.
+\item \emph{No open goal remains.} The last one --- the equality, for all $n$,
+  of the recurrence-defined partner sequence with the formal square root of the
+  bulk sequence (\artifact{open\_goal\_partner\_eq\_sqrt\_s7}) --- was
+  \textbf{closed on 2026-09-20}, and the development now contains no
+  \artifact{sorry} at all. It is the solution-level transport of the operator
+  identity that Theorem~\ref{thm:sym2-template} establishes at operator level.
+  The proof (\artifact{Agora/Sequences/SqrtBridge.lean}) depends only on Lean's
+  three standard axioms and does not use the citation axiom of
+  \S\ref{subsec:axioms} below.
+
+  We record why it had been open, because the reason is instructive and
+  cautionary for this style of work. The goal had been ruled
+  ``blocked-on-\texttt{mathlib}'' on the grounds that the library provides
+  neither a formal-power-series square root nor a holonomic-sequence API. Both
+  observations are correct and neither is relevant: the proof uses only
+  \artifact{PowerSeries.mk}, \artifact{coeff\_mul}, antidiagonal reindexing,
+  \artifact{isUnit\_iff\_constantCoeff}, the power-series domain instance, and
+  \artifact{Finset.sum\_range\_reflect}, all of which were present in the
+  library version pinned at the time the goal was declared blocked. The four
+  recorded failed strategies were never refuted; they were circumvented. The
+  step that had been missing is that a convolution sum may be symmetrized in
+  its two indices, after which the solution-level transport --- which the
+  earlier analysis had taken to be a creative-telescoping problem --- reduces to
+  a single linear combination against the order-2 recurrence. A
+  ``blocked-on-library'' verdict is a statement about a proof route, not about a
+  goal; $n$ failed strategies are evidence about those $n$ strategies.
 \end{itemize}
 
 \subsection{An honest assessment of the formalization}
