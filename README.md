@@ -67,11 +67,11 @@ Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trus
 
 | Check | Result |
 |---|---|
-| `lake build Agora OpenGoals Tests` | 3720 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **238 theorems audited.** 235 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| `lake build Agora OpenGoals Tests` | 3721 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **258 theorems audited.** 255 depend only on `propext`, `Classical.choice`, `Quot.sound` |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 386 declarations in 31 files, no existing statement changed |
+| Statement lock | OK — 413 declarations in 32 files, no existing statement changed |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)
 
@@ -115,7 +115,12 @@ discharge `obrien2016_theorem6_2`.
   points `{−1, 1/27}` of the s₇ operators are the images of the Fricke fixed points `h = ±1/7`
   under `z(h) = h/(1+13h+49h²)`, with `s7_P2(z(h))·(1+13h+49h²)² = (1−49h²)²`. Kernel-proved for
   the rational map; that `z(h)` parametrizes the s₇ family is PASS(40) exact + literature, not
-  kernel-proved. No physics is claimed. Record and verdicts (in French):
+  kernel-proved. **The foundation behind it** (`Agora/Geometry/ModularAction.lean`): an explicit
+  integer 3×3 representation ρ realizing Γ₀(N) *and* the Atkin–Lehner elements inside
+  `O(U ⊕ ⟨2N⟩)`, multiplicative, acting on the period with the weight-2 automorphy factor
+  `(Ncτ+d)²` — as a polynomial identity needing no determinant hypothesis. Both singular points
+  `{−1, 1/27}` are walls of (−2)-roots. The modular group **is** the lattice's isometry group.
+  No physics is claimed. Record and verdicts (in French):
   [`briefs/THOUGHT_EXPERIMENTS_SELF_DUAL_2026_09_20.md`](briefs/THOUGHT_EXPERIMENTS_SELF_DUAL_2026_09_20.md).
 
 Directions and the (Tier C, conjecture-marked, not in the paper) K3 × T² question:
