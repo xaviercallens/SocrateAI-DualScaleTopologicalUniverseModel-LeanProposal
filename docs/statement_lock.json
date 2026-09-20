@@ -141,17 +141,21 @@
     "periodR": "e41ccf2b7d4a9986",
     "rho": "5751b01a0df26676",
     "rhoAL": "95ea22713d961294",
+    "rhoAL_det": "e4e7ee6d48bc96ee",
     "rhoAL_fricke": "65ee4e100cbbc74f",
     "rhoAL_fricke_eq_neg_swap": "124b1b2692dc3bbf",
     "rhoAL_isometry": "7e7e2485bea4766f",
     "rhoAL_mulVec_period": "130d6006b438d790",
     "rhoAL_mulVec_period_field": "962afd41b57e3aef",
+    "rho_det": "78bb6813d8d7655b",
     "rho_isometry": "36a275c64a556d56",
+    "rho_mem_SO": "887e74efd85de548",
     "rho_mul": "45421bfee6ac8f13",
     "rho_mulVec_period": "d6e54993da6f650b",
     "rho_mulVec_period_field": "24da5cd8caccb8b0",
     "rho_not_isometry_of_det_two": "9255c4820200d387",
     "rho_one": "de6c0f25b59c75b8",
+    "rho_trace": "071dccdb5312eb3d",
     "root2": "b687fa8e03f10bad",
     "root2_norm": "b76619e4c38ae5b8"
   },
@@ -483,7 +487,8 @@
   },
   "OpenGoals/PartnerIntegrality.lean": {
     "open_goal_partner_eq_sqrt_s7": "e045b8b52a4e80a5",
-    "open_goal_partner_integral_s7": "4d25a70896b021d7"
+    "open_goal_partner_integral_s7": "4d25a70896b021d7",
+    "open_goal_partner_integral_s7_axiom_free": "0b7775f07fd8a6a6"
   },
   "Tests/CooperSequences.lean": {
     "cooperRecOK": "e58a684aa262d30d",
