@@ -67,11 +67,15 @@ Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trus
 
 | Check | Result |
 |---|---|
-| `lake build Agora OpenGoals Tests` | 3155 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **165 theorems audited.** 162 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| `lake build Agora OpenGoals Tests` | 3159 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **168 theorems audited.** 165 depend only on `propext`, `Classical.choice`, `Quot.sound` |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **exactly one**, `OpenGoals/PartnerIntegrality.lean:201` (`open_goal_partner_eq_sqrt_s7`) |
-| Statement lock | OK — 299 declarations in 25 files, none changed |
+| Statement lock | OK — 302 declarations in 26 files, no existing statement changed |
+
+<sub>The 2026-09-20 LeanMaster dependency moved these from 3155 / 165 / 299: it added three
+zero-axiom `rfl` smoke tests and LeanMaster's two compiled modules. No existing statement changed
+and no new axiom dependency entered.</sub>
 
 The two axioms, both registered in [`AXIOMS.md`](AXIOMS.md):
 
