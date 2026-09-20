@@ -67,11 +67,11 @@ Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trus
 
 | Check | Result |
 |---|---|
-| `lake build Agora OpenGoals Tests` | 3721 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **258 theorems audited.** 255 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| `lake build Agora OpenGoals Tests` | 3722 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **268 theorems audited.** 265 depend only on `propext`, `Classical.choice`, `Quot.sound` |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 413 declarations in 32 files, no existing statement changed |
+| Statement lock | OK — 426 declarations in 33 files, no existing statement changed |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)
 
@@ -122,6 +122,12 @@ discharge `obrien2016_theorem6_2`.
   `{−1, 1/27}` are walls of (−2)-roots. The modular group **is** the lattice's isometry group.
   No physics is claimed. Record and verdicts (in French):
   [`briefs/THOUGHT_EXPERIMENTS_SELF_DUAL_2026_09_20.md`](briefs/THOUGHT_EXPERIMENTS_SELF_DUAL_2026_09_20.md).
+
+- **The primitive embedding is now kernel-checked** (`Agora/Geometry/Embedding.lean`): explicit
+  integer matrices `B = (e₁, f₁, e₃+7f₃)` and `C = (e₂, f₂, e₃−7f₃)` with `BᵀU³B = U⊕⟨14⟩`,
+  `CᵀU³C = U⊕⟨−14⟩`, `BᵀU³C = 0`, index 14. Six dimensions suffice because `E₈(−1)²` is
+  unimodular and splits off. This upgrades the paper's embedding *witness* from (E) to (K); that
+  the *monodromy* lattice is `U⊕⟨14⟩` still depends on the numerical claim and stays Tier B.
 
 Directions and the (Tier C, conjecture-marked, not in the paper) K3 × T² question:
 [`briefs/RESEARCH_DIRECTIONS_2026_09_20.md`](briefs/RESEARCH_DIRECTIONS_2026_09_20.md).

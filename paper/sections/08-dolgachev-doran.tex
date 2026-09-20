@@ -260,6 +260,45 @@ period domain and, on another, the T-duality generator. This is a fact about a
 lattice isometry. We do not assert, and nothing here supports, a physical
 identification of the two.
 
+\subsection{The embedding witness, kernel-checked}\label{subsec:embedding}
+
+Proposition~\ref{prop:g0complement} was obtained by an exact computation outside
+Lean, status (E). Its \emph{witness} --- the pair of embeddings whose existence
+is what the proposition asserts --- is now status (K)
+(\artifact{Agora/Geometry/Embedding.lean}).
+
+\begin{proposition}[status (K)]\label{prop:embedding}
+Let $\U^3$ carry the basis $(e_1,f_1,e_2,f_2,e_3,f_3)$ and set
+\[
+  B = \bigl(e_1,\; f_1,\; e_3+7f_3\bigr), \qquad
+  C = \bigl(e_2,\; f_2,\; e_3-7f_3\bigr)
+\]
+as $6\times3$ integer matrices. Then
+$B^{\mathsf T}\U^3B = \U\oplus\lat{14}$, \
+$C^{\mathsf T}\U^3C = \U\oplus\lat{-14}$, \
+$B^{\mathsf T}\U^3C = 0$, and $\U^3$ is an involution as a matrix, hence
+unimodular. The index of the sum in $\U^3$ is $14=\lvert\operatorname{disc}
+(\U\oplus\lat{14})\rvert$, so both sublattices are primitive and each is the
+other's orthogonal complement.
+\end{proposition}
+
+Six dimensions suffice because $E_8(-1)$ is unimodular: the $E_8(-1)^2$ summand
+of $\Lambda$ contributes nothing to the gluing, sits entirely inside the
+complement, and splits off orthogonally. All the arithmetic content of
+$(\U\oplus\lat{14})\perp(\U\oplus E_8(-1)^2\oplus\lat{-14})\subset\U^3\oplus E_8(-1)^2$
+therefore lives in $\U^3$, and that is what is checked. The index statement is
+verified where it lives, inside the third hyperbolic plane, as the determinant
+$-14$ of the $2\times2$ change of basis $(e,f)\mapsto(e+7f,e-7f)$; we do not
+expand a $6\times6$ determinant, which carries no content and which the library
+has no lemma for. A control confirms the coefficient matters: replacing $7$ by
+$6$ gives $w^2=12\neq14$ and $B$ no longer embeds $\U\oplus\lat{14}$.
+
+What remains outside the kernel is unchanged: that the \emph{monodromy} lattice
+of the $s_7$ family is $\U\oplus\lat{14}$ depends on Numerical
+Claim~\ref{nc:monodromy} and stays Tier~B. What is now mechanical is that the
+lattice-theoretic configuration the claim asserts does exist and is the one
+displayed.
+
 \subsection{The modular group as a group of lattice isometries}\label{subsec:modular-action}
 
 Proposition~\ref{prop:mn-lean}(iii)--(iv) exhibited one isometry of

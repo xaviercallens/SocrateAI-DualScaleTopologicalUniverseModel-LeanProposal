@@ -34,6 +34,21 @@
     "standard_model_rank": "5d4f80e04e076e12",
     "tate_algorithm": "82b1d5cfcc9a4aba"
   },
+  "Agora/Geometry/Embedding.lean": {
+    "B": "b0efbdd1444137fd",
+    "B_orthogonal_C": "ac568985a9e89462",
+    "B_pullback": "ab4c3e013f0a75a6",
+    "B_six_not_T7": "cb93e51d313288c7",
+    "C": "e392d5b5f8a1a758",
+    "C_pullback": "40ae06de16881662",
+    "T7_disc": "f7bc81cad8750783",
+    "U3": "6c44c7d4959409bf",
+    "U3_det_sq": "941e7bfe503db617",
+    "U3_involution": "8950edca6399f663",
+    "U3_symm": "87d7c8dcf0074400",
+    "discriminants_agree": "e306e8a9bc7db37d",
+    "index_eq_disc": "47ff634b661a27b3"
+  },
   "Agora/Geometry/FTheoryFibration.lean": {
     "CY4Topology": "a83c4d74bdb96c18",
     "DualScaleObservable": "3370673e1cb3b3db",
