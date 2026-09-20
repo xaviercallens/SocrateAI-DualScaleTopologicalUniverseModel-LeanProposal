@@ -145,15 +145,71 @@ and \artifact{s7\_partner\_integral\_of\_congruence} in
 \artifact{Agora/Sequences/SqrtIntegrality.lean}.
 \end{proof}
 
-\begin{remark}[PASS(200)]\label{rem:pass200}
-The hypothesis $4\mid s_7(n)$ holds for $1\leq n\leq200$ in exact integer
-arithmetic, the minimum 2-adic valuation over that range being exactly $2$; it
-is kernel-checked for $n\leq6$. This is evidence, not proof, and
-Corollary~\ref{cor:s7-integral} does not rely on it. If proved, it would replace
-the development's only literature axiom by an elementary congruence on the
-binomial sum defining $s_7$. The criterion is sufficient but not necessary
-($(1+z)^2$ has an integral square root), so it is not a characterization; it
-does fail for $s_{10}$ already at $n=1$ (\artifact{s10\_fails\_criterion}).
+\begin{theorem}[status (K)]\label{thm:mod4}
+$4\mid s_7(n)$ for every $n\geq1$. Consequently the $s_7$ partner is integral,
+with no appeal to Theorem~\ref{thm:obrien}.
+\end{theorem}
+
+\begin{proof}
+Divisibility is termwise. Fix $1\le k\le n$ and consider the summand
+$\binom nk^2\binom{n+k}k\binom{2k}n$. If $\binom nk$ is even, $4$ divides its
+square. If $\binom nk$ is odd, apply the subset-of-a-subset identity
+$\binom nk\binom ks=\binom ns\binom{n-s}{k-s}$ twice, each time so as to expose
+the \emph{central} binomial coefficient:
+\[
+  \binom{n+k}{2k}\binom{2k}{k} = \binom{n+k}{k}\binom nk,
+  \qquad
+  \binom{2k}{n}\binom nk = \binom{2k}{k}\binom{k}{n-k}.
+\]
+Since $\binom{2k}k$ is even for $k\ge1$ and $\binom nk$ is odd, the first gives
+$2\mid\binom{n+k}k$ and the second $2\mid\binom{2k}n$; together $4$ divides the
+summand. For $n\ge1$ the summation range $\lceil n/2\rceil\le k\le n$ contains
+only $k\ge1$, so $4$ divides the sum. The second statement is
+Proposition~\ref{prop:mod4}. Formalized as \artifact{four\_dvd\_s7} and
+\artifact{s7\_partner\_integral\_axiom\_free} in
+\artifact{Agora/Sequences/S7Mod4.lean}.
+\end{proof}
+
+Equivalently, the summand is $\binom{n+k}{2k}\binom k{n-k}\binom{2k}k^2$, in
+which $4\mid\binom{2k}k^2$ is visible by inspection. So $s_7$ admits the
+representation
+$s_7(n)=\sum_k\binom{n+k}{2k}\binom{2k}{k}^2\binom{k}{n-k}$.
+
+\begin{remark}[What this changes, and what it does not]\label{rem:mod4-status}
+The development now proves $\forall n,\ \text{IsIntegral}(a_n)$ twice: once
+through Theorem~\ref{thm:obrien}, and once through Theorem~\ref{thm:mod4} with
+axiom set $\{\mathtt{propext},\mathtt{Classical.choice},\mathtt{Quot.sound}\}$.
+\emph{No literature axiom is load-bearing anywhere in the development.} The
+citation axiom is retained rather than deleted, so that the two derivations can
+be compared; it is now used by exactly one theorem, which nothing else needs.
+
+We do not claim $4\mid s_7(n)$ as a new theorem --- it follows from the modular
+identity of Remark~\ref{rem:selfdual-status}, which is classical. We claim an
+elementary, self-contained, machine-checked proof of it that needs no modular
+input. Whether this particular argument appears in print we have not
+established, and do not assert.
+
+The episode is worth recording for its shape. The statement had been attacked
+three ways, all recorded as failures: induction mod~4 on the order-3 recurrence
+(the leading coefficient $(n+1)^3$ is even for odd $n$, so dividing loses
+$2$-adic information); mod-2 analysis of the order-2 partner recurrence (it
+controls odd indices only, because $(k+2)^2$ is even exactly at the even ones);
+and deduction from partner integrality (circular, the two being equivalent).
+Every one of those attacks a \emph{recurrence}. The proof above touches no
+recurrence. The obstruction was the choice of representation, not the depth of
+the statement --- which is the same diagnosis as Remark~\ref{rem:blocked}, in a
+different file, for a different goal.
+\end{remark}
+
+\begin{remark}[PASS(200), superseded]\label{rem:pass200}
+This remark recorded, before Theorem~\ref{thm:mod4} was proved, that
+$4\mid s_7(n)$ held for $1\leq n\leq200$ in exact integer arithmetic, the minimum
+2-adic valuation over that range being exactly $2$. It is retained because the
+sharpness observation still stands: $8\nmid s_7(1)=4$, so the modulus $4$ in
+Theorem~\ref{thm:mod4} cannot be improved (\artifact{eight\_not\_dvd\_s7\_one}).
+The criterion is sufficient but not necessary ($(1+z)^2$ has an integral square
+root), so it is not a characterization; it does fail for $s_{10}$ already at
+$n=1$ (\artifact{four\_not\_dvd\_s10\_one}).
 \end{remark}
 
 \begin{remark}[A cautionary note on ``blocked'' goals]\label{rem:blocked}
