@@ -67,11 +67,11 @@ Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trus
 
 | Check | Result |
 |---|---|
-| `lake build Agora OpenGoals Tests` | 3716 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **219 theorems audited.** 216 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| `lake build Agora OpenGoals Tests` | 3720 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **238 theorems audited.** 235 depend only on `propext`, `Classical.choice`, `Quot.sound` |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 362 declarations in 30 files, no existing statement changed |
+| Statement lock | OK — 386 declarations in 31 files, no existing statement changed |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)
 
@@ -109,13 +109,22 @@ discharge `obrien2016_theorem6_2`.
   Narain form, on which the swap is T-duality — **a fact about a lattice isometry, not a physical
   identification** (VISION §1.3). Whether `U ⊕ ⟨14⟩` *is* the s₇ transcendental lattice stays Tier B.
 
+- **The self-dual locus** (`Agora/Geometry/SelfDual.lean`, evaluation of the "walk toward the
+  self-dual point"): the swap is the Weyl reflection in the (−2)-root `e − f` (LeanMaster's
+  `reflection`), its wall is exactly `Nτ² = −1`, and — the central result — the finite singular
+  points `{−1, 1/27}` of the s₇ operators are the images of the Fricke fixed points `h = ±1/7`
+  under `z(h) = h/(1+13h+49h²)`, with `s7_P2(z(h))·(1+13h+49h²)² = (1−49h²)²`. Kernel-proved for
+  the rational map; that `z(h)` parametrizes the s₇ family is PASS(40) exact + literature, not
+  kernel-proved. No physics is claimed. Record and verdicts (in French):
+  [`briefs/THOUGHT_EXPERIMENTS_SELF_DUAL_2026_09_20.md`](briefs/THOUGHT_EXPERIMENTS_SELF_DUAL_2026_09_20.md).
+
 Directions and the (Tier C, conjecture-marked, not in the paper) K3 × T² question:
 [`briefs/RESEARCH_DIRECTIONS_2026_09_20.md`](briefs/RESEARCH_DIRECTIONS_2026_09_20.md).
 
 Full account of the closure, including the verification chain and its negative control:
 **[`briefs/BRIDGE_GOAL_CLOSED_2026_09_20.md`](briefs/BRIDGE_GOAL_CLOSED_2026_09_20.md)**.
 
-<sub>Counts moved 3155 → 3159 → 3171 → 3716 jobs and 165 → 168 → 176 → 219 audited theorems over three changes on
+<sub>Counts moved 3155 → 3159 → 3171 → 3716 → 3720 jobs and 165 → 168 → 176 → 219 → 238 audited theorems over four changes on
 2026-09-20 (the LeanMaster dependency, then this closure). No existing statement changed at any
 point and no new axiom dependency entered.</sub>
 
