@@ -25,6 +25,21 @@ lean_lib Tests {
 -- until the 2026-09-20 migration (T0 decision; CLAUDE.md rule 1 amended in the same change).
 require "leanprover-community" / "mathlib" @ git "v4.34.0-rc2"
 
+-- LeanMaster: the verified lattice / K3 / T-duality / moonshine corpus, added
+-- 2026-09-20 (T0 decision). Pinned to release tag v3.33.0 (commit
+-- 61fc58d599182185613e1460861e48d6c7dd39a7), which is on this project's exact
+-- toolchain (leanprover/lean4:v4.34.0-rc2) and requires the SAME Mathlib tag
+-- (v4.34.0-rc2), so the two dependency graphs unify instead of conflicting.
+-- A TAG, not a path: LeanMaster is under active concurrent development on this
+-- machine and its working tree is frequently dirty, so a local `packagesDir`
+-- dependency would make this repo's build depend on another session's
+-- uncommitted state. A tag points at a commit and cannot drift.
+-- (Registry form does not apply: LeanMaster is not published on Reservoir, so it is
+-- required from git by tag.)
+require «SocrateAI-Scientific-Agora-LeanMaster» from git
+  "https://github.com/xaviercallens/SocrateAI-Scientific-Agora-LeanMaster" @ "v3.33.0"
+
+
 -- REMOVED 2026-09-20 (Lean 4.34.0-rc2 migration): the `QuantumInfo` require
 -- (Timeroot/Lean-QuantumInfo @ 56e83a9288a3c616285038748e273b3c0e1a36bf).
 -- No file under `Agora/`, `OpenGoals/` or `Tests/` ever imported it — verified by

@@ -1,6 +1,11 @@
 {
   "Agora/Axioms/OBrien2016.lean": {},
   "Agora/Axioms/PipelineBound.lean": {},
+  "Agora/Bridge/LeanMasterK3.lean": {
+    "leanmaster_b2_matches_lattice_rank": "45a4e19aab411cfa",
+    "leanmaster_k3_rank_importable": "c489049fe9a6d454",
+    "leanmaster_signature_matches_rank": "1704532eb75d4884"
+  },
   "Agora/DualScaleMaster.lean": {
     "dual_scale_universe_model_consistent": "7cf081de3e85c593",
     "m87_alpha_eff_certificate": "aed822f98ad6bb5c",

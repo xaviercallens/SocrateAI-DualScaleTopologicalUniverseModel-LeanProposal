@@ -34,6 +34,7 @@ This repository is **not** responsible for:
 |---|---|
 | Lean | `leanprover/lean4:v4.34.0-rc2` |
 | Mathlib | tag `v4.34.0-rc2` = commit `85e3a25e006c35636f0e53b0e9296caca2685bc0` |
+| LeanMaster | tag `v3.33.0` = commit `61fc58d599182185613e1460861e48d6c7dd39a7` |
 
 Migrated from Lean `v4.32.0` / Mathlib `3dffaf2f…` on **2026-09-20** (T0 decision). The pin matches
 `SocrateAI-Scientific-Agora-LeanMaster` deliberately, so the two projects share one Mathlib olean
@@ -43,6 +44,22 @@ The pin is frozen again: changing it needs a new dated T0 decision (`CLAUDE.md` 
 The migration required **no change to any Lean source file**; all 314 declaration signatures are
 byte-identical across the two versions. Details, and a reusable migration playbook, in
 **[`briefs/MEMO_LEAN_4_34_MIGRATION_2026_09_20.md`](briefs/MEMO_LEAN_4_34_MIGRATION_2026_09_20.md)**.
+
+**[LeanMaster](https://github.com/xaviercallens/SocrateAI-Scientific-Agora-LeanMaster) is a build
+dependency** as of 2026-09-20, pinned to release tag `v3.33.0` — required *from git by tag, never
+by local path*, so this build never depends on a sibling checkout's uncommitted state. It requires
+the same Mathlib tag, so the two dependency graphs unify (`mathlib` appears once in
+`lake-manifest.json`). `Agora/Bridge/LeanMasterK3.lean` exercises the dependency and is imported
+from `Agora.lean`, so `lake build Agora` genuinely compiles against LeanMaster rather than merely
+declaring it.
+
+⚠️ That module **establishes no new mathematics**, and says so in its header. LeanMaster's K3
+facts (`k3_b2_is_22`, `k3_lattice_rank_valid`, `k3_signature_is_minus_16`) are `rfl` over
+hand-written encodings of literature values (BHPV2004, GH1978) — kernel-checked *bookkeeping with
+a citable source*, not a derivation of K3 topology. In particular LeanMaster's generic Hodge
+signature split (b₂⁺, b₂⁻) = (3, 19) is **not** evidence for this project's ρ = 19 / T = 3 for
+`cooper_s7`, which remains **Tier B** on Stream 2's derivation. The numerals coincide because
+22 − 19 = 3; that is arithmetic, exactly as the paper already states at `prop:g0complement`.
 
 ## Verified status
 
