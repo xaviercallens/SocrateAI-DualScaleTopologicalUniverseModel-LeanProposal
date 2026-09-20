@@ -13,6 +13,7 @@
 
 import Agora.Sequences.PartnerIntegrality
 import Agora.Sequences.SqrtBridge
+import Agora.Sequences.S7Mod4
 
 namespace Agora.Sequences.OpenGoals
 
@@ -102,6 +103,28 @@ open Agora.Sequences Agora.Sequences.Partner
 theorem open_goal_partner_integral_s7 :
     ∀ n, IsIntegral (partnerSeq s7_params n) := by
   exact Agora.Sequences.Partner.s7_partner_integral
+
+/-- ⭐ **THE AXIOM IS NO LONGER NEEDED (2026-09-20).** The goal above is now also
+    proved WITHOUT `Axioms.obrien2016_theorem6_2`, by
+    `Agora.Sequences.S7Mod4.s7_partner_integral_axiom_free`, whose axiom set is
+    `propext`, `Classical.choice`, `Quot.sound`.
+
+    Route: `4 ∣ s₇(n)` for `n ≥ 1` (`S7Mod4.four_dvd_s7`), proved TERMWISE — each
+    summand `C(n,k)²·C(n+k,k)·C(2k,n)` is divisible by 4 because, when `C(n,k)` is
+    odd, two instances of `Nat.choose_mul` expose the central binomial `C(2k,k)`,
+    even for `k ≥ 1`, in each of the other two factors. Feeding that into the
+    already-proved reduction `SqrtIntegrality.s7_partner_integral_of_congruence`
+    gives integrality.
+
+    Note what this says about the three recorded failures above: all three
+    attacked a RECURRENCE (mod 4 on the order-3 one; mod 2 on the partner's; or
+    circularly via integrality itself). The closing argument touches no
+    recurrence at all. The obstruction was the representation, not the depth —
+    the third time in this file that a goal recorded as blocked fell to a change
+    of representation rather than to new machinery. -/
+theorem open_goal_partner_integral_s7_axiom_free :
+    ∀ n, IsIntegral (partnerSeq s7_params n) :=
+  Agora.Sequences.S7Mod4.s7_partner_integral_axiom_free
 
 -- ╔════════════════════════════════════════════════════════════════════╗
 -- ║  open_goal_partner_eq_sqrt_s7                                      ║

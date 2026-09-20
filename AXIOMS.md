@@ -18,12 +18,31 @@ This file maintains a complete, auditable inventory of all non-standard assumpti
 
 ## Current Inventory
 
-### Axioms — Total Count: **2** (in `Axioms/`)
+### Axioms — Total Count: **2** declared, **1 load-bearing** (in `Axioms/`)
+
+> ### ⭐ `obrien2016_theorem6_2` IS SUPERSEDED (2026-09-20) — NO LONGER NECESSARY
+>
+> `Agora/Sequences/S7Mod4.lean` proves `4 ∣ s₇(n)` for every `n ≥ 1` by an
+> elementary termwise argument (axioms: `propext`, `Classical.choice`,
+> `Quot.sound` only), and hence
+> `S7Mod4.s7_partner_integral_axiom_free : ∀ n, IsIntegral (partnerSeq s7_params n)`
+> — the **same conclusion** as `Partner.s7_partner_integral`, with **no literature
+> axiom**. Verified by the contrast:
+> ```
+> 'Partner.s7_partner_integral'          → [..., Agora.Axioms.obrien2016_theorem6_2]
+> 'S7Mod4.s7_partner_integral_axiom_free' → [propext, Classical.choice, Quot.sound]
+> ```
+> **Cite `s7_partner_integral_axiom_free`.** The axiom and the legacy theorem are
+> RETAINED, not deleted: `S7Mod4` imports (transitively) `PartnerIntegrality`, so
+> the legacy theorem cannot be rewired without a cycle, and keeping both lets the
+> two derivations be compared. The axiom is now used by exactly one theorem, which
+> nothing else needs. **No literature axiom is load-bearing anywhere in the
+> development.**
 
 | Axiom | Location | Status |
 |---|---|---|
 | `pipeline_upper_bound` | `Agora/Axioms/PipelineBound.lean` | **DISCLOSED-VACUOUS** (E-005 / D3) — vacuously true (witness 1), encodes no pipeline data. Relocated here 2026-07-24 (Xavier T0) from `Agora/Swampland/DualScaleStability.lean`; statement verbatim. **NOT discharged.** Discharge path: Lean import of the certified Stream 2/3 artifact (`data/pipeline_artifact.json`, currently PLACEHOLDER-VACUOUS) + restate the bound about that data. See `briefs/ESCALATIONS.md` E-005. |
-| `obrien2016_theorem6_2` | `Agora/Axioms/OBrien2016.lean` | **LITERATURE CITATION** (WP S1-13, 2026-07-26) — L. O'Brien, MSc thesis, Massey University, 2016, Theorem 6.2, p.47 (fetched and hash-pinned by Stream 2, `refs/literature_provenance.txt`; full text read by Stream 1). NOT re-derived: the proof needs the q-expansions of two specific weight-1 level-7 modular objects, established via classical modular-forms machinery absent from the pinned Mathlib. Used once, to close `open_goal_partner_integral_s7` — `partnerSeq s7_params` was shown (mechanically, `partnerSeq_s7_recurrence`) to satisfy O'Brien's recurrence for his sequence `c₇` exactly. Corrects a citation error in Deep Think's 2026-07-26 literature audit, which named Theorem 6.1 (only proves the g.f. correspondence) and a generic "η-quotient corollary" mechanism that does not actually establish integrality (the object is a series *reversion*, which does not trivially preserve integrality) — the real proof is O'Brien's own explicit coefficient-matching induction, Theorem 6.2. See `briefs/DEEPTHINK_L2_PARTNERS_CORRECTION_2026_07_26.md`. |
+| `obrien2016_theorem6_2` | `Agora/Axioms/OBrien2016.lean` | **SUPERSEDED 2026-09-20 — see the note above; retained, no longer necessary.** Formerly: **LITERATURE CITATION** (WP S1-13, 2026-07-26) — L. O'Brien, MSc thesis, Massey University, 2016, Theorem 6.2, p.47 (fetched and hash-pinned by Stream 2, `refs/literature_provenance.txt`; full text read by Stream 1). NOT re-derived: the proof needs the q-expansions of two specific weight-1 level-7 modular objects, established via classical modular-forms machinery absent from the pinned Mathlib. Used once, to close `open_goal_partner_integral_s7` — `partnerSeq s7_params` was shown (mechanically, `partnerSeq_s7_recurrence`) to satisfy O'Brien's recurrence for his sequence `c₇` exactly. Corrects a citation error in Deep Think's 2026-07-26 literature audit, which named Theorem 6.1 (only proves the g.f. correspondence) and a generic "η-quotient corollary" mechanism that does not actually establish integrality (the object is a series *reversion*, which does not trivially preserve integrality) — the real proof is O'Brien's own explicit coefficient-matching induction, Theorem 6.2. See `briefs/DEEPTHINK_L2_PARTNERS_CORRECTION_2026_07_26.md`. |
 
 ### DISCHARGED — E-002 vacuous axioms (S1-07, 2026-07-18)
 

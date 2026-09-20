@@ -67,11 +67,11 @@ Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trus
 
 | Check | Result |
 |---|---|
-| `lake build Agora OpenGoals Tests` | 3722 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **268 theorems audited.** 265 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| `lake build Agora OpenGoals Tests` | 3723 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **278 theorems audited.** 275 depend only on `propext`, `Classical.choice`, `Quot.sound` |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 426 declarations in 33 files, no existing statement changed |
+| Statement lock | OK — 436 declarations in 34 files, no existing statement changed |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)
 
@@ -139,10 +139,45 @@ Full account of the closure, including the verification chain and its negative c
 2026-09-20 (the LeanMaster dependency, then this closure). No existing statement changed at any
 point and no new axiom dependency entered.</sub>
 
+## ⭐ No literature axiom is load-bearing (2026-09-20)
+
+`4 ∣ s₇(n)` for every `n ≥ 1` is now **proved** (`Agora/Sequences/S7Mod4.lean`,
+`four_dvd_s7`), by an elementary termwise argument. Feeding it into the repo's existing
+reduction gives `s7_partner_integral_axiom_free` — the *same* conclusion as the old
+`s7_partner_integral`, but with axioms `propext`, `Classical.choice`, `Quot.sound` only.
+The contrast, from one `#print axioms` run:
+
+```
+'Partner.s7_partner_integral'           → [..., Agora.Axioms.obrien2016_theorem6_2]
+'S7Mod4.s7_partner_integral_axiom_free' → [propext, Classical.choice, Quot.sound]
+```
+
+**The mechanism.** Divisibility is termwise. For a summand `C(n,k)²·C(n+k,k)·C(2k,n)`: if
+`C(n,k)` is even, `4` divides its square; if `C(n,k)` is odd, two instances of
+`Nat.choose_mul` expose the central binomial `C(2k,k)` — even for `k ≥ 1` — inside *each*
+of the other two factors. Equivalently the summand is `C(n+k,2k)·C(k,n−k)·C(2k,k)²`, where
+`4 ∣ C(2k,k)²` is visible by inspection.
+
+**What it is not.** Not a new theorem: `4 ∣ s₇(n)` follows from the classical modular
+identity. It is an elementary, self-contained, machine-checked proof needing no modular
+input. The modulus is sharp (`8 ∤ s₇(1) = 4`) and the criterion discriminates
+(`4 ∤ s₁₀(1)`). The citation axiom is **retained, not deleted** — `S7Mod4` transitively
+imports `PartnerIntegrality`, so the legacy theorem cannot be rewired without a cycle, and
+keeping both lets the derivations be compared.
+
+**Why it had looked hard.** Three recorded failures all attacked a *recurrence*: mod 4 on
+the order-3 recurrence (the `(n+1)³` leading coefficient is even for odd `n`), mod 2 on the
+partner recurrence (controls odd indices only), and deduction from integrality (circular).
+The closing argument touches no recurrence at all. The obstruction was the representation,
+not the depth — the third time in this repo that a "blocked" goal fell to a change of
+representation rather than new machinery.
+
 The two axioms, both registered in [`AXIOMS.md`](AXIOMS.md):
 
 - **`obrien2016_theorem6_2`** — a literature citation (O'Brien 2016, MSc thesis, Massey University,
-  Thm 6.2 p.47), used once, to close `open_goal_partner_integral_s7`. Not re-derived here.
+  Thm 6.2 p.47). ⭐ **SUPERSEDED 2026-09-20**, see above: retained and still used by the legacy
+  `s7_partner_integral`, but no longer necessary for any result. Cite
+  `S7Mod4.s7_partner_integral_axiom_free` instead.
 - **`pipeline_upper_bound`** — flagged **DISCLOSED-VACUOUS**: vacuously true, encodes no pipeline
   data, **not** discharged. The two theorems reaching it carry no content from it; do not cite it
   as evidence.
