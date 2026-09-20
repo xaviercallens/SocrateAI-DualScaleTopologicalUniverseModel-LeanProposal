@@ -121,6 +121,7 @@ prometteur que GE-3/GE-5.** À ne pas prioriser.
 | 4 | hauteur dual-scale, minimum à l'auto-dual | (K), via LeanMaster | confirmé (identité ; pas de dynamique) |
 | 5 | `4 ∣ s₇(n)` via `θ² ≡ 1 mod 4` | (C) esquisse | **à attaquer en premier** |
 | 6 | une seule ℤ/2 dans `O(Γ^{6,22})` | (C), Tier C | peu discriminant |
+| **7** | **Γ₀(N)⁺ agit sur `U ⊕ ⟨2N⟩` par ρ explicite ; les DEUX points singuliers sont des murs de (−2)-racines** | **(K)** | **fondation — porté au papier §8.6–8.7** |
 
 **Ce que l'intuition a produit de solide :** un remplacement exact de la lecture Kodaira rétractée
 (GE-3), l'unification swap/réflexion des deux côtés (GE-1), et l'usage *réel* de deux théorèmes
@@ -128,14 +129,50 @@ LeanMaster (`reflection_*`, `circle_effective_scale_ge_two`).
 **Ce qu'elle n'a pas produit :** de la physique. Tout ce qui est (K) porte sur des matrices
 entières, une application rationnelle et une inégalité réelle.
 
+---
+
+## Addendum (même séance) — la mathématique fondatrice : Γ₀(N)⁺ ⊂ O(U ⊕ ⟨2N⟩)
+
+GE-1…GE-4 exhibaient *une* isométrie. Le fond de l'affaire est un **groupe entier**, désormais
+formalisé — `Agora/Geometry/ModularAction.lean`, (K), axiomes standard seulement :
+
+- **ρ**, représentation explicite 3×3 à coefficients entiers : `ρ(g)` est une isométrie de
+  `U ⊕ ⟨2N⟩` dès que `(ad − Nbc)² = 1` (`rho_isometry`), **uniformément en `N` et en `a,b,c,d`** ;
+  `ρ(g)ρ(g') = ρ(gg')` (`rho_mul`) : c'est un morphisme, donc un groupe d'isométries.
+- **Automorphie** (`rho_mulVec_period`) : `ρ(g)·ω(τ) = ((Ncτ+d)², −N(aτ+b)², (aτ+b)(Ncτ+d))`,
+  identité **polynomiale** — sans hypothèse de déterminant ni d'inversibilité — qui sur un corps
+  se lit `(Ncτ+d)²·ω(g·τ)`. Le facteur d'automorphie de poids 2 apparaît donc *tout seul*.
+- **Atkin–Lehner** (`rhoAL_isometry`, `rhoAL_mulVec_period`) : le `√N` se simplifie dans le carré
+  symétrique, d'où des matrices **entières** — c'est *pourquoi* les involutions d'Atkin–Lehner
+  sont des isométries du réseau. Fricke = `rhoAL N 0 (-1) 1 0 = −swap`
+  (`rhoAL_fricke_eq_neg_swap`) : GE-1…GE-4 sont la spécialisation de ce cadre.
+- **Contrôle négatif** (`rho_not_isometry_of_det_two`) : à `(1,0,0,2)`, `N = 7`, `ρ(g)` n'est **pas**
+  une isométrie. L'hypothèse de déterminant porte réellement.
+
+**Le second point singulier aussi est un mur.** `W' = [[7,4],[−14,−7]]/√7` donne `ρ(W')² = 1` et
+`−ρ(W')` est la réflexion dans la racine `(−2,4,1)`, de norme `−2` (`W7conj_eq_neg_reflection`).
+Donc **les deux** points singuliers `{−1, 1/27}` sont des murs de `(−2)`-racines, pas seulement
+celui de Fricke. Bonus : `g = [[2,−1],[7,−3]] ∈ Γ₀(7)` vérifie `ρ(g)³ = 1` et fixe `(14,−14,5)`
+de norme `−42` — le point elliptique d'ordre 3 de `X₀(7)`.
+
+**Interprétation.** L'arithmétique de l'opérateur de Picard–Fuchs n'est pas une *analogie* avec les
+formes modulaires : le groupe modulaire **est** le groupe d'isométries du réseau, et la droite des
+périodes **est** la droite modulaire. Tout ci-dessus est une identité de matrices entières. Seul le
+*transport* vers la famille s₇ (le Hauptmodul η) reste (E)+(L) — cf. Rem. `rem:selfdual-status`
+du papier.
+
+**Porté dans le manuscrit** (décision T0 du 2026-09-20) : §8.6 `subsec:modular-action`
+(Prop. `prop:rho`) et §8.7 `subsec:selfdual` (Prop. `prop:selfdual`), avec les deux remarques de
+statut. 43 pages, 0 erreur LaTeX.
+
 **Suite proposée.** (1) GE-5 : vérifier l'esquisse (`θ − 1 ∈ 2qℤ[[q]]` est élémentaire :
 `(a,b) ↦ (−a,−b)` est sans point fixe hors de l'origine). (2) Porter GE-3 dans le papier (§8),
 avec les statuts ci-dessus — décision T0. (3) D4 de `RESEARCH_DIRECTIONS` : l'involution conjuguée
 `[[7,4],[−14,−7]]` comme isométrie explicite de `U ⊕ ⟨14⟩`, pour rendre (K) le second point fixe
 côté réseau.
 
-Portes du dépôt après intégration : `lake build` 3720 jobs / 0 erreur / 0 `sorry` ; verrou des
-énoncés OK (386 déclarations, aucun énoncé existant modifié) ; audit 238 théorèmes, les 3 mêmes sur
+Portes du dépôt après intégration : `lake build` 3721 jobs / 0 erreur / 0 `sorry` ; verrou des
+énoncés OK (413 déclarations, aucun énoncé existant modifié) ; audit 258 théorèmes, les 3 mêmes sur
 les deux axiomes enregistrés.
 
 ---

@@ -8,3 +8,4 @@ import Agora.Geometry.Weierstrass
 import Agora.Geometry.DiscriminantLocus
 import Agora.Geometry.MnLattice
 import Agora.Geometry.SelfDual
+import Agora.Geometry.ModularAction

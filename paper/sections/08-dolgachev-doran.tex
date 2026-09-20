@@ -260,6 +260,118 @@ period domain and, on another, the T-duality generator. This is a fact about a
 lattice isometry. We do not assert, and nothing here supports, a physical
 identification of the two.
 
+\subsection{The modular group as a group of lattice isometries}\label{subsec:modular-action}
+
+Proposition~\ref{prop:mn-lean}(iii)--(iv) exhibited one isometry of
+$\U\oplus\lat{2N}$ acting on the period as the Fricke involution. That was a
+sample of a general structure, which we now state in the form in which it is
+kernel-checked (\artifact{Agora/Geometry/ModularAction.lean}). Write
+$\omega(\tau) = e - N\tau^2 f + \tau w$ as before.
+
+\begin{proposition}[status (K)]\label{prop:rho}
+Over any commutative ring, define
+\[
+  \rho(a,b,c,d) \;=\;
+  \begin{pmatrix}
+    d^2 & -Nc^2 & 2Ncd\\
+    -Nb^2 & a^2 & -2Nab\\
+    bd & -ac & ad+Nbc
+  \end{pmatrix},
+  \qquad
+  \rho_W(a,b,c,d) \;=\;
+  \begin{pmatrix}
+    Nd^2 & -c^2 & 2Ncd\\
+    -b^2 & Na^2 & -2Nab\\
+    bd & -ac & Nad+bc
+  \end{pmatrix}.
+\]
+Then:
+\begin{enumerate}
+\item $\rho(a,b,c,d)$ is an isometry of $\U\oplus\lat{2N}$ whenever
+  $(ad-Nbc)^2=1$, and $\rho_W(a,b,c,d)$ is one whenever $(Nad-bc)^2=1$.
+\item $\rho$ is multiplicative: $\rho(g)\rho(g') = \rho(gg')$, the product being
+  that of $\Gamma_0(N)$ written on the entries.
+\item \emph{(Automorphy.)} As an identity of polynomials --- no determinant
+  hypothesis, no invertibility ---
+  \[
+    \rho(a,b,c,d)\,\omega(\tau)
+      \;=\; \bigl((Nc\tau+d)^2,\; -N(a\tau+b)^2,\; (a\tau+b)(Nc\tau+d)\bigr),
+  \]
+  which over a field is $(Nc\tau+d)^2\,\omega\!\bigl(\tfrac{a\tau+b}{Nc\tau+d}\bigr)$.
+  Similarly $\rho_W$ induces $\tau\mapsto\frac{Na\tau+b}{N(c\tau+d)}$.
+\end{enumerate}
+\end{proposition}
+
+So $\rho$ realizes $\Gamma_0(N)$, and $\rho_W$ the Atkin--Lehner elements
+$W=\left(\begin{smallmatrix}Na&b\\Nc&Nd\end{smallmatrix}\right)/\sqrt N$, inside
+$O(\U\oplus\lat{2N})$, acting on the period line with the weight-2 automorphy
+factor; the $\sqrt N$ cancels in the symmetric square, which is why
+Atkin--Lehner involutions are lattice isometries at all. This is the
+constructive half of Dolgachev's $O^{+}(\U\oplus\lat{2n})/\pm1\cong\Gamma_0(n)^{+}$
+\cite{Dolgachev1996}; the converse is quoted, not proved. The Fricke involution
+is $\rho_W(0,-1,1,0)$, which is $-\sigma$ for the $\sigma$ of
+Proposition~\ref{prop:mn-lean}, so that proposition is the specialization of this
+one. A control confirms the determinant hypothesis in (i) is load-bearing: at
+$(a,b,c,d)=(1,0,0,2)$, $N=7$, the matrix is not an isometry.
+
+\subsection{The singular points of the operator are self-dual points}\label{subsec:selfdual}
+
+We can now say what the two finite singular points of $\Lthree$ are. Recall from
+\S\ref{sec:operators} that the leading coefficient of the $s_7$ partner operator
+is $P_2 = 1-26z-27z^2$, whose roots are $z=-1$ and $z=\tfrac1{27}$; an earlier
+reading of these as Kodaira degenerations was withdrawn, and they were
+subsequently identified as order-2 elliptic points of $X_0(7)^{+}$.
+
+\begin{proposition}[status (K)]\label{prop:selfdual}
+Let $z(h) = h/(1+13h+49h^2)$. Then, over any field:
+\begin{enumerate}
+\item $z\bigl(\tfrac1{49h}\bigr) = z(h)$, so $z$ is invariant under the Fricke
+  involution of the $h$-line;
+\item over $\Q$, the fixed points of $h\mapsto \tfrac1{49h}$ are exactly
+  $h=\pm\tfrac17$, and $z(\tfrac17)=\tfrac1{27}$, $z(-\tfrac17)=-1$;
+\item $\bigl(1-26z(h)-27z(h)^2\bigr)\,(1+13h+49h^2)^2 = (1-49h^2)^2$.
+\end{enumerate}
+Moreover $\langle e-f,\,\omega(\tau)\rangle = -(N\tau^2+1)$, so the locus
+$N\tau^2=-1$ fixed by the Fricke involution is exactly the wall of the
+$(-2)$-root $e-f$; and for $N=7$ the conjugate Atkin--Lehner element
+$\rho_W(1,4,-2,-1)$ is an involution whose negative is the reflection in the
+$(-2)$-root $(-2,4,1)$ of $\U\oplus\lat{14}$.
+\end{proposition}
+
+Item (iii) is the sharp statement: pulled back to the $h$-line, the leading
+coefficient of the operator becomes a \emph{perfect square} vanishing exactly at
+the two Fricke fixed points. The singular locus of $\Ltwo,\Lthree$ is the
+ramification locus of the quotient by the involution, and both of its points are
+walls of $(-2)$-roots of the lattice --- one for the Fricke involution, one for
+its conjugate. We regard this as the correct replacement for the withdrawn
+Kodaira reading: it is an exact statement, it is kernel-checked, and it explains
+why there are exactly two such points and why they are the ones they are.
+
+\begin{remark}[What the identification costs]\label{rem:selfdual-status}
+Proposition~\ref{prop:selfdual} is a theorem about the rational map $z(h)$ and
+about the lattice. Reading it as a statement about the $s_7$ \emph{family}
+requires two further inputs, neither kernel-checked. First, that
+$h=\bigl(\eta(7\tau)/\eta(\tau)\bigr)^4$ and $z=z(h)$ pull the family back to the
+$\tau$-line: we verify the equivalent $q$-series identity
+$\sum_n s_7(n)z(q)^n = \bigl(\sum_{a,b}q^{a^2+ab+2b^2}\bigr)^2$ exactly to
+$O(q^{40})$, status (E), with a control in which replacing $13$ by $12$ makes the
+identity fail. Second, that $h(-1/(7\tau)) = 1/(49h(\tau))$, which is the
+$\eta$~transformation law, status (L); numerically $h(i/\sqrt7)=\tfrac17$ and
+$h\bigl((-1+i/\sqrt7)/2\bigr)=-\tfrac17$ to 40 digits, and the Fricke relation
+holds to $10^{-42}$ at a generic point. The script is
+\artifact{scripts/check\_selfdual\_points\_s7.py}.
+\end{remark}
+
+\begin{remark}[No physical claim]\label{rem:selfdual-nophysics}
+In the string-theory literature the wall of a $(-2)$-root is associated with
+enhanced gauge symmetry, and the fixed locus of T-duality on a circle is the
+self-dual radius; the $2\times2$ block of $\sigma$ on the $\U$ summand is
+literally the Narain Gram matrix of a circle, on which the same exchange is the
+T-duality generator. We record this because it is what makes the structure
+interesting, and we claim nothing from it: no compactification is constructed
+here, and a coincidence of lattice isometries is not a physical identification.
+\end{remark}
+
 \subsection{What is conjectural}
 
 \begin{conjecture}[Identification of the computed lattice]\label{conj:T}
