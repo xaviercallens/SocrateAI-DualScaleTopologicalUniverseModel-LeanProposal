@@ -4,6 +4,7 @@
 # second line `git add -A` would commit the link.
 .lake/
 .lake
+.lake-*/
 .build/
 .lean/
 
