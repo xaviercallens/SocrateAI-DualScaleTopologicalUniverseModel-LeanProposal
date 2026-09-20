@@ -47,9 +47,125 @@ Formalized as \artifact{sqrtSeq\_dyadic} in
 so the statement is not vacuous.
 \end{proof}
 
+Proposition~\ref{prop:dyadic} concerns the formal square root $g$; the object
+of interest is the recurrence-defined partner $a$
+of~\eqref{eq:partner-recurrence}. That the two coincide is the
+\emph{sequence-level} form of Theorem~\ref{thm:sym2-template}, and it is not a
+formality: the operator identity $\Lthree = P_2\cdot\Symtwo(\Ltwo)$ says that
+$\Symtwo(\Ltwo)$ annihilates $f^2$, and passing from there to a statement
+about coefficient sequences is exactly the step that a proof assistant does
+not grant for free.
+
+\begin{theorem}[Sequence-level symmetric square; status (K)]\label{thm:bridge}
+Let $(a,b,c,d)\in\Z^4$ and let $s\colon\mathbb N\to\Z$ satisfy the Cooper
+recurrence
+\begin{equation}\label{eq:cooper-recurrence}
+  (n+1)^3 s(n+1) = (2n+1)\bigl(an^2+an+b\bigr)s(n) - n\bigl(cn^2+d\bigr)s(n-1)
+  \qquad(n\geq1),
+\end{equation}
+the coefficient form of $\Lthree(a,b,c,d)\sum s(n)z^n=0$, with $s(0)=1$,
+$s(1)=b$. Let $(a_n)$ be
+the partner sequence defined by~\eqref{eq:partner-recurrence} with $a_0=1$,
+$a_1=\tfrac b2$, and $(g_n)$ the formal square root of $\sum s(n)z^n$. Then
+$a_n = g_n$ for every $n$. Equivalently
+\[
+  \sum_{i=0}^{n} a_i\,a_{n-i} \;=\; s(n)\qquad(n\geq 0).
+\]
+\end{theorem}
+
+\begin{proof}
+Write $y_n=\sum_{i=0}^n a_ia_{n-i}$. Three steps.
+
+\emph{(i) Symmetrization.} For any kernel $F$ and any sequence $a$,
+$\sum_{i=0}^{m}F(i,m-i)\,a_ia_{m-i}
+  = \sum_{i=0}^{m}\tfrac12\bigl(F(i,m-i)+F(m-i,i)\bigr)a_ia_{m-i}$,
+by reflecting the summation index.
+
+\emph{(ii) The convolution satisfies the order-3 recurrence.} Multiply
+\eqref{eq:partner-recurrence} at index $t=n-i$ by $(6i+2t+4)\,a_i$ and sum
+over $0\le i\le n$. The three resulting sums have kernels
+$(6j+2k)k^2$, \ $(6j+2k+2)(2ak^2+ak+\tfrac b2)$ and
+$(6j+2k+4)(ck^2+ck+\tfrac{c+d}4)$ on the antidiagonals $j+k=n+2,\,n+1,\,n$
+respectively, and their symmetrizations are \emph{constant} on each
+antidiagonal, equal to
+\[
+  (n+2)^3,\qquad (2n+3)\bigl(a(n+1)^2+a(n+1)+b\bigr),\qquad
+  (n+1)\bigl(c(n+1)^2+d\bigr).
+\]
+These are precisely the coefficients of the Cooper recurrence. The boundary
+terms $i=n+1,n+2$ cancel using $a_1=\tfrac b2a_0$. Hence $(y_n)$ satisfies the
+Cooper recurrence.
+
+\emph{(iii) Uniqueness.} $y_0=1=s(0)$ and $y_1=2a_0a_1=b=s(1)$, and the leading
+coefficient $(n+2)^3$ never vanishes, so $y=s$. Finally $\sum a_nz^n$ and
+$\sum g_nz^n$ are two power series over $\Q$ with constant term $1$ and equal
+squares; since $\Q[[z]]$ is a domain and their sum is a unit, they are equal.
+
+Formalized as \artifact{partner\_eq\_sqrt} in
+\artifact{Agora/Sequences/SqrtBridgeGeneric.lean}, with step~(ii) as
+\artifact{conv\_cooper\_of\_rec\_generic} over arbitrary
+$(A,B,C,D)\in\Q^4$; the weight $6i+2t+4$ is the entire creative content, and
+the kernel verifies the rest by \artifact{ring}. The instances are
+\artifact{partner\_eq\_sqrt\_s7} and \artifact{partner\_eq\_sqrt\_s10}, which
+discharge the recurrence hypothesis by the WZ certificates of
+\S\ref{sec:formalization}. No instance is stated for $s_{18}$: the development
+contains no closed form for $s_{18}$ to instantiate at, and we do not assume
+one.
+\end{proof}
+
+\begin{corollary}[status (K)]\label{cor:partner-dyadic}
+Under the hypotheses of Theorem~\ref{thm:bridge}, every partner coefficient
+$a_n$ lies in $\Z[\tfrac12]$. In particular this holds for the $s_7$ and
+$s_{10}$ partners at every index.
+\end{corollary}
+
 So powers of $2$ in the denominators are the \emph{forced} baseline for the
-partner of any Cooper-template instance with integral holomorphic solution,
-and $s_{10}$ and $s_{18}$ merely exhibit it. It is $s_7$ that is anomalous.
+partner of any Cooper-template instance, now as a theorem rather than as an
+observation: $s_{10}$ exhibits it (Theorem~\ref{thm:non-integral} shows the
+prime $2$ genuinely occurs), and it is $s_7$ that is anomalous. For $s_7$ the
+corollary excludes every odd prime from the denominators unconditionally; it
+does \emph{not} give integrality, which remains the content of
+Corollary~\ref{cor:s7-integral} and rests on the citation discussed there.
+
+The 2-adic half can be isolated exactly.
+
+\begin{proposition}[status (K)]\label{prop:mod4}
+Let $s\colon\mathbb N\to\Z$ with $s(0)=1$ and $4\mid s(n)$ for all $n\geq1$. Then
+every coefficient $g_n$, $n\geq1$, of the formal square root is an even integer.
+Consequently, if $4\mid s_7(n)$ for all $n\geq1$, the $s_7$ partner is integral,
+with no appeal to Theorem~\ref{thm:obrien}.
+\end{proposition}
+
+\begin{proof}
+Strong induction: if $g_k\in2\Z$ for $1\le k<n$ then
+$\sum_{k=1}^{n-1}g_kg_{n-k}\in4\Z$, so
+$g_n=\tfrac12\bigl(s(n)-\sum g_kg_{n-k}\bigr)\in2\Z$. The second statement is
+Theorem~\ref{thm:bridge}. Formalized as \artifact{sqrtSeq\_even\_of\_four\_dvd}
+and \artifact{s7\_partner\_integral\_of\_congruence} in
+\artifact{Agora/Sequences/SqrtIntegrality.lean}.
+\end{proof}
+
+\begin{remark}[PASS(200)]\label{rem:pass200}
+The hypothesis $4\mid s_7(n)$ holds for $1\leq n\leq200$ in exact integer
+arithmetic, the minimum 2-adic valuation over that range being exactly $2$; it
+is kernel-checked for $n\leq6$. This is evidence, not proof, and
+Corollary~\ref{cor:s7-integral} does not rely on it. If proved, it would replace
+the development's only literature axiom by an elementary congruence on the
+binomial sum defining $s_7$. The criterion is sufficient but not necessary
+($(1+z)^2$ has an integral square root), so it is not a characterization; it
+does fail for $s_{10}$ already at $n=1$ (\artifact{s10\_fails\_criterion}).
+\end{remark}
+
+\begin{remark}[A cautionary note on ``blocked'' goals]\label{rem:blocked}
+For $s_7$, Theorem~\ref{thm:bridge} stood for some weeks as the development's
+last open goal, with four recorded failed strategies and an internal ruling
+that it was blocked on the absence, in the pinned library, of a power-series
+square root and of a holonomic-sequence API. Both absences are real and neither
+was relevant: the proof above uses only reindexing of finite sums and the fact
+that $\Q[[z]]$ is a domain. We record this because the failure mode is general.
+A ``blocked on the library'' verdict is a statement about a proof route; four
+failed strategies are evidence about four strategies.
+\end{remark}
 
 \subsection{Non-integrality for \texorpdfstring{$s_{10}$}{s10} and
 \texorpdfstring{$s_{18}$}{s18}}

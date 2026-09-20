@@ -193,6 +193,29 @@ theorem partnerSeq_s7_recurrence (k : ℕ) :
   field_simp
   ring
 
+/-- One recurrence step of the partner, for EVERY Cooper parameter choice — the
+    generic form of `partnerSeq_s7_recurrence`. Added 2026-09-20 for the generic
+    square-root bridge (`SqrtBridgeGeneric.lean`). Pure unfolding of
+    `partnerPair`; no parameter-specific content. -/
+theorem partnerSeq_recurrence (p : CooperRecurrenceParams) (k : ℕ) :
+    ((k : ℚ) + 2) ^ 2 * partnerSeq p (k + 2) =
+      (2 * (p.a : ℚ) * ((k : ℚ) + 1) ^ 2 + (p.a : ℚ) * ((k : ℚ) + 1) + (p.b : ℚ) / 2)
+          * partnerSeq p (k + 1)
+        - ((p.c : ℚ) * (k : ℚ) ^ 2 + (p.c : ℚ) * (k : ℚ) + ((p.c : ℚ) + (p.d : ℚ)) / 4)
+          * partnerSeq p k := by
+  have e2 : partnerSeq p (k + 2) = (partnerPair p (k + 1)).2 :=
+    partnerPair_fst_succ p (k + 1)
+  have e1 : (partnerPair p k).2 = partnerSeq p (k + 1) :=
+    (partnerPair_fst_succ p k).symm
+  have e0 : (partnerPair p k).1 = partnerSeq p k := rfl
+  rw [e2, partnerPair_snd_succ, e1, e0]
+  field_simp
+
+/-- The partner's first two values, for every parameter choice. -/
+theorem partnerSeq_zero (p : CooperRecurrenceParams) : partnerSeq p 0 = 1 := rfl
+
+theorem partnerSeq_one (p : CooperRecurrenceParams) : partnerSeq p 1 = (p.b : ℚ) / 2 := rfl
+
 /-- **The s7 partner is integral. Complete, unconditional — Theorem, not
     PASS(N).** Closes `open_goal_partner_integral_s7` via `partnerSeq_s7_recurrence`
     (mechanical: our recurrence matches O'Brien's) and `obrien2016_theorem6_2`

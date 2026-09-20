@@ -67,11 +67,11 @@ Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trus
 
 | Check | Result |
 |---|---|
-| `lake build Agora OpenGoals Tests` | 3171 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **176 theorems audited.** 173 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| `lake build Agora OpenGoals Tests` | 3716 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **219 theorems audited.** 216 depend only on `propext`, `Classical.choice`, `Quot.sound` |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 310 declarations in 27 files, no existing statement changed |
+| Statement lock | OK — 362 declarations in 30 files, no existing statement changed |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)
 
@@ -94,10 +94,28 @@ PASS(59) observation to a theorem and excluding every odd prime. ⚠️ Dyadic i
 this reduces `open_goal_partner_integral_s7` to a purely 2-adic statement, and does **not**
 discharge `obrien2016_theorem6_2`.
 
-Full account, including the verification chain and its negative control:
+**Same day, three follow-ons (all kernel-proved, standard axioms only):**
+- **The bridge holds for the whole Cooper template** (`SqrtBridgeGeneric.partner_eq_sqrt`): for
+  every `(a,b,c,d)` and every integer sequence with the Cooper recurrence, partner = formal √.
+  New instance: **s₁₀**, whose partner is now *proved* dyadic at every index (was PASS(59)).
+  No s₁₈ instance is stated — the repo has no closed form for s₁₈ to instantiate at.
+- **s₇ integrality is reduced to one congruence** (`SqrtIntegrality`): if `4 ∣ s₇(n)` for all
+  `n ≥ 1` then the s₇ partner is integral *without* `obrien2016_theorem6_2`. The congruence is
+  **PASS(200)**, kernel-checked PASS(6), and **not proved** — so the axiom still stands. Proving it
+  would leave the development with no literature axiom.
+- **`U ⊕ ⟨2N⟩` on LeanMaster's lattice API** (`Agora/Geometry/MnLattice.lean`): the glue
+  `e ± Nf ⊂ U` of index `2N` (the paper's embedding witness at `N = 7`), and the swap `e ↔ f`
+  acting on the period as the Fricke involution `τ ↦ −1/(Nτ)`. The same matrix is LeanMaster's
+  Narain form, on which the swap is T-duality — **a fact about a lattice isometry, not a physical
+  identification** (VISION §1.3). Whether `U ⊕ ⟨14⟩` *is* the s₇ transcendental lattice stays Tier B.
+
+Directions and the (Tier C, conjecture-marked, not in the paper) K3 × T² question:
+[`briefs/RESEARCH_DIRECTIONS_2026_09_20.md`](briefs/RESEARCH_DIRECTIONS_2026_09_20.md).
+
+Full account of the closure, including the verification chain and its negative control:
 **[`briefs/BRIDGE_GOAL_CLOSED_2026_09_20.md`](briefs/BRIDGE_GOAL_CLOSED_2026_09_20.md)**.
 
-<sub>Counts moved 3155 → 3159 → 3171 jobs and 165 → 168 → 176 audited theorems over two changes on
+<sub>Counts moved 3155 → 3159 → 3171 → 3716 jobs and 165 → 168 → 176 → 219 audited theorems over three changes on
 2026-09-20 (the LeanMaster dependency, then this closure). No existing statement changed at any
 point and no new axiom dependency entered.</sub>
 
