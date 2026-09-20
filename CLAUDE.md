@@ -18,8 +18,16 @@ the **epistemic-guardrails** skill before writing any prose.
    (commit `85e3a25e006c35636f0e53b0e9296caca2685bc0`), chosen to match
    `SocrateAI-Scientific-Agora-LeanMaster` so the two share one olean cache.
    Previous pin: Lean `v4.32.0` + Mathlib `3dffaf2f18b47d11948f6390838ea6f2ae662aaf`.
-   The freeze is not lifted — it was re-pointed once, by T0, and `lake update` is again
-   forbidden without a new dated T0 decision recorded here.
+   **Second dependency (T0 decision, 2026-09-20): `SocrateAI-Scientific-Agora-LeanMaster`**
+   at release tag `v3.33.0` (commit `61fc58d599182185613e1460861e48d6c7dd39a7`), required
+   **from git by tag, never by local path** — LeanMaster is under active concurrent
+   development on this machine and its working tree is routinely dirty, so a `packagesDir`
+   dependency would make this build depend on another session's uncommitted state.
+   It requires the same Mathlib tag, so the graphs unify (`mathlib` appears once in
+   `lake-manifest.json`). Exercised by `Agora/Bridge/LeanMasterK3.lean`, which is imported
+   from `Agora.lean` so `lake build Agora` actually compiles against it.
+   The freeze is not lifted — it has been re-pointed twice, both times by T0, and
+   `lake update` is again forbidden without a new dated T0 decision recorded here.
 2. `axiom` only in `Axioms/`, registered in `AXIOMS.md` (hook-enforced).
 3. `sorry` on branches only; on `main` only inside `OpenGoals/`.
    ⚠️ **Not CI-enforced — corrected 2026-09-20.** This rule previously claimed "(CI-enforced)".
