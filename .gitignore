@@ -1,5 +1,9 @@
 # Lean 4 (build artifacts only; manifest and toolchain are pinned)
+# Match both a real directory and a symlink — worktrees point .lake at the data
+# disk, and a bare `.lake/` pattern does NOT match a symlink, so without the
+# second line `git add -A` would commit the link.
 .lake/
+.lake
 .build/
 .lean/
 

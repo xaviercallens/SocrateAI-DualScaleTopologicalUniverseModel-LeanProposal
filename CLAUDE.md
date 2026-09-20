@@ -5,14 +5,31 @@ Formal verification repo for the Dual-Scale program. Governing docs: `VISION.md`
 the **epistemic-guardrails** skill before writing any prose.
 
 ## Commands
-- Build: `lake build` (full), `lake build <Module>` (targeted)
+- Build (full): **`lake build Agora OpenGoals Tests`**, or `lake build <Module>` (targeted).
+  ⚠️ **Corrected 2026-09-20: a bare `lake build` builds NOTHING and still exits 0** — the package
+  declares no `default_target`, so it prints "no targets specified … Nothing to build." Treating
+  that exit code as a green build is a false PASS. Always name the targets.
 - Tests: `lake build Tests` (golden numeric checks vs literature values)
 - Open goals: `python3 scripts/export_open_goals.py` → `open_goals.json` (machine-consumed by Stream 2; never hand-edit)
 
 ## Non-negotiable rules
 1. Never `lake update`; toolchain and Mathlib pin are frozen (missing API → OPEN_GOALS.md "blocked-on-mathlib").
+   **Current pin (T0 decision, 2026-09-20): Lean `v4.34.0-rc2` + Mathlib tag `v4.34.0-rc2`**
+   (commit `85e3a25e006c35636f0e53b0e9296caca2685bc0`), chosen to match
+   `SocrateAI-Scientific-Agora-LeanMaster` so the two share one olean cache.
+   Previous pin: Lean `v4.32.0` + Mathlib `3dffaf2f18b47d11948f6390838ea6f2ae662aaf`.
+   The freeze is not lifted — it was re-pointed once, by T0, and `lake update` is again
+   forbidden without a new dated T0 decision recorded here.
 2. `axiom` only in `Axioms/`, registered in `AXIOMS.md` (hook-enforced).
-3. `sorry` on branches only; on `main` only inside `OpenGoals/` (CI-enforced).
+3. `sorry` on branches only; on `main` only inside `OpenGoals/`.
+   ⚠️ **Not CI-enforced — corrected 2026-09-20.** This rule previously claimed "(CI-enforced)".
+   There is no CI: the repo has no `.github/` directory at all. The only mechanism is
+   `.claude/hooks/lean_guard.sh`, a Claude Code `PostToolUse` hook, which (a) runs only when
+   *Claude* edits a `.lean` file in a session that loads `.claude/settings.json`, (b) *blocks*
+   an `axiom` outside `Axioms/` (rule 2), but (c) only *warns* about a `sorry` outside
+   `OpenGoals/` — it exits 0. A hand edit, another tool, or any `git commit` bypasses all of it.
+   Treat rules 2 and 3 as honour-system on the human side and verify by hand before claiming
+   compliance. See `briefs/MEMO_LEAN_4_34_MIGRATION_2026_09_20.md` §5.
 4. Every literature-encoding definition has a `-- Source:` docstring.
 5. Three failed strategies on a lemma → named open goal, move on. No unbounded grinding.
 6. Never silently weaken a statement to make it provable.
