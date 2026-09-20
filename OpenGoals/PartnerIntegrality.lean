@@ -12,6 +12,7 @@
 -/
 
 import Agora.Sequences.PartnerIntegrality
+import Agora.Sequences.SqrtBridge
 
 namespace Agora.Sequences.OpenGoals
 
@@ -106,10 +107,18 @@ theorem open_goal_partner_integral_s7 :
 -- ║  open_goal_partner_eq_sqrt_s7                                      ║
 -- ╚════════════════════════════════════════════════════════════════════╝
 
-/-- OPEN. The recurrence-defined partner IS the formal square root of the s7
-    series: `partnerSeq s7_params = FormalSqrt.sqrtSeq (s7 ·)` at every index.
+/-- CLOSED (2026-09-20). The recurrence-defined partner IS the formal square root
+    of the s7 series: `partnerSeq s7_params = FormalSqrt.sqrtSeq (s7 ·)` at every
+    index. Proof: `Agora.Sequences.SqrtBridge.partner_eq_sqrt_s7`. See the ★★
+    block at the end of this docstring for how, and for why the
+    `blocked-on-mathlib` ruling was wrong.
 
-    STATUS: open. Kernel-checked at `n = 1, 2, 3` (`sqrt_matches_partner_s7`,
+    ⚠️ Everything from here to the ★★ block is the ORIGINAL open-goal record,
+    retained unedited so the reasoning stays auditable. It is superseded: where it
+    says "open", "not currently formalisable" or "no `PowerSeries` square root",
+    read the ★★ block instead.
+
+    STATUS (as originally written): open. Kernel-checked at `n = 1, 2, 3` (`sqrt_matches_partner_s7`,
     with the s10 analogue at `n = 1, 2`); CAS-verified to `n = 59` for all three
     candidates in exact arithmetic (S1-12 session, scratchpad `q6_check.py`
     rederivable from `scripts/verify_sym2_partner_identities.py` data).
@@ -195,9 +204,46 @@ theorem open_goal_partner_integral_s7 :
     — plausibly substantial but not "blocked" in the same sense as
     `open_goal_partner_integral_s7` was before S1-13. Recommend: worth a
     dedicated session, not a re-litigation of "blocked-on-mathlib" without new
-    information. -/
+    information.
+
+    ★★ CLOSED 2026-09-20. The recommendation above was acted on and the goal is
+    PROVED, unconditionally, for all `n`. Proof:
+    `Agora.Sequences.SqrtBridge.partner_eq_sqrt_s7`
+    (`Agora/Sequences/SqrtBridge.lean`). Axioms: `propext`, `Classical.choice`,
+    `Quot.sound` — Lean's own only. No `native_decide`, no `sorry`, and it does
+    NOT use `Axioms.obrien2016_theorem6_2`.
+
+    THE "blocked-on-mathlib" RULING WAS WRONG, and instructively so. It was
+    justified by the absence of a `PowerSeries` square root and of a
+    D-finite/holonomic API. Both absences are real; neither matters. The proof
+    needs only `PowerSeries.mk`, `coeff_mul`,
+    `Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk`, `isUnit_iff_constantCoeff`,
+    `PowerSeries.instNoZeroDivisors` and `Finset.sum_range_reflect` — every one
+    of which was present at the OLD pin too. Nothing was missing from Mathlib.
+
+    The four strategies recorded above were never refuted; they were routed
+    around. The missing idea was that a convolution sum can be SYMMETRIZED in its
+    two indices (`conv_symm`, via `Finset.sum_range_reflect`), after which the
+    solution-level Sym² transport — strategy 2's blocker, which it assumed was a
+    WZ-certificate problem — becomes a single `linear_combination` against the
+    order-2 recurrence (`conv_cooper_of_rec`). Then recursion uniqueness for the
+    order-3 recurrence (`cooper_unique`) and square-root uniqueness in `ℚ⟦X⟧`
+    finish it.
+
+    LESSON, since this is the SECOND time a `blocked-on-mathlib` ruling on this
+    file proved wrong (the first was `open_goal_partner_integral_s7`, closed by
+    citing O'Brien): the label describes a PROOF ROUTE, not a goal. `n` failed
+    strategies are evidence about those `n` strategies. Before accepting it,
+    name the specific absent declaration and check the goal actually needs it.
+
+    CONSEQUENCE, now real: `SqrtBridge.partner_s7_dyadic` — the s7 partner lies
+    in ℤ[1/2] at every index, upgrading the PASS(59) observation to a theorem and
+    excluding every odd prime. ⚠️ This does NOT discharge
+    `Axioms.obrien2016_theorem6_2`: dyadic is not integral. It reduces
+    `open_goal_partner_integral_s7` to a purely 2-adic statement; that statement
+    is open and was not attempted. ★★ -/
 theorem open_goal_partner_eq_sqrt_s7 :
-    ∀ n, partnerSeq s7_params n = FormalSqrt.sqrtSeq (fun k => (s7 k : ℤ)) n := by
-  sorry
+    ∀ n, partnerSeq s7_params n = FormalSqrt.sqrtSeq (fun k => (s7 k : ℤ)) n :=
+  Agora.Sequences.SqrtBridge.partner_eq_sqrt_s7
 
 end Agora.Sequences.OpenGoals

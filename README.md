@@ -67,15 +67,39 @@ Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trus
 
 | Check | Result |
 |---|---|
-| `lake build Agora OpenGoals Tests` | 3159 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **168 theorems audited.** 165 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| `lake build Agora OpenGoals Tests` | 3171 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **176 theorems audited.** 173 depend only on `propext`, `Classical.choice`, `Quot.sound` |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
-| `sorry` | **exactly one**, `OpenGoals/PartnerIntegrality.lean:201` (`open_goal_partner_eq_sqrt_s7`) |
-| Statement lock | OK — 302 declarations in 26 files, no existing statement changed |
+| `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
+| Statement lock | OK — 310 declarations in 27 files, no existing statement changed |
 
-<sub>The 2026-09-20 LeanMaster dependency moved these from 3155 / 165 / 299: it added three
-zero-axiom `rfl` smoke tests and LeanMaster's two compiled modules. No existing statement changed
-and no new axiom dependency entered.</sub>
+## 🎯 The last `sorry` is closed (2026-09-20)
+
+`open_goal_partner_eq_sqrt_s7` — that the recurrence-defined order-2 partner of Cooper's s₇ **is**
+the formal square root of the s₇ series, at every index — is **proved unconditionally**
+(`Agora/Sequences/SqrtBridge.lean`). This is the bridge that carries the kernel-proved
+*operator-level* theorem `L₃ = P₂·Sym²(L₂)` down to the level of **sequences**. Axioms: Lean's
+three only; it does *not* use `obrien2016_theorem6_2`.
+
+**The `blocked-on-mathlib` ruling on it was wrong.** That ruling cited the absence of a
+`PowerSeries` square root and of a holonomic API. Both absences are real; neither mattered — the
+proof uses only API that was present at the *previous* pin too. The four recorded failed strategies
+were never refuted, they were routed around: a convolution sum can be symmetrized in its two
+indices (`Finset.sum_range_reflect`), after which the solution-level Sym² transport is a single
+`linear_combination`. This is the **second** time a `blocked-on-mathlib` label on this file proved
+wrong. The label describes a proof route, not a goal.
+
+New consequence: `partner_s7_dyadic` — the s₇ partner lies in ℤ[1/2] for every `n`, upgrading a
+PASS(59) observation to a theorem and excluding every odd prime. ⚠️ Dyadic is **not** integral:
+this reduces `open_goal_partner_integral_s7` to a purely 2-adic statement, and does **not**
+discharge `obrien2016_theorem6_2`.
+
+Full account, including the verification chain and its negative control:
+**[`briefs/BRIDGE_GOAL_CLOSED_2026_09_20.md`](briefs/BRIDGE_GOAL_CLOSED_2026_09_20.md)**.
+
+<sub>Counts moved 3155 → 3159 → 3171 jobs and 165 → 168 → 176 audited theorems over two changes on
+2026-09-20 (the LeanMaster dependency, then this closure). No existing statement changed at any
+point and no new axiom dependency entered.</sub>
 
 The two axioms, both registered in [`AXIOMS.md`](AXIOMS.md):
 
