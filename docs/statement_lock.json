@@ -229,6 +229,16 @@
     "s7_res3": "205ce4a7077acf9e",
     "thetaC": "75a8167c84f8d0b9"
   },
+  "Agora/Sequences/SqrtBridge.lean": {
+    "conv_cooper_of_rec": "d80503cbd629f223",
+    "conv_symm": "a1ff2bd2bad628bb",
+    "cooper_unique": "0aa4d86914a790cd",
+    "hconv_s7": "9dc90d0d02ca5984",
+    "open_goal_partner_eq_sqrt_s7": "e045b8b52a4e80a5",
+    "partner_eq_sqrt_s7": "b83f4b583867913e",
+    "partner_s7_dyadic": "3a9bf69541f9d71f",
+    "s7_cooper_shift": "133d6f936a32562a"
+  },
   "Agora/Sequences/ThetaOperators.lean": {
     "S12_zagier_params": "e3ab3da7a7056fd0",
     "ZagierRecurrenceParams": "cdfd482191f61def",
