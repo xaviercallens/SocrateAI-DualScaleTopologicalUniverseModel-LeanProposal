@@ -28,6 +28,87 @@ This repository is **not** responsible for:
 
 ---
 
+## Results at a glance
+
+Everything in this table is kernel-checked with Lean's three standard axioms only
+(`propext`, `Classical.choice`, `Quot.sound`) — no `sorry`, no `native_decide`, no literature
+axiom. Names are Lean declarations; grep for them.
+
+| Result | Lean name | File |
+|---|---|---|
+| `L₃ = P₂·Sym²(L₂)` — four coefficient identities, uniform in `(a,b,c,d)` | `partner_res0..3`, `partner_magic` | `Sequences/PartnerOperators.lean` |
+| Almkvist–van Straten criterion `W ≡ 0`, identically on the template | `P_cleared_eq_zero` | `Swampland/SymSquareC3b.lean` |
+| **Sequence-level Sym²**: partner = formal √ of the bulk series, whole template | `partner_eq_sqrt` | `Sequences/SqrtBridgeGeneric.lean` |
+| — instances s₇ and s₁₀; s₁₀'s partner dyadic (was PASS(59)) | `partner_eq_sqrt_s10`, `s10_partner_dyadic` | `"` |
+| **`4 ∣ s₇(n)`** for `n ≥ 1`, termwise and elementary | `four_dvd_s7` | `Sequences/S7Mod4.lean` |
+| — hence s₇ partner integral **with no literature axiom** | `s7_partner_integral_axiom_free` | `"` |
+| s₁₀, s₁₈ partners **not** integral (single witnesses) | `s10_partner_not_integral` | `Sequences/PartnerIntegrality.lean` |
+| `Γ₀(N)⁺ ⊂ O(U⊕⟨2N⟩)` by explicit integer 3×3 ρ; ρ is a homomorphism | `rho_isometry`, `rho_mul` | `Geometry/ModularAction.lean` |
+| — automorphy `(Ncτ+d)²` as a **polynomial identity**, no hypotheses | `rho_mulVec_period` | `"` |
+| — ρ is the symmetric square, and lands in `SO(2,1)` | `rho_trace`, `rho_det` | `"` |
+| Gauss form: `sym2(M)ᵀG₀sym2(M) = (det M)²G₀`; `sym2` is **contravariant** | `sym2_isometry_general`, `sym2_contravariant` | `Geometry/SymSquareForms.lean` |
+| The discriminant lattice and `U⊕⟨2N⟩` are **not isometric** | `no_isometry_G0N_TN` | `"` |
+| Signature of `U⊕⟨2N⟩` is `(2,1)`, by explicit diagonalization | `TN_diagonalises` | `Geometry/MnLattice.lean` |
+| Both singular points `{−1, 1/27}` are walls of `(−2)`-roots | `s7_P2_discriminant`, `W7conj_eq_neg_reflection` | `Geometry/SelfDual.lean`, `ModularAction.lean` |
+| Primitive embedding witness `B`, `C`, orthogonality, index 14 | `B_pullback`, `B_orthogonal_C` | `Geometry/Embedding.lean` |
+
+---
+
+## What you may cite, and what you may not
+
+This project's credibility rests on the distinction. Tiers are defined in [VISION.md](VISION.md) §2.
+
+**You may state as fact (Tier A).** Everything in the table above. These are theorems about
+sequences, polynomials, rational maps and integer matrices.
+
+**You must hedge (Tier B).** That `U⊕⟨14⟩` *is* the transcendental lattice of the s₇ K3 family,
+and ρ = 19 / T = 3 for `cooper_s7`. These rest on a numerical monodromy computation (Stream 2,
+E-011), not on the kernel.
+
+**Exact computation, not kernel-checked (E).** That the Hauptmodul `h = (η(7τ)/η(τ))⁴` with
+`z = h/(1+13h+49h²)` parametrizes the s₇ family — verified as an exact `q`-series identity to
+`O(q⁴⁰)`, with a negative control, by `scripts/check_selfdual_points_s7.py`.
+
+**Blocked, program-wide (Tier C).** No exact physical observable exists anywhere in this program
+(F5b). The Sym² relation supplies **no physical coupling** (VISION §1.3). In particular the
+coincidence that one integer matrix is both the Fricke involution and the Narain T-duality
+generator is a fact about a lattice isometry and **not** a physical identification. Stream 3
+independently found that T-duality is homologically invisible, which is consistent.
+
+**Retracted — never cite.** ρ = 4 / T = 18; any Kodaira reading of the L₂/L₃ exponents; and
+everything in the two correction notices below.
+
+---
+
+## Verify it yourself
+
+Do not trust the numbers in this file; regenerate them.
+
+```bash
+lake exe cache get
+lake build Agora OpenGoals Tests                       # expect 0 errors, 0 sorry
+grep -rn '\bsorry\b' Agora OpenGoals Tests --include=*.lean   # prose only
+python3 scripts/export_open_goals.py                   # all four goals report closed
+python3 scripts/check_selfdual_points_s7.py            # PASS(40) + negative control
+
+# proof-gate tooling (from the sibling LeanMaster repo; works on any Lake project)
+LM=~/SocrateAI-Scientific-Agora-LeanMaster
+LEAN_PROJECT_ROOT=$PWD python3 $LM/tools/axiom_audit.py Agora
+LEAN_PROJECT_ROOT=$PWD python3 $LM/tools/statement_lock.py --check $(find Agora OpenGoals Tests -name '*.lean')
+```
+
+The axiom audit reports **3 "failing"** theorems. All three are the two *registered, disclosed*
+axioms of [`AXIOMS.md`](AXIOMS.md), not defects — and neither is load-bearing (see below).
+
+⚠️ **A vacuous theorem would pass every one of those gates.** It compiles, evades the `sorry`
+grep, reports the three standard axioms and locks cleanly. This repository has shipped vacuous
+theorems twice (E-002/E-005, and the two relabelled `⚠️ VACUOUS` below). Only reading the
+*statement* catches it. Where a statement could be satisfied trivially, this repo now carries an
+explicit non-vacuity control — e.g. `sqrtSeq_even_needs_hypothesis`, `rho_not_isometry_of_det_two`,
+`B_six_not_T7`, `sym2_not_covariant`, `TN_diagonalises_sign`, `dyadic_baseline_control`.
+
+---
+
 ## Toolchain (pinned)
 
 | | Value |
@@ -68,10 +149,10 @@ Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trus
 | Check | Result |
 |---|---|
 | `lake build Agora OpenGoals Tests` | 3724 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **297 theorems audited.** 294 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| Axiom audit of `Agora` | **298 theorems audited.** 295 depend only on `propext`, `Classical.choice`, `Quot.sound` |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 460 declarations in 35 files, no existing statement changed |
+| Statement lock | OK — 461 declarations in 35 files, no existing statement changed |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)
 

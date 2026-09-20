@@ -89,4 +89,25 @@ theorem s7_four_dvd_pass6 : ∀ n, 1 ≤ n → n ≤ 6 → (4 : ℤ) ∣ (s7 n :
     already at `n = 1`, consistent with `s10_partner_not_integral`. -/
 theorem s10_fails_criterion : ¬ (4 : ℤ) ∣ (s10 1 : ℤ) := by decide
 
+/-- **NON-VACUITY CONTROL for `sqrtSeq_even_of_four_dvd`.** Its conclusion,
+    `∃ m : ℤ, sqrtSeq s (n+1) = 2·m`, is an existential over a `ℚ`-valued
+    sequence, so it could in principle be satisfiable for trivial reasons. It is
+    not: drop the hypothesis and the conclusion FAILS. For the sequence with
+    `s 1 = 1` — which violates `4 ∣ s 1` — we get `sqrtSeq s 1 = 1/2`, which is
+    not twice an integer.
+
+    This control exists because a vacuous statement compiles, passes the `sorry`
+    grep, reports only the three standard axioms and locks cleanly; only an
+    explicit refutation of the hypothesis-free version distinguishes it from a
+    real theorem. Cf. the `⚠️ VACUOUS` relabelling in
+    `Agora/Sequences/Integrality.lean` (E-002 / E-005). -/
+theorem sqrtSeq_even_needs_hypothesis :
+    ¬ (∃ m : ℤ, sqrtSeq (fun k => if k = 1 then 1 else 0) 1 = 2 * (m : ℚ)) := by
+  rintro ⟨m, hm⟩
+  rw [sqrtSeq_succ] at hm
+  norm_num at hm
+  have : (1 : ℚ) = 4 * (m : ℚ) := by linarith
+  have h4 : (4 : ℤ) ∣ 1 := ⟨m, by exact_mod_cast this⟩
+  norm_num at h4
+
 end Agora.Sequences.SqrtIntegrality

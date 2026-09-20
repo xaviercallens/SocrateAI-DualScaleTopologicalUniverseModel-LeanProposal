@@ -370,6 +370,40 @@ Proposition~\ref{prop:mn-lean}, so that proposition is the specialization of thi
 one. A control confirms the determinant hypothesis in (i) is load-bearing: at
 $(a,b,c,d)=(1,0,0,2)$, $N=7$, the matrix is not an isometry.
 
+\begin{remark}[Two rank-3 lattices, not one]\label{rem:two-lattices}
+The classical picture and the one above act on \emph{different} lattices, and
+it is worth stating the difference because merging them is an easy and
+consequential error. In Gauss's coordinates a $2\times2$ matrix acts on the
+coefficient triple $(a,b,c)$ of a binary quadratic form by substitution,
+preserving the discriminant; for $\Gamma_0(N)$-forms $Na x^2+bxy+cy^2$ the
+invariant is $b^2-4Nac$, whose Gram matrix has determinant $-4N^2$. The lattice
+of Proposition~\ref{prop:rho} is $\U\oplus\lat{2N}$, of determinant $-2N$. Both
+have signature $(2,1)$ and both carry integer symmetric-square actions of
+$\Gamma_0(N)^{+}$, but they are \emph{not} isometric: a change of basis
+multiplies the Gram determinant by a square, and $-4N^2=-2N$ only for $N=0$ or
+$N=\tfrac12$, so the determinants differ for every integer $N\geq1$. The two
+play different roles --- the discriminant lattice classifies forms, while
+$\U\oplus\lat{2N}$ is the transcendental lattice of an $M_n$-polarized K3
+\cite{Dolgachev1996} --- and they should not be named interchangeably.
+Formalized as \artifact{no\_isometry\_G0N\_TN} in
+\artifact{Agora/Geometry/SymSquareForms.lean}, which also carries the Gauss
+presentation: $\mathrm{sym}_2(M)^{\mathsf T}G_0\,\mathrm{sym}_2(M)=(\det M)^2G_0$
+with no hypothesis on $M$ (the discriminant is a relative invariant of weight
+2), together with the observation that $\mathrm{sym}_2$ is
+\emph{contravariant}, $\mathrm{sym}_2(MM')=\mathrm{sym}_2(M')\,\mathrm{sym}_2(M)$,
+since substitution reverses composition.
+\end{remark}
+
+\begin{remark}[The signature, now mechanical]\label{rem:signature-tierA}
+The signature $(2,1)$ of $\U\oplus\lat{2N}$, quoted above and earlier recorded
+as an asserted value, is now checked: the integer basis change
+$P=(e+f,\;w,\;e-f)$, of determinant $2$, gives
+$P^{\mathsf T}(\U\oplus\lat{2N})P=\operatorname{diag}(2,2N,-2)$, so for $N>0$
+there are two positive and one negative direction, Sylvester's law of inertia
+(quoted) supplying the rest. Formalized as \artifact{TN\_diagonalises}, with a
+control confirming the final sign is $-2$ and not $+2$.
+\end{remark}
+
 \subsection{The singular points of the operator are self-dual points}\label{subsec:selfdual}
 
 We can now say what the two finite singular points of $\Lthree$ are. Recall from
