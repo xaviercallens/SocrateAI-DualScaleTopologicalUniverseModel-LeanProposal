@@ -11,4 +11,5 @@ import Agora.Geometry.SelfDual
 import Agora.Geometry.ModularAction
 import Agora.Geometry.Embedding
 import Agora.Geometry.EmbeddingAssembly
+import Agora.Geometry.Occurrence
 import Agora.Geometry.SymSquareForms

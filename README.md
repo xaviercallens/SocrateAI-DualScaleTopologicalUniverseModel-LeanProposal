@@ -66,6 +66,10 @@ axiom. Names are Lean declarations; grep for them.
 | Signature of `U⊕⟨2N⟩` is `(2,1)`, by explicit diagonalization | `TN_diagonalises` | `Geometry/MnLattice.lean` |
 | Both singular points `{−1, 1/27}` are walls of `(−2)`-roots | `s7_P2_discriminant`, `W7conj_eq_neg_reflection` | `Geometry/SelfDual.lean`, `ModularAction.lean` |
 | Embedding witness `B`, `C`, orthogonality, index 14 (**not** primitivity — see below) | `B_pullback`, `B_orthogonal_C` | `Geometry/Embedding.lean` |
+| `ρ_AL` on the discriminant group `ℤ/2N`: multiplier `m = 2Nad − 1`, so `2N ∣ m+1` (Fricke coset only) | `rhoAL_w_image`, `rhoAL_disc_multiplier_congr` | `Geometry/ModularAction.lean` |
+| A Möbius fixed point satisfies an integer quadratic; the three s₇ stabilizers, orders 2, 2, 3 | `fixed_point_integer_quadratic`, `s7_stab_c_cube` | `"` |
+| **Occurrence criterion, arithmetic half:** `D − m² = 4N·x′y′` exactly — **no primitivity needed** | `occurrence_identity`, `occurrence_congruence` | `Geometry/Occurrence.lean` |
+| — `−3` is not a square mod 40 (arithmetic obstruction to `A₂` at level 10; the determinant formula is a *hypothesis*) | `A2_not_in_s10_family` | `"` |
 | Orthogonal-join of two embeddings, **generic** (any ring, any index types) | `join_pullback` | `Geometry/EmbeddingAssembly.lean` |
 | — hence `prop:g0complement` over the whole rank-22 `Λ = U³ ⊕ E₈(−1)²` | `assembly` | `"` |
 | — discriminant of the pullback is `−14²`, matching `\|disc T₇\| = 14` | `assembly_det` | `"` |
@@ -180,11 +184,11 @@ Last checked 2026-09-21 at the pin above. **Re-run the commands rather than trus
 | Check | Result |
 |---|---|
 | `bash scripts/release_gates.sh` | **all gates OK** (it reads exit codes correctly; a green run is not a clean bill) |
-| `lake build Agora OpenGoals Tests` | 3727 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **313 theorems audited.** 310 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
+| `lake build Agora OpenGoals Tests` | 3728 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **334 theorems audited.** 331 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 481 declarations in 37 files; mutation-verified to fire |
+| Statement lock | OK — 502 declarations in 38 files; mutation-verified to fire |
 | `scripts/export_open_goals.py` | all **5** registered goals report `closed` |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)

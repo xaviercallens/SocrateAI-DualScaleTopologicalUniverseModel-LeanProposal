@@ -93,3 +93,60 @@ true, compiles, passes every gate, and proves less than its name says.
 *Provenance:* Generated-by: Claude Opus 5 (Stream 1) | Verified-by: Lean kernel — `#print axioms`
 on each new theorem, build 3727 jobs / 0 errors, statement lock re-locked after review |
 Reviewed-by: T0 N — pending.
+
+---
+
+## ADDENDUM, same day — Direction 1: the arithmetic half is delivered, and your primitivity gap closes by becoming unnecessary
+
+New file `Agora/Geometry/Occurrence.lean`. Kernel-checked; `#print axioms` gives
+`[propext, Classical.choice, Quot.sound]` for each theorem below.
+
+```lean
+occurrence_identity (N d x' y' z D m : ℤ) (hd : d ≠ 0)
+    (hD : D * d^2 = 2*N*(2*(d*x')*(d*y') + 2*N*z^2))     -- D·d² = 2N·v²,  x = d·x′, y = d·y′
+    (hm : m * d = 2*N*z) :                                -- m = 2Nz/d
+    D - m^2 = 4*N*(x'*y')
+
+occurrence_congruence  …same hypotheses… : (4*N) ∣ (D - m^2)
+
+A2_not_in_s10_family      : ¬ ∃ k : ZMod 40, k^2 = -3
+A2_permitted_in_s7_family :   ∃ k : ZMod 28, k^2 = -3          -- k = 5
+s7_witness_occurs         : (4*7) ∣ ((-3) - 5^2)               -- (14,−14,5): v²=−42, d=14, D=−3, m=5
+```
+
+### ⭐ The finding you should read before your next release
+
+Your brief says leg (A) "rests on three sympy identities plus a three-line primitivity argument
+that is *not* machine-proved — that is the gap a Lean statement would close".
+
+**For the congruence, that primitivity argument is not needed.** Your criterion
+`D ≡ (2Nz/d)² mod 4N` is an **exact identity**, `D − m² = 4N·x′y′`, and its proof uses only
+`d ∣ x` and `d ∣ y`. It holds for *any* common divisor `d` of `x` and `y` for which `D` and `m` are
+integral — `v` primitive or not, `d = div(v)` or not. The derivation is one line:
+
+    D·d² − m²·d² = 2N(2xy + 2Nz²) − (2Nz)² = 4N·xy = 4N·d²·x′y′.
+
+The control `occurrence_needs_divisibility` shows those two hypotheses cannot be dropped: at
+`N = 2, d = 2, (x,y,z) = (1,2,1)` both defining relations hold (`D = 8`, `m = 2`) and `8 ∤ 4`,
+because `d ∤ x`. So this is the right generality, and the gap closes by becoming unnecessary rather
+than by being filled. If your certificate's `not_claimed` block lists the primitivity argument as
+load-bearing for the congruence, it can come out — **for the congruence only**; see next.
+
+### ⚠️ What is NOT proved — please carry this width into anything that cites it
+
+- **`det(v^⊥) = (−v²)·2N/d²` is a HYPOTHESIS here, not a theorem.** That formula is where
+  primitivity and `d = div(v)` genuinely enter, and it is literature, not Lean. What is
+  machine-checked is: *if* `D` is tied to `v` by that formula, *then* `D` is a square mod `4N`.
+- **`v^⊥` is never constructed.** No rank-2 Gram matrix appears and no isometry `v^⊥ ≅ A₂` is
+  proved. `s7_witness_occurs` checks the numbers `(−42, 14, −3, 5)`; it does not show
+  `(14,−14,5)^⊥` is `A₂`.
+- So `A2_not_in_s10_family` is the **arithmetic obstruction** only. Your requested
+  `¬ ∃ v, v^⊥ ≅ A₂` is the conjunction of that obstruction with the unproved determinant formula —
+  a conditional, not a theorem. Please do not cite Stream 1 for the unconditional statement.
+- The converse (every `D ≡ □ mod 4N` is realised) is not attempted.
+
+Before writing any Lean the identity was checked on 20,000 random instances (0 failures) and the
+witness and the mod-40 exclusion were computed independently.
+
+**Remaining on direction 1:** the determinant formula and the construction of `v^⊥`. That is the
+part that needs the primitivity care, and it is where I would start next.

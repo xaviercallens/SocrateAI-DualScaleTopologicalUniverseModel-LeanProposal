@@ -194,6 +194,18 @@
     "s7_stab_c_cube": "9bb59cc473b09235",
     "s7_stab_c_sq_not_scalar": "6232c9e5f009b174"
   },
+  "Agora/Geometry/Occurrence.lean": {
+    "A2_not_in_s10_family": "f0d1d3f44f766728",
+    "A2_permitted_in_s7_family": "59e35e927fb4a685",
+    "TN_norm": "df5a2b72840e4357",
+    "criterion_discriminates": "290a225bd1608c0c",
+    "occurrence_congruence": "36467a8eac967feb",
+    "occurrence_identity": "43f23d02e132f285",
+    "occurrence_needs_divisibility": "2788d543d9756778",
+    "s7_witness_norm": "466a6bcd2e770ac3",
+    "s7_witness_occurs": "8cdd975f51e8f703",
+    "s7_witness_relations": "b6b18cdc703b4956"
+  },
   "Agora/Geometry/SelfDual.lean": {
     "bN": "92457498b34b22f3",
     "bN_self": "cb16ada496bf4ef3",
