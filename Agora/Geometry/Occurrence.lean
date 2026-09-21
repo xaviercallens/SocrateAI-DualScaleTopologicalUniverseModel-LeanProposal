@@ -108,6 +108,18 @@
   definition of gcd, not stated here as a lemma; (ii) which point of the family a
   given vector corresponds to (Stream 2's R2); (iii) anything about physics.
 
+  ────────────────────────────────────────────────────────────────────────────────
+  **Disclosure — item (i) of "WHAT REMAINS OUTSIDE" above is SUPERSEDED by §11.**
+  §11 `exists_primitive_normal` — every nonzero integer vector is `d` times a
+      primitive one, with `d = gcd(gcd(n₀,n₁),n₂)` and an explicit Bezout witness.
+      `complement_of_vector` — for ANY `v` with `G·v ≠ 0`, with
+      `d = gcd(gcd(y,x), 2Nz)` COMPUTED inside the theorem: `v^⊥` has a saturated
+      ℤ-basis orthogonal to `v`, and `d²·det = −2N·v²`. The caller supplies
+      nothing — no `d`, no primitive normal, no Bezout witness, and no
+      primitivity hypothesis on `v`.
+  Items (ii) and (iii) stand: which point of the family a vector corresponds to
+  is Stream 2's, and nothing here concerns physics.
+
   0 sorry. Axioms: Lean's standard ones only.
   ════════════════════════════════════════════════════════════════════════════════
 -/
@@ -563,6 +575,73 @@ theorem gram_det_basis_independent (N : ℤ) (u₁ u₂ w₁ w₂ : Fin 3 → �
   have hone : (a * e - b * c) ^ 2 = 1 :=
     Int.eq_one_of_dvd_one (sq_nonneg _) ⟨_, hk.symm⟩
   rw [hW, hone, one_mul]
+
+-- ╔════════════════════════════════════════════════════════════════════╗
+-- ║  §11. THE GCD LINK — `d`, `n′`, `r` computed, not supplied          ║
+-- ╚════════════════════════════════════════════════════════════════════╝
+
+/-- **Every nonzero integer vector is `d` times a primitive one**, with
+    `d = gcd(gcd(n₀,n₁), n₂)` and an explicit Bezout witness. This is the input
+    `complement_general` asked the caller to supply. -/
+theorem exists_primitive_normal (n : Fin 3 → ℤ) (hn : n ≠ 0) :
+    ∃ (d : ℤ) (n' r : Fin 3 → ℤ),
+      d = (Int.gcd (Int.gcd (n 0) (n 1)) (n 2) : ℤ) ∧ d ≠ 0 ∧ d • n' = n ∧ dot3 r n' = 1 := by
+  obtain ⟨g, hg⟩ : ∃ g : ℤ, g = (Int.gcd (n 0) (n 1) : ℤ) := ⟨_, rfl⟩
+  obtain ⟨d, hd⟩ : ∃ d : ℤ, d = (Int.gcd (Int.gcd (n 0) (n 1)) (n 2) : ℤ) := ⟨_, rfl⟩
+  have hd0 : d ≠ 0 := by
+    intro h
+    rw [hd] at h
+    have h' : Int.gcd ((Int.gcd (n 0) (n 1) : ℕ) : ℤ) (n 2) = 0 := by exact_mod_cast h
+    obtain ⟨hg0, h2⟩ := Int.gcd_eq_zero_iff.mp h'
+    have hg0' : Int.gcd (n 0) (n 1) = 0 := by exact_mod_cast hg0
+    obtain ⟨h0, h1⟩ := Int.gcd_eq_zero_iff.mp hg0'
+    exact hn (by ext i; fin_cases i <;> simp [h0, h1, h2])
+  obtain ⟨g', hgg⟩ : d ∣ g := by rw [hd, hg]; exact Int.gcd_dvd_left _ _
+  obtain ⟨c2, hc2⟩ : d ∣ n 2 := by rw [hd]; exact Int.gcd_dvd_right _ _
+  obtain ⟨a0, ha0⟩ : g ∣ n 0 := by rw [hg]; exact Int.gcd_dvd_left _ _
+  obtain ⟨a1, ha1⟩ : g ∣ n 1 := by rw [hg]; exact Int.gcd_dvd_right _ _
+  obtain ⟨A, B, bez1⟩ : ∃ A B : ℤ, g = n 0 * A + n 1 * B :=
+    ⟨_, _, by rw [hg]; exact Int.gcd_eq_gcd_ab _ _⟩
+  obtain ⟨C, E, bez2⟩ : ∃ C E : ℤ, d = g * C + n 2 * E :=
+    ⟨_, _, by rw [hd, hg]; exact Int.gcd_eq_gcd_ab _ _⟩
+  have e0 : n 0 = d * g' * a0 := by rw [ha0, hgg]
+  have e1 : n 1 = d * g' * a1 := by rw [ha1, hgg]
+  refine ⟨d, ![g' * a0, g' * a1, c2], ![A * C, B * C, E], hd, hd0, ?_, ?_⟩
+  · ext i
+    fin_cases i
+    · simp; rw [e0]; ring
+    · simp; rw [e1]; ring
+    · simp; rw [hc2]
+  · have key : d * (A * C * (g' * a0) + B * C * (g' * a1) + E * c2) = d * 1 := by
+      rw [mul_one]
+      linear_combination (-1 : ℤ) * bez2 - C * bez1 - (A * C) * e0 - (B * C) * e1 - E * hc2
+    have := mul_left_cancel₀ hd0 key
+    simpa [dot3] using this
+
+/-- **THE DETERMINANT FORMULA, for every vector, with `d` COMPUTED.** For any
+    `v ∈ U ⊕ ⟨2N⟩` with `G·v ≠ 0`, put `d = gcd(gcd(y, x), 2Nz)` — the
+    divisibility of `v`. Then `v^⊥` has a ℤ-basis `u₁, u₂`, orthogonal to `v` and
+    saturated, with `d²·det Gram(u₁,u₂) = −2N·v²`.
+
+    Nothing is supplied by the caller: no `d`, no primitive normal, no Bezout
+    witness, and no primitivity hypothesis on `v`. This closes the gap left by
+    `complement_general`. -/
+theorem complement_of_vector (N : ℤ) (v : Fin 3 → ℤ) (hv : TN N *ᵥ v ≠ 0) :
+    ∃ (d : ℤ) (u₁ u₂ : Fin 3 → ℤ),
+      d = (Int.gcd (Int.gcd ((TN N *ᵥ v) 0) ((TN N *ᵥ v) 1)) ((TN N *ᵥ v) 2) : ℤ)
+      ∧ d ≠ 0
+      ∧ (pairing N u₁ v = 0 ∧ pairing N u₂ v = 0)
+      ∧ (∀ u : Fin 3 → ℤ, pairing N u v = 0 → ∃ s t : ℤ, u = s • u₁ + t • u₂)
+      ∧ d ^ 2 * (gram2 N u₁ u₂).det = -(2 * N) * pairing N v v := by
+  obtain ⟨d, n', r, hd, hd0, hn, hr⟩ := exists_primitive_normal (TN N *ᵥ v) hv
+  obtain ⟨u₁, u₂, horth, hsat, hdet⟩ := complement_general N d hd0 v n' r hn hr
+  exact ⟨d, u₁, u₂, hd, hd0, horth, hsat, hdet⟩
+
+/-- `G·v` written out: `(y, x, 2N·z)`. So the `d` above is `gcd(gcd(y,x), 2Nz)`. -/
+theorem TN_mulVec (N : ℤ) (v : Fin 3 → ℤ) :
+    TN N *ᵥ v = ![v 1, v 0, 2 * N * v 2] := by
+  ext i
+  fin_cases i <;> simp [TN, mulVec, dotProduct, Fin.sum_univ_succ]
 
 end Agora.Geometry.Occurrence
 

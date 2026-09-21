@@ -74,6 +74,9 @@ axiom. Names are Lean declarations; grep for them.
 | — determinant formula `d²·det(v^⊥) = −2N·v²` for **every** `v`, with `v^⊥` constructed as a saturated lattice | `complement_general` | `"` |
 | — Cramer in dim 3: a **primitive cross product forces a ℤ-basis** of the orthogonal lattice | `saturated_of_primitive_cross`, `every_vector_is_cross` | `"` |
 | — the Gram determinant does not depend on the basis | `gram_det_basis_independent` | `"` |
+| — and with `d = gcd(gcd(y,x), 2Nz)` **computed**, so the caller supplies nothing | `complement_of_vector` | `"` |
+| **2-adic bound:** `2ⁿ·b(n+1) ∈ ℤ` for the formal √ of **any** integer series with `s(1)` even | `sqrtSeq_two_adic` | `Sequences/SqrtTwoAdic.lean` |
+| — hence the s₁₀ partner is integral in the coordinate `2z`, for every `n` (was PASS(160)) | `s10_partner_two_adic` | `"` |
 | — `(14,−14,5)^⊥ ≅ A₂` in `U⊕⟨14⟩`, **constructed**: basis, Gram, saturation | `s7_complement_is_A2` | `"` |
 | — `A₂` does not embed in `U⊕⟨20⟩` in any way — **unconditional** | `no_det_three_in_T10` | `"` |
 | Orthogonal-join of two embeddings, **generic** (any ring, any index types) | `join_pullback` | `Geometry/EmbeddingAssembly.lean` |
@@ -190,11 +193,11 @@ Last checked 2026-09-21 at the pin above. **Re-run the commands rather than trus
 | Check | Result |
 |---|---|
 | `bash scripts/release_gates.sh` | **all gates OK** (it reads exit codes correctly; a green run is not a clean bill) |
-| `lake build Agora OpenGoals Tests` | 3728 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **356 theorems audited.** 353 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
+| `lake build Agora OpenGoals Tests` | 3729 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **364 theorems audited.** 361 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 532 declarations in 38 files; mutation-verified to fire |
+| Statement lock | OK — 540 declarations in 39 files; mutation-verified to fire |
 | `scripts/export_open_goals.py` | all **5** registered goals report `closed` |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)

@@ -11,6 +11,7 @@ import Agora.Sequences.PartnerIntegrality
 import Agora.Sequences.SqrtBridge
 import Agora.Sequences.SqrtBridgeGeneric
 import Agora.Sequences.SqrtIntegrality
+import Agora.Sequences.SqrtTwoAdic
 import Agora.Sequences.S7Mod4
 import Agora.Sequences.Integrality
 import Agora.Sequences.GrowthBounds

@@ -151,6 +151,29 @@ credible than the last. Use `find -L` in a tree of symlinked repos; and when a c
 something you can see directly (an `ls` listing showed the files the `find` called missing),
 believe the direct observation and debug the check.
 
+**§3.12 An UNAUDITED theorem is not a clean one — and a prime in a name makes one.**
+`axiom_audit.py` cannot resolve a declaration whose name ends in `'`; it reports
+`MISSING … (name resolution failed)` and counts it as failing. A theorem first named
+`sqrtSeq_two_adic'` turned the release gate red (4 failing, expected 3). I then grepped `^FAIL`,
+saw the three expected lines, and **nearly concluded the gate had miscounted** — the fourth line
+began `MISSING`. §3.9 again, aimed this time at a gate that was *right*. Renamed; it was the only
+primed declaration here. Corollary for any repo that compares against zero or not at all: a primed
+theorem is silently never audited.
+
+**§3.13 Check tactic algebra symbolically before a seven-minute build.** Four builds in two days
+failed on my proof scripts while every STATEMENT had passed a numeric pre-check: a
+`linear_combination` short by a factor of `d`; `nlinarith` asked to search for an exact linear
+combination; three wrong signs in another; `set` hiding an expression from `mod_cast`. The
+statements were never wrong. Numerically checking a statement says nothing about the coefficients
+I then work out in my head — and those are just as checkable, in a second, before the build.
+
+**§3.14 The first gate that caught its author.** `release_gates.sh` went red three times in one
+session on my own work: my renames (`CHANGED`), the primed name (`MISSING`), and the rename of a
+declaration my own failed run had locked ten minutes earlier (`REMOVED`). Each was correct. It
+works because it compares against `EXPECTED_FAILING` and reads exit codes from logs; every one of
+those would have passed a "did it print success" check. **Do not commit on a red run, even when you
+know why it is red** — re-run to green, so the log you cite is the log of the tree you ship.
+
 **§3.10** Record what a scan **cannot** see, at the time you write it. A vacuity scan written for
 `: True` cannot see `0 ≤ sys.dim` with `dim : ℕ` — equally empty, invisible to that signature. **A
 vacuous statement need not be `True`; it need only be implied by nothing.**

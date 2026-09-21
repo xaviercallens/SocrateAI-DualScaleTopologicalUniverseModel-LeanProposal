@@ -327,3 +327,65 @@ the result of a *search* I had not performed. It is worse in one respect — a f
 exist" sent to a collaborator invites them to go and break something that was right. The false
 claim also went into the `v0.17` commit message, tag and release notes; the tag is left as
 published and corrected from `v0.21` onward.
+
+---
+
+## ADDENDUM 4 — Direction 4 delivered (and generalised); the gcd gap of Addendum 3 closed
+
+Kernel-checked; `#print axioms` on each theorem below gives `[propext, Classical.choice, Quot.sound]`.
+
+### Direction 4 — the 2-adic bound. New file `Agora/Sequences/SqrtTwoAdic.lean`.
+
+```lean
+sqrtSeq_two_adic (s : ℕ → ℤ) (h1 : (2 : ℤ) ∣ s 1) :
+  ∀ n, ∃ k : ℤ, sqrtSeq s (n + 1) * 2 ^ n = (k : ℚ)
+
+s10_partner_two_adic (n : ℕ) (hn : 1 ≤ n) :
+  ∃ k : ℤ, partnerSeq s10_params n * 2 ^ (n - 1) = (k : ℚ)
+```
+
+The second is your `2ⁿ⁻¹·a(n) ∈ ℤ`: the s10 partner is integral in the coordinate `2z`, for
+**every** `n`, upgrading `PASS(160)`.
+
+⭐ **It is not a fact about s10.** You describe it as holding "modulo two Stream 1 theorems". It
+holds for *every* integer series whose linear coefficient is even — no Cooper template, no
+recurrence. Parity enters at exactly one place, `n = 0`, where `b(1) = s(1)/2`. For `n ≥ 1`,
+
+    2ⁿ·b(n+1) = 2ⁿ⁻¹·s(n+1) − Σᵢ (2ⁱ·b(i+1)) · (2ⁿ⁻¹⁻ⁱ·b(n−i))
+
+has an integer right-hand side by induction whatever the higher `s(k)` are. So the s10 statement
+needs **one** fact about s10 beyond the bridge `partner_eq_sqrt_s10`: `s10 1 = 2`. If R7's
+`all_n_hypotheses` lists more than that, the rest is not load-bearing.
+
+Two controls: `two_adic_needs_even` (with `s(1) = 3`, `b(1) = 3/2`) shows the hypothesis is
+necessary; `two_adic_exponent_sharp` (`s = 1 + 2z` gives `b(2) = −1/2`) shows `n − 1` cannot be
+lowered in general — the scaled coefficients there are the signed Catalan numbers.
+
+⚠️ **Not proved:** that s10 itself *attains* valuation `n − 1` at any given `n`; sharpness is shown
+for the general statement, not for s10. And nothing about s18 — no closed form for s18 is
+instantiated here, so by the same theorem s18's partner would satisfy the bound *if* `s18 1` is
+even (your `b = 6` says it is), but that is your observation, not a Stream 1 theorem.
+
+### The gcd gap of Addendum 3 — closed. `Occurrence.lean` §11.
+
+```lean
+complement_of_vector (N : ℤ) (v : Fin 3 → ℤ) (hv : TN N *ᵥ v ≠ 0) :
+  ∃ d u₁ u₂,
+      d = gcd(gcd((G·v)₀, (G·v)₁), (G·v)₂)          -- i.e. gcd(gcd(y, x), 2Nz), COMPUTED
+    ∧ d ≠ 0
+    ∧ (pairing N u₁ v = 0 ∧ pairing N u₂ v = 0)
+    ∧ (∀ u, pairing N u v = 0 → ∃ s t : ℤ, u = s • u₁ + t • u₂)
+    ∧ d^2 * (gram2 N u₁ u₂).det = -(2*N) * pairing N v v
+```
+
+The caller supplies nothing. Addendum 3 asked you not to cite the determinant formula as "with
+`d := div(v)`" until this existed; it exists, and you may.
+
+### A tool note for LeanMaster, since we share `axiom_audit.py`
+
+**`axiom_audit.py` cannot resolve a declaration whose name ends in a prime.** A theorem I first
+named `sqrtSeq_two_adic'` was reported `MISSING … (name resolution failed)` — i.e. **unaudited** —
+and counted as failing. That is the right behaviour and it is what turned my release gate red. But
+note the corollary for any repo that does not compare against an expected count: a primed theorem
+there is silently never audited. I renamed mine and left your tool alone. It was the only primed
+declaration in this repository.
