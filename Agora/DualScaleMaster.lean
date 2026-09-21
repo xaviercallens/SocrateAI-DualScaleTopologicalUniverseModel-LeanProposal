@@ -66,7 +66,23 @@ def theorem1_holds : Prop :=
 
 /-- The conclusion of Theorem 2: Moduli Stabilization.
     For any positive LVS parameters (A, B, a, b > 0), the Hessian
-    of the factorized scalar potential has positive determinant. -/
+    of the factorized scalar potential has positive determinant.
+
+    ⚠️ **DISCLOSURE, added 2026-09-21 (name-vs-statement audit).** Read the
+    statement below, not the sentence above. What is stated is
+    `A·a²·exp(−aτ₁) · (B·b²·exp(−bτ₂)) > 0` — a product of manifestly positive
+    reals, for all τ₁, τ₂. It mentions no Hessian, no scalar potential and no
+    determinant, and the proof is `mul_pos` twice. The identification of that
+    product with "the Hessian determinant of the factorized LVS potential"
+    is made HERE IN PROSE and is nowhere checked by the kernel; the τ's do not
+    even occur in a way that could constrain it, since the expression is
+    positive for every value of them. Treat this Prop as: *a product of
+    positives is positive*. It is not evidence of moduli stabilization, and it
+    must not be cited as such. (Same failure mode as E-002/E-005 and as the
+    2026-09-21 findings on `glue_primitive` and `plus_seven_not_orthogonal`:
+    the claim living in the name and docstring rather than in the statement.)
+    The contentful Hessian statements, such as they are, live in
+    `Agora/Swampland/DualScaleStability.lean`. -/
 def theorem2_holds : Prop :=
   ∀ (A B a b : ℝ), A > 0 → B > 0 → a > 0 → b > 0 →
     ∀ (τ₁ τ₂ : ℝ),
@@ -75,7 +91,17 @@ def theorem2_holds : Prop :=
 
 /-- The conclusion of Theorem 3: Chameleon Superradiance Evasion.
     The effective coupling at M87* exceeds 0.45, placing the S_{1,2}
-    axion safely in the absorption regime. -/
+    axion safely in the absorption regime.
+
+    ⚠️ **DISCLOSURE, added 2026-09-21 (name-vs-statement audit).** The sentence
+    above describes physics the statement does not contain. What is stated is
+    `∃ alpha_eff : ℝ, alpha_eff > 0.45` — satisfied by `1`, with no reference to
+    M87*, to any coupling, or to any axion. The vacuity was already disclosed at
+    `m87_alpha_eff_certificate` below; this definition's own docstring was not
+    updated at the same time, so a reader meeting `theorem3_holds` first was
+    told it meant something it does not. Tier C remains blocked program-wide
+    (F5b): no exact observable exists anywhere in this program, and nothing
+    here supplies one. -/
 def theorem3_holds : Prop :=
   ∃ (alpha_eff : ℝ), alpha_eff > 0.45
 
@@ -148,7 +174,38 @@ theorem theorem3 : theorem3_holds := m87_alpha_eff_certificate
     • Observationally viable (consistent with EHT M87* data)
 
     This is, to our knowledge, the first machine-checkable proof
-    of internal consistency for an F-theory string cosmology. -/
+    of internal consistency for an F-theory string cosmology.
+
+    ══════════════════════════════════════════════════════════════════
+    ⚠️ **DISCLOSURE, added 2026-09-21 (name-vs-statement audit). READ THIS
+    BEFORE CITING ANY SENTENCE ABOVE.**
+
+    The three bullet points and the "first machine-checkable proof" claim
+    above are NOT supported by the statement of this theorem. Conjunct by
+    conjunct:
+
+      (1) `theorem1_holds` — genuine. Rebuilt in S1-07 about the concrete
+          θ-operators; order labels only, no geometric or physical
+          identification (VISION §1.3).
+      (2) `theorem2_holds` — **a product of positive reals is positive.**
+          It mentions no Hessian, no potential and no determinant. It is not
+          evidence of moduli stabilization or of a tachyon-free vacuum.
+      (3) `theorem3_holds` — **`∃ v : ℝ, v > 0.45`, witness `1`.** It mentions
+          no coupling, no M87*, no EHT data, and carries no observational
+          content whatsoever.
+
+    So "Dynamically stable", "Observationally viable (consistent with EHT
+    M87* data)" and "internal consistency for an F-theory string cosmology"
+    describe (2) and (3) as though they said something they do not. Under
+    VISION §2 those are Tier C sentences, which may not use "establish",
+    "proof", "stable" or "viable" without an explicit conjecture marker in
+    the same sentence; and Tier C is blocked program-wide (F5b).
+
+    What this theorem actually proves: (1), and two statements that are true
+    of any positive reals. Do not cite it as a consistency result for the
+    model. Retained rather than deleted, per this repository's disclosure
+    discipline; a genuine Theorem-2/Theorem-3 rebuild is the tracked item.
+    ══════════════════════════════════════════════════════════════════ -/
 theorem dual_scale_universe_model_consistent :
     theorem1_holds ∧ theorem2_holds ∧ theorem3_holds :=
   ⟨theorem1, theorem2, theorem3⟩

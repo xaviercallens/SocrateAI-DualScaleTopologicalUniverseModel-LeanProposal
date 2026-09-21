@@ -1185,3 +1185,59 @@ acceptable answer** and more useful than a plausible reconstruction.
 *Provenance:* Generated-by: Opus 5 | Verified-by: A279619 values matched against our own
 independent derivation; all other OEIS metadata explicitly marked second-hand and unconfirmed |
 Reviewed-by: T0 N — pending.
+
+---
+
+## E-013: `DualScaleMaster`'s master theorem rests on two content-free conjuncts (2026-09-21)
+
+**Status: DISCLOSED IN PLACE, T0 DECISION REQUESTED. No statement was changed and nothing
+was deleted.**
+
+Found by a systematic name-vs-statement audit (see below), not by working on this file.
+
+`Agora.Master.dual_scale_universe_model_consistent : theorem1_holds ∧ theorem2_holds ∧
+theorem3_holds` carries a docstring claiming the Dual-Scale model is "Dynamically stable",
+"Observationally viable (consistent with EHT M87* data)", and that this is "the first
+machine-checkable proof of internal consistency for an F-theory string cosmology". Taking the
+conjuncts one at a time:
+
+1. `theorem1_holds` — **genuine.** Rebuilt in S1-07 about the concrete θ-operators. Order labels
+   only; no geometric or physical identification (VISION §1.3).
+2. `theorem2_holds` — `∀ A B a b > 0, ∀ τ₁ τ₂, A·a²·exp(−aτ₁) · (B·b²·exp(−bτ₂)) > 0`. This is
+   **a product of positive reals being positive**, proved by `mul_pos` twice. It mentions no
+   Hessian, no scalar potential, no determinant; the τ's cannot constrain it, since it holds for
+   every value of them. The docstring's "the Hessian of the factorized scalar potential has
+   positive determinant" is an identification made in prose and checked nowhere.
+   **This one was previously undisclosed.**
+3. `theorem3_holds` — `∃ alpha_eff : ℝ, alpha_eff > 0.45`, witness `1`. Already disclosed at
+   `m87_alpha_eff_certificate` (S1-07), but the *definition's own* docstring still read "The
+   effective coupling at M87* exceeds 0.45", so a reader meeting `theorem3_holds` first was
+   told it meant something it does not.
+
+So the headline sentences describe (2) and (3) as though they said something they do not. Under
+VISION §2 those are **Tier C** sentences using forbidden verbs without a conjecture marker, and
+Tier C is blocked program-wide (F5b). Mitigating: `grep` finds the theorem cited in **neither**
+`README.md`, the paper, nor `VISION.md` — it has not propagated outside this file.
+
+**Done in this change:** ⚠️ disclosure blocks at all three declarations, stating conjunct by
+conjunct what is and is not proved. Statements untouched; `statement_lock --check` OK, confirming
+the change is documentation only.
+
+**T0 decision requested** (not improvised here): should `theorem2_holds` / `theorem3_holds` be
+(a) retired outright, (b) kept as disclosed placeholders, or (c) rebuilt with real content — and
+in case (c), Tier C is blocked, so a genuine Theorem 3 cannot be built at all until F5b lifts.
+Retiring `dual_scale_universe_model_consistent` would also mean deciding what, if anything,
+replaces the "master theorem" framing.
+
+**How it was found, and the open follow-up.** The audit compares each declaration's *name* against
+what its *statement* actually mentions — the failure mode where a theorem is true, compiles, and
+passes the axiom audit, the statement lock and the `sorry` grep, while proving less than its name.
+Three instances were fixed the same day (`plus_seven_not_orthogonal`, `glue_primitive`, and the
+missing identification of `sym2`), and the method was positive-controlled against the two known
+defects before use. It flagged 208 of 481 declarations for reading; most are benign, since Lean
+states properties symbolically (`isometry` as `MᵀGM = G`, `dvd` as `∣`). **The triage of the
+remaining flagged declarations is not finished** — this entry records where it stopped.
+
+*Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: Lean kernel (build
+3726 jobs / 0 errors, statement lock OK — documentation-only change); conjunct analysis by reading
+the statements, not the docstrings | Reviewed-by: T0 N — pending.
