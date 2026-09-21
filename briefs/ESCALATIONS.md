@@ -1249,3 +1249,39 @@ that reads as a coverage figure while its denominator names a different populati
 *Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: Lean kernel (build
 3726 jobs / 0 errors, statement lock OK — documentation-only change); conjunct analysis by reading
 the statements, not the docstrings | Reviewed-by: T0 N — pending.
+
+### E-013 companion (2026-09-21): the disclosure existed, but not at the declaration
+
+Prompted by the LeanMaster session finding `bdf2_order_bound`
+(`0 ≤ sys.dim` with `dim : ℕ`, under a name promising a BDF2 order bound) whose vacuity was
+already disclosed — correctly and in detail — in a book chapter, but **not in the docstring**, so
+it never travelled with the declaration into their generated catalogue.
+
+Asking the mirror question here found the same shape.
+`Agora.Swampland.master_moduli_stabilization` carries a four-point docstring whose point 4 reads
+"In the perturbative regime (S_{1,2} ≤ 1.177)". The corresponding conjunct (v) of the statement is
+`∃ s : ℝ, perturbative_regime s` — a bare existential in which `1.177` does not occur, discharged
+via `pipeline_ensures_perturbative` from the **DISCLOSED-VACUOUS** axiom `pipeline_upper_bound`.
+That vacuity *was* disclosed, in `README.md` and `AXIOMS.md`, and **not at the theorem**.
+
+Now disclosed in place; conjuncts (i)–(iv) noted as independent of the vacuous axiom but Tier
+C-bounded regardless, being statements about defined functions whose correspondence to the physics
+their names invoke is not checked (VISION §1.3, F5b). Statements unchanged; build 3726 jobs /
+0 errors; `statement_lock --check` OK, which is the evidence the change is documentation only.
+
+**Rule adopted, and written into `scripts/name_vs_statement.py`:** *a disclosure belongs on the
+declaration, not only in the prose that discusses it.* Prose is read by whoever reads that prose;
+a docstring is read by everyone who meets the theorem. A systematic pass for this — identifiers
+mentioned near vacuity language in `README.md`, `AXIOMS.md`, `VISION.md`, `briefs/` and the paper,
+checked against their own docstrings — flagged 4 candidates here, of which this was the real one;
+the other three were prose that described rather than disclosed. Six further declarations were
+confirmed correctly disclosed at source (`pipeline_upper_bound`, `s7_is_nat`, `s10_is_nat`,
+`pipeline_ensures_perturbative` among them).
+
+**Second rule, from the same exchange:** *a vacuous statement need not be `True`; it need only be
+implied by nothing.* LeanMaster's earlier vacuity scan looked for statements literally equal to
+`True` and therefore could not see `0 ≤ sys.dim`. When a scan is written for one signature, record
+what it cannot see.
+
+*Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: Lean kernel
+(documentation-only change; lock unchanged) | Reviewed-by: T0 N — pending.

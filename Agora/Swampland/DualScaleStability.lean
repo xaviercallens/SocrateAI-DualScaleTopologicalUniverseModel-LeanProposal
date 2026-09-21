@@ -313,7 +313,29 @@ theorem pipeline_ensures_perturbative :
     1. Everywhere positive (V_F > 0)
     2. Free of tachyonic instabilities (det H > 0)
     3. Compatible with the Swampland Distance Conjecture
-    4. In the perturbative regime (S_{1,2} ≤ 1.177) -/
+    4. In the perturbative regime (S_{1,2} ≤ 1.177)
+
+    ⚠️ **DISCLOSURE, added 2026-09-21. Point 4 above is not in the statement.**
+    Conjunct (v) below is `∃ s : ℝ, perturbative_regime s` — a bare existential.
+    The number `1.177` occurs nowhere in it, and neither does any pipeline
+    datum. It is discharged by `pipeline_ensures_perturbative`, which rests on
+    the axiom `pipeline_upper_bound`, flagged **DISCLOSED-VACUOUS** in
+    `AXIOMS.md`: vacuously true, encoding no pipeline data, and *not*
+    discharged. So (v) carries no observational content and this theorem must
+    not be cited as placing anything in a perturbative regime.
+
+    This disclosure existed in `README.md` and `AXIOMS.md` but **not here**,
+    so it did not travel with the declaration — a reader meeting this theorem
+    in the source saw a confident four-point claim. The rule, adopted from the
+    LeanMaster session's 2026-09-21 finding of the same shape: *a disclosure
+    belongs on the declaration, not only in the prose that discusses it.*
+    Prose is read by whoever reads that prose; a docstring is read by everyone
+    who meets the theorem. See E-013 in `briefs/ESCALATIONS.md`.
+
+    Conjuncts (i)–(iv) do not depend on the vacuous axiom. What they establish
+    is Tier C-bounded in any case: they are statements about the *defined*
+    functions `V_F`, `d2V_*` and `sdc_bound`, and that those definitions model
+    the physics their names invoke is not checked here (VISION §1.3, F5b). -/
 theorem master_moduli_stabilization (p : LVSParams) :
     -- (i) Positive potential
     (∀ τ₁ τ₂ : ℝ, V_F p τ₁ τ₂ > 0) ∧

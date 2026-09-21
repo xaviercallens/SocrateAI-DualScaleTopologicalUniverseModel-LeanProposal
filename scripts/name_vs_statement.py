@@ -45,6 +45,25 @@ defect is flagged:
     cd /tmp/old && python3 .../name_vs_statement.py
     # expect: glue_primitive [missing: glue, primitive]
 
+TWO SISTER CHECKS THIS TOOL DOES *NOT* PERFORM — run them by hand
+-----------------------------------------------------------------
+1. **A vacuous statement need not be `True`; it need only be implied by
+   nothing.** A scan written for the signature `: True` cannot see
+   `0 ≤ sys.dim` with `dim : ℕ` (`Nat.zero_le` under a name promising an order
+   bound — LeanMaster, 2026-09-21), nor `∃ v : ℝ, v > 0.45` (E-013). When you
+   write a scan for one signature, record what it cannot see: the next instance
+   takes the other shape.
+2. **Is the disclosure AT the declaration, or only in prose?** A disclosure can
+   be correct, detailed, and still fail, by living in a README, a memo or a
+   paper section rather than in the docstring. It then does not travel with the
+   declaration into generated catalogues, importing projects, or the eyes of
+   anyone reading the source. Found this way on both sides the same day:
+   `master_moduli_stabilization` here (point 4 of its docstring disclosed in
+   `README.md`/`AXIOMS.md` but not at the theorem) and `bdf2_order_bound` in
+   LeanMaster (disclosed in a book chapter, not at the source). The rule:
+   *a disclosure belongs on the declaration, not only in the prose that
+   discusses it.*
+
 Usage:  python3 scripts/name_vs_statement.py [root=Agora]
 
 Provenance: Generated-by: Claude Opus 5 (Stream 1 session, 2026-09-21) |
