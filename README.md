@@ -56,6 +56,9 @@ axiom. Names are Lean declarations; grep for them.
 | Signature of `U⊕⟨2N⟩` is `(2,1)`, by explicit diagonalization | `TN_diagonalises` | `Geometry/MnLattice.lean` |
 | Both singular points `{−1, 1/27}` are walls of `(−2)`-roots | `s7_P2_discriminant`, `W7conj_eq_neg_reflection` | `Geometry/SelfDual.lean`, `ModularAction.lean` |
 | Primitive embedding witness `B`, `C`, orthogonality, index 14 | `B_pullback`, `B_orthogonal_C` | `Geometry/Embedding.lean` |
+| Orthogonal-join of two embeddings, **generic** (any ring, any index types) | `join_pullback` | `Geometry/EmbeddingAssembly.lean` |
+| — hence `prop:g0complement` over the whole rank-22 `Λ = U³ ⊕ E₈(−1)²` | `assembly` | `"` |
+| — discriminant of the pullback is `−14²`, matching `\|disc T₇\| = 14` | `assembly_det` | `"` |
 
 ---
 
@@ -93,7 +96,7 @@ Do not trust the numbers in this file; regenerate them.
 lake exe cache get
 lake build Agora OpenGoals Tests                       # expect 0 errors, 0 sorry
 grep -rn '\bsorry\b' Agora OpenGoals Tests --include=*.lean   # prose only
-python3 scripts/export_open_goals.py                   # all four goals report closed
+python3 scripts/export_open_goals.py                   # all five goals report closed
 python3 scripts/check_selfdual_points_s7.py            # PASS(40) + negative control
 
 # proof-gate tooling (from the sibling LeanMaster repo; works on any Lake project)
@@ -149,15 +152,16 @@ signature split (b₂⁺, b₂⁻) = (3, 19) is **not** evidence for this projec
 
 ## Verified status
 
-Last checked 2026-09-20 at the pin above. **Re-run the commands rather than trusting these numbers.**
+Last checked 2026-09-21 at the pin above. **Re-run the commands rather than trusting these numbers.**
 
 | Check | Result |
 |---|---|
-| `lake build Agora OpenGoals Tests` | 3724 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **298 theorems audited.** 295 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| `lake build Agora OpenGoals Tests` | 3726 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **311 theorems audited.** 308 depend only on `propext`, `Classical.choice`, `Quot.sound` |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 461 declarations in 35 files, no existing statement changed |
+| Statement lock | OK — 479 declarations in 36 files, no existing statement changed |
+| `scripts/export_open_goals.py` | all **5** registered goals report `closed` |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)
 
@@ -186,9 +190,11 @@ discharge `obrien2016_theorem6_2`.
   New instance: **s₁₀**, whose partner is now *proved* dyadic at every index (was PASS(59)).
   No s₁₈ instance is stated — the repo has no closed form for s₁₈ to instantiate at.
 - **s₇ integrality is reduced to one congruence** (`SqrtIntegrality`): if `4 ∣ s₇(n)` for all
-  `n ≥ 1` then the s₇ partner is integral *without* `obrien2016_theorem6_2`. The congruence is
-  **PASS(200)**, kernel-checked PASS(6), and **not proved** — so the axiom still stands. Proving it
-  would leave the development with no literature axiom.
+  `n ≥ 1` then the s₇ partner is integral *without* `obrien2016_theorem6_2`. The congruence was
+  **PASS(200)**, kernel-checked PASS(6), and not proved — so the axiom still stood at the time of
+  writing. ⭐ **SUPERSEDED the same day, 2026-09-20:** the congruence is now proved
+  (`S7Mod4.four_dvd_s7`), which is exactly what "would leave the development with no literature
+  axiom" anticipated. See [§⭐ No literature axiom is load-bearing](#-no-literature-axiom-is-load-bearing-2026-09-20).
 - **`U ⊕ ⟨2N⟩` on LeanMaster's lattice API** (`Agora/Geometry/MnLattice.lean`): the glue
   `e ± Nf ⊂ U` of index `2N` (the paper's embedding witness at `N = 7`), and the swap `e ↔ f`
   acting on the period as the Fricke involution `τ ↦ −1/(Nτ)`. The same matrix is LeanMaster's
@@ -340,6 +346,15 @@ separates the candidates. Proved unconditionally: **s10's and s18's partners are
 is kernel-checked only to `n ≤ 7` (`PASS(7)`) and is registered as the named open goal
 `open_goal_partner_integral_s7`, with the reason it is hard (an Apéry-style divisibility, not a
 typing fact) recorded there. Please do not cite it as established.
+
+> ⭐ **Update 2026-09-20 — this last sentence no longer applies.** `open_goal_partner_integral_s7`
+> is **closed**: s₇'s partner is integral, proved unconditionally as
+> `S7Mod4.s7_partner_integral_axiom_free` (via `four_dvd_s7`), with Lean's three standard axioms
+> only. The `PASS(7)` status and the named open goal above are the 2026-07-26 state, retained for
+> the record; the declaration `open_goal_partner_integral_s7` no longer exists in the source. The
+> rest of this notice — the two vacuous `ℕ → ℕ` theorems, and s10/s18 non-integrality — stands
+> unchanged. See [§⭐](#-no-literature-axiom-is-load-bearing-2026-09-20) and
+> [§🎯](#-the-last-sorry-is-closed-2026-09-20).
 
 ---
 

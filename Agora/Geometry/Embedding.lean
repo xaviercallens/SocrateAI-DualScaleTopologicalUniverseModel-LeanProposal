@@ -30,8 +30,15 @@
 
   What is NOT proved here: that `E₈(−1)` is unimodular is quoted from LeanMaster
   (`e8Neg_unimodular`, itself `rfl`-level over an encoded Cartan matrix) and is
-  not re-derived; and the assembly of the 22×22 statement from this 6×6 one is
-  the standard orthogonal-direct-sum argument, done on paper, not in Lean.
+  not re-derived.
+
+  ⭐ UPDATED 2026-09-21: this header previously also said that "the assembly of
+  the 22×22 statement from this 6×6 one is the standard orthogonal-direct-sum
+  argument, done on paper, not in Lean". That is no longer true — the assembly
+  is now kernel-checked in `Agora/Geometry/EmbeddingAssembly.lean`
+  (`assembly`), generically via `join_pullback` and then instantiated over
+  `Λ = U³ ⊕ E₈(−1)²`. The `E₈(−1)` caveat above is unchanged and is inherited
+  there.
   So `prop:g0complement` is upgraded from (E) to (K) IN ITS WITNESS, not in its
   identification of the monodromy lattice with `U ⊕ ⟨14⟩` — that remains Tier B
   and depends on the numerical monodromy computation.
