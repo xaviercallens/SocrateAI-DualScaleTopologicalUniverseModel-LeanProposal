@@ -1335,3 +1335,42 @@ tracked where the declaration lives, or they decay into assumed-closed.
 *Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: two independent
 expansions of Gorodetsky (1.7) with a negative control; Lean kernel (documentation-only change) |
 Reviewed-by: T0 N — pending.
+
+### E-013 companion 3 (2026-09-21): the gates, mutation-verified — and one that cannot go green
+
+Closing act of the cross-session audit. Every gate quoted in this repository was tested by
+mutation rather than trusted. Results, all run **unpiped** (a pipe hands you the filter's exit
+code, not the tool's):
+
+| gate | mutation | result |
+|---|---|---|
+| `lake build Agora OpenGoals Tests` | append `theorem zzz_negative_control : (0:Nat) = 1 := by sorry` | **exit 0** — "Build completed successfully (3726 jobs)", only `warning: declaration uses \`sorry\`` |
+| `axiom_audit.py Agora` | same | **exit 1**, `FAIL zzz_negative_control ['sorryAx']`, 314 audited / 4 failing |
+| `statement_lock.py --check` | `T7_disc : |T7.det| = 14` → `= 15` | **exit 1**, `CHANGED … :: T7_disc` |
+
+All reverted; build exit 0, 313 / 3, lock OK, tree clean.
+
+**Three findings.**
+
+1. **A `sorry` does not fail the build**, demonstrated rather than asserted. With no CI and a hook
+   that only warns (CLAUDE.md rule 3, corrected 2026-09-20), **nothing mechanical enforces the
+   no-`sorry` rule.** The axiom audit is what catches it, via `sorryAx`. Use that as the gate.
+2. **`axiom_audit.py Agora` exits 1 permanently and cannot serve as an automated pass/fail here.**
+   It returns non-zero for any non-standard axiom *including registered, disclosed ones*, and this
+   repo's steady state is three. The counts and the names are the signal; the exit code is not.
+   Wiring it to CI would install a permanent red — a signal engineered to be ignored. (LeanMaster's
+   copy of the same tool *is* usable, because they register no axioms. Same code, different
+   policy.) The question to ask of a gate is therefore not only *have I seen it go red* but
+   **can it go green in this repository's steady state.**
+3. ⚠️ **Lean's warning uses backticks:** `declaration uses \`sorry\``. Grepping a build log for
+   `declaration uses 'sorry'` with straight quotes returns **0 matches while the warning is
+   present** — verified. The check runs, returns a confident number, and the number is about the
+   wrong string.
+
+**The correction this supersedes.** Session reports earlier today said "all four gates green".
+That was false: the axiom audit had been exiting 1 all day and was only ever read through `| tail`.
+Corrected tally: *nine findings, none from a gate, three of four gates verified to fire, the
+fourth incapable of firing green.*
+
+*Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: mutation, each gate
+observed red and then green again, all exit codes read unpiped | Reviewed-by: T0 N — pending.
