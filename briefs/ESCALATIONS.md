@@ -1234,9 +1234,17 @@ what its *statement* actually mentions — the failure mode where a theorem is t
 passes the axiom audit, the statement lock and the `sorry` grep, while proving less than its name.
 Three instances were fixed the same day (`plus_seven_not_orthogonal`, `glue_primitive`, and the
 missing identification of `sym2`), and the method was positive-controlled against the two known
-defects before use. It flagged 208 of 481 declarations for reading; most are benign, since Lean
-states properties symbolically (`isometry` as `MᵀGM = G`, `dvd` as `∣`). **The triage of the
-remaining flagged declarations is not finished** — this entry records where it stopped.
+defects before use. It flagged **208 of the 312 `theorem`/`lemma` declarations under `Agora/`**;
+most are benign, since Lean states properties symbolically (`isometry` as `MᵀGM = G`, `dvd` as
+`∣`). **The triage of the remaining flagged declarations is not finished** — this entry records
+where it stopped. The tool is `scripts/name_vs_statement.py`, with its limits in its docstring:
+it is a reading list, not a verdict, and it cannot establish that a declaration is clean.
+
+⚠️ *Correction, same day:* this entry first said "208 of 481". That mixed two denominators —
+481 is the statement lock's count of **all** declarations (including `def`s) across `Agora`,
+`OpenGoals` and `Tests`, whereas 208 counts flagged `theorem`/`lemma` declarations under `Agora`
+alone. The ratio is 208/312. The error was the audit's own failure mode in miniature: a number
+that reads as a coverage figure while its denominator names a different population.
 
 *Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: Lean kernel (build
 3726 jobs / 0 errors, statement lock OK — documentation-only change); conjunct analysis by reading
