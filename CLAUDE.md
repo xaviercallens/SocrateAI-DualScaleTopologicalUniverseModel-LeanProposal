@@ -28,6 +28,16 @@ the **epistemic-guardrails** skill before writing any prose.
    from `Agora.lean` so `lake build Agora` actually compiles against it.
    The freeze is not lifted — it has been re-pointed twice, both times by T0, and
    `lake update` is again forbidden without a new dated T0 decision recorded here.
+   **T0 decision 2026-09-21 — the LeanMaster pin STAYS at `v3.33.0`.** LeanMaster released
+   `v3.45.0`; the re-point was considered and **declined**. Reason: this repo consumes only
+   `Gram`, `IsEvenDiag`, `IsUnimodular`, `hyperbolicU`, `latticeNorm`, `Signature`/`sigK3`,
+   `e8Neg`, `reflection` and `eta` — all stable at `v3.33.0` — and the one new result worth
+   having (`sym2_is_substitution`) was re-derived here independently and generalized to an
+   arbitrary `CommRing`, so nothing is imported for it. A version bump with no consumer is
+   precisely what this freeze exists to prevent, and it would cost a full rebuild plus
+   re-verification of every theorem citing their lemmas, against a dependency under active
+   concurrent development. Revisit only when a specific theorem here needs something only a
+   newer LeanMaster provides; the tag will be there.
 2. `axiom` only in `Axioms/`, registered in `AXIOMS.md` (hook-enforced).
 3. `sorry` on branches only; on `main` only inside `OpenGoals/`.
    ⚠️ **Not CI-enforced — corrected 2026-09-20.** This rule previously claimed "(CI-enforced)".

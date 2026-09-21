@@ -565,8 +565,8 @@
     "tate_algorithm": "82b1d5cfcc9a4aba"
   },
   "Agora/Unverified/DualScaleMaster.lean": {
-    "dual_scale_universe_model_consistent": "7cf081de3e85c593",
-    "m87_alpha_eff_certificate": "aed822f98ad6bb5c",
+    "dual_scale_components_conjunction": "3d3748124fbe328b",
+    "exists_real_above_0_45": "3c36919af7d5cc17",
     "theorem1": "9e435ebef3a5e366",
     "theorem1_holds": "d9a3ccc5224e2306",
     "theorem2": "65e798afbf92d269",
@@ -594,7 +594,7 @@
     "hessian_mixed_zero": "995f10c3fbbb0664",
     "is_tachyon_free": "80ce9f8098dad325",
     "log_volume_additive": "394ab4a1c75e5a4a",
-    "master_moduli_stabilization": "c5e1509dd61e3286",
+    "lvs_potential_positivity_and_placeholder": "0834d99cdcbc785c",
     "perturbative_regime": "43272815167782b9",
     "pipeline_ensures_perturbative": "821eaada0964fbc9",
     "sdc_bound": "f8a7d168f7e5c600",

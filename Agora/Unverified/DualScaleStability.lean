@@ -336,7 +336,11 @@ theorem pipeline_ensures_perturbative :
     is Tier C-bounded in any case: they are statements about the *defined*
     functions `V_F`, `d2V_*` and `sdc_bound`, and that those definitions model
     the physics their names invoke is not checked here (VISION §1.3, F5b). -/
-theorem master_moduli_stabilization (p : LVSParams) :
+-- RENAMED 2026-09-21: was `master_moduli_stabilization`. The old name asserted
+-- moduli stabilization; conjunct (v) is a bare existential discharged from the
+-- DISCLOSED-VACUOUS `pipeline_upper_bound`, and `1.177` occurs nowhere in the
+-- statement. Pointer kept (E-013 companion, briefs/ESCALATIONS.md).
+theorem lvs_potential_positivity_and_placeholder (p : LVSParams) :
     -- (i) Positive potential
     (∀ τ₁ τ₂ : ℝ, V_F p τ₁ τ₂ > 0) ∧
     -- (ii) Hessian positive-definite (Sylvester's criterion)

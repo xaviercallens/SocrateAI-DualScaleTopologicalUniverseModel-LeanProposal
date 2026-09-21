@@ -1374,3 +1374,36 @@ fourth incapable of firing green.*
 
 *Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: mutation, each gate
 observed red and then green again, all exit codes read unpiped | Reviewed-by: T0 N — pending.
+
+### E-013 — T0 DECISIONS TAKEN (2026-09-21, Xavier)
+
+All five recommendations approved. Actions executed:
+
+1. **Quarantine, not deletion.** The five legacy physics modules moved to `Agora/Unverified/` by
+   `git mv` — retained with history, nothing removed. Xavier's standing rule, given mid-refactor
+   when a `git rm` of a now-empty aggregator was attempted: *"do not delete, put in quarantine."*
+   The record stays legible; a file with no remaining purpose is still part of it.
+2. **The three overclaiming names renamed**, since a docstring cannot fix a name that will be
+   quoted on its own:
+   - `dual_scale_universe_model_consistent` → `dual_scale_components_conjunction`
+   - `m87_alpha_eff_certificate` → `exists_real_above_0_45`
+   - `master_moduli_stabilization` → `lvs_potential_positivity_and_placeholder`
+   Each carries a pointer comment recording the old name, the date and the reason — a rename is
+   itself a partial deletion of the record, so the superseded name stays findable.
+   E-013's underlying question (retire vs rebuild) is **not** thereby closed: Tier C is blocked
+   (F5b), so no genuine Theorem 2 or 3 can be built until that lifts.
+3. **LeanMaster pin: DECLINED, recorded dated in `CLAUDE.md` rule 1.** Stays at `v3.33.0` against
+   their `v3.45.0`. This repo consumes nine stable declarations from them and re-derived the one
+   new result worth having; a bump with no consumer is what the freeze prevents.
+4. **The 226/333 reading list is not to be ground through.** Gate new and changed declarations;
+   let the legacy backlog wait for whoever next touches those files. A finished-looking number
+   over 226 mostly-benign flags would mean nothing.
+5. **`scripts/release_gates.sh`** is now the pre-release checklist, with the day's lessons
+   encoded: every command unpiped, `axiom_audit` compared against `EXPECTED_FAILING=3` rather
+   than zero, the `sorry` check routed through the audit rather than the build, and the
+   self-tests run first. It went **red on its first run**, correctly, catching the three renames
+   above as `CHANGED` — the gate caught its author's own change before the author did.
+
+*Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: `release_gates.sh`
+green after review — build 3727 jobs / 0 errors, 313 audited / 3 expected failures, lock OK at
+481 declarations in 37 files | Reviewed-by: **T0 Y (Xavier, 2026-09-21)**.

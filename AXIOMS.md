@@ -62,7 +62,7 @@ This file maintains a complete, auditable inventory of all non-standard assumpti
 > scope); Theorem 1 may now be cited as a non-vacuous statement **about the
 > encoded operators**, nothing more.
 >
-> Also in S1-07: the unregistered `axiom m87_alpha_eff_certificate`
+> Also in S1-07: the unregistered `axiom exists_real_above_0_45 (renamed 2026-09-21 from `m87_alpha_eff_certificate`)`
 > (`DualScaleMaster.lean`) was converted to a proved theorem with a vacuity
 > disclosure in its docstring (statement `∃ v, v > 0.45` is content-free).
 

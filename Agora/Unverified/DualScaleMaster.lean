@@ -21,7 +21,7 @@
       statement is a vacuous existential; recorded as tracked gap E-005.
     - m87_numerical_certificate: (10⁶)^{1/4} > 2.905
     - density_threshold_certificate: 0.155 · R^{1/4} > 0.42 for R ≥ 55
-    - m87_alpha_eff_certificate: converted from axiom to (trivially provable)
+    - exists_real_above_0_45: converted from axiom to (trivially provable)
       theorem in this file; vacuity disclosed at its declaration.
 
   0 sorry.
@@ -97,7 +97,7 @@ def theorem2_holds : Prop :=
     above describes physics the statement does not contain. What is stated is
     `∃ alpha_eff : ℝ, alpha_eff > 0.45` — satisfied by `1`, with no reference to
     M87*, to any coupling, or to any axion. The vacuity was already disclosed at
-    `m87_alpha_eff_certificate` below; this definition's own docstring was not
+    `exists_real_above_0_45` below; this definition's own docstring was not
     updated at the same time, so a reader meeting `theorem3_holds` first was
     told it meant something it does not. Tier C remains blocked program-wide
     (F5b): no exact observable exists anywhere in this program, and nothing
@@ -130,7 +130,7 @@ theorem theorem2 : theorem2_holds := by
     · exact Real.exp_pos _
   exact mul_pos h1 h2
 
-/-- Formerly `axiom m87_alpha_eff_certificate` (unregistered, outside
+/-- Formerly `axiom exists_real_above_0_45` (unregistered, outside
     `Axioms/`). DISCLOSURE (S1-07 honesty pass, 2026-07-18): the statement
     `∃ v, v > 0.45` is trivially true (witness 1) and carries NO M87* content —
     the same vacuity mode as E-002. It is proved here to retire an unregistered
@@ -138,11 +138,16 @@ theorem theorem2 : theorem2_holds := by
     content-free placeholder. The contentful numeric claim lives in
     `ChameleonRescue.lean`; a genuine Theorem-3 rebuild is tracked in
     `AXIOMS.md` (see the E-005 note in briefs/ESCALATIONS.md). -/
-theorem m87_alpha_eff_certificate : ∃ (v : ℝ), v > 0.45 :=
+-- RENAMED 2026-09-21: was `m87_alpha_eff_certificate`. The old name asserted an
+-- M87* certificate; the statement is `∃ v : ℝ, v > 0.45`, witness `1`, and
+-- mentions no coupling, no M87* and no data. A docstring cannot fix a name, so
+-- the name came down to meet the statement. Pointer kept so the old name stays
+-- findable (E-013, briefs/ESCALATIONS.md).
+theorem exists_real_above_0_45 : ∃ (v : ℝ), v > 0.45 :=
   ⟨1, by norm_num⟩
 
 /-- Theorem 3 proof: From the numerical certificate. -/
-theorem theorem3 : theorem3_holds := m87_alpha_eff_certificate
+theorem theorem3 : theorem3_holds := exists_real_above_0_45
 
 -- ╔════════════════════════════════════════════════════════════════════╗
 -- ║  §3. THE UNIFIED MASTER THEOREM                                   ║
@@ -206,7 +211,11 @@ theorem theorem3 : theorem3_holds := m87_alpha_eff_certificate
     model. Retained rather than deleted, per this repository's disclosure
     discipline; a genuine Theorem-2/Theorem-3 rebuild is the tracked item.
     ══════════════════════════════════════════════════════════════════ -/
-theorem dual_scale_universe_model_consistent :
+-- RENAMED 2026-09-21: was `dual_scale_universe_model_consistent`. That name
+-- asserted the model is consistent and would have been quoted as such wherever
+-- it appeared; the statement is the conjunction of its three components, two of
+-- which are content-free (see the disclosure above). Pointer kept (E-013).
+theorem dual_scale_components_conjunction :
     theorem1_holds ∧ theorem2_holds ∧ theorem3_holds :=
   ⟨theorem1, theorem2, theorem3⟩
 
@@ -237,7 +246,7 @@ theorem dual_scale_universe_model_consistent :
        Source: Numerical computation (verifiable)
 
   From DualScaleMaster.lean:
-    (none) — m87_alpha_eff_certificate converted to a proved theorem;
+    (none) — exists_real_above_0_45 converted to a proved theorem;
     its statement remains content-free (disclosure at declaration).
 
   TOTAL: 3 axioms (1 empirical — flagged vacuous, 2 numerical certificates)
