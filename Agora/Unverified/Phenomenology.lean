@@ -3,4 +3,4 @@
   Namespace and re-exports for the Phenomenology submodule
 -/
 
-import Agora.Phenomenology.ChameleonRescue
+import Agora.Unverified.ChameleonRescue

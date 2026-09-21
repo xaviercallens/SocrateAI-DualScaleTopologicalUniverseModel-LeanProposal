@@ -5,7 +5,7 @@
 
 import Agora.Geometry.FTheoryFibration
 import Agora.Geometry.Weierstrass
-import Agora.Geometry.DiscriminantLocus
+-- DiscriminantLocus moved to Agora/Unverified/ on 2026-09-21 (quarantine).
 import Agora.Geometry.MnLattice
 import Agora.Geometry.SelfDual
 import Agora.Geometry.ModularAction
