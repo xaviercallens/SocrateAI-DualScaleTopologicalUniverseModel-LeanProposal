@@ -67,7 +67,7 @@
     "join_needs_orthogonality": "8c474038e6e91581",
     "join_pullback": "016feed80b7cfda4",
     "orthogonal_symm": "5ab0591723854531",
-    "plus_seven_not_orthogonal": "acdcbd76102823a0"
+    "plus_seven_not_orthogonal": "0af77b5678d3d37f"
   },
   "Agora/Geometry/FTheoryFibration.lean": {
     "CY4Topology": "a83c4d74bdb96c18",

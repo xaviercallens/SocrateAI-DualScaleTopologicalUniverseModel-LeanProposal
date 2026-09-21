@@ -251,17 +251,26 @@ theorem join_needs_orthogonality :
   have h := congrFun (congrFun hc (Sum.inl 0)) (Sum.inr 0)
   simp [Matrix.mul_apply, Fin.sum_univ_succ, fromCols] at h
 
-/-- **CONTROL 2: the sign in `Φ_M` is load-bearing.** Replacing `C` (which uses
-    `e₃ − 7f₃`) by `B` (which uses `e₃ + 7f₃`) destroys orthogonality: the two
-    copies of `T₇` are not orthogonal in `Λ`. So §3's orthogonality says
-    something about the `±` split of the third hyperbolic plane. -/
+/-- **CONTROL 2: the sign in `Φ_M` is load-bearing.** Build the complement map
+    with `B` (which uses `e₃ + 7f₃`) in place of `C` (which uses `e₃ − 7f₃`),
+    keeping `Φ_M`'s shape otherwise identical — `fromBlocks B 0 0 1` against
+    `Φ_M = fromBlocks C 0 0 1` — and orthogonality to `Φ_T` fails. So §3's
+    orthogonality says something about the `±` split of the third hyperbolic
+    plane, and not merely that `T₇` is nonzero.
+
+    ⚠️ The statement names the replacement matrix explicitly rather than
+    leaving the substitution to this docstring. An earlier version of this
+    control tested `fromRows B 0`, which *is* `Φ_T` — so it asserted only that
+    `Φ_T` is non-orthogonal to itself, a weaker fact than the name claimed.
+    The claim must live in the statement, not in the prose around it. -/
 theorem plus_seven_not_orthogonal :
-    Phi_Tᵀ * Lambda * (fromRows B (0 : Matrix (Fin 8 ⊕ Fin 8) (Fin 3) ℤ)) ≠ 0 := by
+    Phi_Tᵀ * Lambda *
+      (fromBlocks B 0 0 (1 : Matrix (Fin 8 ⊕ Fin 8) (Fin 8 ⊕ Fin 8) ℤ)) ≠ 0 := by
   intro hc
   rw [Phi_T, Lambda, transpose_fromRows, fromCols_mul_fromBlocks,
-    fromCols_mul_fromRows] at hc
+    fromCols_mul_fromBlocks] at hc
   simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add] at hc
-  have h := congrFun (congrFun hc 2) 2
+  have h := congrFun (congrFun hc 2) (Sum.inl 2)
   rw [show Bᵀ * U3 * B = T7 from B_pullback] at h
   simp [T7, TN] at h
 
