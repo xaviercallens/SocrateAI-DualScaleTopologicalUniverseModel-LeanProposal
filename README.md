@@ -18,14 +18,15 @@ broken in this environment.
 
 - **Cite this DOI** — [10.5281/zenodo.22853238](https://doi.org/10.5281/zenodo.22853238) — it is the
   *concept* DOI and always resolves to the latest archived version.
-- Latest **archived** version **v2**: [10.5281/zenodo.22864700](https://doi.org/10.5281/zenodo.22864700),
-  corresponding to release [`v0.10-two-lattices`](https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal/releases/tag/v0.10-two-lattices).
-  ⚠️ **Releases `v0.11`–`v0.14` are newer than that Zenodo record.** Depositing a new Zenodo
-  version is a manual step and has not been done; until it is, the DOI resolves to the v0.10
-  snapshot, and the GitHub release above is the current text. The mathematics is unchanged since
-  `v0.11`; what has changed since v0.10 is the rank-22 assembly, the quarantine, and §9.7.
-- v1 was [10.5281/zenodo.22853239](https://doi.org/10.5281/zenodo.22853239) (release `v0.8`); it is
-  superseded but remains citable and is not withdrawn.
+- Current version **v3**: [10.5281/zenodo.22875834](https://doi.org/10.5281/zenodo.22875834),
+  deposited 2026-09-21 from release
+  [`v0.14-paper-published`](https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal/releases/tag/v0.14-paper-published).
+  It carries the 48 pp. PDF, the complete LaTeX sources, and a tarball of the Lean 4 development.
+  New since v2: the rank-22 embedding assembly, `sym2_is_substitution`, the Gorodetsky (1.7)
+  encoding check, the quarantine of the legacy physics modules, and §9.7 of the manuscript.
+- v2 was [10.5281/zenodo.22864700](https://doi.org/10.5281/zenodo.22864700) (release
+  `v0.10-two-lattices`) and v1 was [10.5281/zenodo.22853239](https://doi.org/10.5281/zenodo.22853239)
+  (release `v0.8`); both are superseded, both remain citable, neither is withdrawn.
 
 ---
 

@@ -1,0 +1,25 @@
+{
+  "title": "A kernel-checked symmetric-square structure theorem for Cooper's sporadic Apéry-like operators, and the monodromy lattice of the s₇ family",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "access_right": "open",
+  "language": "eng",
+  "license": {"id": "MIT"},
+  "creators": [
+    {"name": "Callens, Xavier", "affiliation": "SocrateAI Lab | SymbioticFactory Research", "orcid": ""}
+  ],
+  "keywords": [
+    "Lean 4",
+    "formal verification",
+    "Apéry-like sequences",
+    "Picard-Fuchs operators",
+    "symmetric square",
+    "K3 lattice",
+    "modular forms",
+    "Gamma_0(N)+",
+    "reproducibility"
+  ],
+  "communities": [{"identifier": "zenodo"}],
+  "description": "<p>Stream 1 of the Dual-Scale Topological Universe Model: a Lean 4 formalization, kernel-checked with Lean's three standard axioms (<code>propext</code>, <code>Classical.choice</code>, <code>Quot.sound</code>), no <code>sorry</code> and no <code>native_decide</code> outside the golden tests.</p><p><strong>Principal results.</strong> (i) The order-3 Picard–Fuchs operator of Cooper's sporadic Apéry-like sequences is the symmetric square of an order-2 operator, proved uniformly in the template parameters (a,b,c,d) rather than per candidate, together with the Almkvist–van Straten criterion W ≡ 0 on the same template. (ii) 4 divides s₇(n) for n ≥ 1, by an elementary termwise argument, which retires the development's last load-bearing literature axiom: s₇-partner integrality now follows with no citation axiom at all. (iii) Γ₀(N)⁺ acts on U ⊕ ⟨2N⟩ by an explicit integer 3×3 representation which is the symmetric square and lands in SO(2,1), with automorphy as a hypothesis-free polynomial identity. (iv) The primitive-embedding witness for U ⊕ ⟨14⟩ inside the K3 lattice U³ ⊕ E₈(−1)², and — new in this version — the rank-22 assembly itself, via a generic orthogonal-join lemma over an arbitrary commutative ring.</p><p><strong>Epistemic scope, which this project asks you to respect when citing.</strong> The Lean results above are Tier A (kernel-checked) and may be stated as fact. That U ⊕ ⟨14⟩ <em>is</em> the transcendental lattice of the s₇ family is Tier B: it rests on a numerical monodromy computation, not on the kernel. <strong>No exact physical observable exists anywhere in this program</strong>, and nothing here supplies one; the symmetric-square relation provides no physical coupling.</p><p><strong>New in this version (releases v0.11–v0.14).</strong> The rank-22 embedding assembly; a theorem identifying the symmetric square as the substitution action on binary quadratic forms, which had been assumed rather than stated; verification that the encoded θ-coefficients reproduce Gorodetsky's eq. (1.7), closing a review item that had been open and unanswered for two months; and §9.7 of the manuscript, <em>A failure mode the gates do not catch</em>, which documents nine instances of a theorem that is true, compiles, and passes the build, the sorry grep, the axiom audit and the statement lock while proving less than its name says. None of the nine was found by any gate. All nine occurred in legacy physics-facing modules, none in the mathematics the paper reports; those modules have since been separated into a quarantine directory that nothing in the core imports, retained rather than deleted.</p>",
+  "notes": "Concept DOI 10.5281/zenodo.22853238 always resolves to the latest version. Source repository: https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal — the manuscript PDF, full LaTeX sources, the Lean 4 development and the audit tooling are all in the tagged release. Build the paper with pdflatex (not lualatex/xelatex). Verify the development with `bash scripts/release_gates.sh`; note that a `sorry` does not fail a Lean build, so the axiom audit, not the build, is the gate that catches one."
+}
