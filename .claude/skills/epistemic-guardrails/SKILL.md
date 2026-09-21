@@ -45,6 +45,42 @@ three tiers; this skill makes the rules operational for every sentence you write
 - **F6 discipline**: if you discover an error in a previously claimed Tier A/B result,
   the fix is not enough — add the disclosure note to the repo README in the same PR.
 
+## The claim must live in the statement, not the name (LL.md §1)
+
+This is the defect class that produced nine findings on 2026-09-21, **none of which any gate
+caught**. A declaration can be true, compile, and pass the build, the `sorry` grep, the axiom
+audit and the statement lock while proving **less than its name says** — the claim living in
+the identifier and the docstring.
+
+6. **Every noun in a name must appear in the statement.** `glue_primitive` was
+   `IsCoprime (1 : ℤ) N` — `isCoprime_one_left` renamed, mentioning no vector, no basis and
+   no `U`. If the object the name is about is absent from the statement, the claim is prose.
+7. **Constraining ≠ identifying.** A theorem can pin every property you tested and still leave
+   the object unnamed; then the *name* does the identifying. Say what the object IS.
+8. **A docstring cannot fix a name.** A name is what gets quoted, in isolation, by readers and
+   by retrieval systems. When the statement cannot be raised to meet the name — e.g. Tier C is
+   blocked — **the name comes down to meet the statement.**
+9. **A disclosure belongs ON the declaration**, not only in the prose discussing it — and on
+   **the declaration the criticism names**, which is not always where the substance lives.
+   Open each in-place disclosure with the literal word `Disclosure`.
+10. **Writing a critique is not landing it.** If a review says a declaration claims more than
+    it proves, the FIRST edit is that declaration's docstring. A correct critique sitting in a
+    README or a paper is an *unlanded fix* — treat it as open, not done.
+11. **Quarantine, never delete** (LL.md §5.1). Superseded claims are marked and kept; a rename
+    leaves a pointer comment. `git mv`, never `rm`.
+
+## Encoding traps when checking prose (LL.md §3.9)
+
+A matcher checks a string, not the object. All three of these produced confident wrong numbers
+in one day:
+
+- Lean writes `` declaration uses `sorry` `` with **backticks** — a straight-quote grep finds 0
+  while the warning is present.
+- LaTeX splits a banned phrase across macros: `PASS(\texorpdfstring{$N$}{N})` does not match
+  `PASS\([0-9N]`, and `100\% verified` does not match `100% verified`.
+- A line-anchored token check fires on prose (`^\s*axiom\s` matches a sentence beginning
+  "axiom audit…") and misses attribute-prefixed declarations.
+
 ## Review checklist (run on any prose diff)
 
 - [ ] Every Tier C sentence has a conjecture marker in the sentence itself.
@@ -52,3 +88,8 @@ three tiers; this skill makes the rules operational for every sentence you write
 - [ ] Every number traceable; every `PASS` carries its order.
 - [ ] Provenance footer present.
 - [ ] Nothing in this diff weakens VISION §2/§4 (those may only be strengthened).
+- [ ] Every declaration name in the diff is matched by its statement, not by its docstring.
+- [ ] Any disclosure is on the declaration itself, opening with the word `Disclosure`.
+- [ ] No fenced block is presented as tool output unless pasted from a run in THIS session
+      (LL.md §6 — the danger signature is near-certainty, not carelessness; "pending" is
+      always available).

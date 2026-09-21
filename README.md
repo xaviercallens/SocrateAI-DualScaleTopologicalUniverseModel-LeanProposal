@@ -94,19 +94,32 @@ Do not trust the numbers in this file; regenerate them.
 
 ```bash
 lake exe cache get
-lake build Agora OpenGoals Tests                       # expect 0 errors, 0 sorry
-grep -rn '\bsorry\b' Agora OpenGoals Tests --include=*.lean   # prose only
+bash scripts/release_gates.sh      # ← the checklist. Reads exit codes correctly.
+```
+
+It runs the audit tools' self-tests first, then the build, the `sorry` check, the axiom audit and
+the statement lock — each **unpiped**, because a pipe hands you the filter's exit code and not the
+tool's (`lake build NoSuchTarget | grep "Build completed"` exits **0** while lake exits 1).
+
+Three things about these gates, each mutation-verified and recorded in [`LL.md`](LL.md) §3:
+
+- ⚠️ **A `sorry` does NOT fail the build.** Appending one gives exit 0 and only
+  `warning: declaration uses` + backtick + `sorry` — and note the *backticks*, so a
+  straight-quote grep finds nothing. The real `sorry` gate is the axiom audit, via `sorryAx`.
+- ⚠️ **`axiom_audit.py` exits 1 permanently here.** It fails on any registered axiom and the
+  steady state is **3** — the two disclosed axioms of [`AXIOMS.md`](AXIOMS.md), neither
+  load-bearing. Compare the count against 3, never against 0, and read *which* theorems fail.
+- ⚠️ **There is no CI** (CLAUDE.md rule 3). This script, run by a human, is the gate.
+
+```bash
+# the individual tools, if you want them separately
 python3 scripts/export_open_goals.py                   # all five goals report closed
 python3 scripts/check_selfdual_points_s7.py            # PASS(40) + negative control
-
-# proof-gate tooling (from the sibling LeanMaster repo; works on any Lake project)
+python3 scripts/name_vs_statement.py --self-test       # must pass before the tool is believed
 LM=~/SocrateAI-Scientific-Agora-LeanMaster
 LEAN_PROJECT_ROOT=$PWD python3 $LM/tools/axiom_audit.py Agora
 LEAN_PROJECT_ROOT=$PWD python3 $LM/tools/statement_lock.py --check $(find Agora OpenGoals Tests -name '*.lean')
 ```
-
-The axiom audit reports **3 "failing"** theorems. All three are the two *registered, disclosed*
-axioms of [`AXIOMS.md`](AXIOMS.md), not defects — and neither is load-bearing (see below).
 
 ⚠️ **A vacuous theorem would pass every one of those gates.** It compiles, evades the `sorry`
 grep, reports the three standard axioms and locks cleanly. This repository has shipped vacuous
@@ -370,6 +383,12 @@ typing fact) recorded there. Please do not cite it as established.
 ---
 
 ## Key Documents
+
+📕 **[`LL.md`](LL.md) — lessons learnt.** Read before quoting any gate, number or verification
+claim from this repository. It records, with the mutation tests that establish them: a `sorry`
+does **not** fail the build; `axiom_audit.py` exits 1 permanently here and is not a pass/fail
+signal; a pipe hands you the filter's exit code, not the tool's; and the defect class where a
+theorem is true, compiles, passes every gate, and proves **less than its name says**.
 
 1. **[VISION.md](VISION.md)** — The master vision document. Read this first.
 2. **[K3_CRITERIA.md](K3_CRITERIA.md)** — Frozen criteria for ranking K3 candidates (Tier A/B properties). Stream 2 uses this.

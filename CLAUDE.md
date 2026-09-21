@@ -4,6 +4,12 @@ Formal verification repo for the Dual-Scale program. Governing docs: `VISION.md`
 `EXECUTION_PLAN.md` §2. Read the **lean-proof-workflow** skill before touching any .lean file and
 the **epistemic-guardrails** skill before writing any prose.
 
+📕 **Read [`LL.md`](LL.md) before quoting any gate, number or verification claim.** It is the
+lessons-learnt file: what the gates can and cannot see, why a `sorry` does not fail the build, why
+`axiom_audit.py` can never report green here, and the defect class in which a theorem is true,
+compiles, passes every gate, and still proves less than its name says. §1 is the one to read if
+you read one.
+
 ## Commands
 - Build (full): **`lake build Agora OpenGoals Tests`**, or `lake build <Module>` (targeted).
   ⚠️ **Corrected 2026-09-20: a bare `lake build` builds NOTHING and still exits 0** — the package
