@@ -49,6 +49,26 @@
     "discriminants_agree": "e306e8a9bc7db37d",
     "index_eq_disc": "47ff634b661a27b3"
   },
+  "Agora/Geometry/EmbeddingAssembly.lean": {
+    "E8sq": "e2e3965678f14fd1",
+    "E8sq_det": "20303bc923675dda",
+    "E8sq_symm": "63b7aa7b5a399d86",
+    "Lambda": "0815a69997d23ea1",
+    "Lambda_symm": "dcc512ac173570f6",
+    "Phi": "26cba58585780320",
+    "Phi_M": "e16512e8e08b2f55",
+    "Phi_M_pullback": "fc1fa5b0d380c0b6",
+    "Phi_T": "ab154de1c7a67c43",
+    "Phi_T_orthogonal_Phi_M": "5f8068062e8e2a30",
+    "Phi_T_pullback": "2479869142693f96",
+    "assembly": "ed503dbf99843a64",
+    "assembly_det": "d251d76e28466c02",
+    "assembly_det_eq_disc_sq": "5ffe693eeaed0a64",
+    "join_needs_orthogonality": "8c474038e6e91581",
+    "join_pullback": "016feed80b7cfda4",
+    "orthogonal_symm": "5ab0591723854531",
+    "plus_seven_not_orthogonal": "acdcbd76102823a0"
+  },
   "Agora/Geometry/FTheoryFibration.lean": {
     "CY4Topology": "a83c4d74bdb96c18",
     "DualScaleObservable": "3370673e1cb3b3db",
