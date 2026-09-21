@@ -139,5 +139,47 @@ def main(root='Agora'):
           ', '.join(f'{t}×{n}' for t, n in c.most_common(12)), file=sys.stderr)
 
 
+def self_test():
+    """Fail LOUDLY if the parser cannot see modifier-prefixed declarations.
+
+    A regex fix repairs one tool; a self-test makes the NEXT tool fail instead of
+    quietly reporting a blind spot as clean. Adopted from the LeanMaster session,
+    where one anchoring bug hid the same two `@[simp]` theorems from THREE
+    separate tools (`axiom_audit`, `statement_lock`, and their disclosure
+    scanner) across two years — the v3.17.0 gate fix repaired two files and never
+    became a convention, so the next tool reintroduced it.
+
+    Here the same bug hid 41 of 465 declarations, `cooperC3` among them — the
+    source-of-record for this repo's headline result.
+    """
+    fixture = """
+/-- doc -/
+@[simp] theorem fixture_attr (n : Nat) : n = n := rfl
+private theorem fixture_private (n : Nat) : n = n := rfl
+protected lemma fixture_protected (n : Nat) : n = n := rfl
+@[simp, norm_cast] theorem fixture_multi (n : Nat) : n = n := rfl
+theorem fixture_plain (n : Nat) : n = n := rfl
+"""
+    found = {m.group(2) for m in DECL.finditer(fixture)}
+    want = {'fixture_attr', 'fixture_private', 'fixture_protected',
+            'fixture_multi', 'fixture_plain'}
+    ok = True
+    if found != want:
+        print(f"SELF-TEST FAIL: fixture missed {sorted(want - found)}", file=sys.stderr)
+        ok = False
+    # real anchors in this repository, both invisible to an `^(theorem|lemma)` regex
+    live = {n for p in pathlib.Path('Agora').rglob('*.lean')
+            for n, _ in declarations(p)}
+    for anchor in ('sqrtSeq_zero', 'partnerPair_fst_succ'):
+        if anchor not in live:
+            print(f"SELF-TEST FAIL: `{anchor}` not in the parse "
+                  f"(modifier-prefixed declaration invisible again)", file=sys.stderr)
+            ok = False
+    print("self-test: ok" if ok else "self-test: FAILED", file=sys.stderr)
+    return 0 if ok else 1
+
+
 if __name__ == '__main__':
+    if '--self-test' in sys.argv:
+        sys.exit(self_test())
     main(sys.argv[1] if len(sys.argv) > 1 else 'Agora')

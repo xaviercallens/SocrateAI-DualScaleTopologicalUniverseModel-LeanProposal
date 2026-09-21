@@ -116,5 +116,33 @@ def main(use_token=False):
           "(4 of 5 here). An empty report is not a clean bill — see LIMITATIONS.")
 
 
+def self_test():
+    """Fail LOUDLY if the parser cannot see modifier-prefixed declarations.
+
+    See `name_vs_statement.py --self-test` for the history: one anchoring bug hid
+    the same two `@[simp]` theorems from three separate LeanMaster tools, and hid
+    41 of 465 declarations here. A regex fix repairs one tool; a self-test makes
+    the next one fail loudly instead of reporting a blind spot as clean.
+    """
+    docs = source_docstrings()
+    ok = True
+    # `cooperC3` is `noncomputable def` and is the source-of-record for the
+    # headline result's encoding; it was invisible until 2026-09-21.
+    for anchor in ('cooperC3', 'sqrtSeq_zero', 'partnerPair_fst_succ'):
+        if anchor not in docs:
+            print(f"SELF-TEST FAIL: `{anchor}` not in the parse "
+                  f"(modifier-prefixed declaration invisible again)", file=sys.stderr)
+            ok = False
+    # a disclosure must be findable by the token the convention mandates
+    c3 = ' '.join(d for _, d in docs.get('cooperC3', []))
+    if c3 and not re.search(r'Gorodetsky', c3):
+        print("SELF-TEST FAIL: cooperC3 docstring lost its source citation", file=sys.stderr)
+        ok = False
+    print("self-test: ok" if ok else "self-test: FAILED", file=sys.stderr)
+    return 0 if ok else 1
+
+
 if __name__ == '__main__':
+    if '--self-test' in sys.argv:
+        sys.exit(self_test())
     main('--token' in sys.argv)
