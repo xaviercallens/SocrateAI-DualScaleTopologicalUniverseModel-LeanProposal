@@ -1285,3 +1285,48 @@ what it cannot see.
 
 *Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: Lean kernel
 (documentation-only change; lock unchanged) | Reviewed-by: T0 N — pending.
+
+### E-013 companion 2 (2026-09-21): review item A1 was open for two months, and is now closed
+
+Prompted by the LeanMaster session's `Problem3_DualScaleTCC` finding — a book chapter criticising
+a module docstring *by name* while the docstring still said the criticised thing — and their rule
+**§S11.8: when a review concludes a declaration claims more than it proves, the first edit is that
+declaration's docstring; writing it up elsewhere is the second edit, not the first.** Applied
+retroactively here, a scan for critique language (not merely vacuity language) near backticked
+identifiers turned up 19 criticised identifiers, of which 5 had no corresponding note at the
+declaration. Four were false positives on reading — prose that *described* rather than criticised,
+or criticised a past ruling rather than the declaration. The fifth was real:
+
+**A1** of `briefs/DEEPTHINK_REVIEW_REQUEST_S1_10_12_2026_07_26.md` (filed 2026-07-26) asked for the
+encoded θ-coefficients `cooperC3/C2/C1/C0` to be checked against Gorodetsky arXiv:2102.11839v2
+eq. (1.7), warning that a sign or commutator slip would make `partner_res0` *"vacuously consistent
+with a WRONG operator"*. That matters more than most review items: `partner_res0..3` +
+`partner_magic` is the repository's headline result (`L₃ = P₂·Sym²(L₂)`, first row of the README
+table). **No record of the check existed in any brief.** The item was neither answered nor tracked
+as open — it had simply gone quiet.
+
+**Now done, and it passes.** Expanding (1.7) — `θ³ − z(2θ+1)(aθ² + aθ + b) + z²(c(θ+1)³ + d(θ+1))`
+— and collecting powers of `θ`, twice by independent routes (by hand, and symbolically), with a
+negative control confirming the check can fail:
+
+| | derived from (1.7) | encoded |
+|---|---|---|
+| `θ³` | `1 − 2a·z + c·z²` | `cooperC3` ✓ |
+| `θ²` | `−3a·z + 3c·z²` | `cooperC2` ✓ |
+| `θ¹` | `−(a+2b)·z + (3c+d)·z²` | `cooperC1` ✓ |
+| `θ⁰` | `−b·z + (c+d)·z²` | `cooperC0` ✓ |
+
+So the `partner_res*` family is about Cooper's operator, not about an encoding artefact. **Limit,
+stated at the declaration too:** this verifies the *transcription* of (1.7) into the four
+definitions. That (1.7) is the right operator for the Cooper sequences is Gorodetsky's result,
+cited and not re-derived. Landed in `cooperC3`'s docstring, which is the source-of-record for all
+four. Build 3726 jobs / 0 errors; `statement_lock --check` OK (documentation only).
+
+**The transferable lesson, which is not about A1.** A review item that is filed but never answered
+leaves no trace anywhere: it is not a `sorry`, not an axiom, not a failing gate, and the statement
+lock is silent on it. It reads as done because nothing says it is not. Open review items should be
+tracked where the declaration lives, or they decay into assumed-closed.
+
+*Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: two independent
+expansions of Gorodetsky (1.7) with a negative control; Lean kernel (documentation-only change) |
+Reviewed-by: T0 N — pending.

@@ -117,7 +117,29 @@ noncomputable def s18_P0 : Polynomial ℚ := -3 * X + 45 * X ^ 2
     `θ³ − z(2θ+1)(aθ² + aθ + b) + z²(c(θ+1)³ + d(θ+1))`, expanded with every `z`
     moved to the left (the inner factors have constant coefficients, so no
     commutator terms arise). PDF fetched and SHA256-pinned,
-    `refs/literature_provenance.txt`. -/
+    `refs/literature_provenance.txt`.
+
+    ✅ **The expansion is VERIFIED, 2026-09-21.** Review item A1 of
+    `briefs/DEEPTHINK_REVIEW_REQUEST_S1_10_12_2026_07_26.md` asked for exactly
+    this check, warning that a sign or commutator slip here would make the
+    "identically vanishing constraint" `partner_res0` *vacuously consistent with
+    a WRONG operator* — i.e. all four `partner_res*` identities would hold, of
+    an operator that is not Cooper's. No record of the check existed. It has now
+    been done, twice and independently (by hand, and by a symbolic expansion of
+    (1.7) collecting powers of `θ`), with a negative control confirming the
+    check can fail:
+
+        θ³ :  1 − 2a·z + c·z²        = cooperC3   ✓
+        θ² :  −3a·z + 3c·z²          = cooperC2   ✓
+        θ¹ :  −(a+2b)·z + (3c+d)·z²  = cooperC1   ✓
+        θ⁰ :  −b·z + (c+d)·z²        = cooperC0   ✓
+
+    So the θ-coefficients encoded here do reproduce eq. (1.7), and the
+    `partner_res*` family is a statement about Cooper's operator rather than
+    about an encoding artefact. NOTE the limit of this: it verifies the
+    *transcription* of (1.7) into these four definitions. That (1.7) is itself
+    the right operator for the Cooper sequences is Gorodetsky's result, cited,
+    not re-derived here. -/
 noncomputable def cooperC3 (p : CooperRecurrenceParams) : Polynomial ℚ :=
   1 - C (2 * (p.a : ℚ)) * X + C (p.c : ℚ) * X ^ 2
 
