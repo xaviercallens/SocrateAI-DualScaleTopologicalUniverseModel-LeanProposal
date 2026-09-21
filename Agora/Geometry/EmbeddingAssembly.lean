@@ -45,6 +45,14 @@
       makes the conclusion false), and `Phi_M` genuinely uses `−7` (at `+7` the
       two sublattices are not orthogonal in `Λ`).
 
+  NON-VACUITY OF `assembly`. A statement of the form `Φᵀ Λ Φ = X` is worth
+  checking for degenerate solutions — `Φ = 0` satisfies it whenever `X = 0`.
+  It does not here: `assembly_det` (§5) computes `X.det = −196 ≠ 0`, so
+  `assembly` forces `det (Φᵀ Λ Φ) ≠ 0`, which no degenerate `Φ` can satisfy.
+  The two theorems together are the non-vacuity control for this file.
+  (This bounds `Φ` from below; it still proves no rank or index statement
+  about `Φ` — see §4's caveat.)
+
   WHAT IS NOT PROVED HERE — the boundary is unchanged from `Embedding.lean`
 
   * That `E₈(−1)` is unimodular and even is QUOTED from LeanMaster
