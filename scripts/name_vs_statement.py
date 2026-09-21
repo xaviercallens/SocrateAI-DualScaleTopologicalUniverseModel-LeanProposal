@@ -17,11 +17,25 @@ Found this way on 2026-09-21 (all four now fixed or disclosed):
   sym2 (whole file)          four theorems CONSTRAINED it, none IDENTIFIED it.
   theorem2_holds / theorem3_holds   see E-013.
 
-THE ESSENTIAL TRICK
--------------------
+THE ESSENTIAL TRICK, stated precisely
+-------------------------------------
 Strip docstrings and comments BEFORE asking whether the statement mentions the
-name's tokens. Otherwise the docstring supplies the very words being tested for,
-and every declaration looks clean — which is precisely how these survive review.
+name's tokens — otherwise prose supplies the very words being tested for and
+every declaration looks clean.
+
+⚠️ How much this matters depends on how the statement is extracted, and an
+earlier version of this docstring overstated it. Here the statement is captured
+only from *after* the declaration's name up to `:=`, so a docstring *preceding*
+a declaration never leaks in and stripping it is belt-and-braces. What genuinely
+leaks is a comment INSIDE the statement range:
+
+    theorem foo (n : Nat) : /- primitive -/ n = n := rfl
+
+Unstripped, that statement "mentions" `primitive` and the declaration is
+silently cleared. `--self-test` tests exactly that case, in both directions. If
+you port this to a tool that grabs a window of text around a declaration rather
+than the statement range, the stronger version of the warning applies and
+leading docstrings do leak.
 
 HOW TO READ THE OUTPUT — this is a READING LIST, NOT A VERDICT
 --------------------------------------------------------------
@@ -167,6 +181,47 @@ theorem fixture_plain (n : Nat) : n = n := rfl
     if found != want:
         print(f"SELF-TEST FAIL: fixture missed {sorted(want - found)}", file=sys.stderr)
         ok = False
+
+    # ── BOTH DIRECTIONS on the stripper, which is this tool's whole premise ──
+    # A one-directional self-test is a test that can only fail one way — the
+    # `True`-signature blindness again, at the level of the test rather than the
+    # tool. If the stripper silently stopped working, the docstring would supply
+    # the very tokens we test for and EVERY declaration would look clean; the
+    # parser-visibility check above cannot see that. (Gap identified by the
+    # LeanMaster session, 2026-09-21, whose `sorry_grep.py` tests both ways.)
+    hide = pathlib.Path(__file__).parent / '_selftest_hide.lean'
+    keep = pathlib.Path(__file__).parent / '_selftest_keep.lean'
+    try:
+        # (a) the stripper MUST hide comment text INSIDE the statement range.
+        #     NOTE the placement: a docstring *preceding* a declaration never
+        #     leaks, because the statement is captured only from after the
+        #     declaration's NAME. A first version of this fixture put the word
+        #     in a leading docstring and therefore passed whether or not the
+        #     stripper ran — a self-test that could not fail, written into the
+        #     commit that added bidirectional self-testing. Caught by the
+        #     negative control, which is the only reason it is not still here.
+        hide.write_text('/-- doc -/\n'
+                        'theorem selftest_primitive (n : Nat) : /- primitive -/\n'
+                        '    n = n := rfl\n')
+        flagged = {name for name, stmt in declarations(hide)
+                   if 'primitive' not in stmt.lower()}
+        if 'selftest_primitive' not in flagged:
+            print("SELF-TEST FAIL: stripper leaked docstring text into the "
+                  "statement — every declaration would look clean", file=sys.stderr)
+            ok = False
+        # (b) the stripper MUST NOT hide real statement text: `primitive` occurs
+        #     in the statement, so the declaration must NOT be flagged.
+        keep.write_text('/-- doc -/\n'
+                        'theorem selftest_primitive2 (primitive : Nat) : primitive = primitive := rfl\n')
+        kept = {name for name, stmt in declarations(keep)
+                if 'primitive' in stmt.lower()}
+        if 'selftest_primitive2' not in kept:
+            print("SELF-TEST FAIL: stripper removed real statement text",
+                  file=sys.stderr)
+            ok = False
+    finally:
+        hide.unlink(missing_ok=True)
+        keep.unlink(missing_ok=True)
     # real anchors in this repository, both invisible to an `^(theorem|lemma)` regex
     live = {n for p in pathlib.Path('Agora').rglob('*.lean')
             for n, _ in declarations(p)}
