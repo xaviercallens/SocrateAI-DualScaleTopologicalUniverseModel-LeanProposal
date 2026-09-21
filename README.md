@@ -169,11 +169,12 @@ Last checked 2026-09-21 at the pin above. **Re-run the commands rather than trus
 
 | Check | Result |
 |---|---|
-| `lake build Agora OpenGoals Tests` | 3726 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **311 theorems audited.** 308 depend only on `propext`, `Classical.choice`, `Quot.sound` |
+| `bash scripts/release_gates.sh` | **all gates OK** (it reads exit codes correctly; a green run is not a clean bill) |
+| `lake build Agora OpenGoals Tests` | 3727 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **313 theorems audited.** 310 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 479 declarations in 36 files, no existing statement changed |
+| Statement lock | OK — 481 declarations in 37 files; mutation-verified to fire |
 | `scripts/export_open_goals.py` | all **5** registered goals report `closed` |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)
@@ -404,9 +405,9 @@ theorem is true, compiles, passes every gate, and proves **less than its name sa
 ├── Agora/                  # The mathematics. No `sorry` anywhere.
 │   ├── Axioms/             # The ONLY place an `axiom` may be declared (see AXIOMS.md)
 │   ├── Sequences/          # Cooper sequences, recurrences, θ-form operators, Sym² partners
-│   ├── Geometry/           # Weierstrass / discriminant / F-theory fibration scaffolding
-│   ├── Swampland/          # Swampland constraints, Sym² C3b checker
-│   ├── Phenomenology/      # ChameleonRescue
+│   ├── Geometry/           # Lattices, modular action, the rank-22 embedding assembly
+│   ├── Swampland/          # The Almkvist–van Straten Sym² criterion (`P_cleared_eq_zero`)
+│   ├── Unverified/         # ⚠️ QUARANTINE — compiles, but NOT a physics result. See below.
 │   └── ML/                 # Python/notebook experiments (not Lean)
 ├── OpenGoals/              # The ONLY place a `sorry` may appear; each is a named goal
 ├── Tests/                  # Golden numeric tests (these use `native_decide`)
@@ -418,8 +419,28 @@ theorem is true, compiles, passes every gate, and proves **less than its name sa
 └── scripts/                # Automation (export_open_goals.py, checkers, verification)
 ```
 
-The `Agora/` – `Agora/Axioms/` – `OpenGoals/` split is the epistemic contract: the mathematics,
-the declared assumptions, and the admitted gaps each have exactly one place to live.
+The `Agora/` – `Agora/Axioms/` – `Agora/Unverified/` – `OpenGoals/` split is the epistemic
+contract: the mathematics, the declared assumptions, the material that is **not evidence**, and
+the admitted gaps each have exactly one place to live.
+
+### ⚠️ `Agora/Unverified/` — the quarantine (2026-09-21)
+
+A systematic name-vs-statement audit found nine defects of one class: *a theorem that is true,
+compiles, and passes every gate while proving **less than its name says***. **Every one of them
+landed in five legacy physics modules. Not one landed in the arithmetic and lattice core**, which
+held up under direct attack. Those five now live in `Agora/Unverified/`, retained with history —
+nothing was deleted.
+
+What is in there: `dual_scale_components_conjunction` (renamed from
+`dual_scale_universe_model_consistent`), two of whose three conjuncts are `∃ v : ℝ, v > 0.45`
+(witness `1`) and "a product of positive reals is positive"; the M87* chameleon numerics; and an
+F-theory "physical dictionary" whose Kodaira-to-gauge-algebra reading is the category error
+retracted as E-008/E-009. **Nothing in the core imports any of it** — the separation is enforced
+by an absence of edges, not by convention. It still compiles: the claim is *"this is not
+evidence"*, never *"this does not compile"*.
+
+Tier C is blocked program-wide (F5b), so these cannot be repaired into results — which is why
+they are quarantined rather than rebuilt. See [`LL.md`](LL.md) and `briefs/ESCALATIONS.md` E-013.
 
 ---
 

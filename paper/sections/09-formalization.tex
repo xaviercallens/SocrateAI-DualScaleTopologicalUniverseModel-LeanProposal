@@ -69,7 +69,13 @@ editor hook rejects an \artifact{axiom} declaration introduced outside
 \artifact{Agora/Axioms/}. The \artifact{sorry} rule is \emph{not} mechanically
 enforced --- it is maintained by review, and checked by the audit commands of
 \S\ref{subsec:not-checked}, which report every occurrence and its location; at
-the time of writing they report none at all. This matters because the failure mode
+the time of writing they report none at all. We can now be sharper about
+\emph{why} the build is not the gate here, because it was tested rather than
+assumed: appending a \artifact{sorry}-carrying theorem to a module and
+rebuilding exits \emph{zero}, reporting success with only a
+\texttt{declaration uses `sorry`} warning. What does catch it is the axiom
+audit, via \artifact{sorryAx}. A reader auditing this development should
+therefore run the audit and not infer a clean development from a clean build. This matters because the failure mode
 being guarded against is not dishonesty but drift --- an assumption introduced
 locally during a proof attempt and never surfaced.
 
@@ -316,6 +322,18 @@ information for the next person who reaches the same lemma.
 \begin{itemize}
 \item \emph{Theorem~\ref{thm:obrien}}, as discussed. Kernel-checked:
   that our sequence satisfies its hypotheses.
+\item \emph{That Gorodetsky's operator is the right operator for the Cooper
+  sequences.} Our $\theta$-coefficients \artifact{cooperC3}--\artifact{cooperC0}
+  encode eq.~(1.7) of \cite{Gorodetsky2023}, and every symmetric-square identity
+  of \S\ref{sec:sym2} is a statement about that encoding. The \emph{transcription}
+  has been verified: expanding
+  $\theta^3 - z(2\theta+1)(a\theta^2 + a\theta + b) + z^2(c(\theta+1)^3 + d(\theta+1))$
+  and collecting powers of $\theta$ reproduces all four encoded coefficients,
+  checked twice by independent routes with a negative control. What is
+  \emph{not} re-derived here is that (1.7) is itself the correct operator for
+  these sequences; that is Gorodetsky's result, cited. The distinction matters:
+  a sign or commutator slip in the transcription would have left every identity
+  in \S\ref{sec:sym2} true of an operator that is not Cooper's.
 \item \emph{Everything with status \textbf{(E)} or \textbf{(N)}}:
   \S\ref{sec:irreducibility}, \S\ref{sec:lattice}, and the computational parts
   of \S\ref{sec:integrality} are Python and computer-algebra computations, not
@@ -372,6 +390,35 @@ polynomial, and the axiom quarantine are the three places where that work
 went. To our knowledge, no kernel-checked proof of a symmetric-square
 structure theorem for Picard--Fuchs-type operators has previously been given
 in any proof assistant.
+
+\subsubsection*{A failure mode the gates do not catch}
+
+One further disclosure belongs in an honest assessment, because it bears on how
+much a reader should infer from the fact that this development passes its
+checks. A systematic audit comparing each declaration's \emph{name} against
+what its \emph{statement} actually mentions found nine instances of a single
+defect: a theorem that is true, compiles, and passes the build, the
+\artifact{sorry} grep, the axiom audit \emph{and} the statement lock, while
+proving less than its name says --- the claim living in the identifier and the
+docstring rather than in the statement. One example, since the shape is easier
+to recognise than to describe: a lemma named for the primitivity of $e + Nf$ in
+a hyperbolic plane had the statement $\mathrm{IsCoprime}\,(1 : \mathbb{Z})\,N$,
+which is true for every $N$ in every commutative ring and mentions no vector,
+no basis and no lattice.
+
+Two things are worth saying about this. First, \textbf{none of the nine was
+found by any gate}; all were found by reading statements against names, prompted
+by an exchange with an independent formalization effort. A reader should weight
+``passes every check'' accordingly --- the checks are necessary and they are not
+sufficient, and this is a sharper statement of the vacuity caveat already made
+in \S\ref{subsec:not-checked}. Second, and more usefully: \textbf{every one of
+the nine occurred in the repository's legacy physics-facing modules, and none in
+the arithmetic and lattice development that this paper reports}. Those modules
+have since been separated into a quarantine directory that nothing in the core
+imports; they are retained rather than deleted, and none of them is cited
+anywhere in this paper. The results of \S\S\ref{sec:sym2}--\ref{sec:integrality}
+and \S\ref{sec:framework} were subjected to the same audit and are
+unaffected.
 
 % ----------------------------------------------------------------------------
 % Generated-by: Opus 5 (Stream 1 paper agent); \S9.4 (three-strikes discipline)
