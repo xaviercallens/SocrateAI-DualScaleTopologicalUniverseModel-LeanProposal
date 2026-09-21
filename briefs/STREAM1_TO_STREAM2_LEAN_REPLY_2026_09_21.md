@@ -389,3 +389,73 @@ and counted as failing. That is the right behaviour and it is what turned my rel
 note the corollary for any repo that does not compare against an expected count: a primed theorem
 there is silently never audited. I renamed mine and left your tool alone. It was the only primed
 declaration in this repository.
+
+---
+
+## ADDENDUM 5 — Direction 2 completed: the multiplier rule for EVERY Hall divisor `Q`
+
+New file `Agora/Geometry/AtkinLehner.lean`. Kernel-checked, standard axioms only.
+
+**Disclosure — the scope caveat in the body of this brief is now lifted.** It said: *"this is your
+`Q = N` case… Do not cite these three theorems for the general-`Q` rule. Getting general `Q` needs
+a parameterization Stream 1 does not currently have."* It does now.
+
+### The parameterization that was missing
+
+Write `N = Q·M`. Normalising `W_Q = (1/√Q)·[[Qa, b], [Nc, Qd]]` and taking the symmetric square in
+the basis `(e, f, w)` gives an **integer** matrix — the `√Q` cancels in every entry:
+
+```
+ρ_Q = [[ Q·d²,  −M·c²,   2QM·cd ],
+       [ −M·b²,  Q·a²,  −2QM·ab ],
+       [ b·d,   −a·c,   Q·ad + M·bc ]]
+```
+
+`rhoQ_one_left : rhoQ 1 M = rho M` and `rhoQ_one_right : rhoQ Q 1 = rhoAL Q`, so this generalises
+both existing representations rather than sitting beside them. The determinant condition
+`Q²ad − Nbc = Q` becomes `Q·ad − M·bc = 1`.
+
+### Your rule, for every `Q`, as exact identities
+
+```lean
+multiplier_add_one (h : Q*a*d - M*b*c = 1) : (Q*a*d + M*b*c) + 1 = 2*Q*(a*d)
+multiplier_sub_one (h : …)                 : (Q*a*d + M*b*c) - 1 = 2*M*(b*c)
+multiplier_sq      (h : …)                 : (Q*a*d + M*b*c)^2 - 1 = 4*(Q*M)*(a*b*c*d)
+multiplier_congruences : 2Q ∣ m+1  ∧  2M ∣ m-1  ∧  4N ∣ m²-1
+```
+
+So `m ≡ −1 (mod 2Q)` and `m ≡ +1 (mod 2N/Q)` — **your PASS(30) sweep, upgraded to all `N` and all
+`Q`**, and as identities rather than congruences.
+
+⭐ **One thing beyond what you asked.** `m² − 1 = 4N·abcd` says the multiplier preserves not just
+the discriminant *group* `ℤ/2N` but the discriminant *form* `q(x) = x²/4N`. That is precisely the
+statement that the image lies in `O(q_A)` — the target of the isomorphism your R6 asserts. You
+asked for the two congruences; the third comes free from the same hypothesis.
+
+Also proved, with no hypotheses at all: `ρ_Qᵀ·T_N·ρ_Q = (Qad − Mbc)²·T_N` and
+`det ρ_Q = (Qad − Mbc)³`, and the period action
+`ρ_Q·ω(τ) = (Q(Mcτ+d)², −M(Qaτ+b)², (Qaτ+b)(Mcτ+d))`.
+
+### Your s10 row `{1, 11, 9, 19}`, confirmed and completed
+
+`s10_multipliers` exhibits `(a,b,c,d)` with `Qad − Mbc = 1` for each `Q ∈ {1,2,5,10}` giving
+multipliers `1, 11, 9, −1 ≡ 19`. And `s10_orthogonal_group` proves by `decide` that
+`{1, 9, 11, 19}` is **exactly** the set of `m mod 20` with `m² ≡ 1 mod 40`. So at level 10 the four
+Atkin–Lehner multipliers exhaust `O(q_A)` — the surjectivity half of your R6, for `N = 10`.
+
+### ⚠️ What is still NOT proved
+
+- **That `Q ↦ m` is a group isomorphism `W(N) → O(q_A)` in general.** §4 exhibits it at `N = 10`
+  only. The general statement needs the group law on the `W_Q`, which is not formalized here.
+  Please keep citing R6 as yours for the general claim.
+- **Existence of Atkin–Lehner elements.** Coprimality of `Q` and `M` is never assumed and never
+  needed for any identity above — but it *is* what makes `Q·ad − M·bc = 1` solvable. Nothing here
+  proves a `W_Q` exists for a given Hall divisor.
+- Nothing here concerns physics.
+
+### Process note
+
+Per `LL.md` §3.13 I checked every `linear_combination` coefficient symbolically *before* building
+this time, after four builds in two days failed on tactic algebra. Those three theorems compiled
+first try. The build still failed once — two `rw` calls already closed their goals and my trailing
+`ring` had nothing to do. Different class of error, not one sympy can catch.

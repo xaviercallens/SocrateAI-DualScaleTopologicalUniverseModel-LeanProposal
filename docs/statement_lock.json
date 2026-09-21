@@ -17,6 +17,23 @@
     "theorem3_holds": "eb433c6af8c17446"
   },
   "Agora/Geometry.lean": {},
+  "Agora/Geometry/AtkinLehner.lean": {
+    "multiplier_add_one": "874f4eaf7ed440a9",
+    "multiplier_congruences": "0dcbb82db494b1f7",
+    "multiplier_needs_normalization": "985789d99878078c",
+    "multiplier_sq": "0fa37ba906d759eb",
+    "multiplier_sub_one": "c3d75f1ef190880e",
+    "rhoQ": "7a1065fb8d1454a9",
+    "rhoQ_det": "531ea02380c4460d",
+    "rhoQ_isometry": "66442de710b9a6ed",
+    "rhoQ_isometry_general": "e1b1016540572fd4",
+    "rhoQ_mulVec_period": "3d0e3ff3cec4b1e7",
+    "rhoQ_one_left": "302c8f43aebfda26",
+    "rhoQ_one_right": "6b5a90067ac36693",
+    "rhoQ_w_image": "93bc430d1cd17110",
+    "s10_multipliers": "2d0176dd7a634563",
+    "s10_orthogonal_group": "314a274b446292c3"
+  },
   "Agora/Geometry/DiscriminantLocus.lean": {
     "BettiSignature": "802fac4e6dbd4ce3",
     "BettiSignature.euler_char": "724a38c142122cb8",

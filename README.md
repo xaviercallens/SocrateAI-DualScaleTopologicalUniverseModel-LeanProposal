@@ -77,6 +77,9 @@ axiom. Names are Lean declarations; grep for them.
 | — and with `d = gcd(gcd(y,x), 2Nz)` **computed**, so the caller supplies nothing | `complement_of_vector` | `"` |
 | **2-adic bound:** `2ⁿ·b(n+1) ∈ ℤ` for the formal √ of **any** integer series with `s(1)` even | `sqrtSeq_two_adic` | `Sequences/SqrtTwoAdic.lean` |
 | — hence the s₁₀ partner is integral in the coordinate `2z`, for every `n` (was PASS(160)) | `s10_partner_two_adic` | `"` |
+| **Atkin–Lehner for every Hall divisor `Q`** (`N = Q·M`): `ρ_Qᵀ T_N ρ_Q = (Qad−Mbc)²T_N`, no hypotheses | `rhoQ_isometry_general` | `Geometry/AtkinLehner.lean` |
+| — multiplier rule as exact identities: `m+1 = 2Q·ad`, `m−1 = 2M·bc`, `m²−1 = 4N·abcd` | `multiplier_congruences` | `"` |
+| — at `N = 10` the four multipliers `{1,9,11,19}` are **exactly** `O(q_A)` | `s10_orthogonal_group` | `"` |
 | — `(14,−14,5)^⊥ ≅ A₂` in `U⊕⟨14⟩`, **constructed**: basis, Gram, saturation | `s7_complement_is_A2` | `"` |
 | — `A₂` does not embed in `U⊕⟨20⟩` in any way — **unconditional** | `no_det_three_in_T10` | `"` |
 | Orthogonal-join of two embeddings, **generic** (any ring, any index types) | `join_pullback` | `Geometry/EmbeddingAssembly.lean` |
@@ -193,11 +196,11 @@ Last checked 2026-09-21 at the pin above. **Re-run the commands rather than trus
 | Check | Result |
 |---|---|
 | `bash scripts/release_gates.sh` | **all gates OK** (it reads exit codes correctly; a green run is not a clean bill) |
-| `lake build Agora OpenGoals Tests` | 3729 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **364 theorems audited.** 361 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
+| `lake build Agora OpenGoals Tests` | 3730 jobs, **0 errors** (linter warnings only) |
+| Axiom audit of `Agora` | **378 theorems audited.** 375 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 540 declarations in 39 files; mutation-verified to fire |
+| Statement lock | OK — 555 declarations in 40 files; mutation-verified to fire |
 | `scripts/export_open_goals.py` | all **5** registered goals report `closed` |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)
