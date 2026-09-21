@@ -258,8 +258,8 @@ theorem join_needs_orthogonality :
     orthogonality says something about the `±` split of the third hyperbolic
     plane, and not merely that `T₇` is nonzero.
 
-    ⚠️ The statement names the replacement matrix explicitly rather than
-    leaving the substitution to this docstring. An earlier version of this
+    ⚠️ **Disclosure.** The statement names the replacement matrix explicitly
+    rather than leaving the substitution to this docstring. An earlier version of this
     control tested `fromRows B 0`, which *is* `Φ_T` — so it asserted only that
     `Φ_T` is non-orthogonal to itself, a weaker fact than the name claimed.
     The claim must live in the statement, not in the prose around it. -/

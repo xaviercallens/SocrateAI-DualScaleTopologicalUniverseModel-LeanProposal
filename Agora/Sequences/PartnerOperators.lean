@@ -268,7 +268,19 @@ theorem partner_res1 (p : CooperRecurrenceParams) :
     This is the identity with actual content. `partnerP2`, `partnerP1`, `partnerP0`
     are already pinned by `partner_res3`/`partner_res2`/`partner_res1`, so nothing
     is left to tune here — the equation either holds or the Cooper template is not
-    a symmetric square. It holds, identically in `(a,b,c,d)`. -/
+    a symmetric square. It holds, identically in `(a,b,c,d)`.
+
+    **Disclosure — the review item against this theorem, and its resolution.**
+    A1 of `briefs/DEEPTHINK_REVIEW_REQUEST_S1_10_12_2026_07_26.md` warned that a
+    sign or commutator slip in the *encoding* would make this identity
+    "vacuously consistent with a WRONG operator": the argument above shows
+    nothing is left to tune given `cooperC0..C3`, but says nothing about whether
+    those four are Cooper's operator. **Checked 2026-09-21 and it passes** — the
+    expansion of Gorodetsky eq. (1.7) reproduces all four encoded coefficients;
+    the verification, and its limit, are recorded at `cooperC3`. The limit
+    matters here: it establishes the *transcription* of (1.7), not that (1.7) is
+    the right operator for the Cooper sequences, which is Gorodetsky's cited
+    result and is not re-derived. -/
 theorem partner_res0 (p : CooperRecurrenceParams) :
     cooperC0 p = 2 * thetaC (partnerP0 p) := by
   unfold cooperC0 thetaC partnerP0

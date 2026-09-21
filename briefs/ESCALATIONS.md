@@ -1234,7 +1234,7 @@ what its *statement* actually mentions — the failure mode where a theorem is t
 passes the axiom audit, the statement lock and the `sorry` grep, while proving less than its name.
 Three instances were fixed the same day (`plus_seven_not_orthogonal`, `glue_primitive`, and the
 missing identification of `sym2`), and the method was positive-controlled against the two known
-defects before use. It flagged **208 of the 312 `theorem`/`lemma` declarations under `Agora/`**;
+defects before use. It flagged **226 of the 333 `theorem`/`lemma` declarations under `Agora/`**;
 most are benign, since Lean states properties symbolically (`isometry` as `MᵀGM = G`, `dvd` as
 `∣`). **The triage of the remaining flagged declarations is not finished** — this entry records
 where it stopped. The tool is `scripts/name_vs_statement.py`, with its limits in its docstring:
@@ -1243,8 +1243,13 @@ it is a reading list, not a verdict, and it cannot establish that a declaration 
 ⚠️ *Correction, same day:* this entry first said "208 of 481". That mixed two denominators —
 481 is the statement lock's count of **all** declarations (including `def`s) across `Agora`,
 `OpenGoals` and `Tests`, whereas 208 counts flagged `theorem`/`lemma` declarations under `Agora`
-alone. The ratio is 208/312. The error was the audit's own failure mode in miniature: a number
-that reads as a coverage figure while its denominator names a different population.
+alone. The ratio is 226/333. ⚠️ **Corrected twice.** It first read 208/481 (wrong population: 481 is
+the lock's count of *all* declarations across three directories). It then read 208/312 — still
+wrong, because the scanning regex was anchored on `^(theorem|lemma)` and silently skipped every
+`noncomputable`/`private`/attribute-carrying declaration, 41 of 465 here, `cooperC3` among them.
+A scan that cannot see a declaration reports it as clean. Both errors are the audit's own failure
+mode in miniature: the first a number whose denominator named a different population, the second
+a coverage figure computed over a population the tool could not see.
 
 *Provenance:* Generated-by: Claude Opus 5 (Stream 1 session) | Verified-by: Lean kernel (build
 3726 jobs / 0 errors, statement lock OK — documentation-only change); conjunct analysis by reading

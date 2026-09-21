@@ -121,7 +121,7 @@ theorem glue_det (N : ℤ) : (glue N).det = -(2 * N) := by
     the coordinate vector `![1, N]`, and any factorization `![1, N] = d • w`
     through an integer vector `w` forces `d` to be a unit.
 
-    ⚠️ **Corrected 2026-09-21.** This theorem was previously stated as
+    ⚠️ **Disclosure — corrected 2026-09-21.** This theorem was previously stated as
     `IsCoprime (1 : ℤ) N` and closed by `isCoprime_one_left`. That statement is
     true for every `N` in every commutative ring and mentions neither the
     vector, the basis, nor `U`: it is `isCoprime_one_left` under another name,

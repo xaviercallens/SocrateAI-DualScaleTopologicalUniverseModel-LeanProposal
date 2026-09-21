@@ -81,7 +81,16 @@ STOP = set("""of is the and eq to for at in not no iff imp all any mem has from 
 on as it its that this ne le lt ge gt add sub mul div neg zero one two three four five six seven
 eight nine ten pos self left right comm assoc apply def thm lemma case aux helper""".split())
 
-DECL = re.compile(r'^(theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_\'.]*)', re.M)
+# NOTE the modifier prefix. An earlier version anchored on `^(theorem|lemma)`
+# and therefore SILENTLY SKIPPED every `private`/`protected`/`noncomputable`/
+# attribute-carrying declaration — 41 of 465 here (9%), including `cooperC3`,
+# the source-of-record for this repo's headline result. A scan that cannot see
+# a declaration reports it as clean. Found 2026-09-21 by running the tool
+# against declarations it had already been run over; see the module docstring's
+# rule about recording what a scan cannot see.
+DECL = re.compile(
+    r'^(?:@\[[^\]]*\]\s*)*(?:noncomputable\s+|private\s+|protected\s+|partial\s+)*'
+    r'(theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_\'.]*)', re.M)
 
 
 def declarations(path):
