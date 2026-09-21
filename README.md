@@ -55,7 +55,7 @@ axiom. Names are Lean declarations; grep for them.
 | The discriminant lattice and `U⊕⟨2N⟩` are **not isometric** | `no_isometry_G0N_TN` | `"` |
 | Signature of `U⊕⟨2N⟩` is `(2,1)`, by explicit diagonalization | `TN_diagonalises` | `Geometry/MnLattice.lean` |
 | Both singular points `{−1, 1/27}` are walls of `(−2)`-roots | `s7_P2_discriminant`, `W7conj_eq_neg_reflection` | `Geometry/SelfDual.lean`, `ModularAction.lean` |
-| Primitive embedding witness `B`, `C`, orthogonality, index 14 | `B_pullback`, `B_orthogonal_C` | `Geometry/Embedding.lean` |
+| Embedding witness `B`, `C`, orthogonality, index 14 (**not** primitivity — see below) | `B_pullback`, `B_orthogonal_C` | `Geometry/Embedding.lean` |
 | Orthogonal-join of two embeddings, **generic** (any ring, any index types) | `join_pullback` | `Geometry/EmbeddingAssembly.lean` |
 | — hence `prop:g0complement` over the whole rank-22 `Λ = U³ ⊕ E₈(−1)²` | `assembly` | `"` |
 | — discriminant of the pullback is `−14²`, matching `\|disc T₇\| = 14` | `assembly_det` | `"` |
@@ -215,11 +215,22 @@ discharge `obrien2016_theorem6_2`.
   No physics is claimed. Record and verdicts (in French):
   [`briefs/THOUGHT_EXPERIMENTS_SELF_DUAL_2026_09_20.md`](briefs/THOUGHT_EXPERIMENTS_SELF_DUAL_2026_09_20.md).
 
-- **The primitive embedding is now kernel-checked** (`Agora/Geometry/Embedding.lean`): explicit
+- **The embedding witness is now kernel-checked** (`Agora/Geometry/Embedding.lean`): explicit
   integer matrices `B = (e₁, f₁, e₃+7f₃)` and `C = (e₂, f₂, e₃−7f₃)` with `BᵀU³B = U⊕⟨14⟩`,
   `CᵀU³C = U⊕⟨−14⟩`, `BᵀU³C = 0`, index 14. Six dimensions suffice because `E₈(−1)²` is
   unimodular and splits off. This upgrades the paper's embedding *witness* from (E) to (K); that
   the *monodromy* lattice is `U⊕⟨14⟩` still depends on the numerical claim and stays Tier B.
+  ⚠️ **Corrected 2026-09-21 — this bullet and the table row above said "the primitive
+  embedding".** Primitivity is *not* kernel-checked. What is checked is the witness, the two
+  pullbacks, orthogonality, and the numerical coincidence `index = |disc T₇| = 14`; the step from
+  that coincidence to "both sublattices are primitive and each is the other's complement" is the
+  standard **Nikulin-style criterion, which is literature and is formalized nowhere in this
+  repository**. The same qualification applies to `prop:embedding` in the paper, and is stated
+  there alongside `prop:assembly`.
+  **The rank-22 assembly is now kernel-checked too** (`Agora/Geometry/EmbeddingAssembly.lean`):
+  the generic orthogonal-join lemma `join_pullback` and its instantiation `assembly` over
+  `Λ = U³ ⊕ E₈(−1)²`, with `assembly_det` giving `−196 = −14²`. Note `assembly` is a statement
+  about the *pullback* of `Λ` along `Φ` — it is not a rank or injectivity claim about `Φ`.
 
 - **Two rank-3 lattices, not one** (`Agora/Geometry/SymSquareForms.lean`). The symmetric square
   `sym2` acts on the *discriminant* lattice of Γ₀(N)-forms (`b² − 4Nac`, Gram determinant `−4N²`);

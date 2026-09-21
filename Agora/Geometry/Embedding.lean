@@ -2,7 +2,12 @@
   Agora/Geometry/Embedding.lean
   ════════════════════════════════════════════════════════════════════════════════
 
-  THE PRIMITIVE EMBEDDING, KERNEL-CHECKED.
+  THE EMBEDDING WITNESS, KERNEL-CHECKED.
+
+  (Titled "THE PRIMITIVE EMBEDDING, KERNEL-CHECKED" until 2026-09-21. The word
+  "primitive" overstated it: primitivity follows from the checked numbers only
+  through the Nikulin-style criterion, which is literature and is not formalized
+  here. See §4.)
 
   The paper's Proposition `prop:g0complement` records that the orthogonal
   complement of `T₇ = U ⊕ ⟨14⟩` inside the K3 lattice
@@ -142,8 +147,16 @@ theorem T7_disc : |T7.det| = 14 := by rw [T7_det]; norm_num
     2×2 change of basis `(e, f) ↦ (e + 7f, e − 7f)` as `−14`, so that sublattice
     has index 14 in `U`; the other two planes are matched isomorphically by `B`
     and `C` (index 1). Hence the index of `T₇ ⊥ (U ⊕ ⟨−14⟩)` in `U³` is 14,
-    equal to `|disc T₇|` — which is exactly the condition for both sublattices
-    to be primitive and mutually orthogonal complements.
+    equal to `|disc T₇|`.
+
+    ⚠️ That numerical coincidence is the *input* to the standard Nikulin-style
+    criterion under which two mutually orthogonal sublattices of a unimodular
+    lattice are primitive and each other's complements. The criterion is
+    LITERATURE and is not formalized anywhere in this repository; what the
+    kernel supplies is the coincidence, not the conclusion. An earlier version
+    of this docstring said the equality "is exactly the condition for both
+    sublattices to be primitive and mutually orthogonal complements", which
+    stated the criterion as though it had been checked here. It has not.
 
     We state it as this equality of the two independently computed numbers
     rather than as a 6×6 determinant: the 6×6 expansion is not what carries the

@@ -117,8 +117,24 @@ theorem glue_congruence (N : ℤ) :
 theorem glue_det (N : ℤ) : (glue N).det = -(2 * N) := by
   simp [glue, det_fin_two]; ring
 
-/-- `e + N f` is primitive in `U` for every `N`. -/
-theorem glue_primitive (N : ℤ) : IsCoprime (1 : ℤ) N := isCoprime_one_left
+/-- **`e + N f` is primitive in `U`**, for every `N`: in the basis `(e, f)` it is
+    the coordinate vector `![1, N]`, and any factorization `![1, N] = d • w`
+    through an integer vector `w` forces `d` to be a unit.
+
+    ⚠️ **Corrected 2026-09-21.** This theorem was previously stated as
+    `IsCoprime (1 : ℤ) N` and closed by `isCoprime_one_left`. That statement is
+    true for every `N` in every commutative ring and mentions neither the
+    vector, the basis, nor `U`: it is `isCoprime_one_left` under another name,
+    and the identification with "`e + N f` is primitive" lived entirely in this
+    docstring. The mathematics was never wrong — the coordinates really are
+    `(1, N)` and really are coprime — but the kernel was certifying none of it.
+    The statement now names the vector. -/
+theorem glue_primitive (N : ℤ) {d : ℤ} {w : Fin 2 → ℤ}
+    (h : ![1, N] = d • w) : IsUnit d := by
+  have h0 : d * w 0 = 1 := by
+    have := congrFun h 0
+    simpa using this.symm
+  exact isUnit_iff_exists.mpr ⟨w 0, h0, by rw [mul_comm]; exact h0⟩
 
 /-- s7: `e + 7f ∈ U` has norm 14 — the witness of the paper's `prop:g0complement`. -/
 theorem s7_glue_norm : latticeNorm hyperbolicU ![1, 7] = 14 := by
@@ -127,8 +143,11 @@ theorem s7_glue_norm : latticeNorm hyperbolicU ![1, 7] = 14 := by
 theorem s7_glue_conorm : latticeNorm hyperbolicU ![1, -7] = -14 := by
   simp [latticeNorm, hyperbolicU, dotProduct, mulVec, Fin.sum_univ_succ]
 
-/-- The discriminants of the two glued pieces agree in absolute value, as they must
-    for mutually orthogonal primitive sublattices of a unimodular lattice:
+/-- The discriminants of the two glued pieces agree in absolute value. (Under the
+    standard Nikulin-style criterion this is what mutually orthogonal primitive
+    sublattices of a unimodular lattice must satisfy — but that criterion is
+    literature and is not formalized in this repository; only the equality below
+    is checked.)  Explicitly:
     `|det(U ⊕ ⟨14⟩)| = 14 = |det U · det E₈(−1)² · (−14)|`, the E₈(−1) factors
     being unimodular (LeanMaster `e8Neg_unimodular`). -/
 theorem s7_discriminants_match : |T7.det| = |hyperbolicU.det * (-14)| := by
