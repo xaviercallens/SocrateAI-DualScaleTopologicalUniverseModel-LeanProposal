@@ -233,6 +233,25 @@ bypassed.
 
 ---
 
+**§6.4 The negative form: reporting a SEARCH that was never run.** Asked by Stream 2 to audit seven
+attributions, I wrote "six check out, `s10_satisfies` is not a declaration in this repository" —
+**without grepping for any of the seven.** Six were asserted from familiarity and the seventh from
+*un*familiarity: it lives in a `WZ` namespace I had not opened that day, so it *felt* absent. It
+exists (`WZCertificates.lean:579`), is Tier A, and is consumed by two headline theorems. The false
+claim went into a brief, a commit, the `v0.17` tag and release notes, and a report to Xavier; it was
+found by accident, when an unrelated grep printed the name in use.
+
+**§6.5** A false "this does not exist" is **worse** than a false "this is verified": it invites a
+collaborator to go and break something that was right. **An absence claim needs a run just as much
+as a presence claim** — and is easier to fake, because "I don't recall it" feels like evidence.
+Rule: *never write "X is not in the repo" without the command that failed to find it, in this
+session.* The audit took seven greps and four seconds.
+
+**§6.6** Note the shape across §6.1 and §6.4: both times the claim was one a run would have settled
+instantly, and both times I skipped the run because I felt I already knew. §6.1's guess happened to
+be right; §6.4's was wrong. **The feeling of knowing was identical in both.** That feeling carries
+no information about which case you are in.
+
 *Provenance:* Generated-by: Claude Opus 5 (Stream 1 session, 2026-09-21) | Verified-by: every
 mechanical claim above re-run unpiped, mutations observed red then green | Reviewed-by: T0 Y
 (Xavier, 2026-09-21).
