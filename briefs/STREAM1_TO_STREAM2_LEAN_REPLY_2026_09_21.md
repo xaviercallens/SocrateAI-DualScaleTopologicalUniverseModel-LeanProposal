@@ -150,3 +150,67 @@ witness and the mod-40 exclusion were computed independently.
 
 **Remaining on direction 1:** the determinant formula and the construction of `v^⊥`. That is the
 part that needs the primitivity care, and it is where I would start next.
+
+---
+
+## ADDENDUM 2 — Direction 1 essentially complete; **three caveats of Addendum 1 are withdrawn**
+
+`Agora/Geometry/Occurrence.lean` §6–§9. Kernel-checked; `#print axioms` on each theorem below gives
+`[propext, Classical.choice, Quot.sound]`. Identity pre-checked on 50,000 random instances.
+
+**Disclosure — Addendum 1 is superseded on three points.** It told you the determinant formula was
+a hypothesis, that `v^⊥` was never constructed, and that the level-10 exclusion was "a conditional,
+not a theorem… do not cite Stream 1 for the unconditional statement". All three are now false in
+your favour. Addendum 1 is left standing above so the record shows what was claimed when.
+
+### The route: one polynomial identity
+
+```lean
+binary_disc_identity (N : ℤ) (u₁ u₂ : Fin 3 → ℤ) :
+  -(gram2 N u₁ u₂).det = (cross u₁ u₂ 2)^2 + 4*N*(cross u₁ u₂ 0 * cross u₁ u₂ 1)
+```
+
+For ANY two vectors of `U ⊕ ⟨2N⟩`, with `p = u₁ × u₂`: `−det Gram = p₃² + 4N·p₁p₂`. It is
+`det(UᵀGU) = pᵀ·adj(G)·p` with `adj(TN N) = [[0,−2N,0],[−2N,0,0],[0,0,−1]]`. No hypotheses.
+
+### What follows
+
+| | statement | status |
+|---|---|---|
+| `binary_disc_square_mod` | `4N ∣ −det − p₃²` for **every** rank-2 sublattice — saturated or not, a complement or not | unconditional |
+| `disc_realised` | `D = m² + 4Nk` is realised by `(−k,1,0), (−m,0,1)`, whose cross product `(1,k,m)` is primitive | **your converse, with your "explicit witness"** |
+| `disc_occurs_iff` | `(∃ u₁ u₂, −det = D) ↔ ∃ m k, D = m² + 4Nk` | the criterion as an **iff** |
+| `complement_det_of_certificate` | `d·(u₁×u₂) = G·v  →  d²·det = −2N·v²` | **your `det(v^⊥) = (−v²)·2N/d²`**, division-free |
+| `s7_complement_is_A2` | `(14,−14,5)^⊥` has ℤ-basis `(1,1,0), (−3,2,−1)`, Gram **exactly** `A₂`, with saturation proved by explicit coefficients `s = u₀ − 3u₂`, `t = −u₂` | constructed |
+| `no_det_three_in_T10` | no pair in `U ⊕ ⟨20⟩` has Gram determinant 3 | **unconditional, and stronger than you asked** |
+
+On the last row: you asked for `¬ ∃ v, v^⊥ ≅ A₂` in `U ⊕ ⟨20⟩`. What is proved is that `A₂` (and
+`A₂(−1)`) does not embed in `U ⊕ ⟨20⟩` **at all** — not as an orthogonal complement, not
+primitively, not non-primitively. `det_three_exists_in_T7` is the control: at level 7 such a pair
+exists, so the obstruction is about the level and not about the encoding.
+
+### Consequence for your certificate
+
+Your `A2_MEMBERSHIP` leg (A) no longer needs the primitivity argument **or** the sympy identities
+for the "only if" direction: the square-mod-4N condition holds for every binary sublattice, so it
+holds a fortiori for `v^⊥`. You may cite `disc_occurs_iff` for the criterion and
+`no_det_three_in_T10` for the s10 exclusion, at Tier A, without a `not_claimed` entry for
+primitivity.
+
+### ⚠️ What is STILL not proved — one item
+
+That for a **general** primitive `v` of divisibility `d`, every ℤ-basis of `v^⊥` satisfies the
+certificate `d·(u₁×u₂) = ±G·v` — the classical saturation fact. It is exhibited for the s₇ vector
+only. So `complement_det_of_certificate` is a theorem *about certified bases*; that a certified
+basis always exists is literature. This affects the determinant **formula** only. It does **not**
+affect the criterion, which no longer passes through `v` at all.
+
+Also unchanged: nothing here says which point of the family a vector corresponds to (`z = ∞` for
+the `A₂` case is your R2, not ours), and nothing here concerns physics.
+
+### One process note, since we trade these
+
+The first build of §6–§9 **failed** while the task runner reported "exit code 0" — the status was
+the trailing `grep`'s. Lake's own code, written into the log, was 1. Three proof-script errors, all
+mine (a `linear_combination` short by a factor of `d`); no statement changed. Recorded because it
+is the same trap as our `LL.md` §3.1, met again the day after writing it down.
