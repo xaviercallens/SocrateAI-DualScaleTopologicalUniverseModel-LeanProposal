@@ -293,6 +293,55 @@ expand a $6\times6$ determinant, which carries no content and which the library
 has no lemma for. A control confirms the coefficient matters: replacing $7$ by
 $6$ gives $w^2=12\neq14$ and $B$ no longer embeds $\U\oplus\lat{14}$.
 
+\subsubsection*{The assembly, no longer on paper}
+
+The paragraph above says that all the arithmetic content lives in $\U^3$ ``and
+that is what is checked''. That left one step outside the kernel --- the
+passage from the $6\times6$ statement to the rank-$22$ one, which was the
+standard orthogonal-direct-sum argument, performed on paper. It is now
+mechanical as well (\artifact{Agora/Geometry/EmbeddingAssembly.lean}), and it
+is checked in the generality it deserves rather than only at $N=7$.
+
+\begin{proposition}[status (K)]\label{prop:assembly}
+\emph{(i) Generic orthogonal join.} Let $G$ be a symmetric matrix over a
+commutative ring, and let $B,C$ be maps into it, of arbitrary index types, with
+$B^{\mathsf T}GB = G_1$, $C^{\mathsf T}GC = G_2$ and $B^{\mathsf T}GC = 0$.
+Then the joined map $[\,B \mid C\,]$ satisfies
+\[
+  [\,B \mid C\,]^{\mathsf T}\,G\,[\,B \mid C\,]
+  \;=\; G_1 \oplus G_2 .
+\]
+The remaining cross-term $C^{\mathsf T}GB = 0$ is \emph{derived} from the
+symmetry of $G$, not assumed.
+\emph{(ii) Instantiation.} With $\Lambda = \U^3\oplus E_8(-1)^2$ of rank $22$,
+$\Phi_T$ the embedding of $\U\oplus\lat{14}$ through $B$, and $\Phi_M$ that of
+$(\U\oplus\lat{-14})\oplus E_8(-1)^2$ through $C$ and the identity,
+\[
+  \Phi^{\mathsf T}\Lambda\,\Phi
+   \;=\; (\U\oplus\lat{14}) \;\oplus\; \bigl((\U\oplus\lat{-14})\oplus E_8(-1)^2\bigr),
+  \qquad \Phi = [\,\Phi_T \mid \Phi_M\,],
+\]
+the vanishing off-diagonal blocks being the orthogonality assertion.
+\emph{(iii)} That right-hand side has determinant $-196 = -14^2$.
+\end{proposition}
+
+Three boundaries are worth stating, because the proposition is easy to read as
+saying more than it does. First, (ii) is a statement about the \emph{pullback}
+of $\Lambda$ along $\Phi$; it is not a rank, injectivity or index claim about
+$\Phi$ itself, and none is proved. (Since $-196\neq0$, (iii) does force $\Phi$
+to have trivial kernel over $\Q$, which is what rules out degenerate solutions
+of (ii); we do not formalize that consequence.) Second, the unimodularity of
+$E_8(-1)$ is quoted from the lattice library and is $\mathtt{rfl}$-level over an
+encoded Cartan matrix; it is inherited, not re-derived. Third --- and this
+qualifies the last clause of Proposition~\ref{prop:embedding} as well --- the
+passage from ``index $=$ discriminant'' to ``both sublattices are primitive and
+each is the other's orthogonal complement'' is the standard Nikulin-style
+criterion. What the kernel supplies is the numerical coincidence the criterion
+consumes, in (iii) and in Proposition~\ref{prop:embedding}; the criterion
+itself is literature and is not formalized. The summand ordering above differs
+from $\U\oplus E_8(-1)^2\oplus\lat{-14}$ by a permutation of basis vectors,
+which is a convention and not a mathematical difference.
+
 What remains outside the kernel is unchanged: that the \emph{monodromy} lattice
 of the $s_7$ family is $\U\oplus\lat{14}$ depends on Numerical
 Claim~\ref{nc:monodromy} and stays Tier~B. What is now mechanical is that the

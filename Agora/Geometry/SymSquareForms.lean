@@ -105,6 +105,42 @@ def sym2 (M : Matrix (Fin 2) (Fin 2) K) : Matrix (Fin 3) (Fin 3) K :=
      2 * (M 0 0 * M 0 1),  M 0 0 * M 1 1 + M 0 1 * M 1 0,  2 * (M 1 0 * M 1 1);
      M 0 1 ^ 2,            M 0 1 * M 1 1,              M 1 1 ^ 2]
 
+/-- **WHAT `sym2` IS, not merely how it behaves.**
+
+    `sym2 M` applied to the coefficient triple `(a,b,c)` is the coefficient
+    triple of the substituted form: for all `x, y`,
+    `(sym2 M ⬝ᵥ (a,b,c))` evaluated at `(x,y)` equals `Q` evaluated at
+    `M(x,y) = (M₀₀x + M₀₁y, M₁₀x + M₁₁y)`, where `Q = a x² + b xy + c y²`.
+
+    ⚠️ This lemma is the point of the file and was missing from it. Every other
+    theorem here — `sym2_isometry_general`, `sym2_det`, `sym2_trace`,
+    `sym2_contravariant` — *constrains* `sym2`; none of them *identifies* it.
+    A map can satisfy all of them and not be the substitution action, in which
+    case the word `Sym²` in the name would be doing the identifying instead of
+    the kernel. Stating this closes that gap.
+    -- Source: the substitution action of `GL(2)` on binary quadratic forms,
+    Gauss, *Disquisitiones Arithmeticae* §267. Statement shape adopted from the
+    LeanMaster session's `sym2_is_substitution` (`DualScaleDyons/FrickeRepair.lean`,
+    2026-09-21), whose `sym2` is entry-for-entry the same matrix under
+    `(p,q,r,s) = (M₀₀,M₀₁,M₁₀,M₁₁)` and which fixes the same convention. -/
+theorem sym2_is_substitution (M : Matrix (Fin 2) (Fin 2) K) (a b c x y : K) :
+    (sym2 M *ᵥ ![a, b, c]) 0 * x ^ 2 + (sym2 M *ᵥ ![a, b, c]) 1 * (x * y)
+        + (sym2 M *ᵥ ![a, b, c]) 2 * y ^ 2
+      = a * (M 0 0 * x + M 0 1 * y) ^ 2
+        + b * ((M 0 0 * x + M 0 1 * y) * (M 1 0 * x + M 1 1 * y))
+        + c * (M 1 0 * x + M 1 1 * y) ^ 2 := by
+  simp [sym2, Matrix.mulVec, dotProduct, Fin.sum_univ_succ]
+  ring
+
+/-- The Fricke/`S` instance: `S = !![0,-1; 1,0]` sends `(a,b,c)` to `(c,-b,a)`.
+    Combined with `sym2_is_substitution`, this says the coefficient swap
+    `(a,b,c) ↦ (c,−b,a)` *is* precomposition with `S`, rather than merely
+    resembling it. -/
+theorem sym2_S_coeffs (a b c : K) :
+    sym2 (!![0, -1; 1, 0] : Matrix (Fin 2) (Fin 2) K) *ᵥ ![a, b, c] = ![c, -b, a] := by
+  ext i
+  fin_cases i <;> simp [sym2, Matrix.mulVec, dotProduct, Fin.sum_univ_succ]
+
 /-- **The discriminant is a relative invariant of weight 2.** No hypothesis on
     `M`. -/
 theorem sym2_isometry_general (M : Matrix (Fin 2) (Fin 2) K) :
