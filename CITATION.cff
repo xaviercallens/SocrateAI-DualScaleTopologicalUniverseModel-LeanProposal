@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+title: >-
+  A kernel-checked symmetric-square structure theorem for Cooper's sporadic
+  Apéry-like operators, and the monodromy lattice of the s₇ family
+message: >-
+  If you use this work, cite the concept DOI below, which always resolves to the
+  latest version. Please cite claims at the tier they carry: the Lean results are
+  Tier A (kernel-checked), the identification of the monodromy lattice is Tier B
+  (rests on a numerical computation), and no physical observable exists anywhere
+  in this program. See README.md §"What you may cite, and what you may not".
+type: software
+authors:
+  - given-names: Xavier
+    family-names: Callens
+    email: callensxavier@gmail.com
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22853238
+    description: Concept DOI — always resolves to the latest version
+repository-code: >-
+  https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal
+abstract: >-
+  Stream 1 of the Dual-Scale Topological Universe Model: a Lean 4 formalization
+  proving that the order-3 Picard–Fuchs operators of Cooper's sporadic
+  Apéry-like sequences are symmetric squares of order-2 operators, uniformly in
+  the template parameters; that 4 divides s₇(n), retiring the development's last
+  load-bearing literature axiom; and, for the s₇ family, the rank-22 embedding
+  of U ⊕ ⟨14⟩ into the K3 lattice U³ ⊕ E₈(−1)². All results are kernel-checked
+  with Lean's three standard axioms and no `sorry`. The accompanying manuscript
+  documents, in §9.7, a class of defect that passes every gate — a theorem that
+  is true and compiles while proving less than its name says.
+keywords:
+  - Lean 4
+  - formal verification
+  - Apéry-like sequences
+  - Picard–Fuchs operators
+  - symmetric square
+  - K3 lattice
+  - modular forms
+license: MIT

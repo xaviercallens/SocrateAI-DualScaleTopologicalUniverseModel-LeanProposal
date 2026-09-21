@@ -9,12 +9,21 @@ This is **Stream 1** of the Dual-Scale Topological Universe Model project. Its r
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22853238.svg)](https://doi.org/10.5281/zenodo.22853238)
 
 **Paper:** *A kernel-checked symmetric-square structure theorem for Cooper's sporadic Apéry-like
-operators, and the monodromy lattice of the s₇ family* (46 pp., PDF + full LaTeX sources).
+operators, and the monodromy lattice of the s₇ family* — **48 pp.**
+
+📄 **[Download the PDF](https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal/releases/latest/download/dual-scale-stream1-paper.pdf)**
+(attached to every release from `v0.13` onward), or build it from the full LaTeX sources in
+[`paper/`](paper/) with `pdflatex main.tex` — **not** `lualatex`/`xelatex`, whose font stack is
+broken in this environment.
 
 - **Cite this DOI** — [10.5281/zenodo.22853238](https://doi.org/10.5281/zenodo.22853238) — it is the
-  *concept* DOI and always resolves to the latest version.
-- Current version **v2**: [10.5281/zenodo.22864700](https://doi.org/10.5281/zenodo.22864700),
+  *concept* DOI and always resolves to the latest archived version.
+- Latest **archived** version **v2**: [10.5281/zenodo.22864700](https://doi.org/10.5281/zenodo.22864700),
   corresponding to release [`v0.10-two-lattices`](https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal/releases/tag/v0.10-two-lattices).
+  ⚠️ **Releases `v0.11`–`v0.14` are newer than that Zenodo record.** Depositing a new Zenodo
+  version is a manual step and has not been done; until it is, the DOI resolves to the v0.10
+  snapshot, and the GitHub release above is the current text. The mathematics is unchanged since
+  `v0.11`; what has changed since v0.10 is the rank-22 assembly, the quarantine, and §9.7.
 - v1 was [10.5281/zenodo.22853239](https://doi.org/10.5281/zenodo.22853239) (release `v0.8`); it is
   superseded but remains citable and is not withdrawn.
 
