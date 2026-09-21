@@ -135,6 +135,22 @@ matchers in one day:
 | `PASS\([0-9N]` over LaTeX | `PASS(\texorpdfstring{$N$}{N})` — 2 false "violations" in the paper |
 | hook's `^\s*axiom\s` | fires on *prose* beginning "axiom audit…"; and cannot see an attribute-prefixed declaration |
 
+**§3.11 Three false alarms in a row, while looking for stale references.** Auditing the paper's
+138 `\artifact{}` references after the quarantine moved files and renamed declarations:
+
+| attempt | reported | why it was wrong |
+|---|---|---|
+| resolve every `\artifact{}` as a path | **113 unresolved** | `\artifact{}` also wraps declaration names and tactics — `ring`, `simp`, `partner_res0` were never paths |
+| filter to path-like, resolve in this repo | **16 unresolved** | all 16 are tagged **R2** in the paper's own table — a *separate* repository; they are not supposed to resolve here |
+| `find $R2 -name …` in the sibling repo | **14 missing from R2** | `$R2` is a **symlink**, and `find` does not follow symlinks without `-L`. All 14 exist. |
+
+Result: the paper's references are **sound**, and every number reported along the way was false.
+The third nearly reached a report. *The search for stale references was itself the least reliable
+thing in the exercise* — and note the escalation: each attempt looked more targeted and more
+credible than the last. Use `find -L` in a tree of symlinked repos; and when a check contradicts
+something you can see directly (an `ls` listing showed the files the `find` called missing),
+believe the direct observation and debug the check.
+
 **§3.10** Record what a scan **cannot** see, at the time you write it. A vacuity scan written for
 `: True` cannot see `0 ≤ sys.dim` with `dim : ℕ` — equally empty, invisible to that signature. **A
 vacuous statement need not be `True`; it need only be implied by nothing.**
