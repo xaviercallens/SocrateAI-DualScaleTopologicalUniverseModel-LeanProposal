@@ -190,6 +190,14 @@ up under direct attack. They now live in `Agora/Unverified/`, with the dependenc
 The quarantine still compiles: the claim is *"this is not evidence"*, never *"this does not
 compile"*.
 
+**§5.2a Enforce a boundary by an absence of edges, and gate it.** The quarantine's core-does-not-
+import-it property was verified *by hand* when it landed. A fact checked once by hand is a fact
+that regresses silently, so it is now step 6 of `release_gates.sh` and mutation-verified: make a
+core module import `Agora.Unverified.*` and the gate names the file and exits 1. ⚠️ Its own first
+run was a **false positive on the gate itself** — the exclusion covered the directory
+`Agora/Unverified/` but not the aggregate `Agora/Unverified.lean`. Read a new gate's first red
+before believing it.
+
 **§5.3 No exemption lists.** An exemption that starts at one file is a ban repealed by attrition. If
 your own prose trips your own rule, fix the prose.
 

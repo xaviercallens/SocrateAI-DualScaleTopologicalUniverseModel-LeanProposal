@@ -66,11 +66,27 @@ LEAN_PROJECT_ROOT=$PWD python3 "$LM/tools/statement_lock.py" --check \
 [ $? -eq 0 ] || bad "statement lock reports a CHANGED entry — review it, then --update with a reason"
 tail -1 "$log.sl"
 
-step "6. open goals export (generated files go stale silently)"
+step "6. quarantine boundary — the core must NOT import Agora/Unverified/"
+# The separation is meant to be enforced by an ABSENCE OF EDGES, not by
+# convention. Verified by hand when the quarantine landed (2026-09-21); a fact
+# checked once by hand is a fact that regresses silently, so it is a gate now.
+# Only the top-level Agora.lean aggregate may import it.
+# Excluded, legitimately: the quarantine's own modules, and Agora/Unverified.lean,
+# which is its aggregate. (Agora.lean at the repo root is outside this search and
+# is the one aggregate permitted to pull the quarantine into `lake build Agora`.)
+leaks=$(grep -rln "^import Agora\.Unverified" --include=*.lean Agora OpenGoals Tests 2>/dev/null \
+        | grep -vE "^Agora/Unverified(/|\.lean$)" || true)
+if [ -n "$leaks" ]; then
+    bad "the verified core imports the quarantine: $(echo $leaks | tr '\n' ' ')"
+else
+    echo "   no core module imports Agora/Unverified/ (only the Agora.lean aggregate may)"
+fi
+
+step "7. open goals export (generated files go stale silently)"
 python3 scripts/export_open_goals.py > /dev/null 2>&1 || bad "export_open_goals failed"
 git diff --quiet open_goals.json || bad "open_goals.json was stale — it is now regenerated, commit it"
 
-step "7. audits — read the NEW flags since the last release, not the whole list"
+step "8. audits — read the NEW flags since the last release, not the whole list"
 echo "   python3 scripts/name_vs_statement.py | ..."
 echo "   python3 scripts/disclosure_reaches_source.py"
 echo "   (226 of 333 flags are expected and mostly benign; compare against last release)"
