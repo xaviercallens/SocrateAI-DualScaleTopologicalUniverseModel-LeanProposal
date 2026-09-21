@@ -214,3 +214,71 @@ The first build of §6–§9 **failed** while the task runner reported "exit cod
 the trailing `grep`'s. Lake's own code, written into the log, was 1. Three proof-script errors, all
 mine (a `linear_combination` short by a factor of `d`); no statement changed. Recorded because it
 is the same trap as our `LL.md` §3.1, met again the day after writing it down.
+
+---
+
+## ADDENDUM 3 — the last open item of Direction 1 is closed: the determinant formula for EVERY vector
+
+`Agora/Geometry/Occurrence.lean` §10. Kernel-checked, `[propext, Classical.choice, Quot.sound]`.
+Each identity pre-checked numerically (30,000 / 41,188 / 50,000 instances, 0 failures).
+
+**Disclosure — Addendum 2's "STILL not proved" paragraph is superseded.** It said that a certified
+basis exists for a general `v` was "literature". It is now a theorem. Addendum 2 is left standing.
+
+```lean
+complement_general (N d : ℤ) (hd : d ≠ 0) (v n' r : Fin 3 → ℤ)
+    (hn : d • n' = TN N *ᵥ v)          -- G·v = d·n′
+    (hr : dot3 r n' = 1) :             -- n′ primitive (Bezout witness r)
+  ∃ u₁ u₂,
+      (pairing N u₁ v = 0 ∧ pairing N u₂ v = 0)                        -- in v^⊥
+    ∧ (∀ u, pairing N u v = 0 → ∃ s t : ℤ, u = s • u₁ + t • u₂)        -- ALL of v^⊥
+    ∧ d^2 * (gram2 N u₁ u₂).det = -(2*N) * pairing N v v              -- your formula
+```
+
+So `det(v^⊥) = (−v²)·2N/d²` holds for every `v` of divisibility `d`, with `v^⊥` genuinely
+constructed as a saturated rank-2 lattice. Two classical facts carry it:
+
+- `every_vector_is_cross` — every integer vector is a cross product (Bezout):
+  `(−cs, −ct, g) × (b′, −a′, 0) = (a, b, c)` with `g = gcd(a,b)`, `s·a′ + t·b′ = 1`.
+- `saturated_of_primitive_cross` — Cramer's rule in dimension 3: if `r·p = 1` and `u·p = 0` with
+  `p = u₁ × u₂`, then `u = −[u,r,u₂]·u₁ + [u,r,u₁]·u₂`. **A primitive cross product forces the pair
+  to be a ℤ-basis of the whole orthogonal lattice** — no finite-index ambiguity is possible.
+
+And `gram_det_basis_independent`: two bases of the same nondegenerate lattice have equal Gram
+determinant. So `det(v^⊥)` is a property of the lattice, not of the basis Bezout happened to give.
+
+### Something you may want to know about your own hypothesis
+
+**Primitivity of `v` is never used.** What the proof consumes is primitivity of `n′ = G·v/d` — the
+normal vector, not `v`. For `v = (x,y,z)` that is `gcd(y, x, 2Nz)/d = 1`, i.e. exactly
+"`d = div(v)`". Your brief phrases the criterion for "`v` primitive with divisibility `d`"; the
+first of those two conditions does no work. If your certificate lists primitivity of `v` as an
+assumption of leg (A), it can come out.
+
+### ⚠️ What remains outside — precisely
+
+1. **The gcd link is not stated as a lemma.** `complement_general` takes `d`, `n′` and the Bezout
+   witness `r` as *inputs*; it does not compute `d := gcd(x, y, 2Nz)` from `v`. That such data
+   exists for `d = div(v)` is immediate from the definition of gcd, but it is not a declaration in
+   this file. A caller must supply it. Small, easy, and not done — so please do not cite this as
+   "for every primitive `v`, with `d := div(v)`" without that one step.
+2. Which point of the family a vector corresponds to is your R2, not ours.
+3. Nothing here concerns physics.
+
+### Process note, second instance
+
+This section's first build also **failed** under a task runner reporting "exit code 0" (the
+trailing command's status; lake's own code in the log was 1). One error, mine: `nlinarith` asked to
+search for what is an exact linear combination, `−hbez − s·ha − t·hb`. Statement unchanged. Two
+builds in two days failing under a green status line is why our gate script writes lake's exit code
+into the log and reads it from there.
+
+### Summary of Direction 1, as it now stands
+
+| your ask | Stream 1 declaration | status |
+|---|---|---|
+| `D ≡ □ mod 4N` for `v^⊥` | `binary_disc_square_mod` | unconditional, for every binary sublattice |
+| converse, explicit witness | `disc_realised`, `disc_occurs_iff` | proved, as an iff |
+| `det(v^⊥) = (−v²)·2N/d²` | `complement_general` | proved for every `v`, given the gcd data |
+| witness `(14,−14,5)` in `U⊕⟨14⟩` | `s7_complement_is_A2` | constructed, Gram exactly `A₂` |
+| `¬∃ v, v^⊥ ≅ A₂` in `U⊕⟨20⟩` | `no_det_three_in_T10` | unconditional, and stronger |

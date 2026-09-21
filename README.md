@@ -71,7 +71,9 @@ axiom. Names are Lean declarations; grep for them.
 | **Occurrence criterion, arithmetic half:** `D − m² = 4N·x′y′` exactly — **no primitivity needed** | `occurrence_identity`, `occurrence_congruence` | `Geometry/Occurrence.lean` |
 | **Lagrange identity on `U⊕⟨2N⟩`:** `−det Gram(u₁,u₂) = p₃² + 4N·p₁p₂`, `p = u₁×u₂` — no hypotheses | `binary_disc_identity` | `"` |
 | — so `D` is a binary-sublattice discriminant **iff** `D ≡ □ mod 4N`, with an explicit witness for the converse | `disc_occurs_iff`, `disc_realised` | `"` |
-| — determinant formula `d²·det(v^⊥) = −2N·v²`, from a basis certificate | `complement_det_of_certificate` | `"` |
+| — determinant formula `d²·det(v^⊥) = −2N·v²` for **every** `v`, with `v^⊥` constructed as a saturated lattice | `complement_general` | `"` |
+| — Cramer in dim 3: a **primitive cross product forces a ℤ-basis** of the orthogonal lattice | `saturated_of_primitive_cross`, `every_vector_is_cross` | `"` |
+| — the Gram determinant does not depend on the basis | `gram_det_basis_independent` | `"` |
 | — `(14,−14,5)^⊥ ≅ A₂` in `U⊕⟨14⟩`, **constructed**: basis, Gram, saturation | `s7_complement_is_A2` | `"` |
 | — `A₂` does not embed in `U⊕⟨20⟩` in any way — **unconditional** | `no_det_three_in_T10` | `"` |
 | Orthogonal-join of two embeddings, **generic** (any ring, any index types) | `join_pullback` | `Geometry/EmbeddingAssembly.lean` |
@@ -189,10 +191,10 @@ Last checked 2026-09-21 at the pin above. **Re-run the commands rather than trus
 |---|---|
 | `bash scripts/release_gates.sh` | **all gates OK** (it reads exit codes correctly; a green run is not a clean bill) |
 | `lake build Agora OpenGoals Tests` | 3728 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **350 theorems audited.** 347 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
+| Axiom audit of `Agora` | **356 theorems audited.** 353 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
-| Statement lock | OK — 525 declarations in 38 files; mutation-verified to fire |
+| Statement lock | OK — 532 declarations in 38 files; mutation-verified to fire |
 | `scripts/export_open_goals.py` | all **5** registered goals report `closed` |
 
 ## 🎯 The last `sorry` is closed (2026-09-20)

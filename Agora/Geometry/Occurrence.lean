@@ -86,6 +86,28 @@
   formula is a theorem *about certified bases*, and that certified bases always
   exist is literature. Nothing here concerns physics.
 
+  ────────────────────────────────────────────────────────────────────────────────
+  **Disclosure — the "STILL NOT PROVED" paragraph above is SUPERSEDED by §10.**
+  It said the existence of a certified basis for a general `v` was literature.
+  §10 proves it:
+
+  §10 `every_vector_is_cross` — every integer vector is a cross product (Bezout).
+      `saturated_of_primitive_cross` — Cramer's rule in dimension 3: if `r·p = 1`
+      and `u·p = 0` with `p = u₁ × u₂`, then
+      `u = −[u,r,u₂]·u₁ + [u,r,u₁]·u₂`, integer coefficients. A primitive cross
+      product FORCES the pair to be a ℤ-basis of the whole orthogonal lattice.
+      `complement_general` — for EVERY `v` with `G·v = d·n′`, `d ≠ 0`, `n′`
+      primitive: `v^⊥` has a ℤ-basis, orthogonal to `v`, saturated, with
+      `d²·det = −2N·v²`. Primitivity of `v` itself is never used.
+      `gram_det_basis_independent` — two bases of the same nondegenerate lattice
+      have equal Gram determinant, so `det(v^⊥)` belongs to the lattice and not
+      to the basis the Bezout construction happened to produce.
+
+  WHAT REMAINS OUTSIDE THIS FILE, precisely: (i) that the hypothesis
+  "`G·v = d·n′` with `n′` primitive" holds with `d = gcd(x, y, 2Nz)` — true by the
+  definition of gcd, not stated here as a lemma; (ii) which point of the family a
+  given vector corresponds to (Stream 2's R2); (iii) anything about physics.
+
   0 sorry. Axioms: Lean's standard ones only.
   ════════════════════════════════════════════════════════════════════════════════
 -/
@@ -399,6 +421,148 @@ theorem no_A2_in_T10 : ¬ ∃ u₁ u₂ : Fin 3 → ℤ, gram2 10 u₁ u₂ = A2
     at level 7 a pair with Gram determinant 3 exists (§8). -/
 theorem det_three_exists_in_T7 : ∃ u₁ u₂ : Fin 3 → ℤ, (gram2 7 u₁ u₂).det = 3 :=
   ⟨a1, a2, by rw [s7_complement_gram]; simp [A2, Matrix.det_fin_two_of]⟩
+
+-- ╔════════════════════════════════════════════════════════════════════╗
+-- ║  §10. THE GENERAL CASE — saturation, for every vector               ║
+-- ╚════════════════════════════════════════════════════════════════════╝
+
+/-- Euclidean dot product on `ℤ³`, in coordinates. -/
+def dot3 (u w : Fin 3 → ℤ) : ℤ := u 0 * w 0 + u 1 * w 1 + u 2 * w 2
+
+/-- **Cramer's rule in dimension 3, as saturation.** If the cross product
+    `p = u₁ × u₂` is PRIMITIVE — witnessed by some `r` with `r·p = 1` — then every
+    integer vector orthogonal to `p` is an integer combination of `u₁, u₂`, with
+    the explicit coefficients `s = −[u, r, u₂]`, `t = [u, r, u₁]`.
+
+    It is the four-vector identity
+    `[r,u₁,u₂]·u − [u,u₁,u₂]·r + [u,r,u₂]·u₁ − [u,r,u₁]·u₂ = 0`.
+    So a primitive cross product FORCES the pair to be a ℤ-basis of the whole
+    orthogonal lattice; no finite-index ambiguity is possible. -/
+theorem saturated_of_primitive_cross (u₁ u₂ r u : Fin 3 → ℤ)
+    (hr : dot3 r (cross u₁ u₂) = 1) (hu : dot3 u (cross u₁ u₂) = 0) :
+    u = (-(dot3 u (cross r u₂))) • u₁ + (dot3 u (cross r u₁)) • u₂ := by
+  simp only [dot3, cross, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+    Matrix.head_cons, Matrix.tail_cons] at hr hu
+  have e0 : u 0 = (-(dot3 u (cross r u₂))) * u₁ 0 + (dot3 u (cross r u₁)) * u₂ 0 := by
+    simp only [dot3, cross, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.head_cons, Matrix.tail_cons]
+    linear_combination (-(u 0)) * hr + (r 0) * hu
+  have e1 : u 1 = (-(dot3 u (cross r u₂))) * u₁ 1 + (dot3 u (cross r u₁)) * u₂ 1 := by
+    simp only [dot3, cross, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.head_cons, Matrix.tail_cons]
+    linear_combination (-(u 1)) * hr + (r 1) * hu
+  have e2 : u 2 = (-(dot3 u (cross r u₂))) * u₁ 2 + (dot3 u (cross r u₁)) * u₂ 2 := by
+    simp only [dot3, cross, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.head_cons, Matrix.tail_cons]
+    linear_combination (-(u 2)) * hr + (r 2) * hu
+  ext i
+  fin_cases i
+  · simpa using e0
+  · simpa using e1
+  · simpa using e2
+
+/-- **Every integer vector is a cross product** (Bezout). With `g = gcd(a,b)`,
+    `a = g·a′`, `b = g·b′`, `s·a′ + t·b′ = 1`:
+    `(−cs, −ct, g) × (b′, −a′, 0) = (a, b, c)`. -/
+theorem every_vector_is_cross (a b c : ℤ) :
+    ∃ u₁ u₂ : Fin 3 → ℤ, cross u₁ u₂ = ![a, b, c] := by
+  by_cases hg : (Int.gcd a b : ℤ) = 0
+  · have h0 : Int.gcd a b = 0 := by exact_mod_cast hg
+    obtain ⟨ha, hb⟩ := Int.gcd_eq_zero_iff.mp h0
+    subst ha; subst hb
+    exact ⟨![1, 0, 0], ![0, c, 0], by ext i; fin_cases i <;> simp [cross]⟩
+  · obtain ⟨a', ha⟩ := Int.gcd_dvd_left a b
+    obtain ⟨b', hb⟩ := Int.gcd_dvd_right a b
+    have hbez := Int.gcd_eq_gcd_ab a b
+    set g : ℤ := (Int.gcd a b : ℤ) with hgdef
+    set s := Int.gcdA a b
+    set t := Int.gcdB a b
+    have h1 : s * a' + t * b' = 1 := by
+      have : g * (s * a' + t * b') = g * 1 := by
+        rw [mul_one]; linear_combination -hbez - s * ha - t * hb
+      exact mul_left_cancel₀ hg this
+    refine ⟨![-(c * s), -(c * t), g], ![b', -a', 0], ?_⟩
+    ext i
+    fin_cases i
+    · simp [cross]; linarith [ha]
+    · simp [cross]; linarith [hb]
+    · simp [cross]; linear_combination c * h1
+
+/-- The pairing with `v` is `d` times the Euclidean dot product with the
+    primitive normal `n′`, when `G·v = d·n′`. -/
+theorem pairing_eq_dot (N d : ℤ) (u v n' : Fin 3 → ℤ) (hn : d • n' = TN N *ᵥ v) :
+    pairing N u v = d * dot3 u n' := by
+  have h0 : d * n' 0 = v 1 := by
+    have := congrFun hn 0; simpa [TN, mulVec, dotProduct, Fin.sum_univ_succ] using this
+  have h1 : d * n' 1 = v 0 := by
+    have := congrFun hn 1; simpa [TN, mulVec, dotProduct, Fin.sum_univ_succ] using this
+  have h2 : d * n' 2 = 2 * N * v 2 := by
+    have := congrFun hn 2; simpa [TN, mulVec, dotProduct, Fin.sum_univ_succ] using this
+  rw [pairing_eq]; unfold dot3
+  linear_combination (-(u 0)) * h0 - u 1 * h1 - u 2 * h2
+
+/-- **THE GENERAL THEOREM.** Let `v ∈ U ⊕ ⟨2N⟩` with `G·v = d·n′`, `d ≠ 0`, and
+    `n′` primitive (witness `r·n′ = 1`) — i.e. `d` is the divisibility of `v`.
+    Then `v^⊥` has a ℤ-BASIS `u₁, u₂`: both orthogonal to `v`, every integer
+    vector orthogonal to `v` an integer combination of them, and
+
+        d² · det Gram(u₁,u₂) = −2N · v².
+
+    This is Stream 2's `det(v^⊥) = (−v²)·2N/d²` for EVERY such `v`, not only
+    the s₇ vector. It closes the item §7 left open: a certified basis always
+    exists. Primitivity of `v` itself is never used — only that of `n′`. -/
+theorem complement_general (N d : ℤ) (hd : d ≠ 0) (v n' r : Fin 3 → ℤ)
+    (hn : d • n' = TN N *ᵥ v) (hr : dot3 r n' = 1) :
+    ∃ u₁ u₂ : Fin 3 → ℤ,
+      (pairing N u₁ v = 0 ∧ pairing N u₂ v = 0)
+      ∧ (∀ u : Fin 3 → ℤ, pairing N u v = 0 → ∃ s t : ℤ, u = s • u₁ + t • u₂)
+      ∧ d ^ 2 * (gram2 N u₁ u₂).det = -(2 * N) * pairing N v v := by
+  obtain ⟨u₁, u₂, hc⟩ := every_vector_is_cross (n' 0) (n' 1) (n' 2)
+  have hc' : cross u₁ u₂ = n' := by
+    rw [hc]; ext i; fin_cases i <;> simp
+  have hcert : d • cross u₁ u₂ = TN N *ᵥ v := by rw [hc']; exact hn
+  refine ⟨u₁, u₂, orthogonal_of_certificate N d u₁ u₂ v hd hcert, ?_,
+    complement_det_of_certificate N d u₁ u₂ v hcert⟩
+  intro u hu
+  have hdot : dot3 u n' = 0 := by
+    have := pairing_eq_dot N d u v n' hn
+    rw [hu] at this
+    exact (mul_eq_zero.mp this.symm).resolve_left hd
+  exact ⟨_, _, saturated_of_primitive_cross u₁ u₂ r u (by rw [hc']; exact hr)
+    (by rw [hc']; exact hdot)⟩
+
+/-- **Change of basis scales the Gram determinant by `(det M)²`.** -/
+theorem gram_det_basis_change (N a b c e : ℤ) (u₁ u₂ : Fin 3 → ℤ) :
+    (gram2 N (a • u₁ + b • u₂) (c • u₁ + e • u₂)).det
+      = (a * e - b * c) ^ 2 * (gram2 N u₁ u₂).det := by
+  simp only [gram2, Matrix.det_fin_two_of, pairing_eq, Pi.add_apply, Pi.smul_apply,
+    smul_eq_mul]
+  ring
+
+/-- **The determinant does not depend on the basis.** If two pairs span the same
+    lattice (each an integer combination of the other) and the form is
+    nondegenerate on it, their Gram determinants agree. So "`det(v^⊥)`" in
+    `complement_general` is a property of the lattice `v^⊥`, not of the basis the
+    Bezout construction happened to produce. -/
+theorem gram_det_basis_independent (N : ℤ) (u₁ u₂ w₁ w₂ : Fin 3 → ℤ) (a b c e a' b' c' e' : ℤ)
+    (hw₁ : w₁ = a • u₁ + b • u₂) (hw₂ : w₂ = c • u₁ + e • u₂)
+    (hu₁ : u₁ = a' • w₁ + b' • w₂) (hu₂ : u₂ = c' • w₁ + e' • w₂)
+    (hnd : (gram2 N u₁ u₂).det ≠ 0) :
+    (gram2 N w₁ w₂).det = (gram2 N u₁ u₂).det := by
+  have hW : (gram2 N w₁ w₂).det = (a * e - b * c) ^ 2 * (gram2 N u₁ u₂).det := by
+    rw [hw₁, hw₂]; exact gram_det_basis_change N a b c e u₁ u₂
+  have hU : (gram2 N u₁ u₂).det = (a' * e' - b' * c') ^ 2 * (gram2 N w₁ w₂).det := by
+    conv_lhs => rw [hu₁, hu₂]
+    exact gram_det_basis_change N a' b' c' e' w₁ w₂
+  have hk : (a * e - b * c) ^ 2 * (a' * e' - b' * c') ^ 2 = 1 := by
+    have h := hU
+    rw [hW] at h
+    have h2 : ((a * e - b * c) ^ 2 * (a' * e' - b' * c') ^ 2) * (gram2 N u₁ u₂).det
+        = 1 * (gram2 N u₁ u₂).det := by linear_combination -h
+    exact mul_right_cancel₀ hnd h2
+  have hone : (a * e - b * c) ^ 2 = 1 :=
+    Int.eq_one_of_dvd_one (sq_nonneg _) ⟨_, hk.symm⟩
+  rw [hW, hone, one_mul]
 
 end Agora.Geometry.Occurrence
 
