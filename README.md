@@ -186,9 +186,11 @@ discharge `obrien2016_theorem6_2`.
   New instance: **s₁₀**, whose partner is now *proved* dyadic at every index (was PASS(59)).
   No s₁₈ instance is stated — the repo has no closed form for s₁₈ to instantiate at.
 - **s₇ integrality is reduced to one congruence** (`SqrtIntegrality`): if `4 ∣ s₇(n)` for all
-  `n ≥ 1` then the s₇ partner is integral *without* `obrien2016_theorem6_2`. The congruence is
-  **PASS(200)**, kernel-checked PASS(6), and **not proved** — so the axiom still stands. Proving it
-  would leave the development with no literature axiom.
+  `n ≥ 1` then the s₇ partner is integral *without* `obrien2016_theorem6_2`. The congruence was
+  **PASS(200)**, kernel-checked PASS(6), and not proved — so the axiom still stood at the time of
+  writing. ⭐ **SUPERSEDED the same day, 2026-09-20:** the congruence is now proved
+  (`S7Mod4.four_dvd_s7`), which is exactly what "would leave the development with no literature
+  axiom" anticipated. See [§⭐ No literature axiom is load-bearing](#-no-literature-axiom-is-load-bearing-2026-09-20).
 - **`U ⊕ ⟨2N⟩` on LeanMaster's lattice API** (`Agora/Geometry/MnLattice.lean`): the glue
   `e ± Nf ⊂ U` of index `2N` (the paper's embedding witness at `N = 7`), and the swap `e ↔ f`
   acting on the period as the Fricke involution `τ ↦ −1/(Nτ)`. The same matrix is LeanMaster's
@@ -340,6 +342,15 @@ separates the candidates. Proved unconditionally: **s10's and s18's partners are
 is kernel-checked only to `n ≤ 7` (`PASS(7)`) and is registered as the named open goal
 `open_goal_partner_integral_s7`, with the reason it is hard (an Apéry-style divisibility, not a
 typing fact) recorded there. Please do not cite it as established.
+
+> ⭐ **Update 2026-09-20 — this last sentence no longer applies.** `open_goal_partner_integral_s7`
+> is **closed**: s₇'s partner is integral, proved unconditionally as
+> `S7Mod4.s7_partner_integral_axiom_free` (via `four_dvd_s7`), with Lean's three standard axioms
+> only. The `PASS(7)` status and the named open goal above are the 2026-07-26 state, retained for
+> the record; the declaration `open_goal_partner_integral_s7` no longer exists in the source. The
+> rest of this notice — the two vacuous `ℕ → ℕ` theorems, and s10/s18 non-integrality — stands
+> unchanged. See [§⭐](#-no-literature-axiom-is-load-bearing-2026-09-20) and
+> [§🎯](#-the-last-sorry-is-closed-2026-09-20).
 
 ---
 
