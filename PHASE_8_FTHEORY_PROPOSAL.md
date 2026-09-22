@@ -4,10 +4,14 @@
 **Subject:** Embedding the Agora TDA Pipeline within an F-Theory String Compactification
 **Status:** ✅ Lean 4 Formalization Complete (0 sorry)
 
+---
+
 ## 1. Executive Summary
 The exact-rational algebraic classification of our empirical anomalies necessitates a paradigm shift. We formally elevate the Topological Phase Cosmology framework into an **F-theory string compactification**.
 
 By recognizing that our algorithms are mapping two distinct geometric phases—an Order-2 Elliptic Curve ($S_{1,2}$) and an Order-3 K3 Surface (Cooper $s_7$)—we perfectly replicate the mathematical architecture of F-theory: an elliptically fibered Calabi-Yau fourfold. The macroscopic Universe requires both a rigid base to drive global expansion (Dark Energy) and a flexible fiber that degenerates locally to form matter (Dark Matter).
+
+---
 
 ## 2. The F-Theory Duality Mapping
 
@@ -22,6 +26,8 @@ $$y^2 = x^3 + f(u) \cdot x + g(u)$$
 
 ### F-Theory Discriminant
 $$\Delta_F = 4f^3 + 27g^2$$
+
+---
 
 ## 3. Lean 4 Formal Verification — COMPLETED
 
@@ -44,6 +50,8 @@ $$\Delta_F = 4f^3 + 27g^2$$
 5. `density_threshold_certificate`: 0.155·R^{1/4} > 0.42 for R ≥ 55 (numerical computation)
 6. `m87_alpha_eff_certificate`: ∃ v, v > 0.45 (consequence of axiom 4)
 
+---
+
 ## 4. File Structure
 
 ```
@@ -64,10 +72,37 @@ Agora/
                                       # enhancement, superradiance evasion proof
 ```
 
+---
+
 ## 5. Call to Action: Weak Lensing Verification
 We invite observational cosmologists to cross-reference our primary F-theory discriminant loci (e.g., `K3-DISC-0003` at RA 205.0°, Dec +35.0°) with public Weak Lensing convergence ($\kappa$) shear maps to definitively prove the spatial alignment between the elliptic degeneration $\Delta$ and physical Dark Matter mass peaks.
 
-## 6. Community Engagement
+---
+
+## 6. Future Work and Open Questions
+
+### 6.1. Extensions to F-Theory
+- **Generalization:** Can the **Dual-Scale Model** be embedded in **more general F-theory compactifications** (e.g., with non-K3 bases)?
+- **Modular Forms:** Can the **Shioda-Inose correspondence** be **further formalized** in Lean to connect **elliptic curves** and **K3 surfaces**?
+
+### 6.2. E1 Proposal: Per-Prime Identity and `p ≡ 2 mod 3` Theorem
+- The **E1 Proposal** ([`docs/E1_PROPOSAL.md`](https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal/blob/main/docs/E1_PROPOSAL.md)) introduces a **per-prime identity** and **`p ≡ 2 mod 3` theorem** for Cooper sequences.
+  - **Per-Prime Identity:** Proves that for primes `p ≡ 2 mod 3`, `s₇(p) ≡ 0 mod 4`.
+  - **`p ≡ 2 mod 3` Theorem:** Explores congruences like `s₇(p) ≡ 2 mod 3` for primes `p ≡ 2 mod 3`.
+- **Relevance to F-Theory:**
+  - The **per-prime identity** and **`p ≡ 2 mod 3` theorem** may provide **additional constraints** for the **F-theory embedding** of the Dual-Scale Model.
+  - These results could **refine the discriminant locus analysis** (e.g., by identifying **prime-dependent singularities** in the Calabi-Yau fourfold).
+- **Next Steps:**
+  - Formalize the **Lean statements** in `Agora/Sequences/E1.lean`.
+  - Integrate with **existing files** (e.g., `S7Mod4.lean`, `K3_CRITERIA.md`).
+
+### 6.3. Observational Tests
+- Can **PTA (Pulsar Timing Arrays)** or **lensing data** confirm the **Sym²-based predictions**?
+- Can **weak lensing maps** detect the **spatial alignment** between the **elliptic degeneration** and **Dark Matter halos**?
+
+---
+
+## 7. Community Engagement
 - **Timeroot** ([Lean-QuantumInfo](https://github.com/Timeroot/Lean-QuantumInfo)): Polynomial algebra patterns
 - **ShirleyLIYuxin** ([Lean4PHYS](https://github.com/ShirleyLIYuxin/Lean4PHYS)): Physical units framework
 - **AndreasSchachner** ([ml-string-landscape](https://github.com/AndreasSchachner/ml-string-landscape)): ML string vacua techniques
