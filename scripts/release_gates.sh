@@ -34,6 +34,20 @@ rc=0
 step() { printf '\n── %s\n' "$1"; }
 bad()  { printf '   FAIL: %s\n' "$1"; rc=1; }
 
+step "0. K3_CRITERIA.md is a MIRROR — byte-pinned against the canonical file (T0 D8'/AM-5)"
+python3 checkers/check_k3_criteria_mirror.py --self-test > "$log.mirror" 2>&1 \
+    || bad "mirror checker self-test (it must fire on a one-byte mutation)"
+K3DM="${K3DM:-$HOME/SocrateAI-Scientific-Agora-K3-DarkMatter}"
+[ -d "$K3DM/.git" ] || K3DM="$(dirname "$PWD")/SocrateAI-Scientific-Agora-K3-DarkMatter"
+if [ -d "$K3DM/.git" ]; then
+    python3 checkers/check_k3_criteria_mirror.py --source "$K3DM" \
+        || bad "K3_CRITERIA.md drifted from its pin, or the pin is stale against K3-DarkMatter origin/main (re-pin, never edit)"
+else
+    python3 checkers/check_k3_criteria_mirror.py \
+        || bad "K3_CRITERIA.md drifted from its pin (re-pin from the canonical repo, never edit)"
+    echo "   (no K3-DarkMatter clone found; upstream staleness NOT checked — set K3DM=<path>)"
+fi
+
 step "1. self-tests (a tool that cannot see a declaration reports it clean)"
 python3 scripts/name_vs_statement.py --self-test      || bad "name_vs_statement self-test"
 python3 scripts/disclosure_reaches_source.py --self-test || bad "disclosure_reaches_source self-test"

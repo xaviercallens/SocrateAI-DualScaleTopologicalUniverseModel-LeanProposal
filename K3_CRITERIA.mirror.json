@@ -1,0 +1,27 @@
+{
+  "_comment": "Hash pin for K3_CRITERIA.md, which is a MIRROR here (T0 D8'/AM-5, 2026-09-21): the canonical file lives in SocrateAI-Scientific-Agora-K3-DarkMatter. Do not edit K3_CRITERIA.md in this repo; re-pin it from the canonical repo and update this file. checkers/check_k3_criteria_mirror.py fails closed on drift. Expect re-pins: the canonical section 5 is a generated table that moves whenever a Stream 2 certificate changes.",
+  "mirror_of": {
+    "repo": "SocrateAI-Scientific-Agora-K3-DarkMatter",
+    "path": "K3_CRITERIA.md",
+    "canonical_since": "2026-09-21 (T0 D8', AM-5)",
+    "observed_at_commit": "ef78d83718a228e828985b44fd2335893622f011",
+    "observed_via": "git show origin/main:K3_CRITERIA.md | sha256sum, in the local K3-DarkMatter clone after git fetch, 2026-09-27",
+    "change_that_triggered_this_pin": "PR #55 merge 79b1c68 (AM-6 selector clause, AM-7 C3 checker path, generated section 5), announced in briefs/STREAM2_TO_STREAM1_NOTICE_PR55_MERGED_2026_09_27.md"
+  },
+  "sha256": "f26f8b46a7e77b74be9df9bc669994a88386c74dc4dbf778999a27841c8bc45a",
+  "pinned_on": "2026-09-27",
+  "pinned_by": "Stream 1 session (Claude Fable 5.1); hash recomputed at the source, not copied from the notice",
+  "previous_pins": [
+    {
+      "sha256": "66d76883ad4a8e9b5b39c3247f1a6f8e8dbd58f54aa377afca96fbbf506b45b7",
+      "note": "Stream 1's own copy at commit 6c09d2d (2026-07-20), the byte-identical SEED of the canonical file (K3-DarkMatter f62f2c8). Quarantined, not deleted: docs/archive/K3_CRITERIA_SEED_6c09d2d_2026_07_20.md"
+    },
+    {
+      "sha256": "7e18fa07eecc6864a746c52834c637bfe501ad30407eb7585e8850d1d65633e6",
+      "note": "canonical at K3-DarkMatter 749a3e6 (AM-1..AM-5 only, pre PR #55). Delivered untracked on 2026-09-21 as K3_CRITERIA.MIRROR_FROM_STREAM2.md with a prepended header (so that delivered file itself hashed 9b31a6e9...); quarantined at briefs/inbound_superseded/. Never installed as the mirror."
+    }
+  ],
+  "still_open_in_the_canonical_file_and_owned_here": [
+    "briefs/T0_FLAG_K3_CRITERIA_T103_STALE_2026_08_01.md: Stream 2 D11'-2 (2026-09-27, taken on T0's behalf) keeps the t103 row DROPPED on the 'no citable defining recurrence' ground only and withdraws the 'order-4 CY3' ground (E-014). Reinstatement needs a fetched, read, hash-pinned primary source for t103's recurrence and a section 6 amendment. Stream 1 holds no such source as of 2026-09-27."
+  ]
+}
