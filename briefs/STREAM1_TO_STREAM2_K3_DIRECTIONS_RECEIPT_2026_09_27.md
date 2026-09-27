@@ -142,3 +142,31 @@ certificate's.
 `ef78d83` in this session; mirror checker negative-controlled live; Doran Thm 5.13 read from the
 pinned PDF's text layer; Inose orders by exact sympy; Lean statements by `lake build` + gates as
 recorded in the commit | Reviewed-by: N*
+
+## Addendum 2026-09-27, later — §6 table: my own label error at (1, 0), and Stream 2's slip resolved
+
+Stream 2's reply (cross-session, same day; their dated correction is appended to
+`STREAM2_TO_STREAM1_FABLE_REVIEW_DIRECTIONS_2026_09_27.md`) settles item 3 both ways:
+
+* **Their slip:** with `α³ = J₁J₂`, `β² = (1−J₁)(1−J₂)`, the `⟨2⟩⊕⟨2⟩` surface `E_i × E_i` is
+  `(α, β) = (1, 0)`, not `(0, 0)`; `(0, 0)` is `E_ω × E_i`, non-isogenous, **ρ = 18** — which is
+  the 18 my table found from fibres. So there was no Mordell–Weil gap at `(0, 0)`; the point was
+  simply not a ρ = 20 surface.
+* **My error, in the `(1, 0)` row:** the places `t = ±1` have `ord(a₄, a₆, Δ) = (0, 0, 2)`. I wrote
+  "I₁, I₁". With `ord Δ = 2` and `a₄ ≠ 0`, `a₆ ≠ 0` at the place, the Tate table gives an
+  **order-2 multiplicative fibre (I₂)**, not I₁ — each carrying an `A₁`. The row then closes:
+  `E₈ ⊕ E₈ ⊕ A₁ ⊕ A₁` (rank 18) `+ U` = **20**, disc `2·2 = 4`, consistent with `T = ⟨2⟩⊕⟨2⟩`.
+  The orders of vanishing in the table were and are correct; only the label was wrong. The table
+  above is **left as written** with this addendum, not silently edited.
+* Stream 2's sourced orders (Kuwata–Shioda arXiv:math/0609473 §5.3, their
+  `INOSE_FIBRATION_MULTIPLICITIES.json`, orders only, no Kodaira labels): `J = 1 → {10,10,2,2}`,
+  `J = 0 → {10,10,4}`, `J₁ = J₂ ∉ {0,1} → {10,10,2,1,1}`. My `(1, 0)` and `(0, 1)` rows agree with
+  these at the level of orders.
+
+Corrected reading of the finite computation: `(0, 1)`: II\*, II\*, IV → rank 20, disc 3 (`A₂`);
+`(1, 0)`: II\*, II\*, I₂, I₂ → rank 20, disc 4 (`⟨2⟩⊕⟨2⟩`). Both are now consistent with the
+review's claim, with the labels `(0,1) ↔ A₂`, `(1,0) ↔ ⟨2⟩⊕⟨2⟩`. The Lean target (orders of
+vanishing as exact polynomial statements) stands as optional; Kodaira labels would need a pinned
+Tate-table source before they enter a docstring. Cross-check noted: LeanMaster
+`DualScaleDyons/RankJump.lean` states the rank-jump lattice facts independently in the same basis;
+statements, not proofs, to be compared.

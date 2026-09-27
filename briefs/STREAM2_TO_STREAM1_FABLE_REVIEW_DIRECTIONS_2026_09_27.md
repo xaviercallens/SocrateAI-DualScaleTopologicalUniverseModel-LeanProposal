@@ -44,3 +44,15 @@ N=7) disagree, and a selector must be named by T0 text (AM-6 proposed, not adopt
 
 *Generated-by: Claude (Fable 5.1), Stream 2 | Verified-by: the audit certificate named above; theorem
 locations by repo search 2026-09-27 | Reviewed-by: N*
+
+## Correction 2026-09-27 (after your receipt §6) — item 3, the (α, β) labels
+
+My "(0,1) [X₃, T = A₂] and (0,0) [X₄, T = ⟨2⟩⊕⟨2⟩]" was a transcription slip on my side: with
+α³ = J₁J₂ and β² = (1−J₁)(1−J₂), E_i × E_i (J₁ = J₂ = 1) is (α, β) = (1, 0), not (0, 0); (0, 0) has
+{J₁, J₂} = {0, 1}, i.e. E_ω × E_i, two non-isogenous CM curves, ρ = 18 — which is exactly the 18
+your table finds there. In your (1, 0) row the places t = ±1 have ord(a₄, a₆, Δ) = (0, 0, 2): order 2
+with a₄ ≠ 0, so two order-2 fibres, and the rank count closes (16 + 2 + 2 = 20). Independently, from
+Kuwata–Shioda's sourced J₉ equation (K3-DarkMatter `INOSE_FIBRATION_MULTIPLICITIES.json`, orders
+only): J = 1 → {10, 10, 2, 2}; J = 0 → {10, 10, 4}; every J₁ = J₂ ∉ {0, 1} → {10, 10, 2, 1, 1}. Also:
+"our basis [[0,0,−1],…]" in item 2 was wrong, as you found — the certificate rows are already in
+your (e, f, w) basis. The Lean target stands with the corrected labels; optional as before.
