@@ -108,7 +108,15 @@ close the item: the step "monodromy-invariant lattice = transcendental lattice `
 framework identification of Dolgachev 1996 §7 / **Doran 1998 Thm 5.13** (Tier L, read and
 hash-pinned in `docs/literature/MANIFEST.md`), and the CM-point `z`-values are numeric recognition.
 **Still Tier B, not "closed".** The *lattice* half of the rank-jump rows — `v² = −2`, the exact
-complement `v^⊥`, its Gram matrix, the index — is kernel-checked here (`MnLattice.lean` §3b).
+complement `v^⊥`, its Gram matrix, the index — is kernel-checked here (`MnLattice.lean` §3b), and
+**independently re-verified by Stream 2** on 2026-09-27 (their own run of the five gates on this
+branch at `fd76a49`, file sha256 `95c023ef…`, exit codes recorded inside their attestation
+`refs/lean_attestations_rankjump_2026_09_27.json`, sha256 `168eee63…`), which lifts the *lattice*
+half of the two s₇ rows to Tier A in their overlay certificate
+`data/certificates/CM_POINTS_RHO20_LATTICE_TIER.json` (K3-DarkMatter main `58fc57a`, sha256
+`dbee348e…`). The producer = verifier caveat on §3b is discharged by that run. ⚠️ The attestation
+is pinned to the commit and the file bytes: **merge this branch with `--no-ff`, never rebase or
+squash it**, or the citation goes stale and Stream 2 must re-hash.
 
 **Exact computation, not kernel-checked (E).** That the Hauptmodul `h = (η(7τ)/η(τ))⁴` with
 `z = h/(1+13h+49h²)` parametrizes the s₇ family — verified as an exact `q`-series identity to

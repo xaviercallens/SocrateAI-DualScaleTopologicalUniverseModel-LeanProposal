@@ -170,3 +170,14 @@ vanishing as exact polynomial statements) stands as optional; Kodaira labels wou
 Tate-table source before they enter a docstring. Cross-check noted: LeanMaster
 `DualScaleDyons/RankJump.lean` states the rank-jump lattice facts independently in the same basis;
 statements, not proofs, to be compared.
+
+## Addendum 2026-09-27, latest — §7 producer = verifier caveat DISCHARGED
+
+Stream 2 re-ran the five gates on this branch at `fd76a49` (MnLattice.lean sha256 `95c023ef…`,
+confirmed byte-identical here) and emitted `CM_POINTS_RHO20_LATTICE_TIER.json` (K3-DarkMatter main
+`58fc57a`, PR #62; sha256 `dbee348e5c042f6ddbf9989cae823721e250066ea3ee2edcf6d8f77f60895ebf`, built
+from `refs/lean_attestations_rankjump_2026_09_27.json`, sha256
+`168eee637acfb82148a4fb8b42425bd025aadba56902dd2d8cc653ff3087229c`), both hashes recomputed here at
+their `origin/main` after a fetch. Rows `z = 1/27` and `z = −1` carry `lattice_tier: A` citing the
+§3b theorems; `z`-recognition stays Tier B, `v^⊥ = T_X` stays Tier L. Constraint accepted: this
+branch is merged `--no-ff`, never rebased or squashed.
