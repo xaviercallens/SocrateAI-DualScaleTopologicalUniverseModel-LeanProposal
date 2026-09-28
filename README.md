@@ -58,6 +58,7 @@ axiom. Names are Lean declarations; grep for them.
 | **`4 ∣ s₇(n)`** for `n ≥ 1`, termwise and elementary | `four_dvd_s7` | `Sequences/S7Mod4.lean` |
 | — hence s₇ partner integral **with no literature axiom** | `s7_partner_integral_axiom_free` | `"` |
 | s₁₀, s₁₈ partners **not** integral (single witnesses) | `s10_partner_not_integral` | `Sequences/PartnerIntegrality.lean` |
+| **Rank-jump classes in `U⊕⟨2N⟩`**: `(e−f)² = −2`, exact complement `≅ ⟨2⟩⊕⟨2N⟩` (index 2); at `N=7` the second class `(2,−4,1)` splits `U⊕⟨14⟩ ≅ ⟨−2⟩⊕[[2,1],[1,4]]` (index 1) — lattice half of Stream 2's ρ = 20 rows | `rootEF_perp_iff`, `TN_splits_at_rootEF`, `root7_perp_iff`, `T7_splits_at_root7` | `Geometry/MnLattice.lean` §3b |
 | `Γ₀(N)⁺ ⊂ O(U⊕⟨2N⟩)` by explicit integer 3×3 ρ; ρ is a homomorphism | `rho_isometry`, `rho_mul` | `Geometry/ModularAction.lean` |
 | — automorphy `(Ncτ+d)²` as a **polynomial identity**, no hypotheses | `rho_mulVec_period` | `"` |
 | — ρ is the symmetric square, and lands in `SO(2,1)` | `rho_trace`, `rho_det` | `"` |
@@ -96,8 +97,26 @@ This project's credibility rests on the distinction. Tiers are defined in [VISIO
 sequences, polynomials, rational maps and integer matrices.
 
 **You must hedge (Tier B).** That `U⊕⟨14⟩` *is* the transcendental lattice of the s₇ K3 family,
-and ρ = 19 / T = 3 for `cooper_s7`. These rest on a numerical monodromy computation (Stream 2,
-E-011), not on the kernel.
+and ρ = 19 / T = 3 for `cooper_s7`. These rest on Stream 2's monodromy computation, not on the
+kernel. **Updated 2026-09-27:** the lattice authority is now `C2_cooper_s7_v6.json` (LIVE, T0
+D10′, 2026-09-27; values identical to v5, which stays valid), whose stage-2 monodromy matrices are
+*certified* by `CERTIFIED_MONODROMY_L2_cooper_s7.json` (Arb ball arithmetic with majorant tail
+bounds, exact stage 3 reproducing the certificate), and the ρ = 20 rank-jump rows are
+`CM_POINTS_RHO20.json` — all in K3-DarkMatter `data/certificates/`, hashes in
+`briefs/STREAM1_TO_STREAM2_K3_DIRECTIONS_RECEIPT_2026_09_27.md`. Certified arithmetic does **not**
+close the item: the step "monodromy-invariant lattice = transcendental lattice `T`" is the
+framework identification of Dolgachev 1996 §7 / **Doran 1998 Thm 5.13** (Tier L, read and
+hash-pinned in `docs/literature/MANIFEST.md`), and the CM-point `z`-values are numeric recognition.
+**Still Tier B, not "closed".** The *lattice* half of the rank-jump rows — `v² = −2`, the exact
+complement `v^⊥`, its Gram matrix, the index — is kernel-checked here (`MnLattice.lean` §3b), and
+**independently re-verified by Stream 2** on 2026-09-27 (their own run of the five gates on this
+branch at `fd76a49`, file sha256 `95c023ef…`, exit codes recorded inside their attestation
+`refs/lean_attestations_rankjump_2026_09_27.json`, sha256 `168eee63…`), which lifts the *lattice*
+half of the two s₇ rows to Tier A in their overlay certificate
+`data/certificates/CM_POINTS_RHO20_LATTICE_TIER.json` (K3-DarkMatter main `58fc57a`, sha256
+`dbee348e…`). The producer = verifier caveat on §3b is discharged by that run. ⚠️ The attestation
+is pinned to the commit and the file bytes: **merge this branch with `--no-ff`, never rebase or
+squash it**, or the citation goes stale and Stream 2 must re-hash.
 
 **Exact computation, not kernel-checked (E).** That the Hauptmodul `h = (η(7τ)/η(τ))⁴` with
 `z = h/(1+13h+49h²)` parametrizes the s₇ family — verified as an exact `q`-series identity to
@@ -191,13 +210,13 @@ signature split (b₂⁺, b₂⁻) = (3, 19) is **not** evidence for this projec
 
 ## Verified status
 
-Last checked 2026-09-21 at the pin above. **Re-run the commands rather than trusting these numbers.**
+Last checked 2026-09-27 at the pin above. **Re-run the commands rather than trusting these numbers.**
 
 | Check | Result |
 |---|---|
-| `bash scripts/release_gates.sh` | **all gates OK** (it reads exit codes correctly; a green run is not a clean bill) |
+| `bash scripts/release_gates.sh` | **all gates OK** (it reads exit codes correctly; a green run is not a clean bill). New gate 0 (2026-09-27): `K3_CRITERIA.md` mirror pin, self-tested and checked against K3-DarkMatter `origin/main` |
 | `lake build Agora OpenGoals Tests` | 3730 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **378 theorems audited.** 375 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
+| Axiom audit of `Agora` | **395 theorems audited.** 392 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
 | Statement lock | OK — 555 declarations in 40 files; mutation-verified to fire |
@@ -418,7 +437,13 @@ signal; a pipe hands you the filter's exit code, not the tool's; and the defect 
 theorem is true, compiles, passes every gate, and proves **less than its name says**.
 
 1. **[VISION.md](VISION.md)** — The master vision document. Read this first.
-2. **[K3_CRITERIA.md](K3_CRITERIA.md)** — Frozen criteria for ranking K3 candidates (Tier A/B properties). Stream 2 uses this.
+2. **[K3_CRITERIA.md](K3_CRITERIA.md)** — **MIRROR, not an authority** (T0 D8′/AM-5, 2026-09-21): the
+   canonical file lives in K3-DarkMatter; this copy is byte-identical and hash-pinned in
+   [`K3_CRITERIA.mirror.json`](K3_CRITERIA.mirror.json), checked fail-closed by
+   `checkers/check_k3_criteria_mirror.py` (gate 0 of `release_gates.sh`). Re-pinned 2026-09-27
+   after PR #55 (sha256 `f26f8b46…`). Do not edit it here. Its §1 register is frozen; its thresholds
+   are **not** (SKELETON, §7 open). The pre-canonical seed is quarantined at
+   `docs/archive/K3_CRITERIA_SEED_6c09d2d_2026_07_20.md`.
 3. **[PREDICTION.md](PREDICTION.md)** — Draft falsifiable predictions. Stream 3 tests these against data.
 4. **[PHASE_8_FTHEORY_PROPOSAL.md](docs/PHASE_8_FTHEORY_PROPOSAL.md)** — Previous F-theory proposal (for context).
 

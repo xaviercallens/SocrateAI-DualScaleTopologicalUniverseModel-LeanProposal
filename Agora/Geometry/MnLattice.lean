@@ -191,6 +191,168 @@ theorem TN_diagonalises_sign (N : ℤ) :
   have h := congrFun (congrFun hc 2) 2
   simp at h
 
+-- ╔════════════════════════════════════════════════════════════════════╗
+-- ║  §3b. RANK-JUMP CLASSES: (−2)-vectors and their exact complements     ║
+-- ╚════════════════════════════════════════════════════════════════════╝
+
+/-! **Stream 2 direction 2** (`briefs/STREAM2_TO_STREAM1_FABLE_REVIEW_DIRECTIONS_2026_09_27.md`,
+    from the audited external review of 2026-09-21): the *lattice half* of the ρ = 20
+    "rank-jump" rows of Stream 2's `data/certificates/CM_POINTS_RHO20.json`
+    (sha256 `1ef6d622af22a6488316fad01503ed4381c1d742861f178b3d3ea9d76c220755`, read at
+    K3-DarkMatter `79b1c68`). The certificate's coordinates `(x, y, z)` carry the norm
+    `2xy + 2Nz²` (its `stage0_selftest.norm_is_2xy_plus_2n_z2`), i.e. **this file's basis**
+    `(e, f, w)` for `TN`; the brief's "our basis" remark concerns a different presentation
+    and is not needed here.
+
+    What the kernel certifies below, for a (−2)-class `v`:
+    * `v² = −2` (`latticeNorm`);
+    * the **exact** orthogonal complement `v^⊥ = {x | ⟨x, v⟩ = 0}` as a set, as an `↔` with
+      an explicit two-parameter family — not merely two vectors that happen to be orthogonal;
+    * the Gram matrix of that complement, and the index of `v ⊕ v^⊥` in `U ⊕ ⟨2N⟩`
+      (determinant of the frame `(v, basis of v^⊥)`).
+
+    What it does **not** certify (Tier B, Stream 2's): that `v` is algebraic at the recognised
+    period point `τ` (Lefschetz (1,1)), hence that the Picard number jumps to 20 there and
+    `T_X = v^⊥`; and that the `z`-values `1/27`, `−1` are the s₇ singular loci (numeric
+    recognition, LLL at 120 digits re-checked at 200). The framework identification
+    `T = U ⊕ ⟨2N⟩` is Dolgachev 1996 §7 / Doran 1998 Thm 5.13 (Tier L, `docs/literature/MANIFEST.md`). -/
+
+/-- The bilinear pairing `xᵀ G y` of two coordinate vectors under a Gram matrix `G`; the
+    polarization of `latticeNorm` (`pairing G v v = latticeNorm G v` by `rfl`). -/
+def pairing (G : Gram 3) (x y : Fin 3 → ℤ) : ℤ := x ⬝ᵥ (G *ᵥ y)
+
+theorem pairing_self (G : Gram 3) (v : Fin 3 → ℤ) : pairing G v v = latticeNorm G v := rfl
+
+/-- **Class 1 — the Fricke fixed-point class** `e − f`, coordinates `![1, -1, 0]`, for every `N`.
+    -- Source: `CM_POINTS_RHO20.json`, `families.cooper_s7.rows`, row `v = [1,-1,0]`
+    (`minus_v2 = 2`, `div_v = 1`, `T_X_kernel_basis = [[1,1,0],[0,0,1]]`, `D = -28`,
+    `z_value_if_rational = 1/27`); the same row exists for `cooper_s10` (`z = 1/16`, ADVISORY).
+    Its wall `⟨x, e−f⟩ = 0 ⟺ Nτ² = −1` is `SelfDual.lean`'s subject. -/
+def rootEF : Fin 3 → ℤ := ![1, -1, 0]
+
+theorem rootEF_norm (N : ℤ) : latticeNorm (TN N) rootEF = -2 := by
+  simp [latticeNorm, rootEF, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
+/-- **The exact complement of `e − f`:** `x ⊥ (e − f)` in `U ⊕ ⟨2N⟩` iff `x = a(e + f) + b·w`.
+    This is the set-level statement; `rootEF_perp_gram` gives that complement's form. -/
+theorem rootEF_perp_iff (N : ℤ) (x : Fin 3 → ℤ) :
+    pairing (TN N) x rootEF = 0 ↔ ∃ a b : ℤ, x = ![a, a, b] := by
+  constructor
+  · intro h
+    refine ⟨x 0, x 2, ?_⟩
+    simp [pairing, rootEF, TN, dotProduct, mulVec, Fin.sum_univ_succ] at h
+    ext i; fin_cases i <;> simp <;> omega
+  · rintro ⟨a, b, rfl⟩
+    simp [pairing, rootEF, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
+/-- Columns `e + f` and `w`: the basis of `(e − f)^⊥` named by `rootEF_perp_iff`. -/
+def rootEFPerpBasis : Matrix (Fin 3) (Fin 2) ℤ := !![1, 0; 1, 0; 0, 1]
+
+/-- `(e − f)^⊥ ≅ ⟨2⟩ ⊕ ⟨2N⟩` — the certificate's `T_X = <2>+<2n>` at the Fricke point. -/
+theorem rootEF_perp_gram (N : ℤ) :
+    rootEFPerpBasisᵀ * TN N * rootEFPerpBasis = !![2, 0; 0, 2 * N] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [rootEFPerpBasis, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+/-- The frame `(e − f, e + f, w)`. -/
+def rootEFFrame : Gram 3 := !![1, 1, 0; -1, 1, 0; 0, 0, 1]
+
+/-- `⟨e − f⟩ ⊕ (e − f)^⊥` has **index 2** in `U ⊕ ⟨2N⟩`: the frame has determinant 2.
+    (This is `TN_diagonalises` with its columns reordered — the same diagonal form.) -/
+theorem rootEFFrame_det : rootEFFrame.det = 2 := by
+  simp [rootEFFrame, det_fin_three]
+
+theorem TN_splits_at_rootEF (N : ℤ) :
+    rootEFFrameᵀ * TN N * rootEFFrame = !![-2, 0, 0; 0, 2, 0; 0, 0, 2 * N] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [rootEFFrame, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+/-- **Class 2 — the other order-2 point of `X₀(7)⁺`**, coordinates `![2, -4, 1]` in `U ⊕ ⟨14⟩`.
+    -- Source: `CM_POINTS_RHO20.json`, `families.cooper_s7.rows`, row `v = [2,-4,1]`
+    (`minus_v2 = 2`, `div_v = 2`, `T_X_reduced_form_abc = [1,1,2]`, `det_T_X = 7`, `D = -7`,
+    `T_X_kernel_basis = [[1,2,0],[0,-7,1]]`, `z_value_if_rational = -1`). The brief writes this
+    class as `±(−2, 4, 1)`; the certificate row carries `(2, −4, 1)`, used here. The
+    `τ = 1/2 + i/√28` and `z = −1` in that row are Tier B and are **not** used below. -/
+def root7 : Fin 3 → ℤ := ![2, -4, 1]
+
+theorem root7_norm : latticeNorm T7 root7 = -2 := by
+  simp [latticeNorm, root7, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
+/-- **The exact complement of `root7`:** `x ⊥ root7` in `U ⊕ ⟨14⟩` iff
+    `x = a·(1, 2, 0) + b·(0, −7, 1)` — the certificate's `T_X_kernel_basis`, verbatim. -/
+theorem root7_perp_iff (x : Fin 3 → ℤ) :
+    pairing T7 x root7 = 0 ↔ ∃ a b : ℤ, x = ![a, 2 * a - 7 * b, b] := by
+  constructor
+  · intro h
+    refine ⟨x 0, x 2, ?_⟩
+    simp [pairing, root7, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ] at h
+    ext i; fin_cases i <;> simp <;> omega
+  · rintro ⟨a, b, rfl⟩
+    simp [pairing, root7, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ]; ring
+
+/-- The certificate's kernel basis of `root7^⊥`, as columns `(1, 2, 0)`, `(0, −7, 1)`. -/
+def root7PerpBasis : Matrix (Fin 3) (Fin 2) ℤ := !![1, 0; 2, -7; 0, 1]
+
+theorem root7_perp_gram : root7PerpBasisᵀ * T7 * root7PerpBasis = !![4, -7; -7, 14] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root7PerpBasis, T7, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+/-- The Gauss-reduced basis `(2, −3, 1)`, `(1, 2, 0)` of the same complement. -/
+def root7PerpReduced : Matrix (Fin 3) (Fin 2) ℤ := !![2, 1; -3, 2; 1, 0]
+
+/-- The integer change of basis `!![2, 1; 1, 0]` between the two bases of `root7^⊥`. -/
+def root7PerpChange : Gram 2 := !![2, 1; 1, 0]
+
+/-- The two bases of `root7^⊥` differ by `root7PerpChange`, which is unimodular
+    (`root7_perp_change_det`), so they span the same sublattice. -/
+theorem root7_perp_bases_related : root7PerpBasis * root7PerpChange = root7PerpReduced := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root7PerpBasis, root7PerpReduced, root7PerpChange, Matrix.mul_apply, Fin.sum_univ_succ]
+
+theorem root7_perp_change_det : root7PerpChange.det = -1 := by
+  simp [root7PerpChange, det_fin_two]
+
+/-- **`root7^⊥ ≅ [[2, 1], [1, 4]]`** — the binary form `x² + xy + 2y²` of discriminant `−7`, the
+    certificate's `T_X_reduced_form_abc = [1,1,2]`. -/
+theorem root7_perp_reduced_gram :
+    root7PerpReducedᵀ * T7 * root7PerpReduced = !![2, 1; 1, 4] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root7PerpReduced, T7, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+theorem root7_perp_reduced_det : (!![2, 1; 1, 4] : Gram 2).det = 7 := by
+  simp [det_fin_two]
+
+/-- The frame `(root7, (2, −3, 1), (1, 2, 0))`. -/
+def root7Frame : Gram 3 := !![2, 2, 1; -4, -3, 2; 1, 1, 0]
+
+/-- **Index 1, unlike the Fricke class:** the frame is unimodular, so
+    `U ⊕ ⟨14⟩ = ⟨root7⟩ ⊕ root7^⊥` exactly — an integral isometry
+    `U ⊕ ⟨14⟩ ≅ ⟨−2⟩ ⊕ [[2, 1], [1, 4]]`. Consistent with the certificate's
+    `det(v^⊥) = −v²·2n / div(v)² = 2·14/4 = 7`. -/
+theorem root7Frame_det : root7Frame.det = -1 := by
+  simp [root7Frame, det_fin_three]
+
+theorem T7_splits_at_root7 :
+    root7Frameᵀ * T7 * root7Frame = !![-2, 0, 0; 0, 2, 1; 0, 1, 4] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root7Frame, T7, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+/-- NEGATIVE CONTROL (non-vacuity of `root7_perp_iff`): `e = ![1, 0, 0]` is *not* orthogonal to
+    `root7` (pairing `−4`), and indeed `![1, 0, 0]` is not of the form `![a, 2a − 7b, b]`. -/
+theorem root7_e_not_perp : pairing T7 ![1, 0, 0] root7 = -4 := by
+  simp [pairing, root7, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
+/-- NEGATIVE CONTROL: the two (−2)-classes are not orthogonal to each other
+    (`⟨e − f, root7⟩ = −6`), so `root7` does not lie in the Fricke complement. -/
+theorem rootEF_root7_pairing : pairing T7 rootEF root7 = -6 := by
+  simp [pairing, rootEF, root7, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
 /-- Signature of `U ⊕ ⟨2N⟩` for `N > 0`. Backed by `TN_diagonalises` above
     (modulo Sylvester's law, Tier L) rather than merely asserted. -/
 def sigTN : Signature := sigU + ⟨1, 0⟩
