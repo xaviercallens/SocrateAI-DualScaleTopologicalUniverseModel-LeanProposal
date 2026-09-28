@@ -440,9 +440,12 @@ theorem is true, compiles, passes every gate, and proves **less than its name sa
 2. **[K3_CRITERIA.md](K3_CRITERIA.md)** — **MIRROR, not an authority** (T0 D8′/AM-5, 2026-09-21): the
    canonical file lives in K3-DarkMatter; this copy is byte-identical and hash-pinned in
    [`K3_CRITERIA.mirror.json`](K3_CRITERIA.mirror.json), checked fail-closed by
-   `checkers/check_k3_criteria_mirror.py` (gate 0 of `release_gates.sh`). Re-pinned 2026-09-27
-   after PR #55 (sha256 `f26f8b46…`). Do not edit it here. Its §1 register is frozen; its thresholds
-   are **not** (SKELETON, §7 open). The pre-canonical seed is quarantined at
+   `checkers/check_k3_criteria_mirror.py` (gate 0 of `release_gates.sh`). Re-pinned 2026-09-28
+   after **AM-8** (sha256 `7af500a7…`; T0 adopted the C6 selector "minimal |disc T| within each
+   register family": cooper_s7 → T = A₂, cooper_s10 (ADVISORY) → ⟨2⟩⊕⟨2⟩; no cross-family ranking,
+   no s10 promotion, no physical reading — the previous pin `f26f8b46…` of 2026-09-27 fired PIN
+   STALE as designed). Do not edit it here. Its §1 register is frozen; its thresholds are **not**
+   (SKELETON, §7 open). The pre-canonical seed is quarantined at
    `docs/archive/K3_CRITERIA_SEED_6c09d2d_2026_07_20.md`.
 3. **[PREDICTION.md](PREDICTION.md)** — Draft falsifiable predictions. Stream 3 tests these against data.
 4. **[PHASE_8_FTHEORY_PROPOSAL.md](docs/PHASE_8_FTHEORY_PROPOSAL.md)** — Previous F-theory proposal (for context).

@@ -4,12 +4,12 @@
     "repo": "SocrateAI-Scientific-Agora-K3-DarkMatter",
     "path": "K3_CRITERIA.md",
     "canonical_since": "2026-09-21 (T0 D8', AM-5)",
-    "observed_at_commit": "ef78d83718a228e828985b44fd2335893622f011",
-    "observed_via": "git show origin/main:K3_CRITERIA.md | sha256sum, in the local K3-DarkMatter clone after git fetch, 2026-09-27",
-    "change_that_triggered_this_pin": "PR #55 merge 79b1c68 (AM-6 selector clause, AM-7 C3 checker path, generated section 5), announced in briefs/STREAM2_TO_STREAM1_NOTICE_PR55_MERGED_2026_09_27.md"
+    "observed_at_commit": "da4bdaa",
+    "observed_via": "git show origin/main:K3_CRITERIA.md | sha256sum, in the local K3-DarkMatter clone after git fetch, 2026-09-28",
+    "change_that_triggered_this_pin": "AM-8 (T0, 2026-09-28): C6 selector adopted, minimal |disc T| within each register family; s7 -> T = A2 (D = -3), s10 (ADVISORY) -> <2>+<2> (D = -4); no cross-family ranking, no s10 promotion, no physical reading. Records: K3-DarkMatter briefs/T0_DECISIONS_2026_09_28_STREAM2.md, briefs/STREAM2_AM8_SELECTOR_COMPARISON_2026_09_28.md"
   },
-  "sha256": "f26f8b46a7e77b74be9df9bc669994a88386c74dc4dbf778999a27841c8bc45a",
-  "pinned_on": "2026-09-27",
+  "sha256": "7af500a774073893ea0829efc6e7fcdfccf1974fbd5859275f902feb70fd3511",
+  "pinned_on": "2026-09-28",
   "pinned_by": "Stream 1 session (Claude Fable 5.1); hash recomputed at the source, not copied from the notice",
   "previous_pins": [
     {
@@ -19,6 +19,10 @@
     {
       "sha256": "7e18fa07eecc6864a746c52834c637bfe501ad30407eb7585e8850d1d65633e6",
       "note": "canonical at K3-DarkMatter 749a3e6 (AM-1..AM-5 only, pre PR #55). Delivered untracked on 2026-09-21 as K3_CRITERIA.MIRROR_FROM_STREAM2.md with a prepended header (so that delivered file itself hashed 9b31a6e9...); quarantined at briefs/inbound_superseded/. Never installed as the mirror."
+    },
+    {
+      "sha256": "f26f8b46a7e77b74be9df9bc669994a88386c74dc4dbf778999a27841c8bc45a",
+      "note": "canonical at K3-DarkMatter ef78d83 (post PR #55, AM-6/AM-7, generated section 5); pinned 2026-09-27, superseded by AM-8 on 2026-09-28"
     }
   ],
   "still_open_in_the_canonical_file_and_owned_here": [
