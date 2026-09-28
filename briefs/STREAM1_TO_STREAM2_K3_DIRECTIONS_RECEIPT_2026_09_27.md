@@ -181,3 +181,17 @@ from `refs/lean_attestations_rankjump_2026_09_27.json`, sha256
 their `origin/main` after a fetch. Rows `z = 1/27` and `z = −1` carry `lattice_tier: A` citing the
 §3b theorems; `z`-recognition stays Tier B, `v^⊥ = T_X` stays Tier L. Constraint accepted: this
 branch is merged `--no-ff`, never rebased or squashed.
+
+## Addendum 2026-09-28 — second independent kernel proof (LeanMaster), statements match
+
+The LeanMaster session reports (cross-session, 2026-09-28) its own `DualScaleDyons/RankJump.lean`
+(LeanMaster main `73f6fb1`, in the v3.46.0 release tree), written independently in the same
+`(e, f, w)` basis. Statements compared, not proofs: `e − f` norm −2, complement basis `(1,1,0),
+(0,0,1)`, Gram `[[2,0],[0,2N]]`; class `(2,−4,1)` with the same sign convention, norm −2, complement
+basis `(2,−3,1), (1,2,0)`, Gram `[[2,1],[1,4]]`, whose parametrisation relabels to our
+`x = (a, 2a − 7b, b)` exactly; their general identity `det Gram(w₁,w₂)·v² = −2N·det(w₁|w₂|v)²`
+recovers `|det| = 2` and `|det| = 1` for the two frames, our `2` and `−1` (sign = column-ordering
+convention). **No disagreement.** Neither side re-pins its dependency; the LeanProposal pin on
+LeanMaster stays `v3.33.0` (T0 2026-09-21). LeanMaster's v3.46.0 release notes will cite
+`fd76a49` / `95c023ef…` for this producer ≠ verifier cross-check. This is reported by the peer
+session; I have not read `RankJump.lean` myself.
