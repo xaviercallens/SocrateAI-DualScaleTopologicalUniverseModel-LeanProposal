@@ -1,0 +1,99 @@
+\chapter*{Preface}
+
+\section*{Why this book}
+
+Most introductions to K3 surfaces begin with the surface --- a quartic in
+$\PP^3$, a Kummer surface, a double plane branched along a sextic --- and
+arrive at the lattice $H^2(X,\Z)$ as a piece of topology one computes about
+it. This book runs the other way. It begins with integral lattices, because
+for K3 surfaces the lattice is not a shadow of the geometry: by the Torelli
+theorem it \emph{is} the geometry, up to the position of a single line in a
+fixed $22$-dimensional space. A reader who has internalized how a rank-3
+lattice $\U\oplus\lat{2n}$ sits inside $\U^3\oplus E_8(-1)^2$, how a vector of
+norm $-2$ in it splits it, and how the isometries of that rank-3 lattice
+realize a modular group, already knows the skeleton of the theory of
+one-parameter families of lattice-polarized K3 surfaces. The rest is filling
+in the flesh --- Hodge theory, periods, fibrations, differential equations ---
+and knowing which classical theorem carries each step.
+
+\section*{Who it is for}
+
+The reader we have in mind has taken linear algebra seriously (including
+bilinear forms over $\Z$), knows what a Riemann surface and a holomorphic
+form are, and has met the words ``divisor'', ``line bundle'' and
+``cohomology'' without necessarily being at ease with them. Chapters~1 and~7
+require only the first of these. Chapters~2--6 use the rest, but every
+theorem is stated in full and every proof that we do not give is located
+precisely in a standard reference. We have tried to write the book we wished
+we had had when the mathematics of \S\ref{ch:frontier} was being assembled
+piece by piece from those references.
+
+\section*{The status convention}
+
+Every mathematical statement in this book carries one of four marks.
+
+\begin{itemize}[leftmargin=2em]
+\item \Lstatus\ \emph{Literature.} A theorem of the published record, quoted
+  with a precise citation. We do not reprove it; where a proof is short and
+  illuminating we include it and say so.
+\item \Estatus\ \emph{Exact computation.} A finite computation over $\Q$ or
+  $\Z$ that the reader can rerun; typically a Gram matrix, a determinant, an
+  order of vanishing, or a $q$-expansion checked to a stated order. We never
+  write ``verified'' for a finite check without stating its order.
+\item \Nstatus\ \emph{Numerical.} A high-precision floating-point computation
+  followed by recognition of an exact value. This is evidence, not proof, and
+  the book says so wherever it uses one.
+\item \Kstatus\ \emph{Kernel-checked.} A statement that has been formalized
+  in Lean~4 and accepted by its kernel, in a public repository, depending only
+  on the three standard axioms of the library. Chapter~\ref{ch:formal}
+  explains exactly what this mark certifies --- and its two well-documented
+  ways of certifying less than a name suggests.
+\end{itemize}
+
+A theorem marked \Lstatus\ is not less true than one marked \Kstatus. The
+marks record \emph{how we know}, and a reader who wants to build on a
+statement should know which kind of knowing it is. The habit of writing the
+mark down is the single most useful thing this book has to teach.
+
+\section*{How to read it}
+
+Chapter~\ref{ch:lattices} is the foundation and should be read first; its
+worked examples are the lattices that return in every later chapter.
+Chapters~\ref{ch:k3}--\ref{ch:torelli} are the classical theory of K3
+surfaces, told so that the lattice does the work. Chapter~\ref{ch:elliptic}
+is the one place where explicit equations appear, because elliptic fibrations
+are how one \emph{computes} a N\'eron--Severi lattice by hand.
+Chapters~\ref{ch:pf} and~\ref{ch:modular} bring in analysis --- Picard--Fuchs
+equations and modular curves --- and Chapter~\ref{ch:singular} is where they
+meet the lattice at the points of Picard number $20$. Chapter~\ref{ch:frontier}
+assembles the frontier: what is known about Cooper's sporadic sequences and
+the $M_7$-polarized K3 family attached to them, with every claim carrying its
+mark. Chapter~\ref{ch:formal} is about the \Kstatus\ mark itself.
+
+Exercises are placed where the material is; hints are in
+Appendix~\ref{app:hints}. An exercise marked $\star$ is one whose answer the
+book uses later.
+
+\section*{What this book is not}
+
+It is not a research monograph: Huybrechts' \emph{Lectures on K3
+Surfaces}~\cite{Huybrechts2016} and Barth--Hulek--Peters--Van de Ven
+\cite{BHPV2004} remain the references for proofs, and we lean on them
+constantly. It is not a treatise on formal verification; Chapter~\ref{ch:formal}
+is deliberately short. And it contains no physics: the lattice
+$\U\oplus\lat{2n}$ appears in string theory as well, and a reader from that
+direction will recognize some matrices, but every sentence here is a
+statement about mathematics and nothing else.
+
+\section*{Provenance}
+
+This edition was drafted with the assistance of an AI model (Claude, Fable
+5.1) working inside the repository that holds the Lean development of
+Chapter~\ref{ch:formal}. The kernel-checked statements are transcribed from
+that repository at a stated commit; the literature statements are the
+author's responsibility and have been checked against the cited sources to the
+extent stated in each chapter's closing note. Corrections are welcome and
+will be recorded, not silently applied.
+
+\bigskip
+\noindent\textit{Edition 0.1, 29 September 2026.}

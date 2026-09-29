@@ -1,0 +1,171 @@
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{BHPVdV04}
+
+\bibitem[AL70]{AtkinLehner1970}
+A.~O.~L. Atkin and Joseph Lehner, \emph{Hecke operators on {$\Gamma_0(m)$}},
+  Math. Ann. \textbf{185} (1970), 134--160.
+
+\bibitem[AvS21]{AlmkvistVanStraten2021}
+Gert Almkvist and Duco van Straten, \emph{Calabi--{Y}au operators of degree
+  two}, 2021, arXiv:2103.08651.
+
+\bibitem[BHPVdV04]{BHPV2004}
+Wolf~P. Barth, Klaus Hulek, Chris A.~M. Peters, and Antonius Van~de Ven,
+  \emph{Compact complex surfaces}, 2 ed., Ergebnisse der Mathematik und ihrer
+  Grenzgebiete, vol.~4, Springer, 2004.
+
+\bibitem[BP84]{BeukersPeters1984}
+Frits Beukers and Chris A.~M. Peters, \emph{A family of {K3} surfaces and
+  {$\zeta(3)$}}, J. Reine Angew. Math. \textbf{351} (1984), 42--54.
+
+\bibitem[BR75]{BurnsRapoport1975}
+Daniel Burns and Michael Rapoport, \emph{On the {T}orelli problem for
+  {K}\"ahlerian {K3} surfaces}, Ann. Sci. \'Ecole Norm. Sup. \textbf{8} (1975),
+  235--273.
+
+\bibitem[Cal26a]{LeanMaster2026}
+Xavier Callens, \emph{{SocrateAI-Scientific-Agora-LeanMaster}: a {L}ean~4
+  development of lattice and string-theoretic mathematics}, 2026, Public
+  repository; release v3.46.0, file \texttt{DualScaleDyons/RankJump.lean} at
+  commit 73f6fb1.
+
+\bibitem[Cal26b]{Callens2026paper}
+\bysame, \emph{Symmetric squares of {C}ooper's sporadic operators: partner
+  operators, integrality, and the monodromy lattice of the {$s_7$} family},
+  2026, Zenodo, concept DOI 10.5281/zenodo.22853238; version v3
+  10.5281/zenodo.22875834; repository release v0.25-paper-rankjump.
+
+\bibitem[Coo12]{Cooper2012}
+Shaun Cooper, \emph{Sporadic sequences, modular forms and new series for
+  {$1/\pi$}}, Ramanujan J. \textbf{29} (2012), 163--183.
+
+\bibitem[CS99]{ConwaySloane1999}
+John~H. Conway and Neil J.~A. Sloane, \emph{Sphere packings, lattices and
+  groups}, 3 ed., Springer, 1999.
+
+\bibitem[dMU21]{deMouraUllrich2021}
+Leonardo de~Moura and Sebastian Ullrich, \emph{The {L}ean 4 theorem prover and
+  programming language}, Automated Deduction -- CADE 28, Lecture Notes in
+  Computer Science, vol. 12699, Springer, 2021, pp.~625--635.
+
+\bibitem[Dol96]{Dolgachev1996}
+Igor~V. Dolgachev, \emph{Mirror symmetry for lattice polarized {K3} surfaces},
+  J. Math. Sci. \textbf{81} (1996), 2599--2630, arXiv:alg-geom/9502005.
+
+\bibitem[Dor00]{Doran2000}
+Charles~F. Doran, \emph{Picard--{F}uchs uniformization and modularity of the
+  mirror map}, Comm. Math. Phys. \textbf{212} (2000), 625--647,
+  arXiv:math/9812162.
+
+\bibitem[DS05]{DiamondShurman2005}
+Fred Diamond and Jerry Shurman, \emph{A first course in modular forms},
+  Graduate Texts in Mathematics, vol. 228, Springer, 2005.
+
+\bibitem[Fri11]{Fricke1911}
+Robert Fricke, \emph{Die elliptischen {F}unktionen und ihre {A}nwendungen},
+  Teubner, 1911.
+
+\bibitem[Gor21]{Gorodetsky2021}
+Ofir Gorodetsky, \emph{New representations for all sporadic {A}p\'ery-like
+  sequences, with applications to congruences}, 2021, arXiv:2102.11839.
+
+\bibitem[Huy16]{Huybrechts2016}
+Daniel Huybrechts, \emph{Lectures on {K3} surfaces}, Cambridge Studies in
+  Advanced Mathematics, vol. 158, Cambridge University Press, 2016.
+
+\bibitem[Ino78]{Inose1978}
+Hiroshi Inose, \emph{Defining equations of singular {K3} surfaces and a notion
+  of isogeny}, Proc. Int. Symp. on Algebraic Geometry, Kyoto 1977 (1978),
+  495--502.
+
+\bibitem[Kod63]{Kodaira1963}
+Kunihiko Kodaira, \emph{On compact analytic surfaces {II}, {III}}, Ann. of
+  Math. \textbf{77, 78} (1963), 563--626, 1--40.
+
+\bibitem[Loo81]{Looijenga1981}
+Eduard Looijenga, \emph{A {T}orelli theorem for {K}\"ahler--{E}instein {K3}
+  surfaces}, Lecture Notes in Math. \textbf{894} (1981), 107--112.
+
+\bibitem[Mor84]{Morrison1984}
+David~R. Morrison, \emph{On {K3} surfaces with large {P}icard number}, Invent.
+  Math. \textbf{75} (1984), 105--121.
+
+\bibitem[Nik80]{Nikulin1979}
+Viacheslav~V. Nikulin, \emph{Integral symmetric bilinear forms and some of
+  their applications}, Math. USSR Izvestija \textbf{14} (1980), 103--167,
+  Russian original 1979.
+
+\bibitem[O'B16]{OBrien2016}
+Lisa O'Brien, \emph{Modular forms and two new integer sequences at level 7},
+  Master's thesis, Massey University, 2016.
+
+\bibitem[Ogg74]{Ogg1974}
+Andrew~P. Ogg, \emph{Hyperelliptic modular curves}, Bull. Soc. Math. France
+  \textbf{102} (1974), 449--462.
+
+\bibitem[PSS71]{PiatetskiShapiroShafarevich1971}
+Ilya~I. Piatetski-Shapiro and Igor~R. Shafarevich, \emph{A {T}orelli theorem
+  for algebraic surfaces of type {K3}}, Math. USSR Izvestija \textbf{5} (1971),
+  547--588.
+
+\bibitem[Ser73]{Serre1973}
+Jean-Pierre Serre, \emph{A course in arithmetic}, Graduate Texts in
+  Mathematics, vol.~7, Springer, 1973.
+
+\bibitem[Shi90]{Shioda1990}
+Tetsuji Shioda, \emph{On the {M}ordell--{W}eil lattices}, Comment. Math. Univ.
+  St. Pauli \textbf{39} (1990), 211--240.
+
+\bibitem[Shi06]{Shioda2006}
+\bysame, \emph{Kummer sandwich theorem of certain elliptic {K3} surfaces},
+  Proc. Japan Acad. Ser. A \textbf{82} (2006), 137--140.
+
+\bibitem[SI77]{ShiodaInose1977}
+Tetsuji Shioda and Hiroshi Inose, \emph{On singular {K3} surfaces}, in: Complex
+  Analysis and Algebraic Geometry (Baily, Shioda, eds.) (1977), 119--136.
+
+\bibitem[Sil94]{Silverman1994}
+Joseph~H. Silverman, \emph{Advanced topics in the arithmetic of elliptic
+  curves}, Graduate Texts in Mathematics, vol. 151, Springer, 1994.
+
+\bibitem[SS10]{SchuettShioda2010}
+Matthias Sch\"utt and Tetsuji Shioda, \emph{Elliptic surfaces}, Algebraic
+  Geometry in East Asia --- Seoul 2008, Adv. Stud. Pure Math., vol.~60, Math.
+  Soc. Japan, 2010, arXiv:0907.0298, pp.~51--160.
+
+\bibitem[Tat75]{Tate1975}
+John Tate, \emph{Algorithm for determining the type of a singular fiber in an
+  elliptic pencil}, Modular Functions of One Variable IV, Lecture Notes in
+  Math., vol. 476, Springer, 1975, pp.~33--52.
+
+\bibitem[{The}26]{mathlib4}
+{The mathlib Community}, \emph{mathlib4: the {L}ean 4 mathematical library},
+  2026, \url{https://github.com/leanprover-community/mathlib4}, tag
+  v4.34.0-rc2.
+
+\bibitem[Tod80]{Todorov1980}
+Andrei~N. Todorov, \emph{Applications of the
+  {K}\"ahler--{E}instein--{C}alabi--{Y}au metric to moduli of {K3} surfaces},
+  Invent. Math. \textbf{61} (1980), 251--265.
+
+\bibitem[Voi02]{Voisin2002}
+Claire Voisin, \emph{Hodge theory and complex algebraic geometry {I}},
+  Cambridge Studies in Advanced Mathematics, vol.~76, Cambridge University
+  Press, 2002.
+
+\bibitem[Zag09]{Zagier2009}
+Don Zagier, \emph{Integral solutions of {A}p\'ery-like recurrence equations},
+  Groups and Symmetries, CRM Proc. Lecture Notes, vol.~47, Amer. Math. Soc.,
+  2009, pp.~349--366.
+
+\bibitem[Zar83]{Zarhin1983}
+Yuri~G. Zarhin, \emph{Hodge groups of {K3} surfaces}, J. Reine Angew. Math.
+  \textbf{341} (1983), 193--220.
+
+\end{thebibliography}

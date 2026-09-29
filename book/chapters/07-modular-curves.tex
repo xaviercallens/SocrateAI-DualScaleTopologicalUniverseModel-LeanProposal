@@ -1,0 +1,136 @@
+\chapter{Modular curves and the Fricke involution}\label{ch:modular}
+
+The moduli curve of $M_n$-polarized K3 surfaces is the Fricke modular curve
+$X_0(n)^+$. This chapter collects what a reader needs about $\Gamma_0(n)$, the
+Fricke and Atkin--Lehner involutions, and Hauptmoduln, and then shows the
+correspondence with the lattice $T_n$ concretely enough that the reader can
+pass back and forth between a point of $X_0(7)^+$ and a class in $\U\oplus\lat{14}$
+without consulting a reference.
+
+\section{$\Gamma_0(n)$ and its extensions}
+
+\begin{definition}
+$\Gamma_0(n)=\bigl\{\bigl(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\bigr)\in\SL_2(\Z):
+n\mid c\bigr\}$. The \emph{Fricke involution} is $W_n=\bigl(\begin{smallmatrix}0&-1\\n&0\end{smallmatrix}\bigr)$,
+acting on $\HH$ by $\tau\mapsto-1/(n\tau)$; it normalizes $\Gamma_0(n)$ and
+$W_n^2\in\Z^\times\cdot\Gamma_0(n)$. The group $\Gamma_0(n)^+=\langle\Gamma_0(n),W_n\rangle$
+has index $2$ over $\Gamma_0(n)$. More generally, for each $Q\parallel n$ (i.e.\
+$Q\mid n$, $\gcd(Q,n/Q)=1$) the \emph{Atkin--Lehner involution} is
+$W_Q=\tfrac1{\sqrt Q}\bigl(\begin{smallmatrix}Qa&b\\nc&Qd\end{smallmatrix}\bigr)$
+with $Qad-(n/Q)bc=1$; the $W_Q$ generate a group $(\Z/2)^{\omega(n)}$ of
+involutions modulo $\Gamma_0(n)$, and $\Gamma_0(n)^*$ is the extension by all of
+them~\cite[\S5]{AtkinLehner1970}, \cite[Ch.~3]{DiamondShurman2005}.
+\end{definition}
+
+The modular curves $X_0(n)=\Gamma_0(n)\backslash\HH^*$ and
+$X_0(n)^+=\Gamma_0(n)^+\backslash\HH^*$ are compact Riemann surfaces. $X_0(7)$
+has genus $0$; so do $X_0(7)^+$, $X_0(10)^+$ and $X_0(18)^+$, the three
+curves of Theorem~\ref{thm:cooper}.
+
+\section{Fixed points and CM points}
+
+\begin{proposition}[\Lstatus; elementary]
+The fixed points of $W_n$ on $\HH$ are the solutions of $n\tau^2=-1$, i.e.\
+$\tau=i/\sqrt n$, together with their $\Gamma_0(n)$-translates; on $X_0(n)^+$
+the fixed points of the involution $X_0(n)\to X_0(n)^+$ are the points of
+$X_0(n)$ represented by $\tau$ with $\tau=\gamma(-1/(n\tau))$ for some
+$\gamma\in\Gamma_0(n)$, and their number is a class-number expression: for $n=7$
+there are two, of discriminants $-28$ and $-7$, since $h(-28)+h(-7)=1+1=2$
+\cite{Fricke1911,Ogg1974}.
+\end{proposition}
+
+The two fixed points are, in the lattice, the walls of the two roots $e-f$
+(discriminant $-28$) and $(2,-4,1)$ (discriminant $-7$) of
+Example~\ref{ex:walls-T7} --- and by Theorem~\ref{thm:dolgachev-moduli} they
+are exactly the two points removed from the moduli space of pseudo-ample
+$M_7$-polarized surfaces. The count is a first sanity check of the whole
+correspondence: two roots up to the group, two fixed points, two singular
+points of the Picard--Fuchs operator of Chapter~\ref{ch:frontier}.
+
+\section{Hauptmoduln}
+
+\begin{definition}
+If $X_0(n)^+$ has genus $0$, a \emph{Hauptmodul} is a generator $t$ of its
+function field, unique up to M\"obius transformations; it is \emph{normalized}
+by prescribing its expansion at the cusp, $t=q^{-1}+O(q)$ or $t=q+O(q^2)$ with
+$q=e^{2\pi i\tau}$. Dolgachev's Theorem~\ref{thm:Mn}(iv) says $K_{M_n}$ has a
+canonical integer-coefficient Hauptmodul.
+\end{definition}
+
+\begin{example}[$n=7$]\label{ex:haupt7}
+$h(\tau)=\bigl(\eta(7\tau)/\eta(\tau)\bigr)^4$ is a Hauptmodul for
+$\Gamma_0(7)$, with $h=q+4q^2+\dots$; under the Fricke involution
+$h(-1/(7\tau))=1/(49\,h(\tau))$ by the transformation law of $\eta$ \Lstatus.
+Hence any rational function of $h$ invariant under $h\mapsto1/(49h)$ descends
+to $X_0(7)^+$; the degree-2 one
+\[
+  z(h)=\frac{h}{1+13h+49h^2}
+\]
+is a Hauptmodul for $X_0(7)^+$ (it has degree $2$ in $h$ and is $W_7$-invariant,
+so it has degree $1$ on the quotient) \Estatus\ for the invariance
+$z(1/(49h))=z(h)$ \Kstatus~(\artifact{zOf\_fricke}). Its values at the two
+fixed points $h=\pm\tfrac17$ are $z=\tfrac1{27}$ and $z=-1$ \Kstatus.
+\end{example}
+
+The reader should pause on the number $13$: it is the parameter $a$ of the
+$s_7$ recurrence (Theorem~\ref{thm:cooper}), and $49=7^2$. The leading
+coefficient of the $s_7$ partner operator is $P_2=1-26z-27z^2=(1+z)(1-27z)$,
+vanishing exactly at $z=-1$ and $z=\tfrac1{27}$; pulled back to the $h$-line,
+$P_2(z(h))\cdot(1+13h+49h^2)^2=(1-49h^2)^2$ \Kstatus~(\artifact{s7\_P2\_discriminant}):
+a perfect square vanishing at the two Fricke fixed points. That is the sharp
+form of the statement ``the singular points of the operator are the elliptic
+points of the modular curve''.
+
+\section{The dictionary}
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+modular curve $X_0(n)^+$ & lattice $T_n=\U\oplus\lat{2n}$ & K3 surface\\
+\midrule
+$\tau\in\HH$ & isotropic $\omega(\tau)=(1,-n\tau^2,\tau)$ & period of $X_\tau$\\
+$\Gamma_0(n)$ & $\rho(\Gamma_0(n))\subset\Orth^+(T_n)$ & automorphisms of the family\\
+Fricke $W_n$ & swap $e\leftrightarrow f$ = reflection in $e-f$ & ---\\
+$W_n$-fixed point $i/\sqrt n$ & wall of $e-f$ & $\rho=20$, extra $(-2)$-curve\\
+CM point of disc.\ $-D$ & $v$ with $2nv^2/\divv^2=-D$ & $\rho=20$, $T=v^{\perp}$, $\disc D$\\
+cusp & --- & degenerate fibre of the family\\
+Hauptmodul $z$ & --- & parameter of the Picard--Fuchs equation\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Each row of the dictionary has been met in an earlier chapter; the point of
+putting them side by side is that the middle column is where computations are
+\emph{finite}. A question about a CM point on a modular curve becomes a
+question about an integer vector in a $3\times3$ Gram matrix, and those are
+the questions a proof assistant answers without complaint.
+
+\section{Exercises}
+
+\begin{exercise}
+Show that $W_n$ normalizes $\Gamma_0(n)$ and that $W_n^2=-n\cdot I$, so that
+$W_n$ acts as an involution on $\HH$.
+\end{exercise}
+
+\begin{exercise}[$\star$]
+Verify $z(1/(49h))=z(h)$ for $z(h)=h/(1+13h+49h^2)$ by clearing
+denominators, and compute $z(\pm\tfrac17)$.
+\end{exercise}
+
+\begin{exercise}
+Using the $q$-expansion $h=q+4q^2+14q^3+\dots$, compute $z(h(q))$ to
+$O(q^4)$ and compare with the generating function $\sum s_7(n)z^n$ inverted
+--- or rather, check to $O(q^4)$ that $\sum_n s_7(n)z(q)^n$ is the square of
+a theta series $\sum_{a,b}q^{a^2+ab+2b^2}$. (The program checks this to
+$O(q^{40})$; it is evidence, not proof, and is the ``independent check'' of
+Warning~\ref{warn:forced}.)
+\end{exercise}
+
+\section*{Chapter note}
+
+The theory of $\Gamma_0(n)$ and Atkin--Lehner involutions is standard
+\cite{DiamondShurman2005,AtkinLehner1970}; the fixed-point count is classical
+(Fricke, Ogg). The $\eta$-quotient Hauptmodul for level $7$ and its Fricke
+behaviour are standard; the specific rational function $z(h)$ and its
+properties are as verified in the program (kernel-checked where marked, exact
+$q$-expansion check to order $40$ otherwise).

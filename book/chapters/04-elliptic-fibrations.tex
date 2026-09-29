@@ -1,0 +1,224 @@
+\chapter{Elliptic fibrations}\label{ch:elliptic}
+
+An elliptic K3 surface is the one kind of K3 surface whose N\'eron--Severi
+lattice can be computed by hand from an equation. The tools are Kodaira's
+classification of singular fibres, Tate's algorithm for reading the fibre type
+off the Weierstrass coefficients, and the Shioda--Tate formula. We state them,
+then work the one family this book cares about --- the Inose pencil --- to the
+point where the reader can see the lattices $A_2$ and $\lat2\oplus\lat2$ of
+Chapter~\ref{ch:lattices} emerge as transcendental lattices.
+
+\section{Weierstrass models}
+
+\begin{definition}
+An \emph{elliptic surface} is a smooth projective surface $X$ with a
+surjective morphism $\pi\colon X\to C$ to a curve, whose generic fibre is a
+smooth curve of genus $1$, with no $(-1)$-curves in fibres (relative
+minimality). A \emph{section} is a curve $O\subset X$ with $\pi|_O$ an
+isomorphism. If a section exists, the generic fibre is an elliptic curve over
+the function field of $C$ and $X$ has a \emph{Weierstrass model}: over
+$C=\PP^1$ with coordinate $t$,
+\[
+  y^2=x^3+a_4(t)\,x+a_6(t),\qquad a_4,a_6\in\C[t],
+\]
+with discriminant $\Delta=-16(4a_4^3+27a_6^2)$ and $j=1728\cdot 4a_4^3/(4a_4^3+27a_6^2)$.
+\end{definition}
+
+\begin{theorem}[\Lstatus]\label{thm:k3-weierstrass}
+For $C=\PP^1$, the surface $X$ is K3 if and only if, after making the model
+minimal, $a_4$ and $a_6$ have degrees $\le8$ and $\le12$ (as sections of
+$\mathcal O(8)$ and $\mathcal O(12)$), not both of lower ``weight'' than
+required; then $\Delta$ has degree $24$, and the Euler number
+$e(X)=\sum_v e(F_v)=24$ equals the sum of the orders of vanishing of
+$\Delta$ at the singular fibres (with $\infty$ included via the degree
+count) \cite[Ch.~11]{Huybrechts2016}, \cite[\S~4]{SchuettShioda2010}.
+\end{theorem}
+
+\section{Kodaira's classification and Tate's algorithm}
+
+\begin{theorem}[\Lstatus, Kodaira~\cite{Kodaira1963}]\label{thm:kodaira}
+A singular fibre of a relatively minimal elliptic surface is one of the types
+$I_n$ ($n\ge1$), $II$, $III$, $IV$, $I_n^*$ ($n\ge0$), $IV^*$, $III^*$,
+$II^*$ (and, without a section, multiples ${}_mI_n$). The Euler number of
+the fibre, the number $m_v$ of its components, and the root lattice spanned
+by the components not meeting the zero section are:
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+type & $e(F_v)$ & $m_v$ & root lattice $R_v$ & $\disc R_v$\\
+\midrule
+$I_n$ & $n$ & $n$ & $A_{n-1}$ & $n$\\
+$II$ & $2$ & $1$ & $0$ & $1$\\
+$III$ & $3$ & $2$ & $A_1$ & $2$\\
+$IV$ & $4$ & $3$ & $A_2$ & $3$\\
+$I_n^*$ & $n+6$ & $n+5$ & $D_{n+4}$ & $4$\\
+$IV^*$ & $8$ & $7$ & $E_6$ & $3$\\
+$III^*$ & $9$ & $8$ & $E_7$ & $2$\\
+$II^*$ & $10$ & $9$ & $E_8$ & $1$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{theorem}
+
+\begin{theorem}[\Lstatus, Tate's algorithm, characteristic $0$~\cite{Tate1975}]\label{thm:tate}
+For a minimal Weierstrass model at a place $t=t_0$, the fibre type is read off
+the orders of vanishing $(\ord a_4,\ord a_6,\ord\Delta)$ as follows:
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+type & $\ord a_4$ & $\ord a_6$ & $\ord\Delta$\\
+\midrule
+$I_0$ (smooth) & $\ge0$ & $\ge0$ & $0$\\
+$I_n$ & $0$ & $0$ & $n$\\
+$II$ & $\ge1$ & $1$ & $2$\\
+$III$ & $1$ & $\ge2$ & $3$\\
+$IV$ & $\ge2$ & $2$ & $4$\\
+$I_0^*$ & $\ge2$ & $\ge3$ & $6$\\
+$I_n^*$ & $2$ & $3$ & $n+6$\\
+$IV^*$ & $\ge3$ & $4$ & $8$\\
+$III^*$ & $3$ & $\ge5$ & $9$\\
+$II^*$ & $\ge4$ & $5$ & $10$\\
+\bottomrule
+\end{tabular}
+\end{center}
+If $\ord a_4\ge4$ and $\ord a_6\ge6$ the model is not minimal at $t_0$.
+\end{theorem}
+
+\begin{warning}
+The table is the one place in this book where a small memory slip has large
+consequences. An order-$2$ vanishing of $\Delta$ with $a_4,a_6$ nonvanishing
+is $I_2$ (an $A_1$), not $I_1$; an order-$4$ vanishing with $a_4\equiv0$ and
+$\ord a_6=2$ is $IV$ ($A_2$). Both distinctions decide Picard numbers below.
+When in doubt, compute the type from the singularity of the Weierstrass
+surface, not from memory --- or check the Euler number sum.
+\end{warning}
+
+\section{The Shioda--Tate formula}
+
+\begin{theorem}[\Lstatus, Shioda--Tate~\cite{Shioda1990}]\label{thm:shioda-tate}
+Let $X\to\PP^1$ be an elliptic surface with a section $O$ and generic fibre
+$F$. Then
+\[
+  \NS(X)\supseteq \U_{O,F}\oplus\bigoplus_v R_v(-1),\qquad
+  \rho(X)=2+\sum_v (m_v-1)+\rk\MW(X),
+\]
+where $\U_{O,F}$ is the hyperbolic plane spanned by $O$ and $F$ (after the
+change of basis $O+F$, $F$), $R_v$ are the fibre root lattices of
+Theorem~\ref{thm:kodaira}, and $\MW(X)$ is the Mordell--Weil group of sections.
+The sublattice $\U\oplus\bigoplus R_v(-1)$ is the \emph{trivial lattice}; it
+has finite index in $\NS(X)$ when $\MW$ is finite, and
+$|\disc\NS(X)|=|\disc(\text{trivial})|/|\MW_{\mathrm{tors}}|^2$ in that case.
+\end{theorem}
+
+Since $|\disc\NS(X)|=|\disc T(X)|$ for a K3 surface (unimodularity of
+$\Lambda$), computing the trivial lattice and the torsion of $\MW$ computes
+$\disc T(X)$ --- and for $\rho=20$, that together with positivity pins $T(X)$
+down to a short list of binary forms.
+
+\section{The Inose pencil}\label{sec:inose}
+
+\begin{definition}[Inose~\cite{Inose1978}]
+For $(\alpha,\beta)\in\C^2$ the \emph{Inose surface} $X_{\alpha,\beta}$ is the
+K3 surface with Weierstrass model
+\[
+  y^2 \;=\; x^3-3\alpha\,t^4\,x+t^5\,(t^2-2\beta t+1).
+\]
+\end{definition}
+
+\begin{theorem}[\Lstatus, Inose; Shioda~\cite{Shioda2006}]\label{thm:inose}
+For elliptic curves $E_1,E_2$ with normalized $j$-invariants $J_i=j(E_i)/1728$,
+choose $\alpha,\beta$ with $\alpha^3=J_1J_2$ and $\beta^2=(1-J_1)(1-J_2)$.
+Then $X_{\alpha,\beta}$ carries a Shioda--Inose structure with
+$T(X_{\alpha,\beta})\cong T(E_1\times E_2)$; in particular
+$X_{\alpha,\beta}$ is a double cover of $\Km(E_1\times E_2)$ up to birational
+equivalence, and conversely every Kummer surface of a product arises this way.
+\end{theorem}
+
+The pencil has fibres of type $II^*$ at $t=0$ and $t=\infty$ for all
+$(\alpha,\beta)$: indeed $\ord_0 a_6=5$, $\ord_0 a_4\ge4$, $\ord_0\Delta=10$,
+and at $\infty$ (weights $8,12,24$) the same. That accounts for $20$ of the
+$24$ in the Euler number and for $E_8\oplus E_8$ in the trivial lattice; the
+remaining four are distributed among the roots of $t^2-2\beta t+1$ and the
+zeros of $4a_4^3+27a_6^2$ elsewhere.
+
+\begin{example}[\Estatus; the three special members]\label{ex:inose-points}
+An exact computation of orders of vanishing (a polynomial computation over
+$\Q(i)$, rerunnable in any computer algebra system) gives:
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+$(\alpha,\beta)$ & finite places $t_0\neq0$: $(\ord a_4,\ord a_6,\ord\Delta)$ & Euler sum\\
+\midrule
+$(0,1)$ & $t=1$: $(\infty,2,4)$ & $10+10+4=24$\\
+$(1,0)$ & $t=\pm1$: $(0,0,2)$ each & $10+10+2+2=24$\\
+$(0,0)$ & $t=\pm i$: $(\infty,1,2)$ each & $10+10+2+2=24$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Reading Theorem~\ref{thm:tate} \Lstatus: at $(0,1)$ the fibre at $t=1$ is
+$IV$ ($A_2$), so the trivial lattice is $\U\oplus E_8(-1)^2\oplus A_2(-1)$ of
+rank $20$ and discriminant $3$; at $(1,0)$ the fibres at $t=\pm1$ are $I_2$
+($A_1$ each), trivial lattice of rank $20$ and discriminant $4$; at $(0,0)$ the
+fibres are $II$ (no root), trivial lattice of rank $18$. Since $\rho\le20$,
+the first two are singular K3 surfaces with $|\disc T|=3$ and $4$ (if
+$\MW$ is torsion-free of rank $0$, which one checks separately), hence by
+Theorem~\ref{thm:shioda-inose} and the classification of forms,
+$T(X_{0,1})\cong A_2$ and $T(X_{1,0})\cong\lat2\oplus\lat2$. The third member
+has $\rho\ge18$ from fibres alone; Theorem~\ref{thm:inose} identifies it
+($J_1J_2=0$, $(1-J_1)(1-J_2)=0$, so $\{J_1,J_2\}=\{0,1\}$) as the
+Shioda--Inose partner of $E_\omega\times E_i$, two non-isogenous CM curves,
+for which $\rho=18$ exactly.
+\end{example}
+
+The first two are, in Shioda--Inose's notation, the surfaces $X_3$ and $X_4$:
+$X_{0,1}$ corresponds to $J_1=J_2=0$, i.e.\ $E_\omega\times E_\omega$ with
+$\omega=e^{2\pi i/3}$, and $X_{1,0}$ to $J_1=J_2=1$, i.e.\ $E_i\times E_i$. We
+shall meet them again in Chapter~\ref{ch:singular} as the two points of
+smallest discriminant on two different modular curves.
+
+\begin{remark}[a recorded slip]
+In the program from which this book grew, the point $(0,0)$ was at one stage
+labelled ``$X_4$'' and the fibres at $(1,0)$ were at one stage labelled
+$I_1$; both errors were caught by the Euler-number and rank counts above and
+are recorded in the program's briefs. The table is here so the reader does
+not repeat them.
+\end{remark}
+
+\section{Exercises}
+
+\begin{exercise}
+Verify the entries of Theorem~\ref{thm:kodaira} for $I_n$ and $II^*$ from
+the dual graphs (a cycle of $n$ rational curves; the affine $\tilde E_8$
+diagram).
+\end{exercise}
+
+\begin{exercise}[$\star$]
+Compute the orders of vanishing in Example~\ref{ex:inose-points} by hand for
+$(\alpha,\beta)=(0,1)$: $a_4=0$, $a_6=t^5(t-1)^2$, $\Delta=-16\cdot27\,t^{10}(t-1)^4$.
+\end{exercise}
+
+\begin{exercise}
+For $(\alpha,\beta)=(1,0)$, show that $4a_4^3+27a_6^2=27t^{10}\bigl((t^2+1)^2-4t^2\bigr)$
+and factor it; confirm $\ord_{t=\pm1}=2$ and that $a_4(\pm1)\neq0$.
+\end{exercise}
+
+\begin{exercise}
+Using Theorem~\ref{thm:shioda-tate}, show that an elliptic K3 surface with two
+$II^*$ fibres has $\rho\ge18$, and that $\rho=20$ requires either two more
+fibre components in total or Mordell--Weil rank $2$.
+\end{exercise}
+
+\section*{Chapter note}
+
+Theorems~\ref{thm:kodaira}, \ref{thm:tate}, \ref{thm:shioda-tate} are
+classical; the tables were checked against Sch\"utt--Shioda's
+survey~\cite{SchuettShioda2010} and Silverman's account of Tate's
+algorithm~\cite[IV.9]{Silverman1994}. Theorem~\ref{thm:inose} is Inose's with
+Shioda's normalization; the relations $\alpha^3=J_1J_2$, $\beta^2=(1-J_1)(1-J_2)$
+are as in~\cite{Shioda2006} and should be checked there before being relied
+on. The orders of vanishing in Example~\ref{ex:inose-points} are an exact
+computation performed for this book; the fibre labels are the table's, and the
+identification of $(0,1)$ and $(1,0)$ with $X_3,X_4$ follows from
+Theorem~\ref{thm:inose}. An independent computation in the program
+(Kuwata--Shioda's model of the same pencil) gave the same orders
+$\{10,10,4\}$ at $J=0$ and $\{10,10,2,2\}$ at $J=1$.

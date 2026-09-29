@@ -1,0 +1,111 @@
+% K3 Surfaces from the Lattice Up — a textbook with a verified core
+% Build: pdflatex main && bibtex main && pdflatex main && pdflatex main
+\documentclass[11pt,oneside]{amsbook}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,array}
+\usepackage{enumitem}
+\usepackage[a4paper,margin=27mm]{geometry}
+\usepackage{xcolor}
+\usepackage[colorlinks,linkcolor=blue!50!black,citecolor=green!40!black,urlcolor=blue!50!black]{hyperref}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+% ---------- theorem environments ----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+
+% ---------- status boxes ----------
+\newtcolorbox{statusbox}[1]{enhanced,breakable,colback=gray!6,colframe=gray!60,
+  title={#1},fonttitle=\bfseries\small,arc=1mm,left=2mm,right=2mm,top=1mm,bottom=1mm}
+\newtcolorbox{leanbox}{enhanced,breakable,colback=blue!3,colframe=blue!40!black,
+  title={Kernel-checked (K)},fonttitle=\bfseries\small,arc=1mm,left=2mm,right=2mm,top=1mm,bottom=1mm}
+
+% ---------- macros ----------
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\U}{U}
+\newcommand{\lat}[1]{\langle #1\rangle}
+\newcommand{\NS}{\operatorname{NS}}
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\rk}{\operatorname{rk}}
+\newcommand{\disc}{\operatorname{disc}}
+\newcommand{\divv}{\operatorname{div}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Orth}{\operatorname{O}}
+\newcommand{\Km}{\operatorname{Km}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\MW}{\operatorname{MW}}
+\newcommand{\Ltwo}{L_2}
+\newcommand{\Lthree}{L_3}
+\newcommand{\thetaop}{\theta}
+\newcommand{\artifact}[1]{\texttt{#1}}
+\newcommand{\Lstatus}{\textbf{(L)}}
+\newcommand{\Kstatus}{\textbf{(K)}}
+\newcommand{\Estatus}{\textbf{(E)}}
+\newcommand{\Nstatus}{\textbf{(N)}}
+
+\title{K3 Surfaces from the Lattice Up}
+\author{Xavier Callens}
+\address{SocrateAI Scientific Agora --- Stream 1 (formal verification)}
+\email{callensxavier@gmail.com}
+\date{29 September 2026 --- edition 0.1}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\begin{abstract}
+A textbook on K3 surfaces built from the arithmetic of integral lattices upward,
+written for a reader who knows linear algebra, a first course in complex
+analysis, and the vocabulary of algebraic geometry, and who wants to reach the
+frontier where the transcendental lattice of a K3 surface, the monodromy of a
+Picard--Fuchs equation, and the geometry of a modular curve meet. Standard
+theorems are stated with references and marked \Lstatus; exact computations that
+the reader can rerun are marked \Estatus; a small core of lattice facts that
+have been checked by the Lean~4 kernel in a public repository is marked
+\Kstatus, and the last chapter explains what that mark does and does not mean.
+No physics is discussed.
+\end{abstract}
+
+\tableofcontents
+
+\input{chapters/00-preface}
+
+\mainmatter
+\input{chapters/01-lattices}
+\input{chapters/02-k3-surfaces}
+\input{chapters/03-periods-torelli}
+\input{chapters/04-elliptic-fibrations}
+\input{chapters/05-picard-fuchs}
+\input{chapters/06-singular-k3}
+\input{chapters/07-modular-curves}
+\input{chapters/08-frontier}
+\input{chapters/09-formal-verification}
+
+\appendix
+\input{chapters/A-hints}
+
+\backmatter
+\bibliographystyle{amsalpha}
+\bibliography{book}
+\end{document}

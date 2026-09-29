@@ -1,0 +1,125 @@
+\chapter{What ``kernel-checked'' means}\label{ch:formal}
+
+This chapter explains the mark \Kstatus. It is short, because the idea is
+simple, and it is here because the idea is routinely misunderstood in both
+directions --- as guaranteeing more than it does, and as guaranteeing less.
+
+\section{The setting}
+
+The statements marked \Kstatus\ in this book live in a Lean~4 development
+\cite{deMouraUllrich2021,mathlib4} in the public repository
+\artifact{SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal}, at the
+tagged release \artifact{v0.25-paper-rankjump} (main branch commit
+\texttt{ad64ed2}, 29 September 2026). The lattice interface (Gram matrices,
+the hyperbolic plane, $E_8$, reflections, the norm form) is imported from a
+second public development~\cite{LeanMaster2026}; nothing in this book depends
+on anything else that development contains.
+
+A Lean theorem is a term whose type is the statement; the \emph{kernel} is a
+small program that checks the term has that type. When it does, the
+statement is a consequence of the axioms the term uses. The developments here
+use exactly Lean's three standard axioms (propositional extensionality,
+choice, quotient soundness); every theorem cited in this book was checked with
+\texttt{\#print axioms} to depend on those alone, with no \texttt{sorry}
+(the placeholder that admits a goal) and no \texttt{native\_decide} (which
+trusts the compiler rather than the kernel).
+
+\section{What the mark certifies}
+
+Exactly this: \emph{the statement, as written in Lean, follows from the three
+axioms.} Not the docstring, not the name, not the paper's paraphrase of it.
+Here is one of the statements this book uses, verbatim:
+
+\begin{leanbox}
+\texttt{theorem root7\_perp\_iff (x : Fin 3 $\to$ $\Z$) :}\\
+\texttt{\quad pairing T7 x root7 = 0 $\leftrightarrow$ $\exists$ a b : $\Z$, x = ![a, 2 * a - 7 * b, b]}
+
+\smallskip\noindent
+with \texttt{T7 := TN 7}, \texttt{TN N := !![0, 1, 0; 1, 0, 0; 0, 0, 2 * N]},
+\texttt{root7 := ![2, -4, 1]}, and \texttt{pairing G x y := x $\cdot_v$ (G $*_v$ y)}
+(the dot product of \texttt{x} with the matrix--vector product \texttt{G y}). The
+mathematical symbols are rendered here for the printed page; the source uses the
+library's Unicode notation.
+\end{leanbox}
+
+Read it against Example~\ref{ex:root7}. It says: $x$ is orthogonal to
+$(2,-4,1)$ under the Gram matrix of $\U\oplus\lat{14}$ if and only if $x$ has
+the form $(a,2a-7b,b)$. That is the full content of ``$v_2^{\perp}$ is spanned
+by $(1,2,0)$ and $(0,-7,1)$'', and it is stronger than ``$(1,2,0)$ and
+$(0,-7,1)$ are orthogonal to $v_2$'' --- which would be true of any two vectors
+in the complement and would not pin the complement down.
+
+\section{Two ways to certify less than the name says}
+
+The first failure mode is \emph{vacuity}: a statement of the form ``there
+exists a polynomial of degree $3$ such that\ldots'' that is true of any cubic.
+The development had such statements in an early generation; they were deleted,
+and the episode is recorded in its escalation log.
+
+The second is subtler and is the reason this chapter exists: a statement that
+is true, compiles, and proves \emph{less than its name}. The recorded
+instance: a lemma named for the primitivity of $e+Nf$ in $\U$ whose statement
+was $\mathrm{IsCoprime}\,(1:\Z)\,N$ --- true for every $N$ in every commutative
+ring, mentioning no vector, no basis and no lattice. Nine such instances were
+found in one audit, none by any automated gate; all were found by reading
+statements against names. The repaired version states the vector:
+
+\begin{leanbox}
+\texttt{theorem glue\_primitive (N : $\Z$) \{d : $\Z$\} \{w : Fin 2 $\to$ $\Z$\}}\\
+\texttt{\quad (h : ![1, N] = d $\bullet$ w) : IsUnit d}
+\end{leanbox}
+
+The rule the development adopted, and which this book follows in every
+\Kstatus\ box, is: \emph{every noun in the name must appear in the statement}.
+A reader auditing a formal development should read the statements, not the
+names, and not the docstrings.
+
+\section{Producer and verifier}
+
+For the lattice results of Chapter~\ref{ch:lattices} the gates were run twice.
+The author's session ran the build, the \texttt{sorry} and axiom audits and a
+statement-hash lock, and printed the axioms of each theorem. A second team of
+the program, in a different repository, then re-ran the same gates on the exact
+commits, recomputed the lattice arithmetic from its own certificate data
+before trusting either report, and recorded the result against the commit and
+the SHA-256 of the source file. Independently, the development
+\cite{LeanMaster2026} stated the same five complements in its own file
+(\artifact{DualScaleDyons/RankJump.lean}); the two sets of statements were
+compared and agree --- a comparison of statements, not a second verification of
+either proof, since neither side built the other's file. We record one detail
+because it is the kind of thing a reader should know happens: a control value
+$\langle v_2,v_3\rangle$ was first written by hand as $-42$; the kernel
+rejected it; the value that compiles is $-154$.
+
+\section{What was not checked}
+
+The identification of $\U\oplus\lat{14}$ with the transcendental lattice of
+the $s_7$ family; Nikulin's theorems; Dolgachev's and Doran's theorems; the
+Kodaira--Tate table; the Shioda--Tate formula; every $q$-expansion identity;
+every numerical recognition. In short: everything marked \Lstatus, \Estatus\ or
+\Nstatus\ in this book. The kernel checked $3\times3$ integer matrices and
+polynomial identities. That is a great deal less than the theory of K3
+surfaces and a great deal more than nothing: it is exactly the part of the
+argument where a slip of the pen --- $-42$ for $-154$, $I_1$ for $I_2$, one
+rank-3 lattice for another --- would otherwise have gone unnoticed.
+
+\section{Exercises}
+
+\begin{exercise}
+Write the statement of Example~\ref{ex:disc3}'s complement in the style of
+\artifact{root7\_perp\_iff}, and check that every noun in the name
+``\texttt{root7Inf\_perp\_iff}'' occurs in it.
+\end{exercise}
+
+\begin{exercise}
+Find, in any formal development you have access to, a theorem whose name
+promises more than its statement delivers. (This is easier than it sounds.)
+\end{exercise}
+
+\section*{Chapter note}
+
+The repository, commit and release are as stated; the two Lean statements are
+transcribed verbatim from \artifact{Agora/Geometry/MnLattice.lean} at that
+commit. The account of the audit and of the producer/verifier run follows the
+repository's lessons-learnt file and the receipt briefs exchanged between the
+program's teams, all of which are in the repository.

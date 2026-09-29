@@ -1,0 +1,176 @@
+\chapter{K3 surfaces}\label{ch:k3}
+
+\section{Definition and first examples}
+
+\begin{definition}
+A \emph{K3 surface} is a compact connected complex surface $X$ with trivial
+canonical bundle, $\omega_X\cong\mathcal O_X$, and $H^1(X,\mathcal O_X)=0$.
+\end{definition}
+
+The name honours Kummer, K\"ahler and Kodaira, and the mountain K2. Every
+K3 surface is K\"ahler \Lstatus~(Siu, \cite[Thm.~7.1.1]{Huybrechts2016}); the
+projective ones are the algebraic K3 surfaces.
+
+\begin{example}[quartics]
+A smooth quartic surface $X\subset\PP^3$ is K3: adjunction gives
+$\omega_X\cong\mathcal O_X(4-4)=\mathcal O_X$, and $H^1(\mathcal O_X)=0$ from
+the exact sequence $0\to\mathcal O_{\PP^3}(-4)\to\mathcal O_{\PP^3}\to\mathcal O_X\to0$.
+The Fermat quartic $x^4+y^4+z^4+w^4=0$ is the standard example; its Picard
+number is $20$, the maximum (Chapter~\ref{ch:singular}).
+\end{example}
+
+\begin{example}[double planes]
+The double cover of $\PP^2$ branched along a smooth sextic is K3. This is the
+generic member of the two-dimensional family with $\NS\cong\lat2$.
+\end{example}
+
+\begin{example}[Kummer surfaces]\label{ex:kummer}
+Let $A$ be a complex torus of dimension $2$ and $\iota=-1$. The quotient
+$A/\iota$ has $16$ ordinary double points; its minimal resolution
+$\Km(A)$ is a K3 surface, the \emph{Kummer surface} of $A$. The sixteen
+exceptional curves are disjoint $(-2)$-curves whose classes span, together
+with a certain half-sum, the \emph{Kummer lattice} $K\subset\NS(\Km A)$ of rank
+$16$ and discriminant $2^6$ \Lstatus~\cite[Ch.~14.3]{Huybrechts2016}. Kummer
+surfaces of products $E_1\times E_2$ of elliptic curves are the most
+computable K3 surfaces of all, and return in Chapters~\ref{ch:elliptic}
+and~\ref{ch:singular}.
+\end{example}
+
+\begin{example}[elliptic K3 surfaces]
+A Weierstrass equation $y^2=x^3+a_4(t)x+a_6(t)$ with $\deg a_4\le8$,
+$\deg a_6\le12$ (and not both too small) defines, after minimal resolution,
+an elliptic K3 surface $X\to\PP^1$. Chapter~\ref{ch:elliptic} is devoted to
+these.
+\end{example}
+
+\section{The Hodge diamond and the lattice $H^2$}
+
+\begin{theorem}[\Lstatus]\label{thm:hodge}
+For a K3 surface $X$: $b_1=0$, $b_2=22$, the Euler number is $e(X)=24$, and
+the Hodge numbers are $h^{2,0}=h^{0,2}=1$, $h^{1,1}=20$. The intersection form
+makes $H^2(X,\Z)$ an even unimodular lattice of signature $(3,19)$, hence
+\[
+  H^2(X,\Z)\;\cong\;\Lambda_{K3}=\U^3\oplus E_8(-1)^2
+\]
+by Theorem~\ref{thm:evenunimod} \cite[Ch.~1, Prop.~3.5]{Huybrechts2016},
+\cite[VIII.3]{BHPV2004}.
+\end{theorem}
+
+Evenness is Wu's formula ($x^2\equiv\langle x,w_2\rangle$ and $w_2=c_1\bmod 2=0$),
+unimodularity is Poincar\'e duality, and the signature is the Hodge index
+theorem together with $b_2^+=2h^{2,0}+1=3$. All K3 surfaces thus share
+\emph{one} lattice. The whole theory is about which line inside it is
+$H^{2,0}$.
+
+\section{N\'eron--Severi and transcendental lattices}
+
+\begin{definition}
+$\NS(X):=H^{1,1}(X)\cap H^2(X,\Z)$ is the \emph{N\'eron--Severi lattice}, a
+primitive sublattice of $H^2(X,\Z)$; its rank $\rho(X)$ is the \emph{Picard
+number}. The \emph{transcendental lattice} is $T(X):=\NS(X)^{\perp}$.
+\end{definition}
+
+For a K3 surface $\Pic(X)\cong\NS(X)$ since $H^1(\mathcal O_X)=0$, and by the
+Lefschetz $(1,1)$ theorem $\NS(X)$ is exactly the set of integral classes
+orthogonal to the holomorphic $2$-form:
+\[
+  \NS(X)=\{x\in H^2(X,\Z):\langle x,\sigma\rangle=0\},\qquad
+  0\neq\sigma\in H^{2,0}(X).
+\]
+Hence $T(X)$ is the smallest primitive sublattice whose complexification
+contains $\sigma$. Signatures: if $X$ is projective, $\NS(X)$ has signature
+$(1,\rho-1)$ and $T(X)$ has signature $(2,20-\rho)$; in particular $\rho\le20$,
+and since $T\otimes\C\supseteq H^{2,0}\oplus H^{0,2}$ we have $\rk T\ge2$.
+
+\begin{theorem}[\Lstatus, minimality of $T$]\label{thm:Tminimal}
+$T(X)_\Q$ is the smallest $\Q$-sub-Hodge structure of $H^2(X,\Q)$ containing
+$H^{2,0}$; equivalently, $T(X)_\Q$ is an irreducible Hodge structure
+\cite[Lem.~3.3.1]{Huybrechts2016}. If $X$ is projective, the Hodge structure
+$T(X)_\Q$ is simple in the strong sense of Zarhin~\cite[Thm.~1.6]{Zarhin1983}:
+its endomorphism algebra is a field, totally real or CM.
+\end{theorem}
+
+\begin{corollary}\label{cor:rho19}
+If a one-parameter family of projective K3 surfaces has generic Picard number
+$19$, then the generic transcendental lattice has rank $3$ and signature
+$(2,1)$, and the Picard--Fuchs equation of a period has order $3$
+(Chapter~\ref{ch:pf}).
+\end{corollary}
+
+\begin{warning}\label{warn:rho-from-arithmetic}
+``$\rk T=22-\rho$'' is arithmetic, not evidence. If one \emph{assumes} a
+family is $M_7$-polarized, then $\rho\ge19$ generically and $\rk T\le3$; the
+statement $\rk T=3$ then says nothing beyond the assumption. A recurring
+error in this subject is to present the number $3$ as corroboration of the
+assumption that produced it. We shall flag the places where the temptation
+arises.
+\end{warning}
+
+\section{Picard number $20$}
+
+\begin{definition}
+A K3 surface with $\rho(X)=20$ is called \emph{singular} (an unfortunate but
+standard term; the surface is smooth). Then $T(X)$ is a positive-definite
+even lattice of rank $2$, i.e.\ a positive-definite even binary quadratic
+form $\bigl(\begin{smallmatrix}2a&b\\b&2c\end{smallmatrix}\bigr)$.
+\end{definition}
+
+\begin{theorem}[\Lstatus, Shioda--Inose]\label{thm:shioda-inose}
+The map $X\mapsto T(X)$ is a bijection between singular K3 surfaces up to
+isomorphism and positive-definite even binary forms up to $\SL_2(\Z)$
+equivalence~\cite{ShiodaInose1977}. Every singular K3 surface is defined over
+a number field, and its transcendental lattice determines it.
+\end{theorem}
+
+The forms $A_2=\bigl(\begin{smallmatrix}2&1\\1&2\end{smallmatrix}\bigr)$,
+$\lat2\oplus\lat2$ and $\bigl(\begin{smallmatrix}2&1\\1&4\end{smallmatrix}\bigr)$
+of Chapter~\ref{ch:lattices} are therefore the transcendental lattices of
+three specific K3 surfaces: the first two are the Kummer-related surfaces
+$X_3$ and $X_4$ of Shioda--Inose, of discriminants $3$ and $4$, the smallest
+possible; the third has discriminant $7$. Chapter~\ref{ch:singular} explains
+how they are constructed from products of elliptic curves with complex
+multiplication.
+
+\section{The ample cone and $(-2)$-curves}
+
+For projective $X$, the positive cone
+$\{x\in\NS(X)_\R:x^2>0\}$ has two components; call $\mathcal C_X$ the one
+containing an ample class. The \emph{ample cone} is the set of $x\in\mathcal C_X$
+with $\langle x,C\rangle>0$ for every $(-2)$-curve $C$ (a smooth rational
+curve; $C^2=-2$ by adjunction). Equivalently \Lstatus~\cite[Cor.~8.1.6]{Huybrechts2016}:
+the ample cone is the chamber of $\mathcal C_X$ cut out by the walls
+$\delta^{\perp}$, $\delta\in\NS(X)$, $\delta^2=-2$, that contains an ample
+class. This is the geometric meaning of the reflections and walls of
+\S\ref{ex:swap}: the Weyl group of $\NS(X)$ acts on the chambers, and every
+$(-2)$-class $\delta$ is, up to sign, effective (Riemann--Roch gives
+$h^0(\delta)+h^0(-\delta)\ge2$).
+
+\section{Exercises}
+
+\begin{exercise}
+Verify $e(X)=24$ for a smooth quartic from $c_2$ of the tangent bundle, and
+for $\Km(A)$ from $e(A)=0$, the $16$ fixed points, and the $16$ exceptional
+$\PP^1$'s.
+\end{exercise}
+
+\begin{exercise}[$\star$]
+Let $\NS(X)\supseteq\U\oplus E_8(-1)^2\oplus\lat{-2n}=M_n$ primitively, with
+$\rho=19$. Show that $T(X)\cong\U\oplus\lat{2n}$ using Example~\ref{ex:Mn},
+and identify the exact hypothesis being used (primitivity, and equality of
+$\NS$ with $M_n$).
+\end{exercise}
+
+\begin{exercise}
+Show that a positive-definite even binary form of discriminant $3$ is
+$\SL_2(\Z)$-equivalent to $A_2$, and one of discriminant $4$ to
+$\lat2\oplus\lat2$. List the reduced forms of discriminants $7$, $28$, $40$.
+\end{exercise}
+
+\section*{Chapter note}
+
+All theorems in this chapter are from Huybrechts~\cite{Huybrechts2016} and
+BHPV~\cite{BHPV2004}, and Shioda--Inose~\cite{ShiodaInose1977}; theorem and
+chapter numbers were checked against the cited editions to the extent the
+author had them at hand, and are given so the reader can go straight to the
+proof. The warning~\ref{warn:rho-from-arithmetic} records a lesson learnt in
+the program that produced this book (Chapter~\ref{ch:frontier}).

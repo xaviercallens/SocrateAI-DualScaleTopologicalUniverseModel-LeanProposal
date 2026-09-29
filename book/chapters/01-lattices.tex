@@ -1,0 +1,339 @@
+\chapter{Integral lattices}\label{ch:lattices}
+
+Everything in this book that can be computed by hand is computed in a lattice.
+This chapter sets up the vocabulary --- Gram matrices, discriminants,
+signatures, even and unimodular lattices, discriminant forms --- and then does
+something introductory texts rarely do: it works, in complete detail, the
+handful of small lattices that carry the whole later theory. The reader who
+finishes the exercises will have met $\U$, $E_8$, $\U\oplus\lat{2n}$, the
+K3~lattice, and the binary forms $A_2$, $\lat2\oplus\lat2$ and
+$\bigl(\begin{smallmatrix}2&1\\1&4\end{smallmatrix}\bigr)$ as concrete integer
+matrices, and will know exactly what it means to split one lattice off from
+another.
+
+\section{Definitions}
+
+\begin{definition}
+A \emph{lattice} is a free $\Z$-module $L$ of finite rank $r$ together with a
+symmetric bilinear form $\langle\ ,\ \rangle\colon L\times L\to\Z$ that is
+non-degenerate, i.e.\ $\langle x,L\rangle=0$ implies $x=0$. Choosing a basis
+$(b_1,\dots,b_r)$ identifies $L$ with $\Z^r$ and the form with its \emph{Gram
+matrix} $G=(\langle b_i,b_j\rangle)$, a symmetric integer matrix with
+$\det G\neq0$; then $\langle x,y\rangle=x^{\mathsf T}Gy$. A change of basis by
+$P\in\GL_r(\Z)$ replaces $G$ by $P^{\mathsf T}GP$, so $\det G$ is an invariant
+of $L$, called the \emph{discriminant} $\disc L$. The \emph{norm} of $x$ is
+$x^2:=\langle x,x\rangle$.
+\end{definition}
+
+\begin{definition}
+$L$ is \emph{even} if $x^2\in2\Z$ for all $x$, equivalently if the diagonal of
+$G$ is even; otherwise \emph{odd}. $L$ is \emph{unimodular} if $\disc L=\pm1$.
+The \emph{signature} $(s_+,s_-)$ counts the positive and negative eigenvalues
+of $G$ over $\R$ (Sylvester); $L$ is \emph{definite} if one of them is zero,
+\emph{indefinite} otherwise, and \emph{hyperbolic} if $s_+=1$.
+\end{definition}
+
+\begin{definition}
+For a sublattice $M\subseteq L$ of the same rank, the \emph{index} $[L:M]$ is
+finite and $\disc M=[L:M]^2\disc L$; if $M$ is spanned by the columns of an
+integer matrix $B$ in a basis of $L$, then $[L:M]=|\det B|$. A sublattice $M$
+of any rank is \emph{primitive} if $L/M$ is torsion-free, equivalently if
+$M=(M\otimes\Q)\cap L$. A vector $v$ is primitive if $\Z v$ is.
+\end{definition}
+
+\begin{definition}
+The \emph{dual} of $L$ is $L^*=\{x\in L\otimes\Q:\langle x,L\rangle\subseteq\Z\}
+\supseteq L$; in a basis, $L^*=G^{-1}\Z^r$. The finite group
+$A_L:=L^*/L$ is the \emph{discriminant group}, of order $|\disc L|$. For $L$
+even, $q_L\colon A_L\to\Q/2\Z$, $q_L(x+L)=x^2\bmod 2\Z$, is well defined and is
+the \emph{discriminant form}. For $x\in L$, the \emph{divisor}
+$\divv(x)$ is the positive generator of the ideal $\langle x,L\rangle\subseteq\Z$;
+$x/\divv(x)\in L^*$, and $x$ is primitive if and only if $x/\divv(x)$ has order
+exactly $\divv(x)$ in $A_L$.
+\end{definition}
+
+\begin{example}[the hyperbolic plane]\label{ex:U}
+$\U=\Z e\oplus\Z f$ with $e^2=f^2=0$, $\langle e,f\rangle=1$, Gram matrix
+$\bigl(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\bigr)$. Even, unimodular,
+signature $(1,1)$. The norm form is $2xy$; $\U$ is the unique even
+unimodular lattice of signature $(1,1)$ \Lstatus~\cite[Ch.~14]{Huybrechts2016}.
+\end{example}
+
+\begin{example}[the rank-one lattices]
+$\lat{m}$ denotes $\Z$ with Gram matrix $(m)$. It is even iff $m$ is even, and
+$A_{\lat m}\cong\Z/m$ with $q(1)=1/m\bmod2$ when $m$ is even.
+\end{example}
+
+\begin{example}[$E_8$]
+The $E_8$ lattice is the unique positive-definite even unimodular lattice of
+rank $8$ \Lstatus~\cite[Ch.~4]{ConwaySloane1999}; a Gram matrix is the Cartan
+matrix of the root system $E_8$. Its negative $E_8(-1)$, with Gram matrix
+negated, is negative-definite even unimodular. We shall never need its
+entries, only its two properties: even and unimodular.
+\end{example}
+
+\begin{theorem}[\Lstatus, even unimodular lattices]\label{thm:evenunimod}
+If $L$ is even and unimodular of signature $(s_+,s_-)$, then
+$s_+-s_-\equiv0\pmod 8$. Conversely, for every such indefinite signature there
+is exactly one even unimodular lattice, namely
+$\U^{s_-}\oplus E_8^{(s_+-s_-)/8}$ when $s_+\ge s_-$, and analogously with
+$E_8(-1)$ otherwise~\cite[Ch.~V]{Serre1973}, \cite[Thm.~14.1.1]{Huybrechts2016}.
+\end{theorem}
+
+\begin{definition}[the K3 lattice]
+$\Lambda_{K3}:=\U^{\oplus3}\oplus E_8(-1)^{\oplus2}$, even, unimodular, of
+signature $(3,19)$ and rank $22$. By Theorem~\ref{thm:evenunimod} it is the
+unique even unimodular lattice of that signature.
+\end{definition}
+
+\section{Orthogonal complements and splittings}
+
+Let $v\in L$ with $v^2\neq0$. Its orthogonal complement
+$v^{\perp}=\{x\in L:\langle x,v\rangle=0\}$ is a primitive sublattice of rank
+$r-1$, and $\Z v\oplus v^{\perp}$ has full rank in $L$. How far is it from all
+of $L$?
+
+\begin{proposition}[\Lstatus; elementary]\label{prop:index}
+Let $v\in L$ be primitive with $v^2\neq0$, $d=\divv(v)$. Then
+\[
+  [L:\Z v\oplus v^{\perp}] \;=\; \frac{|v^2|}{d},
+  \qquad
+  \disc(v^{\perp})\cdot v^2 \;=\; \disc(L)\cdot\Bigl(\frac{v^2}{d}\Bigr)^2 .
+\]
+\end{proposition}
+
+\begin{proof}
+The map $L\to\Z$, $x\mapsto\langle x,v\rangle$, has image $d\Z$ and kernel
+$v^{\perp}$, so $L/v^{\perp}\cong\Z$ and $L/(\Z v\oplus v^{\perp})\cong
+d\Z/\langle v,v\rangle\Z$, of order $|v^2|/d$. The second identity is
+$\disc(\Z v\oplus v^{\perp})=[L:\Z v\oplus v^{\perp}]^2\disc L$.
+\end{proof}
+
+In particular $\Z v\oplus v^{\perp}=L$ exactly when $\divv(v)=|v^2|$, i.e.\
+when $v/v^2\in L^*$. For a $(-2)$-vector (``root'') this says: a root splits
+$L$ as a direct sum iff its divisor is $2$; if its divisor is $1$ the index is
+$2$.
+
+The most useful way to \emph{exhibit} $v^{\perp}$ is not as a kernel but as a
+parametrized family, together with a $2\times2$ (or smaller) Gram matrix on a
+chosen basis and a \emph{frame} --- the $r\times r$ matrix whose columns are
+$v$ followed by a basis of $v^{\perp}$ --- whose determinant is the index of
+Proposition~\ref{prop:index}. The following worked examples are the ones that
+the rest of the book depends on. They are stated for the lattice
+\[
+  T_N \;:=\; \U\oplus\lat{2N},\qquad
+  \text{basis }(e,f,w),\quad
+  \langle x,y\rangle = x_0y_1+x_1y_0+2N\,x_2y_2,\quad \disc T_N=-2N .
+\]
+$T_N$ is even, of signature $(2,1)$ for $N>0$, with $A_{T_N}\cong\Z/2N$ and
+$q(1)=1/2N$.
+
+\begin{leanbox}
+Every equality in Examples~\ref{ex:fricke-root}--\ref{ex:disc4} below is
+kernel-checked in \artifact{Agora/Geometry/MnLattice.lean} of the
+repository described in Chapter~\ref{ch:formal} (declarations
+\artifact{rootEF\_*}, \artifact{root7\_*}, \artifact{root7Inf\_*},
+\artifact{root10Inf\_*}, \artifact{TN\_splits\_at\_rootEF},
+\artifact{T7\_splits\_at\_root7}, \artifact{T7\_splits\_at\_root7Inf},
+\artifact{T10\_splits\_at\_root10Inf}). The orthogonal complements are stated
+there as equivalences ``$x\perp v$ iff $x$ is of the following form'', not
+merely as two vectors orthogonal to $v$. Chapter~\ref{ch:formal} explains why
+that distinction is the whole point.
+\end{leanbox}
+
+\begin{example}[the Fricke root, every $N$]\label{ex:fricke-root}
+$v_1=e-f=(1,-1,0)$. Then $v_1^2=-2$, $\langle x,v_1\rangle=-x_0+x_1$, so
+$\divv(v_1)=1$ and
+\[
+  x\perp v_1 \iff x=(a,a,b)=a(e+f)+b\,w .
+\]
+On the basis $(e+f,w)$ the form is $\operatorname{diag}(2,2N)$; so
+$v_1^{\perp}\cong\lat2\oplus\lat{2N}$, of discriminant $4N$. The frame
+$(v_1,e+f,w)$ has determinant $2$, and indeed $|v_1^2|/\divv=2/1=2$. Check:
+$4N\cdot(-2)=-2N\cdot 2^2$.
+\end{example}
+
+\begin{example}[a second root in $T_7$]\label{ex:root7}
+$v_2=(2,-4,1)=2e-4f+w$ in $T_7$. Then $v_2^2=2\cdot2\cdot(-4)+14=-2$, and
+$\langle x,v_2\rangle=-4x_0+2x_1+14x_2=2(-2x_0+x_1+7x_2)$, so $\divv(v_2)=2$
+and
+\[
+  x\perp v_2\iff x=(a,\,2a-7b,\,b)=a(1,2,0)+b(0,-7,1).
+\]
+On $(1,2,0),(0,-7,1)$ the Gram matrix is
+$\bigl(\begin{smallmatrix}4&-7\\-7&14\end{smallmatrix}\bigr)$, of
+determinant $7$; the unimodular change of basis
+$\bigl(\begin{smallmatrix}2&1\\1&0\end{smallmatrix}\bigr)$ gives the reduced
+basis $(2,-3,1),(1,2,0)$ with Gram matrix
+$\bigl(\begin{smallmatrix}2&1\\1&4\end{smallmatrix}\bigr)$, the binary form
+$x^2+xy+2y^2$ of discriminant $-7$. The frame $(v_2,(2,-3,1),(1,2,0))$ has
+determinant $-1$. Since $\divv(v_2)=2=|v_2^2|$, Proposition~\ref{prop:index}
+says the index is $1$: we have found an \emph{integral isometry}
+\[
+  \U\oplus\lat{14}\;\cong\;\lat{-2}\oplus\begin{pmatrix}2&1\\1&4\end{pmatrix}.
+\]
+\end{example}
+
+\begin{example}[a class of norm $-42$ in $T_7$]\label{ex:disc3}
+$v_3=(14,-14,-5)$. Then $v_3^2=-392+350=-42$,
+$\langle x,v_3\rangle=14(-x_0+x_1-5x_2)$, $\divv(v_3)=14$, and
+\[
+  x\perp v_3\iff x=(a,\,a+5b,\,b)=a(1,1,0)+b(0,5,1).
+\]
+Gram matrix on that basis $\bigl(\begin{smallmatrix}2&5\\5&14\end{smallmatrix}\bigr)$,
+determinant $3$; reduced basis $(1,1,0),(-2,3,1)$ with Gram matrix
+$\bigl(\begin{smallmatrix}2&1\\1&2\end{smallmatrix}\bigr)$, the root lattice
+$A_2$. Frame determinant $3=42/14$. Check: $3\cdot(-42)=-14\cdot3^2$.
+\end{example}
+
+\begin{example}[a class of norm $-20$ in $T_{10}$]\label{ex:disc4}
+$v_4=(10,-10,-3)$ in $T_{10}$. Then $v_4^2=-200+180=-20$,
+$\langle x,v_4\rangle=10(-x_0+x_1-6x_2)$, $\divv(v_4)=10$,
+$x\perp v_4\iff x=(a,a+6b,b)$; reduced basis $(1,1,0),(-3,3,1)$ with Gram
+matrix $\operatorname{diag}(2,2)=\lat2\oplus\lat2$; frame determinant
+$2=20/10$.
+\end{example}
+
+\begin{remark}
+The four examples exhibit all three behaviours of Proposition~\ref{prop:index}
+in one small lattice: index $2$ (a root of divisor $1$), index $1$ (a root of
+divisor $2$, a genuine direct summand), index $3$. The discriminants of the
+complements --- $28,7,3$ in $T_7$ and $40,4$ in $T_{10}$ --- will reappear in
+Chapter~\ref{ch:singular} as the discriminants of transcendental lattices of
+K3 surfaces with Picard number $20$, and in Chapter~\ref{ch:modular} as the
+discriminants of CM points on the modular curves $X_0(7)^+$ and $X_0(10)^+$.
+Nothing in this chapter knows that; it is the lattice arithmetic that the
+later chapters will be \emph{fed into}.
+\end{remark}
+
+\section{Embeddings, gluing, and Nikulin's theorems}
+
+Two questions dominate the use of lattices in K3 theory: when does a lattice
+$M$ embed primitively into $\Lambda_{K3}$, and when is a lattice determined by
+its rank, signature and discriminant form? Both were answered by
+Nikulin~\cite{Nikulin1979}; we quote the two statements used most.
+
+\begin{theorem}[\Lstatus, Nikulin]\label{thm:nikulin-unique}
+Let $L$ be an even indefinite lattice with $\rk L\ge 2+\ell(A_L)$, where
+$\ell(A_L)$ is the minimal number of generators of $A_L$. Then $L$ is
+determined up to isometry by its signature and discriminant form, and the
+natural map $\Orth(L)\to\Orth(q_L)$ is surjective~\cite[Thm.~1.14.2]{Nikulin1979}.
+\end{theorem}
+
+\begin{theorem}[\Lstatus, Nikulin]\label{thm:nikulin-embed}
+Let $M$ be an even lattice of signature $(m_+,m_-)$ and $L$ an even unimodular
+lattice of signature $(\ell_+,\ell_-)$. If $\ell_+>m_+$, $\ell_->m_-$ and
+$\rk L-\rk M>\ell(A_M)$, then $M$ embeds primitively into $L$, and the
+orthogonal complement $M^{\perp}$ has discriminant form $-q_M$
+\cite[Cor.~1.12.3, Prop.~1.6.1]{Nikulin1979}.
+\end{theorem}
+
+\begin{example}[gluing $\lat{2N}\oplus\lat{-2N}$ inside $\U$]\label{ex:glue}
+In $\U$, the vectors $e+Nf$ and $e-Nf$ have norms $2N$ and $-2N$ and are
+orthogonal; they span a sublattice of index $2N$ (frame determinant
+$\det\bigl(\begin{smallmatrix}1&1\\N&-N\end{smallmatrix}\bigr)=-2N$). Both
+are primitive. This is the elementary mechanism behind every statement of the
+form ``$\lat{2N}$ and $\lat{-2N}$ are glued along $\Z/2N$ to make a unimodular
+lattice'' \Kstatus~(\artifact{glue\_congruence}, \artifact{glue\_det},
+\artifact{glue\_primitive}).
+\end{example}
+
+\begin{example}[$M_n$ and its complement]\label{ex:Mn}
+Let $M_n:=\U\oplus E_8(-1)^2\oplus\lat{-2n}$, of signature $(1,18)$, rank
+$19$, $A_{M_n}\cong\Z/2n$. By Theorem~\ref{thm:nikulin-embed} it embeds
+primitively into $\Lambda_{K3}$, and any complement has rank $3$, signature
+$(2,1)$ and discriminant form $-q_{M_n}$; by Theorem~\ref{thm:nikulin-unique}
+(here $\rk=3\ge2+1$) that complement is unique:
+\[
+  (M_n)^{\perp}\;\cong\;\U\oplus\lat{2n}=T_n .
+\]
+This is the lattice statement underlying Dolgachev's theory of $M_n$-polarized
+K3 surfaces (Chapter~\ref{ch:torelli}); it is a theorem of the literature
+\Lstatus~\cite[\S7]{Dolgachev1996}. An explicit witness for $n=7$ inside
+$\U^3$ --- integer matrices $B,C$ with $B^{\mathsf T}\U^3B=T_7$,
+$C^{\mathsf T}\U^3C=\U\oplus\lat{-14}$, $B^{\mathsf T}\U^3C=0$, the $E_8(-1)^2$
+summand splitting off because it is unimodular --- is kernel-checked
+\Kstatus~(\artifact{Agora/Geometry/Embedding.lean}). What is \emph{not}
+kernel-checked there is primitivity of the images and the identification of
+each as the other's complement; that step is Theorem~\ref{thm:nikulin-embed}.
+\end{example}
+
+\section{Isometries and reflections}
+
+For a vector $v$ with $v^2\neq0$ and $2\langle x,v\rangle/v^2\in\Z$ for all
+$x$ --- automatic for a root, $v^2=-2$ --- the \emph{reflection}
+\[
+  s_v(x)=x-\frac{2\langle x,v\rangle}{v^2}\,v
+\]
+is an integral isometry of $L$ fixing $v^{\perp}$ pointwise and sending $v$ to
+$-v$. Reflections in roots generate the Weyl group of $L$, and the walls
+$v^{\perp}\otimes\R$ cut the positive cone into chambers; for a K3 surface these
+chambers are where the ample classes live (Chapter~\ref{ch:torelli}).
+
+\begin{example}[the swap]\label{ex:swap}
+In $T_N$, the exchange $\sigma\colon e\leftrightarrow f$, $w\mapsto w$, is an
+isometry, an involution, of determinant $-1$; it is the reflection in the
+Fricke root $e-f$ \Kstatus~(\artifact{swap\_isometry},
+\artifact{swap\_involution}). Its fixed lattice is $v_1^{\perp}=\lat2\oplus\lat{2N}$
+of Example~\ref{ex:fricke-root}. In Chapter~\ref{ch:modular} this same matrix
+will be the Fricke involution $\tau\mapsto-1/(N\tau)$.
+\end{example}
+
+\section{Exercises}
+
+\begin{exercise}
+Show that $\Z/2N$ with $q(1)=1/2N$ and $\Z/2N$ with $q(1)=-1/2N$ are the
+discriminant forms of $\lat{2N}$ and $\lat{-2N}$, and that they are
+isomorphic as finite quadratic forms iff $-1$ is a square modulo $4N$ (for
+even $N$) resp.\ modulo $2N$ (for odd $N$)... or rather: determine exactly for
+which $N\le 12$ they are isomorphic. (Hint: Appendix~\ref{app:hints}.)
+\end{exercise}
+
+\begin{exercise}[$\star$]\label{exr:disc-identity}
+Prove the identity $\disc(v^{\perp})\cdot v^2=\disc(L)\cdot(v^2/\divv v)^2$
+of Proposition~\ref{prop:index} directly from a frame, i.e.\ from
+$\det(F^{\mathsf T}GF)=\det(F)^2\det G$ applied to the frame $F=(v\mid B)$
+with $B$ a basis of $v^{\perp}$.
+\end{exercise}
+
+\begin{exercise}
+In $T_7$, find all roots $v$ (norm $-2$) with $|v_0|,|v_1|,|v_2|\le 5$, compute
+$\divv(v)$ for each, and sort them into the two classes ``index $2$'' and
+``index $1$''. Which reduced binary forms occur as $v^{\perp}$?
+\end{exercise}
+
+\begin{exercise}[$\star$]
+Show that in $T_N$ every vector of the form $(N,-N,-k)$ has
+$\langle x,v\rangle=N(-x_0+x_1-2kx_2)$, hence $\divv(v)=N$ when $\gcd(N,2k)=N$
+divides appropriately, and compute $v^2$ and $\disc(v^{\perp})$ as functions
+of $N,k$. Recover Examples~\ref{ex:disc3} ($N=7,k=5$) and \ref{ex:disc4}
+($N=10,k=3$).
+\end{exercise}
+
+\begin{exercise}
+Prove that $\U\oplus\lat{2N}$ and the lattice with Gram matrix
+$\bigl(\begin{smallmatrix}0&0&-1\\0&2N&0\\-1&0&0\end{smallmatrix}\bigr)$
+are isometric, by an explicit $P\in\GL_3(\Z)$. (Both conventions occur in the
+literature; Chapter~\ref{ch:frontier} records a case where the choice caused
+confusion between two teams.)
+\end{exercise}
+
+\begin{exercise}
+The lattice $G_0(N)$ with Gram matrix $\bigl(\begin{smallmatrix}0&0&-2\\0&1&0\\-2&0&0\end{smallmatrix}\bigr)\cdot N$-adjusted as in
+Chapter~\ref{ch:frontier}, of discriminant $-4N^2$, carries an action of
+$\Gamma_0(N)$ by symmetric squares. Show that no lattice of discriminant
+$-4N^2$ can be isometric to $T_N$ unless $N\in\{0,\tfrac12\}$. (This trivial
+observation is the content of a kernel-checked theorem,
+\artifact{no\_isometry\_G0N\_TN}, recorded because the two lattices were once
+conflated under one name.)
+\end{exercise}
+
+\section*{Chapter note}
+
+Definitions and Theorems~\ref{thm:evenunimod}, \ref{thm:nikulin-unique},
+\ref{thm:nikulin-embed} follow Huybrechts~\cite[Ch.~14]{Huybrechts2016} and
+Nikulin~\cite{Nikulin1979}; statements were checked against those sources.
+Proposition~\ref{prop:index} is folklore; the proof given is complete. The
+numerical content of Examples~\ref{ex:fricke-root}--\ref{ex:disc4} is
+kernel-checked as described; the reader is encouraged to redo each by hand,
+which takes ten minutes and is the best possible introduction to the subject.
