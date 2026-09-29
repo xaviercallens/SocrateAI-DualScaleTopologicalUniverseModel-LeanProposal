@@ -353,6 +353,214 @@ theorem root7_e_not_perp : pairing T7 ![1, 0, 0] root7 = -4 := by
 theorem rootEF_root7_pairing : pairing T7 rootEF root7 = -6 := by
   simp [pairing, rootEF, root7, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ]
 
+-- ╔════════════════════════════════════════════════════════════════════╗
+-- ║  §3c. THE AM-8 SELECTED ROWS: the z = ∞ classes, s₇ → A₂, s₁₀ → ⟨2⟩⊕⟨2⟩ ║
+-- ╚════════════════════════════════════════════════════════════════════╝
+
+/-! **AM-8 (T0, 2026-09-28)** adopted the C6 selector "minimal `|disc T|` within each register
+    family" (`K3_CRITERIA.md`, mirror pinned at sha256 `7af500a7…`; record K3-DarkMatter
+    `briefs/T0_DECISIONS_2026_09_28_STREAM2.md`, comparison
+    `briefs/STREAM2_AM8_SELECTOR_COMPARISON_2026_09_28.md`). Per family it picks the `z = ∞` row of
+    `CM_POINTS_RHO20.json` (sha256 `1ef6d622…`): cooper_s7 → `T = A₂` (`D = −3`), cooper_s10
+    (ADVISORY, lattice certificate DRAFT) → `T = ⟨2⟩ ⊕ ⟨2⟩` (`D = −4`).
+
+    This section is the **lattice half of those two rows**, same pattern as §3b: norm, exact
+    complement as an `↔`, Gram matrix, the certificate's `div(v)`, and the index of `v ⊕ v^⊥`.
+    LeanMaster states the same rows independently (`DualScaleDyons/RankJump.lean` at their commit
+    `73f6fb1`: `s7_z_infinity`, `s7_z_infinity_index`, `s10_z_infinity`, proved by `decide +kernel`).
+    Their statements were **read here** (not built here) on 2026-09-28: same vectors, same complement
+    bases `(1,1,0),(−2,3,1)` and `(1,1,0),(−3,3,1)`, same Grams `[[2,1],[1,2]]` and `[[2,0],[0,2]]`,
+    same frame determinant 3 for s₇. Each file is kernel-checked in its own repository; the
+    comparison between them is at the level of statements.
+
+    Not certified here, and not claimed: the selection itself (a T0 text, not a theorem); that the
+    class is algebraic at the recognised `τ` and that `z = ∞` is the point at infinity of the family
+    (Tier B); that `v^⊥` is the transcendental lattice (Tier L, Dolgachev/Doran); any ranking of s₇
+    against s₁₀ (AM-8 forbids it); any physical reading (ledger item 4). The s₁₀ lattice `U ⊕ ⟨20⟩`
+    is taken from a DRAFT certificate: the arithmetic below is exact for that lattice, but whether
+    that lattice is s₁₀'s is ADVISORY (D6′). -/
+
+-- ── s₇, the selected row ──────────────────────────────────────────────────────
+
+/-- **The AM-8 class for cooper_s7**, coordinates `![14, -14, -5]` in `U ⊕ ⟨14⟩`.
+    -- Source: `CM_POINTS_RHO20.json`, `families.cooper_s7.rows`, row `v = [14,-14,-5]`
+    (`minus_v2 = 42`, `div_v = 14`, `D = -3`, `det_T_X = 3`, `T_X_reduced_form_abc = [1,1,1]`,
+    `T_X_kernel_basis = [[1,1,0],[0,5,1]]`, `z_value_if_rational = infinity`,
+    `singular_locus_match = infinity`). The `τ = −5/14 + i√3/14` and `z = ∞` are Tier B. -/
+def root7Inf : Fin 3 → ℤ := ![14, -14, -5]
+
+theorem root7Inf_norm : latticeNorm T7 root7Inf = -42 := by
+  simp [latticeNorm, root7Inf, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
+/-- The pairing with the class is `14·(−x₀ + x₁ − 5x₂)`: every pairing is divisible by 14. -/
+theorem root7Inf_pairing_formula (x : Fin 3 → ℤ) :
+    pairing T7 x root7Inf = 14 * (-x 0 + x 1 - 5 * x 2) := by
+  simp [pairing, root7Inf, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ]; ring
+
+/-- `div(v) = 14` — the certificate's `div_v`, as the two halves of a gcd: 14 divides every
+    pairing (`root7Inf_pairing_formula`) and the pairing with `e` is exactly `−14`. -/
+theorem root7Inf_div (x : Fin 3 → ℤ) : (14 : ℤ) ∣ pairing T7 x root7Inf :=
+  ⟨_, root7Inf_pairing_formula x⟩
+
+theorem root7Inf_pairing_e : pairing T7 ![1, 0, 0] root7Inf = -14 := by
+  simp [pairing, root7Inf, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
+/-- **The exact complement:** `x ⊥ root7Inf ↔ x = a·(1,1,0) + b·(0,5,1)` — the certificate's
+    `T_X_kernel_basis`, verbatim. -/
+theorem root7Inf_perp_iff (x : Fin 3 → ℤ) :
+    pairing T7 x root7Inf = 0 ↔ ∃ a b : ℤ, x = ![a, a + 5 * b, b] := by
+  rw [root7Inf_pairing_formula]
+  constructor
+  · intro h
+    refine ⟨x 0, x 2, ?_⟩
+    ext i; fin_cases i <;> simp <;> omega
+  · rintro ⟨a, b, rfl⟩
+    simp
+
+/-- The certificate's kernel basis, as columns `(1,1,0)`, `(0,5,1)`. -/
+def root7InfPerpBasis : Matrix (Fin 3) (Fin 2) ℤ := !![1, 0; 1, 5; 0, 1]
+
+theorem root7Inf_perp_gram : root7InfPerpBasisᵀ * T7 * root7InfPerpBasis = !![2, 5; 5, 14] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root7InfPerpBasis, T7, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+/-- Gauss-reduced basis `(1,1,0)`, `(−2,3,1)` of the same complement. -/
+def root7InfPerpReduced : Matrix (Fin 3) (Fin 2) ℤ := !![1, -2; 1, 3; 0, 1]
+
+/-- The unimodular change of basis (determinant 1) from the certificate's basis to the reduced one. -/
+def root7InfPerpChange : Gram 2 := !![1, -2; 0, 1]
+
+theorem root7Inf_perp_bases_related :
+    root7InfPerpBasis * root7InfPerpChange = root7InfPerpReduced := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root7InfPerpBasis, root7InfPerpReduced, root7InfPerpChange, Matrix.mul_apply,
+      Fin.sum_univ_succ]
+
+theorem root7Inf_perp_change_det : root7InfPerpChange.det = 1 := by
+  simp [root7InfPerpChange, det_fin_two]
+
+/-- **`root7Inf^⊥ ≅ A₂ = [[2, 1], [1, 2]]`**, the form `x² + xy + y²` of discriminant `−3`
+    (`T_X_reduced_form_abc = [1,1,1]`). -/
+theorem root7Inf_perp_reduced_gram :
+    root7InfPerpReducedᵀ * T7 * root7InfPerpReduced = !![2, 1; 1, 2] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root7InfPerpReduced, T7, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+theorem root7Inf_perp_reduced_det : (!![2, 1; 1, 2] : Gram 2).det = 3 := by
+  simp [det_fin_two]
+
+/-- The frame `(root7Inf, (1,1,0), (−2,3,1))`. -/
+def root7InfFrame : Gram 3 := !![14, 1, -2; -14, 1, 3; -5, 0, 1]
+
+/-- **Index 3:** `⟨root7Inf⟩ ⊕ root7Inf^⊥` has index 3 in `U ⊕ ⟨14⟩`, consistent with the
+    certificate's `det(v^⊥)·v² = −2N·det(frame)²`: `3·(−42) = −14·9`. -/
+theorem root7InfFrame_det : root7InfFrame.det = 3 := by
+  simp [root7InfFrame, det_fin_three]
+
+theorem T7_splits_at_root7Inf :
+    root7InfFrameᵀ * T7 * root7InfFrame = !![-42, 0, 0; 0, 2, 1; 0, 1, 2] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root7InfFrame, T7, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+-- ── s₁₀, the selected row (ADVISORY family; lattice certificate DRAFT) ────────
+
+/-- `U ⊕ ⟨20⟩`, the lattice of cooper_s10's **DRAFT** certificate `C2_cooper_s10_v4_DRAFT.json`
+    (D6′: ADVISORY). Everything below is exact arithmetic in this lattice; that this lattice is
+    s₁₀'s is not certified anywhere yet. -/
+def T10 : Gram 3 := TN 10
+
+theorem T10_det : T10.det = -20 := by rw [T10, TN_det]; norm_num
+
+/-- **The AM-8 class for cooper_s10**, coordinates `![10, -10, -3]` in `U ⊕ ⟨20⟩`.
+    -- Source: `CM_POINTS_RHO20.json`, `families.cooper_s10.rows`, row `v = [10,-10,-3]`
+    (`minus_v2 = 20`, `div_v = 10`, `D = -4`, `det_T_X = 4`, `T_X_reduced_form_abc = [1,0,1]`,
+    `T_X_kernel_basis = [[1,1,0],[0,6,1]]`, `z = infinity`, flag `LATTICE_CERT_DRAFT`). -/
+def root10Inf : Fin 3 → ℤ := ![10, -10, -3]
+
+theorem root10Inf_norm : latticeNorm T10 root10Inf = -20 := by
+  simp [latticeNorm, root10Inf, T10, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
+theorem root10Inf_pairing_formula (x : Fin 3 → ℤ) :
+    pairing T10 x root10Inf = 10 * (-x 0 + x 1 - 6 * x 2) := by
+  simp [pairing, root10Inf, T10, TN, dotProduct, mulVec, Fin.sum_univ_succ]; ring
+
+/-- `div(v) = 10`, as for s₇: 10 divides every pairing and the pairing with `e` is `−10`. -/
+theorem root10Inf_div (x : Fin 3 → ℤ) : (10 : ℤ) ∣ pairing T10 x root10Inf :=
+  ⟨_, root10Inf_pairing_formula x⟩
+
+theorem root10Inf_pairing_e : pairing T10 ![1, 0, 0] root10Inf = -10 := by
+  simp [pairing, root10Inf, T10, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
+/-- **The exact complement:** `x ⊥ root10Inf ↔ x = a·(1,1,0) + b·(0,6,1)`. -/
+theorem root10Inf_perp_iff (x : Fin 3 → ℤ) :
+    pairing T10 x root10Inf = 0 ↔ ∃ a b : ℤ, x = ![a, a + 6 * b, b] := by
+  rw [root10Inf_pairing_formula]
+  constructor
+  · intro h
+    refine ⟨x 0, x 2, ?_⟩
+    ext i; fin_cases i <;> simp <;> omega
+  · rintro ⟨a, b, rfl⟩
+    simp
+
+def root10InfPerpBasis : Matrix (Fin 3) (Fin 2) ℤ := !![1, 0; 1, 6; 0, 1]
+
+theorem root10Inf_perp_gram :
+    root10InfPerpBasisᵀ * T10 * root10InfPerpBasis = !![2, 6; 6, 20] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root10InfPerpBasis, T10, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+/-- Reduced basis `(1,1,0)`, `(−3,3,1)`. -/
+def root10InfPerpReduced : Matrix (Fin 3) (Fin 2) ℤ := !![1, -3; 1, 3; 0, 1]
+
+def root10InfPerpChange : Gram 2 := !![1, -3; 0, 1]
+
+theorem root10Inf_perp_bases_related :
+    root10InfPerpBasis * root10InfPerpChange = root10InfPerpReduced := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root10InfPerpBasis, root10InfPerpReduced, root10InfPerpChange, Matrix.mul_apply,
+      Fin.sum_univ_succ]
+
+theorem root10Inf_perp_change_det : root10InfPerpChange.det = 1 := by
+  simp [root10InfPerpChange, det_fin_two]
+
+/-- **`root10Inf^⊥ ≅ ⟨2⟩ ⊕ ⟨2⟩`**, the form `x² + y²` of discriminant `−4`
+    (`T_X_reduced_form_abc = [1,0,1]`). -/
+theorem root10Inf_perp_reduced_gram :
+    root10InfPerpReducedᵀ * T10 * root10InfPerpReduced = !![2, 0; 0, 2] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root10InfPerpReduced, T10, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+/-- The frame `(root10Inf, (1,1,0), (−3,3,1))`. -/
+def root10InfFrame : Gram 3 := !![10, 1, -3; -10, 1, 3; -3, 0, 1]
+
+/-- **Index 2:** `4·(−20) = −20·2²`. -/
+theorem root10InfFrame_det : root10InfFrame.det = 2 := by
+  simp [root10InfFrame, det_fin_three]
+
+theorem T10_splits_at_root10Inf :
+    root10InfFrameᵀ * T10 * root10InfFrame = !![-20, 0, 0; 0, 2, 0; 0, 0, 2] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [root10InfFrame, T10, TN, Matrix.mul_apply, Fin.sum_univ_succ]
+
+/-- NEGATIVE CONTROL: the AM-8 class of s₇ is not orthogonal to either §3b wall class
+    (`⟨e−f, root7Inf⟩ = −28`, `⟨root7, root7Inf⟩ = −154 = 14·(−11)`), so the three complements are
+    three different sublattices, as their discriminants `28, 7, 3` already force.
+    (Disclosure: the first draft of this docstring said `−42`; the kernel rejected it. The hand
+    value was wrong, the statement below is the one that compiles.) -/
+theorem rootEF_root7Inf_pairing : pairing T7 rootEF root7Inf = -28 := by
+  simp [pairing, rootEF, root7Inf, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
+theorem root7_root7Inf_pairing : pairing T7 root7 root7Inf = -154 := by
+  simp [pairing, root7, root7Inf, T7, TN, dotProduct, mulVec, Fin.sum_univ_succ]
+
 /-- Signature of `U ⊕ ⟨2N⟩` for `N > 0`. Backed by `TN_diagonalises` above
     (modulo Sylvester's law, Tier L) rather than merely asserted. -/
 def sigTN : Signature := sigU + ⟨1, 0⟩

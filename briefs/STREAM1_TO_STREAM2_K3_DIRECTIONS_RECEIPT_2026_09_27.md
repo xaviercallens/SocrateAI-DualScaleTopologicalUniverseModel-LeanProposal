@@ -191,7 +191,12 @@ The LeanMaster session reports (cross-session, 2026-09-28) its own `DualScaleDyo
 basis `(2,−3,1), (1,2,0)`, Gram `[[2,1],[1,4]]`, whose parametrisation relabels to our
 `x = (a, 2a − 7b, b)` exactly; their general identity `det Gram(w₁,w₂)·v² = −2N·det(w₁|w₂|v)²`
 recovers `|det| = 2` and `|det| = 1` for the two frames, our `2` and `−1` (sign = column-ordering
-convention). **No disagreement.** Neither side re-pins its dependency; the LeanProposal pin on
+convention). **No disagreement.** *Precision, added later the same day at LeanMaster's request:*
+their check compared their statements against the statements **quoted in my message**, not against a
+build or a read of `MnLattice.lean`; and I have not built theirs. Each file is kernel-checked in its
+own repository (mine: my build + Stream 2's independent gate run at `fd76a49`; theirs: their build);
+the cross-check *between* the two is **statement-level**, not mutual verification. Do not cite it as
+"two independent kernel proofs of each other's file". Neither side re-pins its dependency; the LeanProposal pin on
 LeanMaster stays `v3.33.0` (T0 2026-09-21). LeanMaster's v3.46.0 release notes will cite
 `fd76a49` / `95c023ef…` for this producer ≠ verifier cross-check. This is reported by the peer
 session; I have not read `RankJump.lean` myself.
