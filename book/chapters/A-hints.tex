@@ -1,0 +1,96 @@
+\chapter{Hints for the exercises}\label{app:hints}
+
+\section*{Chapter 1: Integral lattices}
+
+\begin{description}[leftmargin=1.5em]
+\item[1.1] $q(1)=1/2N$ and $q'(1)=-1/2N$ in $\Q/2\Z$ on $\Z/2N$. An isomorphism
+  must send $1$ to a unit $u$ with $u^2/2N\equiv-1/2N\pmod 2$, i.e.\
+  $u^2\equiv-1\pmod{4N}$. So the forms are isomorphic iff $-1$ is a square
+  modulo $4N$. For $N\le12$ this happens for no $N$ except\ldots\ check
+  $N=1$: $4N=4$, $-1\equiv3$ is not a square mod $4$. Indeed $-1$ is never a
+  square modulo $4$, so \emph{never}: $\lat{2N}$ and $\lat{-2N}$ have
+  non-isomorphic discriminant forms for every $N$. (The exercise's phrasing
+  invited you to compute before believing.)
+\item[1.2] $F^{\mathsf T}GF$ is block-diagonal with blocks $(v^2)$ and the Gram
+  matrix of $v^{\perp}$; take determinants; $|\det F|$ is the index, which is
+  $|v^2|/\divv v$ by Proposition~\ref{prop:index}.
+\item[1.3] Roots satisfy $2v_0v_1+14v_2^2=-2$, i.e.\ $v_0v_1=-1-7v_2^2$.
+  For $v_2=0$: $(1,-1,0),(-1,1,0)$. For $v_2=\pm1$: $v_0v_1=-8$, giving
+  $(\pm1,\mp8),(\pm2,\mp4),(\pm4,\mp2),(\pm8,\mp1)$ with $v_2=\pm1$.
+  $\divv=\gcd(v_1,v_0,14v_2)$: divisor $2$ for $(\pm2,\mp4,\pm1)$ and
+  $(\pm4,\mp2,\pm1)$, divisor $1$ otherwise. Complements have discriminant
+  $28$ (divisor $1$) or $7$ (divisor $2$); reduced forms $x^2+7y^2$ and
+  $x^2+xy+2y^2$.
+\item[1.4] $\langle x,(N,-N,-k)\rangle=-Nx_0+Nx_1-2Nkx_2$; $v^2=-2N^2+2Nk^2=2N(k^2-N)$;
+  $\disc v^{\perp}=-v^2\cdot2N/N^2=4(N-k^2)$ when the divisor is exactly $N$,
+  i.e.\ $2k\not\equiv0\pmod N$ conditions aside. $N=7,k=5$: $v^2=-42$,
+  $\disc=... $ careful: $\disc(v^\perp)=-v^2\cdot 2N/\divv^2=42\cdot14/196=3$.
+  $N=10,k=3$: $v^2=-20$, $\disc=20\cdot20/100=4$.
+\item[1.5] $P$ sending $(e,f,w)\mapsto(-f,w,e)$ up to signs; check
+  $P^{\mathsf T}T_NP$ entrywise.
+\item[1.6] $\det$ is preserved by $P^{\mathsf T}GP$ with $\det P=\pm1$.
+\end{description}
+
+\section*{Chapter 2: K3 surfaces}
+
+\begin{description}[leftmargin=1.5em]
+\item[2.1] For the quartic, $c(T_X)=(1+h)^4/(1+4h)$ restricted; $c_2=6h^2=24$.
+\item[2.2] $M_n$ primitive in $\NS$ with $\rk\NS=19$ forces $\NS=M_n$; then
+  $T=\NS^{\perp}=(M_n)^{\perp}$ and Example~\ref{ex:Mn} applies. Both
+  hypotheses are load-bearing.
+\item[2.3] Reduced forms $ax^2+bxy+cy^2$ with $|b|\le a\le c$, $b^2-4ac=-D$.
+  $D=7$: $(1,1,2)$ only. $D=28$: $(1,0,7)$ and $(2,2,4)$ (non-primitive).
+  $D=40$: $(1,0,10)$ and $(2,0,5)$.
+\end{description}
+
+\section*{Chapter 3: Periods, Torelli, and lattice polarizations}
+
+\begin{description}[leftmargin=1.5em]
+\item[3.2] $\langle(1,-1,0),(1,-n\tau^2,\tau)\rangle=1\cdot(-n\tau^2)+(-1)\cdot1+0=-(n\tau^2+1)$.
+  For $(2,-4,1)$ in $T_7$: $2(-7\tau^2)+(-4)+14\tau=0\iff14\tau^2-14\tau+4=0\iff
+  \tau=\tfrac12\pm\tfrac{i}{2\sqrt7}$. For $(-2,4,1)$: $14\tau^2+14\tau+4=0$,
+  roots $-\tfrac12\pm\tfrac i{2\sqrt7}$.
+\item[3.3] Translation acts on $(1,-n\tau^2,\tau)$ by $\tau\mapsto\tau+1$;
+  the matrix is $\bigl(\begin{smallmatrix}1&0&0\\-n&1&-2n\\1&0&1\end{smallmatrix}\bigr)$
+  (columns act on coordinates $(1,-n\tau^2,\tau)$); check it preserves $T_n$.
+\end{description}
+
+\section*{Chapter 4: Elliptic fibrations}
+
+\begin{description}[leftmargin=1.5em]
+\item[4.2] $\Delta=-16\cdot27a_6^2=-432\,t^{10}(t-1)^4$; orders $10$ at $0$,
+  $4$ at $1$, and $24-14=10$ at $\infty$.
+\item[4.3] $4(-3t^4)^3+27t^{10}(t^2+1)^2=-108t^{12}+27t^{10}(t^2+1)^2
+  =27t^{10}\bigl((t^2+1)^2-4t^2\bigr)=27t^{10}(t^2-1)^2$; so $\ord_{\pm1}=2$ and
+  $a_4(\pm1)=-3\neq0$.
+\item[4.4] Two $II^*$ give $E_8^2$, rank $16$, plus $\U$: $18$; the two
+  missing units of rank come from $\sum(m_v-1)$ over the remaining four units
+  of Euler number, or from $\MW$.
+\end{description}
+
+\section*{Chapter 5: Picard--Fuchs equations}
+
+\begin{description}[leftmargin=1.5em]
+\item[5.2] Differentiate $u=y_1y_2$ three times and eliminate using the
+  second-order equation; the relation is $\mathrm{Wr}$-free.
+\item[5.3] $s_7(1)=(1)(4)/1=4$; $s_7(2)=(3\cdot(13+13+4)\cdot4-1\cdot(-27+3)\cdot1)/8
+  =(360+24)/8=48$; $s_7(3)=(5\cdot(52+26+4)\cdot48-2\cdot(-108+3)\cdot4)/27
+  =(19680+840)/27=760$.
+\end{description}
+
+\section*{Chapter 6: Singular K3 surfaces}
+
+\begin{description}[leftmargin=1.5em]
+\item[6.1] The wall quadratic is $-nv_0\tau^2+2nv_2\tau+v_1=0$, discriminant
+  $4n^2v_2^2+4nv_0v_1=2n(2v_0v_1+2nv_2^2)=2n\,v^2$. Divide by $\divv(v)^2$ to
+  make it primitive; compare with Proposition~\ref{prop:index}.
+\item[6.3] See hint 3.2.
+\end{description}
+
+\section*{Chapter 7: Modular curves}
+
+\begin{description}[leftmargin=1.5em]
+\item[7.2] $z(1/(49h))=\dfrac{1/(49h)}{1+13/(49h)+1/h^2}
+  =\dfrac{h}{49h^2+13h+1}=z(h)$. $z(\tfrac17)=\dfrac{1/7}{1+13/7+1}=\dfrac{1/7}{27/7}=\tfrac1{27}$;
+  $z(-\tfrac17)=\dfrac{-1/7}{1-13/7+1}=\dfrac{-1/7}{1/7}=-1$.
+\end{description}

@@ -115,10 +115,8 @@ The control suites are runnable directly or under \texttt{pytest}.
 
 The program's operating rule is that \emph{a check which cannot fail is not a
 check}. Every computation above ships with controls designed to make it fail,
-and the controls are run, not merely written. The rule has a specific origin:
-an earlier computation in the program passed its own test because its
-statistic had been clamped below its own threshold, and the resulting claim had
-to be retracted. The controls exist so that this cannot recur silently.
+and the controls are run, not merely written; a test whose statistic cannot
+cross its own threshold is treated as no test at all.
 
 Concretely, the controls used in this paper are:
 

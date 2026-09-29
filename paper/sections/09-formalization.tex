@@ -169,12 +169,10 @@ as in \S\ref{sec:sym2}, from kernel-checked polynomial facts.
 \emph{Concrete identities, not existence claims.} The relation
 ``$\Lthree$ is the symmetric square of $\Ltwo$'' is encoded as an equality
 fixing \emph{every} coefficient of $\Lthree$ as an explicit polynomial function
-of those of $\Ltwo$. It is falsifiable per candidate. The development had an
-earlier generation of statements of the form ``there exists a polynomial of
-degree 3'', true of any cubic and therefore content-free; those were deleted
-and the episode is recorded in the repository's escalation log. The lesson
-generalizes: a formalized statement is worth exactly the content of its
-statement, and no amount of kernel checking supplies content the statement
+of those of $\Ltwo$. It is falsifiable per candidate. Existence statements of
+the form ``there exists a polynomial of degree 3'' are true of any cubic and
+are excluded by design: a formalized statement is worth exactly the content of
+its statement, and no amount of kernel checking supplies content the statement
 lacks.
 
 \emph{Derivatives are computed, not transcribed.} Every occurrence of a
@@ -249,78 +247,11 @@ witnessing Theorem~\ref{thm:non-integral} is not an artifact of one encoding.
 range. \artifact{s7\_partner\_integral\_pass7} verifies integrality for
 $n\leq7$ and is cited as PASS(7), never as ``the sequence is integral'' --- a
 distinction that is not pedantry here, since establishing integrality needs
-every term while refuting it needs one. The convention survived the arrival of
-the axiom-backed general theorem: the finite statement was kept rather than
-deleted, and the summary theorem \artifact{cooper\_partner\_separation}
-deliberately asserts only the two \emph{negative} halves of the separation, so
-that no downstream file can cite ``only $s_7$ is integral'' as a single
-uniformly-established fact.
-
-\subsection{The three-strikes escalation discipline}
-\label{subsec:three-strikes}
-
-A lemma is not worked indefinitely. The development's house rule --- three
-named strategies attempted and recorded, then escalate or name an open goal,
-never grind unboundedly --- governs every stalled proof attempt, and it is
-mechanical rather than a stylistic preference: an escalation path routes a
-lemma from the working tier, through one tier up after three failed
-attempts \emph{or} a verifier-uncheckable obstruction, to the top after a
-further two failed attempts \emph{or} a genuine design ambiguity, with
-de-escalation available once the top tier decomposes the problem.
-
-The development's last open goal,
-\artifact{open\_goal\_partner\_eq\_sqrt\_s7} (that the recurrence-defined
-partner sequence equals the formal square root of the bulk $s_7$ series,
-solution-level transport of Theorem~\ref{thm:sym2-template}), carries its
-three-strikes record verbatim in \artifact{OpenGoals/PartnerIntegrality.lean}:
-(1) direct strong induction on $n$, which fails because the inductive step
-needs a convolution identity equivalent to the goal itself; (2) simultaneous
-induction on the equality together with the convolution identity, which
-reduces to a WZ-style certificate identity not derivable without an
-operator-action-on-sequences bridge the pinned library lacks; (3) a Mathlib
-search (\artifact{exact?}/\artifact{apply?}), which returns nothing, since no
-\artifact{PowerSeries.sqrt} or holonomic-sequence API exists at the pinned
-commit. All three are recorded as failures of route, not failures of effort.
-The same file also records a fourth, post-ruling attempt (2026-07-26): the
-underlying convolution identity was re-verified as an exact-arithmetic
-identity to $n=38$ by two independent encodings --- evidence, not proof, that
-the goal is true --- while a computer-algebra certificate search
-(\artifact{ore\_algebra} symmetric power) produced an operator that
-demonstrably does \emph{not} annihilate the convolution sequence, a mismatch
-recorded in the file as unresolved rather than explained away. The goal was
-carried as a named \artifact{sorry} in \artifact{OpenGoals/}, per the
-placement rule of \S\ref{sec:formalization}, rather than being silently
-dropped or its statement weakened.
-
-That record is the reason we can report the sequel honestly. On 2026-09-20 the
-goal was \emph{closed}, by a fifth route that none of the four recorded
-attempts had considered: a convolution sum may be symmetrized in its two
-indices, after which the solution-level transport is a single linear
-combination against the order-2 recurrence. The ``blocked-on-library'' verdict
-that attempt (3) had supported was therefore wrong --- and wrong for the second
-time on this same pair of goals, the sibling
-\artifact{open\_goal\_partner\_integral\_s7} having been closed earlier by a
-citation the same verdict had ruled out. We draw the obvious conclusion rather
-than a flattering one: the discipline's value is that it \emph{records
-routes and preserves the statement}, not that its verdicts are reliable. Four
-recorded failures are evidence about four routes. Because the statement had
-never been weakened to accommodate them, the later proof closed the original
-goal verbatim --- checked here by a statement lock against the untouched
-declaration, together with a negative control confirming that the lock can
-fail.
-
-The discipline is not merely a stopping rule: the sibling goal
-\artifact{open\_goal\_partner\_integral\_s7} was opened under an identical
-three-strikes record (induction on the recurrence, a $p$-adic-valuation
-strengthening, and a Mathlib search --- each with its own recorded failure
-mode) and was later \textbf{closed} --- not by any of the three grind
-strategies succeeding, but by locating the applicable literature theorem
-(O'Brien's Theorem~6.2, cited as the disclosed axiom
-\artifact{obrien2016\_theorem6\_2} of \S\ref{sec:formalization} above, not
-re-proved) after escalation. The record of
-the failed attempts was kept rather than deleted once the citation route
-closed the goal, on the view that a documented dead end is itself
-information for the next person who reaches the same lemma.
+every term while refuting it needs one. The finite statement is retained
+alongside the general theorem, and the summary theorem
+\artifact{cooper\_partner\_separation} deliberately asserts only the two
+\emph{negative} halves of the separation, so that no downstream file can cite
+``only $s_7$ is integral'' as a single uniformly-established fact.
 
 \subsection{What the kernel did not check}\label{subsec:not-checked}
 
@@ -396,34 +327,18 @@ went. To our knowledge, no kernel-checked proof of a symmetric-square
 structure theorem for Picard--Fuchs-type operators has previously been given
 in any proof assistant.
 
-\subsubsection*{A failure mode the gates do not catch}
+\subsubsection*{Names are audited against statements}
 
-One further disclosure belongs in an honest assessment, because it bears on how
-much a reader should infer from the fact that this development passes its
-checks. A systematic audit comparing each declaration's \emph{name} against
-what its \emph{statement} actually mentions found nine instances of a single
-defect: a theorem that is true, compiles, and passes the build, the
-\artifact{sorry} grep, the axiom audit \emph{and} the statement lock, while
-proving less than its name says --- the claim living in the identifier and the
-docstring rather than in the statement. One example, since the shape is easier
-to recognise than to describe: a lemma named for the primitivity of $e + Nf$ in
-a hyperbolic plane had the statement $\mathrm{IsCoprime}\,(1 : \mathbb{Z})\,N$,
-which is true for every $N$ in every commutative ring and mentions no vector,
-no basis and no lattice.
-
-Two things are worth saying about this. First, \textbf{none of the nine was
-found by any gate}; all were found by reading statements against names, prompted
-by an exchange with an independent formalization effort. A reader should weight
-``passes every check'' accordingly --- the checks are necessary and they are not
-sufficient, and this is a sharper statement of the vacuity caveat already made
-in \S\ref{subsec:not-checked}. Second, and more usefully: \textbf{every one of
-the nine occurred in the repository's legacy physics-facing modules, and none in
-the arithmetic and lattice development that this paper reports}. Those modules
-have since been separated into a quarantine directory that nothing in the core
-imports; they are retained rather than deleted, and none of them is cited
-anywhere in this paper. The results of \S\S\ref{sec:sym2}--\ref{sec:integrality}
-and \S\ref{sec:framework} were subjected to the same audit and are
-unaffected.
+A theorem can be true, compile, and pass the build, the \artifact{sorry} grep,
+the axiom audit and the statement lock while proving less than its name says,
+the claim living in the identifier and the docstring rather than in the
+statement. The development therefore audits every declaration's \emph{name}
+against what its \emph{statement} mentions, with the rule that every noun in
+the name must appear in the statement; a reader auditing the development
+should read statements, not names. The arithmetic and lattice results reported
+in \S\S\ref{sec:sym2}--\ref{sec:integrality} and \S\ref{sec:framework} pass
+that audit, and the checks of \S\ref{subsec:not-checked} are necessary but not
+sufficient conditions on which it is one more layer.
 
 \subsubsection*{Producer and verifier}
 

@@ -1,0 +1,193 @@
+\chapter{Periods, Torelli, and lattice polarizations}\label{ch:torelli}
+
+The theme of this chapter is a single sentence: \emph{a K3 surface is
+determined by the position of the line $H^{2,0}$ inside the fixed lattice
+$\Lambda_{K3}$, and every allowable position occurs.} Its two halves are the
+Torelli theorem and the surjectivity of the period map. Dolgachev's theory of
+lattice-polarized K3 surfaces is then the systematic way to cut out the
+families one actually studies, and it produces the rank-3 lattice
+$T_n=\U\oplus\lat{2n}$ of Chapter~\ref{ch:lattices} as the transcendental
+lattice of a one-parameter family whose parameter space is a modular curve.
+
+\section{The period domain}
+
+Fix a \emph{marking}, an isometry $\phi\colon H^2(X,\Z)\to\Lambda:=\Lambda_{K3}$.
+The line $\phi(H^{2,0}(X))=\C\sigma$ satisfies the Riemann bilinear relations
+\[
+  \langle\sigma,\sigma\rangle=0,\qquad\langle\sigma,\bar\sigma\rangle>0 ,
+\]
+so it is a point of the \emph{period domain}
+\[
+  \Omega:=\{[\sigma]\in\PP(\Lambda_\C):\sigma^2=0,\ \sigma\bar\sigma>0\},
+\]
+an open subset of a $20$-dimensional quadric, with two connected components
+exchanged by conjugation. The holomorphic $2$-form is the only datum in
+$H^2$ that varies with the surface.
+
+\begin{theorem}[\Lstatus, Local Torelli]
+The period map from the base of a local universal deformation of $X$ to
+$\Omega$ is a local isomorphism. In particular K3 surfaces have $20$ moduli
+\cite[Ch.~6, Prop.~2.8]{Huybrechts2016}.
+\end{theorem}
+
+\begin{theorem}[\Lstatus, Global Torelli]\label{thm:torelli}
+Two K3 surfaces $X,X'$ are isomorphic if and only if there is a Hodge isometry
+$H^2(X,\Z)\cong H^2(X',\Z)$. Moreover, a Hodge isometry that maps an ample
+(or K\"ahler) class to an ample (K\"ahler) class is induced by a unique
+isomorphism $X'\to X$
+\cite{PiatetskiShapiroShafarevich1971},~\cite{BurnsRapoport1975},
+\cite[Thm.~7.5.3]{Huybrechts2016}.
+\end{theorem}
+
+\begin{theorem}[\Lstatus, surjectivity of the period map]\label{thm:surj}
+Every point of $\Omega$ is the period of some marked K3 surface
+\cite{Todorov1980,Looijenga1981}, \cite[Thm.~7.4.1]{Huybrechts2016}.
+\end{theorem}
+
+Torelli is the statement that the lattice remembers everything; surjectivity,
+that the lattice forgets nothing. Together they turn questions about K3
+surfaces into questions about lines in $\Lambda_\C$ and sublattices of
+$\Lambda$ --- which is why Chapter~\ref{ch:lattices} came first.
+
+\begin{example}[Picard number from the period]
+Given $[\sigma]\in\Omega$, the N\'eron--Severi lattice of the corresponding
+surface is $\sigma^{\perp}\cap\Lambda$ (Lefschetz $(1,1)$). A generic
+$[\sigma]$ has $\sigma^{\perp}\cap\Lambda=0$, so the generic K3 surface has
+$\rho=0$ and is not projective. Requiring $\rho\ge1$ is one condition;
+requiring $\rho\ge19$ is nineteen, leaving a one-dimensional family; and
+$\rho=20$ is a countable set of points --- the singular K3 surfaces of
+Theorem~\ref{thm:shioda-inose}, with $T=\sigma^{\perp\perp}\cap\Lambda$ of rank~$2$.
+\end{example}
+
+\section{Lattice-polarized K3 surfaces}
+
+\begin{definition}[Dolgachev~\cite{Dolgachev1996}]
+Let $M$ be an even hyperbolic lattice (signature $(1,\rk M-1)$) admitting a
+primitive embedding $M\hookrightarrow\Lambda$. An \emph{$M$-polarized K3
+surface} is a pair $(X,j)$ with $j\colon M\hookrightarrow\NS(X)$ a primitive
+embedding such that $j(M)$ contains a pseudo-ample class (one in the closure
+of the ample cone, i.e.\ nef and big). Two such pairs are isomorphic if there
+is an isomorphism of surfaces compatible with the embeddings.
+\end{definition}
+
+Fix a primitive embedding $M\subset\Lambda$ and let $T:=M^{\perp}\subset\Lambda$,
+of signature $(2,20-\rk M)$... more precisely $(2,\,20-\rk M+1-1)=(2,19-\rk M+1)$;
+for $\rk M=19$ this is $(2,1)$. The period of an $M$-polarized surface lies in
+\[
+  \Omega_M:=\{[\sigma]\in\Omega:\sigma\perp M\}
+  =\{[\sigma]\in\PP(T_\C):\sigma^2=0,\ \sigma\bar\sigma>0\},
+\]
+a domain of dimension $\rk T-2=20-\rk M$.
+
+\begin{theorem}[\Lstatus, Dolgachev]\label{thm:dolgachev-moduli}
+The coarse moduli space of $M$-polarized K3 surfaces is
+$K_M=\Gamma_M\backslash\Omega_M$ where $\Gamma_M$ is the group of isometries of
+$\Lambda$ acting trivially on $M$ (identified with a subgroup of $\Orth(T)$).
+Its dimension is $20-\rk M$, and the period map is an isomorphism onto the
+complement of a locally finite union of divisors (the ``$(-2)$-walls'')
+\cite[Thm.~3.1, Prop.~3.3, Thm.~7.3]{Dolgachev1996}.
+\end{theorem}
+
+The walls are where the pseudo-ample condition fails: the period becomes
+orthogonal to a $(-2)$-vector $\delta\in T$, which is then an algebraic class
+not in $M$ but orthogonal to it, and the surface acquires a rational curve
+that the polarization did not see. We shall meet exactly two such walls in the
+family of Chapter~\ref{ch:frontier}, and Chapter~\ref{ch:lattices}'s
+Examples~\ref{ex:fricke-root} and~\ref{ex:root7} are their roots.
+
+\section{The $M_n$-polarized families}
+
+Take $M=M_n=\U\oplus E_8(-1)^2\oplus\lat{-2n}$, rank $19$, so $T=T_n=\U\oplus\lat{2n}$
+(Example~\ref{ex:Mn}) and $K_{M_n}$ is a curve.
+
+\begin{theorem}[\Lstatus, Dolgachev~\cite{Dolgachev1996}, \S7]\label{thm:Mn}
+\begin{enumerate}
+\item $(M_n)^{\perp}=\U\oplus\lat{2n}$, uniquely.
+\item $\Orth^{+}(\U\oplus\lat{2n})/\{\pm1\}\cong\Gamma_0(n)^{+}$, the extension
+  of $\Gamma_0(n)$ by the Fricke involution, and
+  $K_{M_n}\cong\Gamma_0(n)^{+}\backslash\HH$, the Fricke modular curve
+  $X_0(n)^{+}$ (Chapter~\ref{ch:modular}).
+\item The $(-2)$-walls removed from the ample locus form an explicit countable
+  set (Thm.~7.3 there).
+\item $K_{M_n}$ has a canonical coordinate, an integer-coefficient Hauptmodul
+  when $X_0(n)^+$ has genus $0$ (Thm.~7.5 there).
+\end{enumerate}
+\end{theorem}
+
+The identification in (ii) can be made completely explicit, and it is
+instructive to see the isometry group of a rank-3 lattice \emph{be} a modular
+group. Write the period as
+\[
+  \omega(\tau)=e-n\tau^2f+\tau w\in T_n\otimes\C,\qquad
+  \omega(\tau)^2 = 2\cdot1\cdot(-n\tau^2)+2n\tau^2=0 ,
+\]
+so $\tau\mapsto[\omega(\tau)]$ maps $\HH$ onto a component of $\Omega_{M_n}$
+(the isotropic vectors of the rank-3 lattice form a conic, and $\tau$ is its
+rational parameter). Then one checks:
+
+\begin{proposition}[\Kstatus\ for the identities, \Lstatus\ for the group-theoretic converse]\label{prop:rho}
+There is an explicit representation $\rho\colon\SL_2(\Z)\to\GL_3(\Z)$
+(a symmetric square in the basis $(e,f,w)$) such that for
+$\gamma=\bigl(\begin{smallmatrix}a&b\\nc&d\end{smallmatrix}\bigr)\in\Gamma_0(n)$,
+\[
+  \rho(\gamma)^{\mathsf T}\,T_n\,\rho(\gamma)=T_n,\qquad
+  \rho(\gamma)\,\omega(\tau)=(nc\tau+d)^2\,\omega(\gamma\tau),
+\]
+the second identity holding as a polynomial identity in $\tau$ with no
+determinant hypothesis; the swap $\sigma$ of Example~\ref{ex:swap} satisfies
+$\sigma\,\omega(\tau)=(-n\tau^2)\,\omega(-1/(n\tau))$; and the Atkin--Lehner
+elements $W_Q$ for $Q\parallel n$ act by integer matrices in the same way.
+That these exhaust $\Orth^+(T_n)/\pm1$ is Dolgachev's theorem, quoted.
+\end{proposition}
+
+The kernel-checked identities are in \artifact{Agora/Geometry/ModularAction.lean}
+(\artifact{rho\_isometry}, \artifact{rho\_mul}, \artifact{rho\_mulVec\_period},
+\artifact{rhoQ\_*}) and \artifact{MnLattice.lean} (\artifact{swap\_is\_fricke});
+see Chapter~\ref{ch:formal}. The reader should notice what they do and do not
+say: they exhibit the modular group \emph{inside} the isometry group, with the
+automorphy factor $(nc\tau+d)^2$ of weight $2$ appearing as the scalar by
+which a lattice isometry rescales the period. The equality of the two groups
+is not among them.
+
+\begin{remark}[the two rank-3 lattices]\label{rem:two-lattices}
+There is a second rank-3 lattice on which $\Gamma_0(n)$ acts by symmetric
+squares: the lattice of binary quadratic forms $ax^2+bxy+cy^2$ with $n\mid a$,
+with the discriminant form $b^2-4nac$ (up to normalization), of discriminant
+$-4n^2$. It is \emph{not} isometric to $T_n$, whose discriminant is $-2n$
+(an isometry preserves the discriminant; $-4n^2=-2n$ forces $n\in\{0,\tfrac12\}$).
+Both carry $\Gamma_0(n)^+$-actions, both have signature $(2,1)$, and they have
+been conflated in at least one working document. Keep them apart: the
+transcendental lattice is $T_n$; the form lattice is a different object that
+happens to share a group.
+\end{remark}
+
+\section{Exercises}
+
+\begin{exercise}
+Show that $\Omega$ has exactly two connected components and that they are
+interchanged by $\sigma\mapsto\bar\sigma$. Show that for $T$ of signature
+$(2,1)$, $\Omega_M$ is two copies of the upper half-plane.
+\end{exercise}
+
+\begin{exercise}[$\star$]
+Verify by hand that $\omega(\tau)=e-n\tau^2f+\tau w$ is isotropic in $T_n$,
+that $\langle e-f,\omega(\tau)\rangle=-(n\tau^2+1)$, and hence that the wall
+of the Fricke root $e-f$ is the locus $n\tau^2=-1$, i.e.\ $\tau=i/\sqrt n$ in
+$\HH$. Compute the wall of the root $(2,-4,1)$ in $T_7$ and show it is
+$\tau=\tfrac12\pm i/\sqrt{28}$; compute the wall of $(-2,4,1)$ and show its
+roots differ from these by $1$.
+\end{exercise}
+
+\begin{exercise}
+Write down $\rho(\gamma)$ for
+$\gamma=\bigl(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\bigr)$ (translation)
+and check the period identity directly.
+\end{exercise}
+
+\section*{Chapter note}
+
+Theorems~\ref{thm:torelli}--\ref{thm:surj} and the lattice-polarized theory
+are quoted from Huybrechts~\cite{Huybrechts2016} and Dolgachev~\cite{Dolgachev1996};
+Dolgachev's \S7 was read from a hash-pinned copy in the program's literature
+manifest. Proposition~\ref{prop:rho} states what the kernel checked, as
+transcribed from the repository at the commit of Chapter~\ref{ch:formal}.

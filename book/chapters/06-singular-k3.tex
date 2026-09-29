@@ -1,0 +1,163 @@
+\chapter{Singular K3 surfaces and complex multiplication}\label{ch:singular}
+
+Where the Picard number of a one-parameter family jumps from $19$ to $20$, the
+transcendental lattice drops from rank $3$ to rank $2$: it becomes a
+positive-definite even binary quadratic form, and by Shioda--Inose that form
+determines the surface. In the $M_n$-polarized families these jumps happen at
+the CM points of the modular curve $X_0(n)^+$, and the binary form is the
+orthogonal complement of the algebraic class that appeared. This chapter is
+where the lattice arithmetic of Chapter~\ref{ch:lattices} pays for itself.
+
+\section{Shioda--Inose structures}
+
+\begin{definition}[Morrison~\cite{Morrison1984}]
+A K3 surface $X$ has a \emph{Shioda--Inose structure} if it carries a
+symplectic involution $\iota$ such that the minimal resolution $Y$ of
+$X/\iota$ is a Kummer surface $\Km(A)$, and the induced rational map
+$X\dashrightarrow Y$ of degree $2$ induces a Hodge isometry
+$T(X)\cong T(A)$ (with the form on $T(A)$ multiplied by $2$ on one side,
+depending on conventions --- see the source).
+\end{definition}
+
+\begin{theorem}[\Lstatus, Morrison~\cite{Morrison1984}, Thm.~6.3]
+A K3 surface $X$ admits a Shioda--Inose structure if and only if there is a
+primitive embedding $T(X)\hookrightarrow\U^3$; equivalently, if
+$E_8(-1)^2\hookrightarrow\NS(X)$ primitively. Every K3 surface with
+$\rho\ge19$ has one.
+\end{theorem}
+
+For $\rho=19$ this is the statement that $T\cong\U\oplus\lat{2n}$ embeds in
+$\U^3$ (Example~\ref{ex:Mn} exhibits it for $n=7$), and it is the
+lattice-theoretic reason the $M_n$-polarized surfaces are ``sandwiched'' between
+Kummer surfaces of products of isogenous elliptic curves. For $\rho=20$:
+
+\begin{theorem}[\Lstatus, Shioda--Inose~\cite{ShiodaInose1977}]\label{thm:SI-construction}
+Let $T$ be a positive-definite even binary form of discriminant $D>0$, with
+associated imaginary quadratic order of discriminant $-D$, and let
+$\tau_1,\tau_2\in\HH$ be such that $E_{\tau_1}\times E_{\tau_2}$ is the abelian
+surface with $T(E_{\tau_1}\times E_{\tau_2})\cong T$ (this exists and is unique
+up to isomorphism). Then the K3 surface with transcendental lattice $T$ is
+the Shioda--Inose partner of $E_{\tau_1}\times E_{\tau_2}$: explicitly, the
+Inose surface $X_{\alpha,\beta}$ of \S\ref{sec:inose} with $J_i=j(\tau_i)/1728$.
+\end{theorem}
+
+\begin{example}
+$T=A_2$, $D=3$: $E_\omega\times E_\omega$, $J_1=J_2=0$, $(\alpha,\beta)=(0,\pm1)$.
+$T=\lat2\oplus\lat2$, $D=4$: $E_i\times E_i$, $J_1=J_2=1$, $(\alpha,\beta)=(1,0)$
+(with $\alpha^3=1$; the three cube roots give isomorphic surfaces). These are
+the $X_3$ and $X_4$ of Example~\ref{ex:inose-points}.
+\end{example}
+
+\section{Rank jumps along a one-parameter family}
+
+Let $X_\tau$, $\tau\in\HH$, be the $M_n$-polarized family with period
+$\omega(\tau)=e-n\tau^2f+\tau w\in T_n\otimes\C$ (Chapter~\ref{ch:torelli}).
+For $v\in T_n$ the \emph{wall} of $v$ is $\{\tau:\langle v,\omega(\tau)\rangle=0\}$;
+by Lefschetz $(1,1)$, at such $\tau$ the class $v$ is algebraic, so
+\[
+  \NS(X_\tau)\supseteq M_n\oplus\Z v\quad\text{(finite index)},\qquad
+  \rho(X_\tau)=20,\qquad
+  T(X_\tau)=v^{\perp}\cap T_n \quad\text{(when $v$ is primitive and $\NS$ is exactly the saturation)}.
+\]
+Since $\langle v,\omega(\tau)\rangle=-nv_0\tau^2+v_1+2nv_2\tau$ is a quadratic
+in $\tau$ with integer coefficients, its roots are quadratic imaginary
+numbers when $v^2<0$: the wall of $v$ consists of \emph{CM points}. The
+discriminant of the quadratic is $4n^2v_2^2+4nv_0v_1=2n\,v^2$, so
+\[
+  \tau=\frac{-2nv_2\pm\sqrt{2n\,v^2}}{-2nv_0}
+  \quad\text{is a CM point of discriminant $2n\,v^2/\gcd^2$},
+\]
+and the transcendental lattice at that point is the binary form $v^{\perp}$,
+whose discriminant is $\disc(v^{\perp})=-v^2\cdot 2n/\divv(v)^2$ by
+Proposition~\ref{prop:index}. Everything in this paragraph is elementary
+except the identification $T(X_\tau)=v^{\perp}$, which uses that $\NS(X_\tau)$
+is exactly the saturation of $M_n\oplus\Z v$ (true for the generic point of
+the wall by dimension count and Torelli) \Lstatus.
+
+\begin{example}[the walls of $T_7$, revisited]\label{ex:walls-T7}
+Take $n=7$ and the four classes of Chapter~\ref{ch:lattices}.
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+$v$ & $v^2$ & $\divv v$ & wall $\tau$ & $T(X_\tau)=v^{\perp}$, $\disc$\\
+\midrule
+$(1,-1,0)$ & $-2$ & $1$ & $7\tau^2=-1$: $\tau=i/\sqrt7$ & $\lat2\oplus\lat{14}$, $28$\\
+$(2,-4,1)$ & $-2$ & $2$ & $14\tau^2-14\tau+4=0$: $\tau=\tfrac12+\tfrac{i}{2\sqrt7}$ & $\bigl(\begin{smallmatrix}2&1\\1&4\end{smallmatrix}\bigr)$, $7$\\
+$(14,-14,-5)$ & $-42$ & $14$ & $\tau=-\tfrac5{14}+\tfrac{i\sqrt3}{14}$ & $A_2$, $3$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The lattice column is kernel-checked \Kstatus\ (Examples~\ref{ex:fricke-root}--\ref{ex:disc3});
+the wall column is the elementary quadratic above \Estatus. Note the
+discriminants $28$, $7$, $3$: by Theorem~\ref{thm:shioda-inose} these three
+points of the $M_7$-family are the singular K3 surfaces with those
+transcendental lattices, and the third is $X_3$ itself. The CM points have
+discriminants $-28$, $-7$, $-3$ as points of $\HH$ --- the discriminant of the
+transcendental lattice and the discriminant of the CM point agree, as they must
+(both are $2n\,v^2/\divv(v)^2$ up to sign).
+\end{example}
+
+\begin{example}[$T_{10}$]
+For $n=10$: $(1,-1,0)$ gives $\lat2\oplus\lat{20}$ ($\disc40$) at
+$\tau=i/\sqrt{10}$; $(10,-10,-3)$ gives $\lat2\oplus\lat2$ ($\disc4$) at
+$\tau=-\tfrac3{10}+\tfrac i{10}$, i.e.\ $X_4$ \Kstatus\ for the lattice
+(Example~\ref{ex:disc4}), \Estatus\ for the wall.
+\end{example}
+
+\begin{warning}[forced, not corroborating]\label{warn:forced}
+When a program computes the CM point $\tau$ numerically, recognizes it as an
+element of an imaginary quadratic field of discriminant $-D$, and separately
+computes the binary form $v^{\perp}$ and finds its discriminant to be $D$, it
+is tempting to report ``two independent computations agree''. They are not
+independent: both are $2n\,v^2/\divv(v)^2$. The agreement is \emph{forced} by
+the algebra above and carries no evidential weight about the surface. What
+\emph{does} carry weight is whether the recognised $\tau$ maps, under the
+family's parametrization $z(\tau)$, to a point of the $z$-line that one can
+check independently --- for instance a singular point of the Picard--Fuchs
+operator. Chapter~\ref{ch:frontier} reports such a check.
+\end{warning}
+
+\section{Which points are ample, and which are not}
+
+Dolgachev's Theorem~\ref{thm:dolgachev-moduli}(iii) removes the $(-2)$-walls
+from the moduli space of \emph{pseudo-ample} polarized surfaces: at the wall
+of a root $\delta$, the class $\delta$ is effective and the polarization
+class meets it trivially, so the polarization is no longer ample on the
+surface; the ``surface at the wall'' is a member with an extra $(-2)$-curve,
+or its contraction to a nodal surface. So among the three points of
+Example~\ref{ex:walls-T7}, the first two (roots) are of that nature, while the
+third (norm $-42$, not a root) is a genuine smooth $M_7$-polarized surface of
+Picard number $20$ --- and it is the one with $T=A_2$, of smallest possible
+discriminant. This is not a coincidence of the example but a general pattern:
+the smallest-discriminant CM point of $X_0(n)^+$ is never on a $(-2)$-wall
+when $n>1$, since a root's complement has discriminant $2n/\divv^2\ge 2n/4$.
+
+\section{Exercises}
+
+\begin{exercise}[$\star$]
+Derive the discriminant $2n\,v^2$ of the wall quadratic and the formula
+$\disc(v^{\perp})=-2n\,v^2/\divv(v)^2$, and conclude that the CM discriminant
+and the form discriminant always agree.
+\end{exercise}
+
+\begin{exercise}
+For $n=7$, enumerate all primitive $v\in T_7$ with $-v^2\le 44$ up to the
+action of the swap and translation, compute $\disc(v^{\perp})$, and list the
+distinct binary forms that occur. Which of them are on $(-2)$-walls?
+\end{exercise}
+
+\begin{exercise}
+Show that the wall equations of $(2,-4,1)$ and $(-2,4,1)$ in $T_7$ have roots
+differing by exactly $1$, so that the two roots define the same point of
+$X_0(7)^+$ although they are different vectors with different (isometric)
+complements.
+\end{exercise}
+
+\section*{Chapter note}
+
+Theorems of Morrison~\cite{Morrison1984} and Shioda--Inose~\cite{ShiodaInose1977}
+are quoted; the reader should check the normalization of the Hodge isometry in
+Morrison's definition against the source. The tables of walls are elementary
+computations reproduced for this book; the lattice halves are kernel-checked as
+stated. The observation about ampleness follows Dolgachev's Thm.~7.3 and the
+inequality on discriminants is immediate from Proposition~\ref{prop:index}.

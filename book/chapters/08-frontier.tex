@@ -1,0 +1,142 @@
+\chapter{The frontier: Cooper's sporadic operators and the \texorpdfstring{$M_7$}{M7}-polarized family}\label{ch:frontier}
+
+This chapter assembles, with every claim marked, what is currently known about
+the third-order operators of Cooper's sporadic sequences and their relation to
+the $M_n$-polarized K3 families. It is a status report rather than a theory,
+and it is included because a textbook that stops where the textbooks stop
+leaves the reader without a picture of what an open problem in this subject
+looks like. The detailed account, with proofs and certificates, is the
+research paper~\cite{Callens2026paper}; here we give the structure and the
+marks.
+
+\section{The template theorem}
+
+\begin{theorem}[\Kstatus; \cite{Callens2026paper}, Thm.~4.1]\label{thm:template}
+For every $(a,b,c,d)\in\Q^4$, the order-3 $\theta$-operator $\Lthree$ of the
+Cooper--Gorodetsky template
+\[
+  (n+1)^3s(n+1)=(2n+1)(an^2+an+b)s(n)-n(cn^2+d)s(n-1)
+\]
+satisfies $\Lthree=P_2\cdot\Sym^2(\Ltwo)$ with
+$\Ltwo=P_2\theta^2+P_1\theta+P_0$ explicitly given by polynomials in $z$ over
+$\Q[a,b,c,d]$, and $\theta(P_2)=2P_1$. The Almkvist--van~Straten self-adjointness
+criterion $W\equiv0$ holds identically in the parameters.
+\end{theorem}
+
+The uniformity is the point: the literature treats the sporadic operators one
+at a time, and Doran's theorem gives \emph{existence} of a symmetric-square
+structure under a geometric hypothesis; here the partner is \emph{exhibited}
+from the template parameters with no hypothesis at all.
+(Warning~\ref{warn:converse} applies with full force.)
+
+\section{The arithmetic separation}
+
+\begin{theorem}[\Kstatus\ except where marked]\label{thm:separation}
+Of the three sporadic sequences, $s_7$ is the only one whose partner operator
+$\Ltwo$ has an integral holomorphic solution: the $s_{10}$ and $s_{18}$
+partners fail integrality at $n=2$ (values $17/2$ and $45/2$)~\Kstatus; the
+$s_7$ partner is the formal square root of $\sum s_7(n)z^n$~\Kstatus\
+(\artifact{partner\_eq\_sqrt\_s7}), and its integrality follows from
+$4\mid s_7(n)$ for $n\ge1$~\Kstatus\ (\artifact{four\_dvd\_s7}), with no
+literature input. The modular interpretation of the $s_7$ partner as a weight-1
+form is O'Brien's~\cite{OBrien2016} \Lstatus.
+\end{theorem}
+
+\section{The computed monodromy lattice}
+
+\begin{statusbox}{Numerical Claim \Nstatus\ (Stream 2, certificates \texttt{C2\_cooper\_s7\_v5/v6})}
+Analytic continuation of $\Ltwo(s_7)$ to $60$ digits, symmetric-squared, and
+rational recognition of the monodromy entries (residuals $\sim10^{-59}$),
+followed by an exact rational lattice pipeline, gives a joint
+monodromy-invariant lattice of rank $3$, even, discriminant $-14$, signature
+$(2,1)$, discriminant form $\Z/14$ with $q=1/14$; an explicit
+$\GL_3(\Z)$ base change identifies it with $\U\oplus\lat{14}=T_7$. In the
+current certificate the stage-2 monodromy matrices are \emph{certified}
+(ball arithmetic with rigorous tail bounds, each entry the unique rational
+of small denominator in its enclosure); the identification of this lattice
+with $T(X)$ of the $s_7$ family remains the framework statement
+(Dolgachev, Doran) and is not certified.
+\end{statusbox}
+
+\begin{theorem}[\Kstatus; the lattice arithmetic]
+Everything in Chapter~\ref{ch:lattices}'s worked examples: $T_N$ is even of
+discriminant $-2N$; the glue $e\pm Nf$; the swap is an isometry realizing the
+Fricke involution on the period; an explicit embedding witness of
+$T_7\oplus(\U\oplus\lat{-14})$ into $\U^3$ with index $14$ and the rank-22
+assembly with $E_8(-1)^2$; the modular group $\Gamma_0(N)$ and all
+Atkin--Lehner elements inside $\Orth^+(T_N)$ with the weight-2 automorphy
+factor; the two singular points of $\Lthree(s_7)$ as the images of the Fricke
+fixed points under $z(h)$; and the exact complements of the classes
+$e-f$, $(2,-4,1)$, $(14,-14,-5)$ in $T_7$ and $e-f$, $(10,-10,-3)$ in
+$T_{10}$.
+\end{theorem}
+
+\section{Conjecture and evidence}
+
+\begin{statusbox}{Conjecture (Tier B in the program's language)}
+The $s_7$ family is $M_7$-polarized; its very general member has $\rho=19$
+and $T\cong\U\oplus\lat{14}$; the rank-2 forms at the CM points are as in
+Example~\ref{ex:walls-T7}.
+\end{statusbox}
+
+The evidence, each piece with its mark:
+\begin{itemize}[leftmargin=2em]
+\item The operator is a symmetric square \Kstatus\ --- consistent with Doran,
+  not implied by it (Warning~\ref{warn:converse}).
+\item The computed monodromy lattice is $T_7$ \Nstatus$\to$\Estatus\ --- consistent
+  with Dolgachev's $(M_7)^\perp$.
+\item The singular points $\{-1,\tfrac1{27}\}$ are the Fricke fixed points of
+  $X_0(7)^+$ \Kstatus\ for the rational map, \Estatus\ (order $40$) for the
+  parametrization of the family by $h$ --- this is the one check that is
+  \emph{not} forced (Warning~\ref{warn:forced}).
+\item The CM points of discriminant $-28,-7,-3$ map to $z=\tfrac1{27},-1,\infty$
+  \Nstatus\ (recognition at 120 digits, re-checked at 200).
+\end{itemize}
+
+\begin{warning}
+What would refute the conjecture: an exact monodromy computation giving a
+lattice other than $T_7$; a proof that the $s_7$ family has generic Picard
+number $20$ or $\le18$; or a rank-19 polarization other than $M_7$ with the
+same period domain (this last is exactly the gap Doran's \S6 leaves open).
+Nothing so far points that way, and nothing so far closes the door.
+\end{warning}
+
+\section{Two rank-3 lattices, not one}
+
+Remark~\ref{rem:two-lattices} deserves a chapter-level flag here, because it
+is the one error the program actually made and caught. The symmetric square of
+$\SL_2$ acts on the rank-3 lattice of binary forms of discriminant $-4N^2$;
+the period representation $\rho$ acts on $T_N$ of discriminant $-2N$. A
+working directive once named them interchangeably. The kernel-checked theorem
+\artifact{no\_isometry\_G0N\_TN} is the two-line proof that they are not
+isometric --- an isometry preserves the discriminant --- and it exists in the
+development only because the conflation had occurred. A textbook lesson: when
+two objects carry the same group action, ask what invariant distinguishes them
+before giving them the same name.
+
+\section{Open problems}
+
+\begin{enumerate}[leftmargin=2em]
+\item Make the monodromy exact (connection formulae for $\Ltwo$), turning
+  \Nstatus\ into \Estatus\ throughout.
+\item Prove or refute the converse of Doran's theorem for order-3 operators
+  with the Cooper template's shape; equivalently, classify rank-19 lattice
+  polarizations with period domain $\HH/\Gamma_0(n)^+$.
+\item Exhibit explicit Weierstrass models for the two $\rho=20$ members of the
+  $s_7$ family with $T=A_2$ and $T=\bigl(\begin{smallmatrix}2&1\\1&4\end{smallmatrix}\bigr)$
+  and compute their N\'eron--Severi lattices by Chapter~\ref{ch:elliptic}'s
+  methods; the first is $X_3$ (Example~\ref{ex:inose-points}), the second is
+  not among Inose's special members and would be new to write down.
+\item Formalize Theorem~\ref{thm:tate}'s table and the Shioda--Tate formula so
+  that Example~\ref{ex:inose-points} becomes \Kstatus.
+\item Formalize Proposition~\ref{prop:index} in general (not just its
+  instances), and Nikulin's uniqueness theorem for rank $3$.
+\end{enumerate}
+
+\section*{Chapter note}
+
+Every mark in this chapter is transcribed from the program's ledger at the
+commit of Chapter~\ref{ch:formal}; the numerical claims are Stream 2's and are
+cited by certificate name so the reader can find their provenance. The
+author's own contribution to the mathematics is confined to what is marked
+\Kstatus; the conjecture is stated as a conjecture.

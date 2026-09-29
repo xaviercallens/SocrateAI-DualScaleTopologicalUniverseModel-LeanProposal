@@ -1,0 +1,183 @@
+\chapter{Periods as functions: Picard--Fuchs equations}\label{ch:pf}
+
+A one-parameter family of K3 surfaces $X_z$ has a holomorphic $2$-form
+$\sigma_z$ varying with $z$, and its integrals over a basis of transcendental
+cycles satisfy a linear differential equation in $z$, the Picard--Fuchs
+equation. Its order is the rank of the transcendental lattice; for the
+$M_n$-polarized families that is $3$, and Doran's theorem says the equation is
+then always a \emph{symmetric square} of a second-order one. This chapter
+explains that circle of ideas and connects it to the Ap\'ery-like sequences
+of Zagier and Cooper, which is where the frontier of Chapter~\ref{ch:frontier}
+lives.
+
+\section{Variation of Hodge structure and the Picard--Fuchs operator}
+
+Let $\pi\colon\mathcal X\to S$ be a smooth family of K3 surfaces over a curve
+$S$, and let $\mathcal H=R^2\pi_*\Z$ be the local system of second cohomology,
+with fibres $\Lambda_{K3}$. The Gauss--Manin connection $\nabla$ differentiates
+sections. Let $\sigma\in\Gamma(S,\mathcal H\otimes\mathcal O)$ be a family of
+holomorphic $2$-forms; then $\sigma,\nabla\sigma,\nabla^2\sigma,\dots$ are
+sections of $\mathcal T\otimes\mathcal O$ where $\mathcal T$ is the local
+system of transcendental lattices (assuming $\rho$ constant), of rank $r$, and
+they become linearly dependent at step $r$:
+
+\begin{definition}
+The \emph{Picard--Fuchs operator} of the family is the monic differential
+operator $L=\partial_z^r+c_{r-1}(z)\partial_z^{r-1}+\dots+c_0(z)$, with
+$c_i\in\C(z)$, such that $L\sigma=0$; equivalently, the period functions
+$\int_{\gamma}\sigma_z$ for $\gamma\in\mathcal T^{\vee}$ span its solution
+space. Its order is $r=\rk T$.
+\end{definition}
+
+In the $\theta$-form, $\theta=z\,d/dz$, the operator is
+$L=\sum_i P_i(z)\theta^i$ with polynomial coefficients; this is the form in
+which Ap\'ery-like recurrences arise, since $\theta z^n=nz^n$ turns
+$L\,\sum a_nz^n=0$ into a recurrence for $(a_n)$.
+
+\begin{theorem}[\Lstatus, Griffiths transversality; regular singularities]
+$\nabla\sigma\in\mathcal F^1\otimes\mathcal O$, so $\nabla\sigma\perp\sigma$;
+the Picard--Fuchs equation is Fuchsian (regular singular points), with
+monodromy the image of $\pi_1(S)$ in $\Orth(T)$ \cite[Ch.~10]{Voisin2002}.
+\end{theorem}
+
+\section{Doran's theorem}
+
+\begin{theorem}[\Lstatus, Doran~\cite{Doran2000}, Thm.~5.13]\label{thm:doran}
+The Picard--Fuchs equation of a family of $M_n$-polarized K3 surfaces is the
+symmetric square of a second-order homogeneous linear Fuchsian ordinary
+differential equation.
+\end{theorem}
+
+Two proofs are indicated in~\cite{Doran2000}. The first is a general
+principle: the period point of an $M_n$-polarized surface lies on the quadric
+$\sigma^2=0$ in $\PP(T_\C)\cong\PP^2$, so the three period functions satisfy
+a nondegenerate quadratic relation; and a third-order equation whose solutions
+satisfy a nondegenerate quadratic relation is the symmetric square of a
+second-order one (Doran's Cor.~5.8, which we quote). Explicitly, in the
+parametrization $\omega(\tau)=e-n\tau^2f+\tau w$ of Chapter~\ref{ch:torelli},
+the three coordinates $(1,-n\tau^2,\tau)$ are the monomials $1,\tau^2,\tau$ in
+the two solutions $1,\tau$ of a second-order equation --- which is exactly
+what a symmetric square means. The second proof uses the Shioda--Inose
+presentation of the surfaces as coming from products of $n$-isogenous
+elliptic curves.
+
+\begin{definition}[symmetric square]
+For $\Ltwo=\theta^2+p_1\theta+p_0$ with solutions $y_1,y_2$, the
+\emph{symmetric square} $\Sym^2\Ltwo$ is the third-order operator annihilating
+$y_1^2,y_1y_2,y_2^2$. In $\theta$-form with polynomial coefficients
+the coefficients of $\Sym^2\Ltwo$ are explicit polynomials in those of
+$\Ltwo$ and their $\theta$-derivatives; the recipe is classical (see e.g.\
+\cite[\S4]{AlmkvistVanStraten2021}).
+\end{definition}
+
+\begin{warning}\label{warn:converse}
+Doran's theorem runs from geometry to analysis: \emph{if} the family is
+$M_n$-polarized \emph{then} its operator is a symmetric square. The converse
+--- that an order-3 operator which happens to be a symmetric square comes from
+an $M_n$-polarized family --- is not a theorem; Doran himself notes in
+\cite[\S6]{Doran2000} that the classification of rank-19 lattice polarizations
+needed for such a converse is lacking. Chapter~\ref{ch:frontier} lives
+precisely in the gap.
+\end{warning}
+
+\section{Ap\'ery-like sequences and their operators}
+
+\begin{example}[Ap\'ery's $\zeta(3)$ sequence]
+Ap\'ery's proof of the irrationality of $\zeta(3)$ uses
+$a_n=\sum_k\binom nk^2\binom{n+k}k^2$, satisfying
+\[
+  (n+1)^3a_{n+1}-(34n^3+51n^2+27n+5)a_n+n^3a_{n-1}=0 .
+\]
+Beukers and Peters~\cite{BeukersPeters1984} showed that $\sum a_nz^n$ is a
+period of a one-parameter family of K3 surfaces with generic Picard number
+$19$ --- the first appearance of Corollary~\ref{cor:rho19} in the wild ---
+and Peters--Stienstra identified the family as $M_6$-polarized in today's
+language.
+\end{example}
+
+\begin{theorem}[\Lstatus, Zagier's sporadic sequences~\cite{Zagier2009}]
+Among the second-order recurrences $(n+1)^2u_{n+1}-(an^2+an+b)u_n+cn^2u_{n-1}=0$
+with $u_0=1$, $u_{-1}=0$, exactly six ``sporadic'' parameter triples
+$(a,b,c)$ (beyond degenerate and Legendrian ones) give integer sequences; each
+$\sum u_nz^n$ is a modular form of weight $1$ in a Hauptmodul of a genus-zero
+group of level $\le 8$ or so.
+\end{theorem}
+
+\begin{theorem}[\Lstatus, Cooper~\cite{Cooper2012}; Gorodetsky~\cite{Gorodetsky2021}]\label{thm:cooper}
+There are three further sporadic \emph{third-order} sequences, $s_7,s_{10},s_{18}$,
+satisfying recurrences of the form
+\[
+  (n+1)^3s(n+1) = (2n+1)(an^2+an+b)\,s(n)-n\,(cn^2+d)\,s(n-1),
+\]
+with $(a,b,c,d)$ equal to $(13,4,-27,3)$, $(6,2,-64,4)$, $(14,6,192,-12)$
+respectively, all integer-valued. Their generating functions are weight-2
+modular forms in Hauptmoduln of $\Gamma_0(7)^+$, $\Gamma_0(10)^+$, $\Gamma_0(18)^+$.
+\end{theorem}
+
+The four-parameter recurrence is Gorodetsky's \emph{template}; the order-3
+operator it defines, $\Lthree$, is the object whose symmetric-square structure
+is the first result of Chapter~\ref{ch:frontier}. Let us record here the
+elementary but central observation that connects the template to
+Theorem~\ref{thm:doran}.
+
+\begin{proposition}[\Kstatus; the template is a symmetric square]\label{prop:template}
+For every $(a,b,c,d)\in\Q^4$, the $\theta$-form operator $\Lthree$ of the
+template above factors as $\Lthree=P_2\cdot\Sym^2(\Ltwo)$ for an explicitly
+determined second-order operator $\Ltwo$ whose coefficients are polynomials in
+$z$ with coefficients in $\Q[a,b,c,d]$, and the leading coefficient $P_2$ of
+$\Ltwo$ satisfies $\theta(P_2)=2P_1$ where $P_1$ is the next coefficient. The
+statement is four polynomial identities, each closed by \artifact{ring}.
+\end{proposition}
+
+The proof is in \artifact{Agora/Sequences/PartnerOperators.lean}; what it
+proves, and what its statement does \emph{not} include, is discussed in
+Chapters~\ref{ch:frontier} and~\ref{ch:formal}. We only note here that the
+existence of a symmetric-square structure for these three operators is
+\emph{consistent with} Doran's theorem, and that consistency is not
+confirmation (Warning~\ref{warn:converse}): the template is a symmetric square
+for all $(a,b,c,d)$, including the uncountably many parameter values that
+correspond to no K3 family at all.
+
+\section{Monodromy and the transcendental lattice}
+
+The monodromy of $L$ acts on its solution space, i.e.\ on $T\otimes\C$, and
+preserves the lattice $T$ and its form. Conversely, given only the operator,
+one can hope to \emph{recover} $T$: compute the monodromy matrices around the
+singular points numerically, find the invariant symmetric bilinear form, and
+find the lattice generated by the orbit of a suitable vector. This is a
+program rather than a theorem, and its output is only as good as its inputs:
+the monodromy is computed numerically \Nstatus, the recognition of its
+entries as rationals is a recognition step, and the identification of the
+resulting rank-3 lattice with $T(X_z)$ requires knowing that the family is the
+one the operator came from. Chapter~\ref{ch:frontier} reports one such
+computation with every step labelled.
+
+\section{Exercises}
+
+\begin{exercise}
+Compute $\Sym^2$ of $\theta^2-z(\theta+\tfrac12)^2$ (the hypergeometric
+operator of $K(k)$) and identify the result as the Picard--Fuchs operator of
+the Legendre family's symmetric square.
+\end{exercise}
+
+\begin{exercise}[$\star$]
+Show that if $y_1,y_2$ solve $\theta^2y+p_1\theta y+p_0y=0$, then
+$u=y_1y_2$ satisfies a third-order equation, and that $y_1^2,y_1y_2,y_2^2$
+satisfy the quadratic relation $(y_1y_2)^2=y_1^2\cdot y_2^2$. This is the
+``nondegenerate quadric'' of Doran's proof.
+\end{exercise}
+
+\begin{exercise}
+Verify from Theorem~\ref{thm:cooper} that $s_7(1)=4$, $s_7(2)=48$,
+$s_7(3)=760$ (with $s_7(0)=1$), and that $4\mid s_7(n)$ for $1\le n\le 10$.
+(The general statement $4\mid s_7(n)$ for all $n\ge1$ is kernel-checked in the
+program, \artifact{four\_dvd\_s7}.)
+\end{exercise}
+
+\section*{Chapter note}
+
+Doran's theorem was read from a hash-pinned copy of~\cite{Doran2000} (its
+Thm.~5.13, Cor.~5.8, and \S6). Zagier's and Cooper's classifications are
+quoted from the cited papers; the parameter quadruples are those encoded and
+golden-tested in the program's Lean development against the first terms of
+the sequences as printed in the sources.

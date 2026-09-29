@@ -1,0 +1,31 @@
+{
+  "title": "K3 Surfaces from the Lattice Up — a textbook with a verified core (edition 0.1)",
+  "upload_type": "publication",
+  "publication_type": "book",
+  "access_right": "open",
+  "language": "eng",
+  "license": {"id": "CC-BY-4.0"},
+  "creators": [
+    {"name": "Callens, Xavier", "affiliation": "SocrateAI Lab | SymbioticFactory Research", "orcid": ""}
+  ],
+  "keywords": [
+    "K3 surfaces",
+    "integral lattices",
+    "transcendental lattice",
+    "lattice-polarized K3 surfaces",
+    "Torelli theorem",
+    "elliptic fibrations",
+    "Picard-Fuchs equations",
+    "symmetric square",
+    "modular curves",
+    "Fricke involution",
+    "singular K3 surfaces",
+    "complex multiplication",
+    "Lean 4",
+    "formal verification",
+    "textbook"
+  ],
+  "communities": [{"identifier": "zenodo"}],
+  "description": "<p>A textbook on K3 surfaces built from the arithmetic of integral lattices upward, for a reader with linear algebra, a first course in complex analysis and the vocabulary of algebraic geometry, who wants to reach the point where the transcendental lattice of a K3 surface, the monodromy of a Picard&ndash;Fuchs equation and the geometry of a modular curve meet.</p><p><strong>Chapters.</strong> 1 Integral lattices (Gram matrices, discriminant forms, orthogonal complements and the index formula, Nikulin's theorems; worked examples U&oplus;&lang;2N&rang;, E<sub>8</sub>, the K3 lattice, and the binary forms A<sub>2</sub>, &lang;2&rang;&oplus;&lang;2&rang;, [[2,1],[1,4]]). 2 K3 surfaces (definition, Hodge diamond, N&eacute;ron&ndash;Severi and transcendental lattices, Picard number 20, the ample cone). 3 Periods, Torelli and lattice polarizations (period domain, global Torelli, surjectivity, Dolgachev's M<sub>n</sub>-polarized families, the modular group inside the isometry group). 4 Elliptic fibrations (Kodaira's classification, Tate's algorithm, Shioda&ndash;Tate, the Inose pencil with exact orders of vanishing). 5 Picard&ndash;Fuchs equations (variation of Hodge structure, Doran's symmetric-square theorem and its converse, Ap&eacute;ry-like and Cooper sequences). 6 Singular K3 surfaces and complex multiplication (Shioda&ndash;Inose structures, rank jumps along a family, the walls of T<sub>7</sub> and T<sub>10</sub>). 7 Modular curves and the Fricke involution (&Gamma;<sub>0</sub>(n)<sup>+</sup>, Atkin&ndash;Lehner, Hauptmoduln, the dictionary between modular curve, lattice and surface). 8 The frontier: Cooper's sporadic operators and the M<sub>7</sub>-polarized family, every claim marked. 9 What &ldquo;kernel-checked&rdquo; means. Exercises in every chapter with hints.</p><p><strong>Status convention.</strong> Every statement carries a mark: (L) literature, quoted with a precise citation; (E) exact computation the reader can rerun; (N) numerical evidence; (K) kernel-checked in Lean 4 with the three standard axioms only, in the public repository <code>SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal</code>. The (K) core is the lattice arithmetic of Chapter 1: the exact orthogonal complements of five classes in U&oplus;&lang;14&rang; and U&oplus;&lang;20&rang;, including the integral isometry U&oplus;&lang;14&rang; &cong; &lang;&minus;2&rang; &oplus; [[2,1],[1,4]]. No physics is discussed.</p><p><strong>Provenance.</strong> Drafted with the assistance of an AI model (Claude, Fable 5.1) inside the repository holding the Lean development; kernel-checked statements are transcribed from a stated commit; literature statements are the author's responsibility. Edition 0.1, 29 September 2026.</p>",
+  "notes": "Source repository: https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal (directory book/). Build with pdflatex + bibtex. Companion research paper: concept DOI 10.5281/zenodo.22853238."
+}

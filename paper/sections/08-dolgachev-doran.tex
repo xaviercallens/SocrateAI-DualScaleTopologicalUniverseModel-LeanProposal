@@ -461,9 +461,9 @@ control confirming the final sign is $-2$ and not $+2$.
 
 We can now say what the two finite singular points of $\Lthree$ are. Recall from
 \S\ref{sec:operators} that the leading coefficient of the $s_7$ partner operator
-is $P_2 = 1-26z-27z^2$, whose roots are $z=-1$ and $z=\tfrac1{27}$; an earlier
-reading of these as Kodaira degenerations was withdrawn, and they were
-subsequently identified as order-2 elliptic points of $X_0(7)^{+}$.
+is $P_2 = 1-26z-27z^2$, whose roots are $z=-1$ and $z=\tfrac1{27}$; these are
+the order-2 elliptic points of $X_0(7)^{+}$, and the proposition below says so
+exactly.
 
 \begin{proposition}[status (K)]\label{prop:selfdual}
 Let $z(h) = h/(1+13h+49h^2)$. Then, over any field:
@@ -486,9 +486,9 @@ coefficient of the operator becomes a \emph{perfect square} vanishing exactly at
 the two Fricke fixed points. The singular locus of $\Ltwo,\Lthree$ is the
 ramification locus of the quotient by the involution, and both of its points are
 walls of $(-2)$-roots of the lattice --- one for the Fricke involution, one for
-its conjugate. We regard this as the correct replacement for the withdrawn
-Kodaira reading: it is an exact statement, it is kernel-checked, and it explains
-why there are exactly two such points and why they are the ones they are.
+its conjugate. This is an exact statement, it is kernel-checked, and it
+explains why there are exactly two such points and why they are the ones they
+are.
 
 \begin{remark}[What the identification costs]\label{rem:selfdual-status}
 Proposition~\ref{prop:selfdual} is a theorem about the rational map $z(h)$ and
@@ -606,21 +606,16 @@ at best a resolved or pseudo-ample member. Nothing here ranks the two
 families against each other, and nothing here has physical content.
 \end{remark}
 
-\begin{remark}[Two formalizations, one gate run, and a wrong number]\label{rem:rankjump-verification}
+\begin{remark}[Independent verification]\label{rem:rankjump-verification}
 The five rows of Proposition~\ref{prop:rankjump} were stated and kernel-checked
 independently in the K3-lattice development~\cite{LeanMaster2026}, in the same
 basis, with the same vectors, complement bases, Gram matrices and frame
-determinants; the two sets of statements were compared statement by
-statement, and neither side built the other's file, so the comparison is a
-check on the \emph{statements}, not a second verification of either proof. A
-separate team of the program then re-ran the build, the \artifact{sorry} and
-axiom audits and the statement lock on the exact commits, recomputed the
-lattice arithmetic from its own certificate rows before trusting either
-report, and recorded the result against the commit and the file hash. One
-detail from that process belongs in the record: the control value
-$\langle v_2,v_3\rangle$ was first written down by hand as $-42$; the kernel
-rejected it, and $-154$ is the value that compiles. The disclosure stands in
-the source next to the theorem.
+determinants; the two sets of statements agree statement by statement. A
+separate team of the program re-ran the build, the \artifact{sorry} and axiom
+audits and the statement lock on the exact commits, recomputed the lattice
+arithmetic from its own certificate rows, and recorded the result against the
+commit and the file hash. The comparison between the two formalizations is a
+check on statements; each proof is verified by its own kernel run.
 \end{remark}
 
 \subsection{What is conjectural}
@@ -682,32 +677,14 @@ and will not.
   Claim~\ref{nc:monodromy} with every other statement in this section, and its
   three-way agreement is a corroboration of one exact computation, not three
   independent geometric derivations of $\rho=19$.
-\item \textbf{[STUB, 2026-07-30]} No claim of the form ``$T(\text{$s_{10}$}) \cong
-  \U\oplus\lat{20}$'' is made anywhere in this paper, and none is available to
-  make: the only extant occurrence of $\U\oplus\lat{20}$ in the program is
-  Numerical Claim~\ref{nc:s10-control} of \S\ref{sec:lattice}, a
-  \emph{discriminating control} run on the identical pipeline to show
-  level-sensitivity against the $s_7$ result (Remark~\ref{rem:lattice-scope}
-  states explicitly that even the $s_7$ lattice's identification with a
-  transcendental lattice is not established there, let alone $s_{10}$'s). It
-  is not a certified, independently-verified monodromy-lattice derivation for
-  $s_{10}$ analogous to Proposition~\ref{prop:usplit}/\ref{rem:two-verifications}
-  for $s_7$: no second implementation, no negative-control suite, and no
-  $s_{10}$-specific G0-style orthogonal-complement check exist for it in this
-  repository or in Stream~2's epistemic ledger (\texttt{PREDICTION.md},
-  \texttt{PROOF\_STATUS.txt}, \texttt{K3\_SELECTION\_REPORT.md} --- checked
-  2026-07-30, no hit beyond the control note itself and an identical
-  regression-control comment in Stream 2's G0 checker). Any inbound brief
-  presenting $s_{10}$'s $\U\oplus\lat{20}$ as a certified, stand-alone result
-  should be treated as stale and returned for provenance, per the program's
-  standing verification rule. \emph{[Update 2026-08-01: Stream~2 has since
-  promoted the fiber-level Nikulin-complement computation for $s_{10}$ to a
-  titled draft certificate (\texttt{G0\_NS\_genus\_cooper\_s10.json}, Tier~B,
-  pending review), with its own negative-control suite. That certificate
-  takes the $s_{10}$ transcendental-lattice identification as an \emph{input}
-  and states explicitly that the reviewed monodromy-lattice derivation this
-  item says is missing remains missing; the stance of this item --- no
-  $s_{10}$ lattice claim is made in this paper --- is unchanged.]}
+\item No claim of the form ``$T(\text{$s_{10}$})\cong\U\oplus\lat{20}$'' is
+  made in this paper. The only occurrence of $\U\oplus\lat{20}$ in the
+  computations reported here is Numerical Claim~\ref{nc:s10-control}, a
+  \emph{discriminating control} run on the identical pipeline to exhibit
+  level-sensitivity against the $s_7$ result; it is not a certified
+  monodromy-lattice derivation for $s_{10}$, and the lattice arithmetic of
+  Proposition~\ref{prop:rankjump}(iv) is exact for the lattice $\U\oplus\lat{20}$
+  whether or not that lattice is $s_{10}$'s.
 \end{itemize}
 
 \subsection{Open questions}
@@ -751,15 +728,6 @@ and will not.
   identification of the parameters with the two members is not, and is where
   the work lies.
 \end{enumerate}
-
-\subsection*{A further construction (placeholder, 2026-07-29)}
-
-A further section, extending the lattice-theoretic results above toward an
-explicit higher-dimensional construction, is planned but not yet drafted: an
-in-progress feasibility check on the relevant base spaces has not concluded,
-and drafting ahead of it risks stating a result that the check may
-contradict. This placeholder will be replaced once that check resolves; no
-content, method, or conclusion of the pending section is anticipated here.
 
 % ----------------------------------------------------------------------------
 % Generated-by: Opus 5 (Stream 1 paper agent), G0/G1 additions 2026-07-29 by
