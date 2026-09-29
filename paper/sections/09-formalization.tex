@@ -145,6 +145,11 @@ Prop.~\ref{prop:selfdual} &
   \artifact{zOf\_fricke}, \artifact{s7\_P2\_discriminant},
   \artifact{W7conj\_eq\_neg\_reflection} &
   \artifact{Geometry/SelfDual.lean}, \artifact{"} \\
+Prop.~\ref{prop:rankjump} &
+  \artifact{rootEF\_perp\_iff}, \artifact{root7\_perp\_iff},
+  \artifact{T7\_splits\_at\_root7}, \artifact{root7Inf\_perp\_iff},
+  \artifact{root10Inf\_perp\_iff}, \dots &
+  \artifact{Geometry/MnLattice.lean} \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -419,6 +424,25 @@ imports; they are retained rather than deleted, and none of them is cited
 anywhere in this paper. The results of \S\S\ref{sec:sym2}--\ref{sec:integrality}
 and \S\ref{sec:framework} were subjected to the same audit and are
 unaffected.
+
+\subsubsection*{Producer and verifier}
+
+The gates described above were, for most of this development, run by the same
+hands that wrote the proofs. For the lattice results of
+\S\ref{subsec:rankjump} that is no longer the whole story, and we record the
+difference because it is the kind of fact a reader cannot recover from the
+source. A separate team of the program, working in a different repository,
+re-ran the build, the \artifact{sorry} and axiom audits and the statement lock
+on the exact commits carrying those results, printed the axioms of each cited
+theorem, recomputed the lattice arithmetic from its own certificate rows
+before trusting either party's report, and recorded the outcome against the
+commit and the SHA-256 of the source file. Independently, the K3-lattice
+development~\cite{LeanMaster2026} stated the same five rows in its own file;
+the two statement sets were compared and agree. That comparison is a check on
+statements, not a second verification of either proof: neither side built the
+other's file, and we say so where the comparison is cited. The corresponding
+commits are frozen under non-fast-forward merges so that the recorded hashes
+remain exact.
 
 % ----------------------------------------------------------------------------
 % Generated-by: Opus 5 (Stream 1 paper agent); \S9.4 (three-strikes discipline)
