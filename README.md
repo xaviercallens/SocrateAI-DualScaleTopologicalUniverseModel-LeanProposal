@@ -59,6 +59,7 @@ axiom. Names are Lean declarations; grep for them.
 | — hence s₇ partner integral **with no literature axiom** | `s7_partner_integral_axiom_free` | `"` |
 | s₁₀, s₁₈ partners **not** integral (single witnesses) | `s10_partner_not_integral` | `Sequences/PartnerIntegrality.lean` |
 | **Rank-jump classes in `U⊕⟨2N⟩`**: `(e−f)² = −2`, exact complement `≅ ⟨2⟩⊕⟨2N⟩` (index 2); at `N=7` the second class `(2,−4,1)` splits `U⊕⟨14⟩ ≅ ⟨−2⟩⊕[[2,1],[1,4]]` (index 1) — lattice half of Stream 2's ρ = 20 rows | `rootEF_perp_iff`, `TN_splits_at_rootEF`, `root7_perp_iff`, `T7_splits_at_root7` | `Geometry/MnLattice.lean` §3b |
+| **The AM-8-selected rows** (T0 2026-09-28, per-family minimal \|disc T\|): s₇ class `(14,−14,−5)`, norm −42, exact complement `≅ A₂`, index 3; s₁₀ (ADVISORY, DRAFT lattice) class `(10,−10,−3)`, norm −20, complement `≅ ⟨2⟩⊕⟨2⟩`, index 2. Lattice half only: no selection, no ranking, no physics stated | `root7Inf_perp_iff`, `T7_splits_at_root7Inf`, `root10Inf_perp_iff`, `T10_splits_at_root10Inf` | `Geometry/MnLattice.lean` §3c |
 | `Γ₀(N)⁺ ⊂ O(U⊕⟨2N⟩)` by explicit integer 3×3 ρ; ρ is a homomorphism | `rho_isometry`, `rho_mul` | `Geometry/ModularAction.lean` |
 | — automorphy `(Ncτ+d)²` as a **polynomial identity**, no hypotheses | `rho_mulVec_period` | `"` |
 | — ρ is the symmetric square, and lands in `SO(2,1)` | `rho_trace`, `rho_det` | `"` |
@@ -210,13 +211,13 @@ signature split (b₂⁺, b₂⁻) = (3, 19) is **not** evidence for this projec
 
 ## Verified status
 
-Last checked 2026-09-27 at the pin above. **Re-run the commands rather than trusting these numbers.**
+Last checked 2026-09-29 at the pin above. **Re-run the commands rather than trusting these numbers.**
 
 | Check | Result |
 |---|---|
 | `bash scripts/release_gates.sh` | **all gates OK** (it reads exit codes correctly; a green run is not a clean bill). New gate 0 (2026-09-27): `K3_CRITERIA.md` mirror pin, self-tested and checked against K3-DarkMatter `origin/main` |
 | `lake build Agora OpenGoals Tests` | 3730 jobs, **0 errors** (linter warnings only) |
-| Axiom audit of `Agora` | **395 theorems audited.** 392 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
+| Axiom audit of `Agora` | **421 theorems audited.** 418 depend only on `propext`, `Classical.choice`, `Quot.sound`. ⚠️ Exits **1** permanently — see below |
 | — the other 3 | depend on the two *registered, disclosed* axioms below; no `sorryAx`, no `Lean.ofReduceBool` |
 | `sorry` | **ZERO.** The last one closed 2026-09-20 (see below) |
 | Statement lock | OK — 555 declarations in 40 files; mutation-verified to fire |
