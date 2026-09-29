@@ -18,7 +18,13 @@ broken in this environment.
 
 - **Cite this DOI** — [10.5281/zenodo.22853238](https://doi.org/10.5281/zenodo.22853238) — it is the
   *concept* DOI and always resolves to the latest archived version.
-- Current version **v3**: [10.5281/zenodo.22875834](https://doi.org/10.5281/zenodo.22875834),
+- Current version **v4**: [10.5281/zenodo.23030319](https://doi.org/10.5281/zenodo.23030319),
+  deposited 2026-09-29 from release `v0.26-textbook-and-paper-v4` (47 pp.; results-only revision
+  with the rank-jump classes of §8.10 and their independent verification).
+- **Companion textbook**, a separate Zenodo record: *K3 Surfaces from the Lattice Up — a textbook
+  with a verified core*, edition 0.1, [10.5281/zenodo.23030322](https://doi.org/10.5281/zenodo.23030322)
+  (concept DOI 10.5281/zenodo.23030321), sources in [`book/`](book/), 36 pp., CC-BY-4.0.
+- Previous version **v3**: [10.5281/zenodo.22875834](https://doi.org/10.5281/zenodo.22875834),
   deposited 2026-09-21 from release
   [`v0.14-paper-published`](https://github.com/xaviercallens/SocrateAI-DualScaleTopologicalUniverseModel-LeanProposal/releases/tag/v0.14-paper-published).
   It carries the 48 pp. PDF, the complete LaTeX sources, and a tarball of the Lean 4 development.
