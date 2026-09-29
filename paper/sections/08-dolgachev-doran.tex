@@ -29,8 +29,12 @@ $M_n$-polarized family of K3 surfaces is the symmetric square of a
 second-order Fuchsian operator.
 \end{theorem}
 
-Both sources were fetched, hash-pinned, and read by the program; the parts of
-Theorem~\ref{thm:dolgachev} used below were additionally re-derived
+Both sources were fetched, hash-pinned, and read by the program; Doran's paper
+is now also held in this repository's own literature manifest
+(\artifact{docs/literature/MANIFEST.md}, SHA-256 prefix \texttt{2a3ce065}),
+and Theorem~\ref{thm:doran} was re-read from that copy, page~17--18, on
+2026-09-27. The parts of Theorem~\ref{thm:dolgachev} used below were
+additionally re-derived
 symbolically before use, with the period shape and the invariant bilinear form
 recomputed from scratch rather than transcribed. We also record, because it
 governs how much the coincidences below can be made to prove, that Doran
@@ -511,6 +515,114 @@ interesting, and we claim nothing from it: no compactification is constructed
 here, and a coincidence of lattice isometries is not a physical identification.
 \end{remark}
 
+\subsection{Rank-jump classes and their exact complements}\label{subsec:rankjump}
+
+Proposition~\ref{prop:selfdual} located the two singular points of the $s_7$
+operator on walls of $(-2)$-roots of $\U\oplus\lat{14}$. This subsection makes
+the lattice side of that picture exact, and extends it to the class of smallest
+discriminant in each of the two families. The motivation is the classical one:
+if a period $\omega(\tau)$ of an $M_N$-polarized surface is orthogonal to an
+integral class $v$ of negative norm, then $v$ is algebraic by Lefschetz~(1,1),
+the Picard number jumps from $19$ to $20$, and the transcendental lattice of
+that member is the rank-2 positive lattice $v^{\perp}\subset\U\oplus\lat{2N}$
+(status (L)). Everything about $v^{\perp}$ is integer linear algebra, and the
+point of stating it in Lean is that ``the orthogonal complement of $v$'' is
+then a \emph{set}, characterized by an equivalence, rather than two vectors
+that happen to be orthogonal to $v$.
+
+\begin{proposition}[status (K)]\label{prop:rankjump}
+Write vectors in the basis $(e,f,w)$ of Proposition~\ref{prop:mn-lean}, so
+that $\langle x,y\rangle = x_0y_1+x_1y_0+2N\,x_2y_2$, and let
+$T_7=\U\oplus\lat{14}$, $T_{10}=\U\oplus\lat{20}$.
+\begin{enumerate}
+\item \emph{(The Fricke root, every $N$.)} $v_1=e-f$ has $v_1^2=-2$, and
+  $x\perp v_1$ if and only if $x=a(e+f)+b\,w$ for some $a,b\in\Z$. On that
+  basis the form is $\operatorname{diag}(2,2N)$, and the frame
+  $(v_1,\,e+f,\,w)$ has determinant~$2$: $\langle v_1\rangle\oplus v_1^{\perp}$
+  has index $2$ in $\U\oplus\lat{2N}$.
+\item \emph{(The second root of $T_7$.)} $v_2=2e-4f+w$ has $v_2^2=-2$, and
+  $x\perp v_2$ if and only if $x=(a,\,2a-7b,\,b)$, i.e.\ $v_2^{\perp}$ is
+  spanned by $(1,2,0)$ and $(0,-7,1)$, with Gram matrix
+  $\bigl(\begin{smallmatrix}4&-7\\-7&14\end{smallmatrix}\bigr)$; the
+  unimodular change $\bigl(\begin{smallmatrix}2&1\\1&0\end{smallmatrix}\bigr)$
+  brings it to the reduced basis $(2,-3,1),(1,2,0)$ with Gram matrix
+  $\bigl(\begin{smallmatrix}2&1\\1&4\end{smallmatrix}\bigr)$, the form
+  $x^2+xy+2y^2$ of discriminant $-7$. The frame $(v_2,(2,-3,1),(1,2,0))$ has
+  determinant $-1$: hence the \emph{integral} isometry
+  \[
+    \U\oplus\lat{14}\;\cong\;\lat{-2}\oplus
+    \begin{pmatrix}2&1\\1&4\end{pmatrix}.
+  \]
+\item \emph{(The class of discriminant $-3$ in $T_7$.)} $v_3=14e-14f-5w$ has
+  $v_3^2=-42$ and $\langle x,v_3\rangle = 14(-x_0+x_1-5x_2)$ for all $x$, so
+  every pairing is divisible by $14$ and the pairing with $e$ is $-14$
+  (``$\operatorname{div}(v_3)=14$''). $x\perp v_3$ if and only if
+  $x=(a,\,a+5b,\,b)$; on the reduced basis $(1,1,0),(-2,3,1)$ the form is
+  $\bigl(\begin{smallmatrix}2&1\\1&2\end{smallmatrix}\bigr)=A_2$. The frame
+  has determinant $3$.
+\item \emph{(The class of discriminant $-4$ in $T_{10}$.)} $v_4=10e-10f-3w$
+  has $v_4^2=-20$, $\langle x,v_4\rangle=10(-x_0+x_1-6x_2)$, $x\perp v_4$ if
+  and only if $x=(a,\,a+6b,\,b)$, reduced form
+  $\bigl(\begin{smallmatrix}2&0\\0&2\end{smallmatrix}\bigr)=\lat2\oplus\lat2$
+  on $(1,1,0),(-3,3,1)$, and frame determinant $2$.
+\item \emph{(Controls.)} $\langle v_1,v_2\rangle=-6$,
+  $\langle v_1,v_3\rangle=-28$, $\langle v_2,v_3\rangle=-154$: the three
+  complements in $T_7$ are three different sublattices, as their
+  discriminants $28$, $7$, $3$ already force.
+\end{enumerate}
+\end{proposition}
+
+In every case the numbers satisfy the identity
+$\det(v^{\perp})\cdot v^2 = -2N\cdot\det(\text{frame})^2$ --- for instance
+$3\cdot(-42) = -14\cdot 3^2$ --- which is how the index of
+$\langle v\rangle\oplus v^{\perp}$ is read off. Item~(ii) is the statement we
+find most worth recording: the second root does not merely have a complement
+of discriminant $7$, it splits $\U\oplus\lat{14}$ as a direct sum, whereas the
+Fricke root only does so up to index~$2$ and the discriminant-$3$ class up to
+index~$3$. The root $(-2,4,1)$ named in Proposition~\ref{prop:selfdual} and
+$v_2=(2,-4,1)$ are distinct roots whose wall equations,
+$14\tau^2+14\tau+4=0$ and $14\tau^2-14\tau+4=0$, have roots differing by
+exactly~$1$; they define the same point of $X_0(7)^{+}$ (direct computation,
+not kernel-checked).
+
+\begin{remark}[What the proposition does and does not say]\label{rem:rankjump-status}
+Proposition~\ref{prop:rankjump} is about five integer vectors in two Gram
+matrices. Reading it as a statement about K3 surfaces uses three further
+inputs, none of them kernel-checked, each labeled. (1)~That
+$\U\oplus\lat{2N}$ is the transcendental lattice of the family is
+Conjecture~\ref{conj:T} for $N=7$, and for $N=10$ rests on a control
+computation only (\S\ref{subsec:s10-control}); the arithmetic above is exact
+for the lattice $\U\oplus\lat{20}$ whether or not that lattice is $s_{10}$'s.
+(2)~That the period is orthogonal to $v_i$ at a specific $\tau$, and that this
+$\tau$ maps to a specific point of the $z$-line --- $v_1$ to $z=\tfrac1{27}$,
+$v_2$ to $z=-1$, $v_3$ and $v_4$ to $z=\infty$ --- is a numerical recognition
+(status (N): LLL at 120 digits re-checked at 200, in the program's
+certificate of $\rho=20$ points), consistent with but not implied by
+Proposition~\ref{prop:selfdual}. (3)~The passage from $\omega\perp v$ to
+$\rho=20$ and $T_X=v^{\perp}$ is Lefschetz~(1,1), status (L); and Dolgachev's
+theorem that the $(-2)$-walls lie outside the ample locus
+\cite[Thm.~7.3]{Dolgachev1996} means that at $v_1,v_2$ the statement concerns
+at best a resolved or pseudo-ample member. Nothing here ranks the two
+families against each other, and nothing here has physical content.
+\end{remark}
+
+\begin{remark}[Two formalizations, one gate run, and a wrong number]\label{rem:rankjump-verification}
+The five rows of Proposition~\ref{prop:rankjump} were stated and kernel-checked
+independently in the K3-lattice development~\cite{LeanMaster2026}, in the same
+basis, with the same vectors, complement bases, Gram matrices and frame
+determinants; the two sets of statements were compared statement by
+statement, and neither side built the other's file, so the comparison is a
+check on the \emph{statements}, not a second verification of either proof. A
+separate team of the program then re-ran the build, the \artifact{sorry} and
+axiom audits and the statement lock on the exact commits, recomputed the
+lattice arithmetic from its own certificate rows before trusting either
+report, and recorded the result against the commit and the file hash. One
+detail from that process belongs in the record: the control value
+$\langle v_2,v_3\rangle$ was first written down by hand as $-42$; the kernel
+rejected it, and $-154$ is the value that compiles. The disclosure stands in
+the source next to the theorem.
+\end{remark}
+
 \subsection{What is conjectural}
 
 \begin{conjecture}[Identification of the computed lattice]\label{conj:T}
@@ -623,6 +735,21 @@ and will not.
   Proposition~\ref{prop:usplit}, which is constructive and therefore stronger
   than a genus argument for the specific lattice at hand, but it would be the
   natural framing for a classification statement.
+\item Give the two $\rho=20$ members of Proposition~\ref{prop:rankjump}(iii)--(iv)
+  explicit Weierstrass models and read their N\'eron--Severi lattices off the
+  fibration. For the Inose-type pencil
+  $y^2 = x^3 - 3\alpha t^4 x + t^5(t^2-2\beta t+1)$ the orders of vanishing are
+  an exact computation (status (E)): at $(\alpha,\beta)=(0,1)$ the
+  discriminant vanishes to orders $10,10,4$ at $t=0,\infty,1$; at $(1,0)$ to
+  orders $10,10,2,2$ at $t=0,\infty,\pm1$; at $(0,0)$ to orders $10,10,2,2$ at
+  $t=0,\infty,\pm i$ with $a_4\equiv0$. Reading these as Kodaira types is a
+  table lookup (status (L)) that we have not pinned to a source and do not
+  assert; on that reading the first two points carry N\'eron--Severi rank
+  $20$ with discriminants $3$ and $4$, matching $A_2$ and $\lat2\oplus\lat2$,
+  while the third carries rank $18$ from fibres alone. Turning the orders of
+  vanishing into kernel-checked polynomial statements is routine; the
+  identification of the parameters with the two members is not, and is where
+  the work lies.
 \end{enumerate}
 
 \subsection*{A further construction (placeholder, 2026-07-29)}
@@ -663,5 +790,17 @@ content, method, or conclusion of the pending section is anticipated here.
 % the directive's implied "certified cooper_s10 section" is not executed;
 % this explicit stub is inserted instead. Deviation-with-cause recorded here
 % and in the commit message.
+% ADDED 2026-09-29 by Fable 5.1 (Stream 1): \S rankjump (Prop. rankjump, two
+% remarks) transcribed from Agora/Geometry/MnLattice.lean s3b/s3c at main
+% 8dc0eb6 (file sha256 b4d0adcb...), statements read, not docstrings; CM-point
+% z/tau values and their status (N) from K3-DarkMatter CM_POINTS_RHO20.json
+% (1ef6d622...); independent re-verification from
+% CM_POINTS_RHO20_LATTICE_TIER.json (their main d3a2a01, 882a866c...) and the
+% LeanMaster RankJump.lean statement comparison (their 73f6fb1), worded as
+% statement-level per LeanMaster's own note; Doran pin sentence from
+% docs/literature/MANIFEST.md (2a3ce065...); Inose orders of vanishing from an
+% exact sympy run in-session (labels flagged (L), unpinned). No selector,
+% ranking or physics language: AM-8 is program process, not mathematics, and
+% is deliberately not mentioned in the manuscript.
 % | Reviewed-by: pending T0 (Xavier)
 % ----------------------------------------------------------------------------
