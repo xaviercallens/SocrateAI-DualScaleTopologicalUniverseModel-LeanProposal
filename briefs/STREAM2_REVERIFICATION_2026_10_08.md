@@ -45,9 +45,22 @@ unanswered. A kernel proof written by the requesting stream would not be indepen
 The run above is **red** at gate 0, so it is not the run a release may cite. No tag is made on it. After this branch is merged, the
 gates are re-run in full on the merged `main`, and the tag is made only on `ALL GATES OK`. That run is recorded below.
 
-## Gate run 2: on the merged `main` (filled in after merge)
+## Gate run 2: on the merged `main` @ 8dbf438 (PR #4), 2026-10-08
 
-*(pending)*
+| Gate | Result |
+|---|---|
+| 0. mirror pin | `MIRROR OK` (50907eb5…), `PIN CURRENT` against K3-DarkMatter `origin/main` |
+| 1. self-tests | ok, ok |
+| 2. build | `Build completed successfully (3730 jobs).` |
+| 3. sorry | no warning in the build log (sorry-freedom rests on gate 4) |
+| 4. axiom audit | `421 theorems audited, 3 failing`, the 3 expected, unchanged |
+| 5. statement lock | `statement lock: OK` |
+| 6. quarantine boundary | OK |
+| 7. open goals export | unchanged |
+| verdict | **`ALL GATES OK`**, exit 0 |
+
+Tag `v0.27-paper-addendum-2026-10-08` points at **8dbf438**, the gated tree. This record was added afterwards in a docs-only
+commit, so the tagged tree and the gated tree are the same.
 
 *Generated-by: Claude (Opus 5.5), Stream 2 | Verified-by: the gate output quoted above, which is the excerpt of record (the raw log
 was not committed), and the mirror checker re-run | Reviewed-by: N*
