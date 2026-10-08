@@ -18,10 +18,12 @@ broken in this environment.
 
 - **Cite this DOI** — [10.5281/zenodo.22853238](https://doi.org/10.5281/zenodo.22853238) — it is the
   *concept* DOI and always resolves to the latest archived version.
-- **Revision of 2026-10-08** (release `v0.27-paper-addendum-2026-10-08`, GitHub only, **not yet deposited on Zenodo**;
-  depositing it is T0's step): v4 text unchanged plus a dated addendum §12 on companion results; release gates re-run
-  by Stream 2 (`briefs/STREAM2_REVERIFICATION_2026_10_08.md`), K3_CRITERIA mirror re-pinned.
-- Current Zenodo version **v4**: [10.5281/zenodo.23030319](https://doi.org/10.5281/zenodo.23030319),
+- Current version **v5**: [10.5281/zenodo.23248582](https://doi.org/10.5281/zenodo.23248582), deposited 2026-10-08
+  on T0's instruction from release `v0.27-paper-addendum-2026-10-08` (49 pp.). The v4 text is unchanged, plus a dated
+  addendum §12 on companion results. The Lean development is identical to v4. Release gates were re-run by Stream 2
+  (`briefs/STREAM2_REVERIFICATION_2026_10_08.md`), and the K3_CRITERIA mirror was re-pinned. File MD5s were checked
+  against the local bundle after publication.
+- Previous version **v4**: [10.5281/zenodo.23030319](https://doi.org/10.5281/zenodo.23030319),
   deposited 2026-09-29 from release `v0.26-textbook-and-paper-v4` (47 pp.; results-only revision
   with the rank-jump classes of §8.10 and their independent verification).
 - **Companion textbook**, a separate Zenodo record: *K3 Surfaces from the Lattice Up — a textbook
