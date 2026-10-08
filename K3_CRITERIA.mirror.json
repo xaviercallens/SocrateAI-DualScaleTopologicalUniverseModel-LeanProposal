@@ -4,14 +4,18 @@
     "repo": "SocrateAI-Scientific-Agora-K3-DarkMatter",
     "path": "K3_CRITERIA.md",
     "canonical_since": "2026-09-21 (T0 D8', AM-5)",
-    "observed_at_commit": "da4bdaa",
-    "observed_via": "git show origin/main:K3_CRITERIA.md | sha256sum, in the local K3-DarkMatter clone after git fetch, 2026-09-28",
-    "change_that_triggered_this_pin": "AM-8 (T0, 2026-09-28): C6 selector adopted, minimal |disc T| within each register family; s7 -> T = A2 (D = -3), s10 (ADVISORY) -> <2>+<2> (D = -4); no cross-family ranking, no s10 promotion, no physical reading. Records: K3-DarkMatter briefs/T0_DECISIONS_2026_09_28_STREAM2.md, briefs/STREAM2_AM8_SELECTOR_COMPARISON_2026_09_28.md"
+    "observed_at_commit": "5fe0f98",
+    "observed_via": "git show origin/main:K3_CRITERIA.md > file; sha256sum, in the K3-DarkMatter worktree after git fetch, 2026-10-08; byte-identical copy installed here",
+    "change_that_triggered_this_pin": "generated section 5 moved twice in the canonical repo: 268dd18 (2026-09-29, D15': C2_cooper_s10_v5 LIVE) and ac86c26 (2026-10-07, v5 chain re-emitted; advisory flag read from the CM certificate). No criterion text was amended; found by scripts/release_gates.sh step 0 (PIN STALE) on 2026-10-08."
   },
-  "sha256": "7af500a774073893ea0829efc6e7fcdfccf1974fbd5859275f902feb70fd3511",
-  "pinned_on": "2026-09-28",
-  "pinned_by": "Stream 1 session (Claude Fable 5.1); hash recomputed at the source, not copied from the notice",
+  "sha256": "50907eb569b3a5491e45af5d2842493b98ee4c7d66f61fe3906a448284075288",
+  "pinned_on": "2026-10-08",
+  "pinned_by": "Stream 2 session (Claude Opus 5.5) on T0's instruction to complete and publish all three streams; hash recomputed at the source",
   "previous_pins": [
+    {
+      "sha256": "7af500a774073893ea0829efc6e7fcdfccf1974fbd5859275f902feb70fd3511",
+      "note": "canonical at K3-DarkMatter da4bdaa (AM-8); pinned 2026-09-28 by Stream 1, superseded 2026-10-08 (generated section 5 moved)"
+    },
     {
       "sha256": "66d76883ad4a8e9b5b39c3247f1a6f8e8dbd58f54aa377afca96fbbf506b45b7",
       "note": "Stream 1's own copy at commit 6c09d2d (2026-07-20), the byte-identical SEED of the canonical file (K3-DarkMatter f62f2c8). Quarantined, not deleted: docs/archive/K3_CRITERIA_SEED_6c09d2d_2026_07_20.md"
