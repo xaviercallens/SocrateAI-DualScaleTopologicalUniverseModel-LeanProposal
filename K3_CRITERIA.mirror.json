@@ -4,14 +4,18 @@
     "repo": "SocrateAI-Scientific-Agora-K3-DarkMatter",
     "path": "K3_CRITERIA.md",
     "canonical_since": "2026-09-21 (T0 D8', AM-5)",
-    "observed_at_commit": "5fe0f98",
+    "observed_at_commit": "06dd34a",
     "observed_via": "git show origin/main:K3_CRITERIA.md > file; sha256sum, in the K3-DarkMatter worktree after git fetch, 2026-10-08; byte-identical copy installed here",
-    "change_that_triggered_this_pin": "generated section 5 moved twice in the canonical repo: 268dd18 (2026-09-29, D15': C2_cooper_s10_v5 LIVE) and ac86c26 (2026-10-07, v5 chain re-emitted; advisory flag read from the CM certificate). No criterion text was amended; found by scripts/release_gates.sh step 0 (PIN STALE) on 2026-10-08."
+    "change_that_triggered_this_pin": "AM-9 (K3_CRITERIA v0.1f, D30', 2026-10-08, on T0's instruction 'start T3'): T3 becomes a hard gate (T3_DISAGREE triggers F1; an absent certificate does not); D31': scoring considered and not adopted. Criterion text WAS amended this time (T3 failure clause, sec. 4, version row, generated sec. 5 header)."
   },
-  "sha256": "50907eb569b3a5491e45af5d2842493b98ee4c7d66f61fe3906a448284075288",
+  "sha256": "005b37c387c95e2d9fdf9d533358d061f54aa694916abaf62e8d6db363283db0",
   "pinned_on": "2026-10-08",
-  "pinned_by": "Stream 2 session (Claude Opus 5.5) on T0's instruction to complete and publish all three streams; hash recomputed at the source",
+  "pinned_by": "Stream 2 session (Claude Opus 5.5) in the session that made AM-9; hash recomputed at the source",
   "previous_pins": [
+    {
+      "sha256": "50907eb569b3a5491e45af5d2842493b98ee4c7d66f61fe3906a448284075288",
+      "note": "canonical at K3-DarkMatter 5fe0f98 (generated section 5 moved); pinned 2026-10-08, superseded the same day by AM-9"
+    },
     {
       "sha256": "7af500a774073893ea0829efc6e7fcdfccf1974fbd5859275f902feb70fd3511",
       "note": "canonical at K3-DarkMatter da4bdaa (AM-8); pinned 2026-09-28 by Stream 1, superseded 2026-10-08 (generated section 5 moved)"
