@@ -1,0 +1,82 @@
+% ============================================================================
+% 12-developments-2026-10-08.tex -- dated addendum to version 4 (Zenodo 10.5281/zenodo.23030319, 2026-09-29).
+% Written by the Stream 2 session on T0's instruction of 2026-10-08 ("publish the stream 1, stream 2 and stream 3
+% results as tex and pdf"). Sections 1-11 are version 4, unchanged. Every item below names the companion artifact
+% it comes from; nothing in this section is a new kernel-checked result of this repository.
+% ============================================================================
+\section{Developments after version 4 (dated addendum, 2026-10-08)}\label{sec:addendum}
+
+Sections~\ref{sec:intro}--\ref{sec:reproducibility} are the text of version~4 (2026-09-29), unchanged. This
+section records what companion work of the programme has since computed that bears on the open questions and
+on Conjecture~\ref{conj:T} above. It is written by the programme's geometry stream (repository \textbf{R2})
+at the decision authority's instruction. It adds no kernel-checked statement to this repository, and each item
+carries the status of its source: (K) kernel-checked, (E) exact computation, (N) numerically supported, (L)
+literature, as in \S\ref{sec:formalization}.
+
+\subsection{Re-verification of the formal development}
+The release gates of this repository (\artifact{scripts/release\_gates.sh}) were re-run on 2026-10-08 against the
+version-4 commit by a session that did not produce it. The outcome is recorded in
+\artifact{briefs/STREAM2\_REVERIFICATION\_2026\_10\_08.md}, with the exact output of each gate. One gate failed
+before any change was made: the byte-pinned mirror of the shared criteria document was stale, because a
+generated table in the canonical copy had moved twice since 2026-09-28. No criterion text had changed. The
+mirror was re-pinned byte for byte in the commit that adds this section.
+
+\subsection{Open question 1: the monodromy numerics}
+Numerical Claim~\ref{nc:monodromy} is no longer supported only by a $10^{-35}$ recognition threshold. In R2,
+each recognized entry of the order-two monodromy is now enclosed by rigorous ball arithmetic, with certified
+truncation bounds on the Frobenius series and on the Taylor continuation. Each entry is shown to be the
+\emph{unique} rational of denominator at most $10^4$ inside its enclosure, for both $s_7$ and $s_{10}$
+(\artifact{CERTIFIED\_MONODROMY\_L2\_cooper\_s7.json}, \artifact{\_s10.json}). Feeding exactly those matrices
+into the exact lattice pipeline reproduces every field of the lattice certificate. This is status (E) relative
+to the denominator bound; that bound is an assumption, not a theorem, so the question is answered in part and
+not closed.
+
+\subsection{The \texorpdfstring{$s_{10}$}{s10} lattice}
+The item of ``What is not claimed'' about $\U\oplus\lat{20}$ stays true of this paper. In R2 the same pipeline,
+fed certified matrices, now gives an explicit integral base change from the $s_{10}$ orbit lattice to
+$\U\oplus\lat{20}$ (\artifact{C2\_cooper\_s10\_v5.json}, live since 2026-09-29). As for $s_7$, identifying that
+lattice with the transcendental lattice rests on the framework of \S8 (status (L)).
+
+\subsection{Open question 6: explicit models at the \texorpdfstring{$\rho=20$}{rho=20} points}
+R2 wrote the $s_7$ family explicitly as an Inose surface, using the Clingher--Doran--Lewis--Whitcher normal form
+restricted to the $M_7$-polarized locus (\artifact{INOSE\_MODEL\_M7.json}). Exact reduction of that model at the
+three points of Proposition~\ref{prop:rankjump} for $s_7$ gives the extra root lattice $A_1$ at $z=\tfrac1{27}$,
+$A_1$ at $z=-1$ and $A_2$ at $z=\infty$ (\artifact{TW2\_RHO20\_LOCI.json}, (E) given the model). The
+Shioda--Tate formula and the height formula then account for the remaining class of Picard number~$20$ by a
+Mordell--Weil section, except at $z=\infty$, where the Mordell--Weil rank is $0$. In line with the first item of
+``What is not claimed'', no fibre type is attached to any of these points: R2 reports orders of vanishing and
+root lattices only.
+
+\subsection{The selected surfaces are named}
+A within-family selector adopted on 2026-09-28 picks the point of minimal $|\det T|$. By the Shioda--Inose
+correspondence and Takatsu's tabulation of singular $K3$ surfaces of discriminant $3$, $4$ and $7$ (status (L)),
+the $s_7$ pick ($T=A_2$) is the surface $X_3$ and the $s_{10}$ pick ($T=\lat2\oplus\lat2$) is $X_4$
+(\artifact{SELECTED\_K3\_IDENTIFICATION.json}). These are the two smallest determinants any even
+positive-definite binary lattice attains. The naming ranks nothing.
+
+\subsection{The lattice shape \texorpdfstring{$\U\oplus\lat{2n}$}{U+<2n>} from a product of isogenous curves}
+Let $E$ and $E'$ be elliptic curves without complex multiplication (an assumption) related by a cyclic isogeny
+of degree $n$. R2 computed the transcendental lattice of the abelian surface $E\times E'$ exactly, in
+$\wedge^2\Z^4$ with the determinant pairing. It is isometric to $\U\oplus\lat{14}$ for $n=7$ and to
+$\U\oplus\lat{20}$ for $n=10$, by a stored basis change (\artifact{K3xT2\_READING\_S.json}, (E)). The programme uses
+this pairing of a family member with $E\times E'$ as a convention for its selection criteria (decision D29$'$ of
+R2). In keeping with the scope of this paper, the statement is about lattices only. It identifies no torus of
+any physical model with $E$ or $E'$.
+
+\begin{remark}
+This does \emph{not} close the rescaling gap of Conjecture~\ref{conj:T}. The computation concerns $E\times E'$.
+Transferring it to the family member needs the Shioda--Inose isometry (status (L)) and the identification of the
+member with an Inose surface (for $s_7$, through the explicit model above). Neither step bears on whether the
+monodromy lattice of \S\ref{sec:lattice} could be $\lambda G$ with $\lambda>1$. The gap stays as stated.
+\end{remark}
+
+\subsection{An open request to this repository}
+R2 has asked this repository to kernel-check the lattice arithmetic behind the section computation of the
+explicit model: the trivial lattice of rank $18$, discriminant $\pm1$, and $|\det\NS| = 2n$ with height $2n$
+(R2 brief \artifact{STREAM2\_TO\_STREAM1\_TW2\_LATTICE\_ATTESTATION\_REQUEST\_2026\_10\_07.md}). It is
+unanswered. It is listed here because a kernel proof written by the requesting stream would not be independent;
+it belongs to this repository's own sessions.
+
+% Generated-by: Claude (Opus 5.5), Stream 2 session, 2026-10-08, on T0's instruction | Verified-by: each artifact
+% named above (its own checker and controls in R2); scripts/release_gates.sh re-run recorded in the brief named in
+% the first subsection | Reviewed-by: N
