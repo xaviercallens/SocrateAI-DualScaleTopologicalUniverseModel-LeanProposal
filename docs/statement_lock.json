@@ -319,6 +319,28 @@
     "saturated_of_primitive_cross": "f2259108a03d584c",
     "w7": "f57606c9d00219e5"
   },
+  "Agora/Geometry/ReadingS.lean": {
+    "comp": "4d16cc13d9e2ecf1",
+    "csComp": "be538cc688a30228",
+    "csComp_det": "9f221c2d2bf14705",
+    "csNS": "7d82d3b1a7862079",
+    "csNS_det": "9eb4ff0f7a32feb1",
+    "gram3": "f2d5cf20a270a708",
+    "ns": "a1e148e7ea5deaf1",
+    "pair": "243447fe36df2d33",
+    "pair_symm": "e96c28fa769b7b5d",
+    "readingS_NS_det": "34a7efe5b9b208c3",
+    "readingS_NS_gram": "5f15781318a68224",
+    "readingS_NS_isometry_U_plus_neg2n": "47684c825ab10b44",
+    "readingS_NS_saturated": "0e5d5fe545ccdf2b",
+    "readingS_complement_basis_independent": "593c76bd7d2733ad",
+    "readingS_complement_eq_span": "a9c8578fab0f7c99",
+    "readingS_complement_gram": "cc2c434ef03043f2",
+    "readingS_complement_isometry_TN": "66cb70d795332806",
+    "vecA": "b1eead1b41466015",
+    "vecB": "1369aedfde439bcf",
+    "vecG": "f81a94e122cd9896"
+  },
   "Agora/Geometry/SelfDual.lean": {
     "bN": "92457498b34b22f3",
     "bN_self": "cb16ada496bf4ef3",
